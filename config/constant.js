@@ -26,7 +26,7 @@ module.exports = {
 	'MEMBER_MASTER_TABLE' : 'tMemberMaster',
 	'MEMBER_TAG_TABLE'    : 'tMemberTags',
 	'MERCHANT_MASTER'     : 'tMerchantMaster',
-	'OFFER_MEMBER_CRM'    : 'tOfferforMembers_CRM',
+	'OFFER_MEMBER_CRM'    : 'tOfferSenttoMemberByCSR',
 	'OFFER_BY_MERCHANTS'  : 'tOfferByMerchants',
 	'TAG_SUBCAT_RELATION' : 'tTagSubCategoryRelation',
 	'MERCHANT_GROUP_RELATION_TABLE'   :  'tMerchantGroupRelation',

@@ -33,6 +33,8 @@ router.route('/getCustomerDetails')
 			var query = " select mem.memberWechatId";
 				query+= " FROM "+constant.MEMBER_MASTER_TABLE+" as mem";
 				query+= " where mem.memberWechatId='"+wechat_id+"'";
+
+			console.log(query);
 			db_query.RunSelSqlFromDb(req,res,query,response_data,function(){
 				if(response_data.details.length>0)
 				{
@@ -51,6 +53,8 @@ router.route('/getCustomerDetails')
 				query+= " FROM "+constant.MEMBER_MASTER_TABLE+" as mem LEFT JOIN "+constant.OFFER_MEMBER_CRM+" as offer ON mem.memberId = offer.memberId LEFT JOIN  "+constant.MEMBER_TAG_TABLE+"  as tag ON mem.memberId = tag.memberId";
 				query+= " WHERE mem.memberWechatId=  '"+wechat_id+"'";
 				query+= " GROUP BY mem.memberWechatId,mem.memberFirstName,mem.memberLastName,mem.memberGender,mem.preferredLanguage,mem.memberAccountNumber,mem.MTRCardNumber,mem.MTRPoints,mem.MTRCardType,mem.memberPhone,mem.memberAge,mem.memberOccupation,mem.memberHobby,mem.memberInfo1,mem.memberInfo2,mem.memberInfo3,mem.AddressLatitude,mem.Addresslongitude,mem.AddressLine1,mem.AddressLine2,mem.City,mem.District,mem.Province,mem.Country ";
+			
+				console.log(query);
 			db_query.RunSelSqlFromDb(req,res,query,response_data,function(){
 				if(response_data.details.length>0)
 				{
