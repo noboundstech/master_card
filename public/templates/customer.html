@@ -1,0 +1,75 @@
+<!-- Main header started -->
+<div class="main-header">
+    <div class="container-fluid">
+        <div class="navbar-header"> 
+            <a class="navbar-brand" href="#">
+                <img class="img-responsive" src="img/logo.png" alt="">
+            </a>
+            <a href="#" class="hidden-lg hidden-md hidden-sm mobile-alert">
+                <img src="img/customers.png" class="customers">
+                <span class="user-badge">2</span>
+            </a>
+            <button type="button" class="btn btn-default list  hidden-xs">
+                <span>
+                    <img src="img/customers.png" class="customers">
+                </span>
+                Chat room
+            </button>
+            <a href="#menu-toggle" class="btn btn-default hidden-lg hidden-md" id="menu-toggle">
+                <i class="fa fa-bars"></i>
+            </a>
+        </div>
+        <div class="pull-right" ng-click="logoutCustomer();"><a> Logout</a></div>
+    </div>
+</div>
+
+    <!-- right-panel started -->
+    <div class="right-panel container-fluid">
+        <div class="row"> 
+            <!-- chat section started -->
+            <div class="col-md-12 zone" >
+                <h4 class="chat-heading">
+                    <span class="chat-bubble">
+                        <img src="img/chat-bubble.png">
+                    </span>Coversation With {{cust}}
+                </h4>
+                <ul class="messages nav" id="style-3" >
+                    <li class="message" ng-repeat="message in chat_details | orderBy : '-message.date'">
+                        <div class="avatar"  ng-if="cust_id != message.sender_id">
+                            <img src="img/user.png" width="40" height="44" class="avatar-box-right img-circle" >
+                        </div>
+                        <div class="arrow_box-right" ng-if="cust_id == message.sender_id">
+                            <div class="text">{{message.message}} 
+                            </div>
+                        </div>
+                        <div class="arrow_box-left"  ng-if="cust_id != message.sender_id">
+                            <div class="text"> {{message.message}}
+                            </div>
+                        </div>
+                    </li>
+                </ul>
+                <form class="reply-msg">
+                    <div class="form-group">
+                        <textarea rows="4" class="form-control"  cols="50" placeholder="Type your message ..." value="type" ng-model="customer_message"></textarea>
+                    </div>
+                    <div class="form-group buttons-all">
+                        <button class="btn btn-primary send" ng-click="sendChatMessageByCustomer();">
+                            Send
+                            <span class="icon-reply">
+                                <img src="img/icon-send.png" widht="11" height="13">
+                            </span>
+                        </button>
+                        <button class="btn btn-primary clear" ng-click="clearTextMessage();">
+                            Clear
+                            <span class="icon-reply">
+                                <img src="img/icon-clear.png" widht="11" height="10">
+                            </span>
+                        </button>
+                    </div>
+                </form>
+            </div><!-- chat section ended --> 
+           
+        </div>
+    </div>
+<!--Merchant Offer section ended --> 
+</div>

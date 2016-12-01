@@ -1,0 +1,417 @@
+var express = require('express'),
+	app 	= express(),
+    router  = express.Router();
+require('rootpath')();
+
+router.route('/fetchprofile')
+.get(function (req, res) {
+	var async 	= require('async');
+	var response_data = {};
+	async.series([
+		function(callback) {
+			var validate = require('utility/validate');
+
+			validate.validate_id(req,res,function(){
+				
+				callback();
+			})
+			
+		},function(callback){
+			var crypto 	 	= require('crypto'),
+			   constant 	= require("config/constant"),
+			wechatId 		= req.query.id;
+			
+			var db_query 	= require('db_query/query'),
+				selection  	= '*',
+				table    	= constant.MEMBER_MASTER_TABLE;
+			var condition   = [{
+								"name"	: "memberWechatId",
+								"type"	: constant.VARCHAR100,
+								"value"	: wechatId
+							}];
+			db_query.selectFromDb(req,res,condition,selection,table,response_data,function(){
+				if(response_data.details.length>0)
+				{
+					callback();
+				}
+				else
+				{
+					response_data.success = false;
+					response_data.message = "WechatId row not present in DB table.";
+					res.status(203).send({response_data});
+				}
+			})
+		}],function(err) {
+			response_data.success = true;
+			response_data.message = "select tMemberMaster error!";
+			res.status(200).send({message:response_data});
+	});
+});
+router.route('/fetchtag')
+.get(function (req, res) {
+	var async 	= require('async');
+	var response_data = {};
+	async.series([
+		function(callback) {
+			var validate = require('utility/validate');
+			validate.validate_id(req,res,function(){
+				callback();
+			})
+		},function(callback){
+			var crypto 	 	= require('crypto'),
+			constant 	    = require("config/constant"),
+			wechatId 		= req.query.id;
+			var db_query 	=  require('db_query/query'),
+			sqlstring  	= 'select tm.tagDesc,tm.tagId from '+constant.TAG_MASTER_TABLE+' tm,'+constant.MEMBER_TAG_TABLE+' mt,'+constant.MEMBER_MASTER_TABLE+' mm where tm.tagId=mt.tagId and mt.memberId=mm.memberId and mt.statusOfTag = 1 and mm.memberWechatId='+"'"+ wechatId +"'";
+		//	sqlstring  	= 'select tm.tagDesc from tTagMaster tm,tMemberTags mt,tMemberMaster mm where tm.tagId=mt.tagId and mt.memberId=mm.memberId and mm.memberWechatId='+"'"+ wechatId +"'";	
+			db_query.RunSelSqlFromDb(req,res,sqlstring,response_data,function(){
+				if(response_data.details.length>0)
+				{
+					callback();
+				}
+				else
+				{
+					response_data.success = false;
+					response_data.message = "matching Tag not present for member in DB table.";
+					res.status(203).send({response_data});
+				}
+			})
+		}],function(err) {
+			response_data.success = true;
+			response_data.message = "select Member tag error!";
+			res.status(200).send({message:response_data});
+	});
+});
+router.route('/addtag')
+.post(function (req, res) 
+{
+	var constant 	= require("config/constant"),
+		db_query 	= require('db_query/query'),
+		utils	 	= require('utility/utils'),
+		len         = req.body.tags.length;
+		action 		= [],
+		memberid    = req.body.member_id,
+		csrid    	= req.body.csr_id,
+        tagstatus   = 1,		      
+	    wechatId    = req.body.id,
+         table     	= constant.MEMBER_TAG_TABLE;
+   
+    var fieldlist  ={};
+    var condition  ={};
+	var async 		= require('async');
+	var response_data = {};
+	response_data.updation_detail = [];
+	response_data.updation_error = 0;
+	var send_data = {};
+	async.series([
+		function(callback) {
+			var validate = require('utility/validate');
+			validate.validate_tags(req,res,function(){
+				
+				callback();
+			})
+		},
+        function(callback){
+        	if(len>0)
+        	{
+        		var total_row = 0;
+        		for(row=0;row<len;row++)	
+        		{
+        			utils.addAndUpdateTags(req,res,response_data,function(){
+        				total_row++;
+        				if(total_row == len)
+        				{
+        					callback();
+        				}
+        			})
+        		}
+        	}
+        	else
+        	{
+        		res.status(203).send({	"status" 		: false,
+						"error_type" 	: "validate error",
+						"message" 		: "please provide tag which you want to insert"
+					});
+        	}
+		 
+		    
+		}],function(err) {
+			response_data.success = true;
+			response_data.message = "Insert to table tMembertags ok!";
+			res.status(200).send({message:response_data});
+	});
+});
+
+router.route('/removetag')
+.post(function (req, res) {
+	var async 	= require('async');
+	var response_data = {};
+	async.series([
+		function(callback) {
+			var validate = require('utility/validate');
+			validate.validate_tags(req,res,function(){
+				callback();
+			})
+		},function(callback){
+			var crypto 	 	= require('crypto'),
+			constant 	    = require("config/constant"),
+		    db_query 	    = require('db_query/query'),
+		    len= req.body.tags.length;
+		    var memberid      = req.body.member_id,
+			      csrid       = req.body.csr_id,
+			      tagstatus   = 0;			      
+			       wechatId   = req.body.id,
+			       cur_date = null;
+			       table     = constant.MEMBER_TAG_TABLE;
+					 
+					
+			       var tagid       = req.body.tags[0].tagId;
+			       var fieldlist   = [
+							 {
+								"name" 	: "statusOfTag",
+							    "type"	: constant.BIT,
+							    "varname" : "tagstatus",
+								"value"	: tagstatus
+						 	},
+						 	{
+								"name" 	: "modifiedByUserId",
+							    "type"	: constant.SMINT,
+							    "varname" : "csrid",
+								"value"	: csrid
+							  },
+
+							  {
+								"name" 	: "lastModifiedDateTime",
+							    "type"	: constant.DATE_TIME,
+							    "varname" : "SYSDATETIME()",
+								"value"	: cur_date
+							  }  ];
+					var condition   = [{
+								"name" 	: "memberId",
+								"type"	: constant.INT,
+								"value"	: memberid
+							},{
+								"name" 	: "tagId",
+								"type"	: constant.INT,
+								"value"	: tagid
+							}];
+			
+	    	db_query.updateToDb(req,res,condition,fieldlist,table,response_data,function(){
+				if(response_data.details > 0)
+				{
+					callback();
+				}
+				else
+				{
+					response_data.success = false;
+					response_data.message = "update  to table tMembertags not successful";
+					res.status(203).send({response_data});
+				}
+			})
+     
+		}],function(err) {
+			response_data.success = true;
+			response_data.message = "update to table tMembertags ok!";
+			res.status(200).send({message:response_data});
+	});
+});
+router.route('/fetchalltag')
+.get(function (req, res) {
+	var async 	= require('async');
+	var response_data = {};
+	async.series([
+		function(callback) {
+			/*var validate = require('utility/validate_cust');
+			validate.validate_chatid(req,res,function(){
+				callback();
+			})*/ callback();
+		},function(callback){
+			var crypto 	 	= require('crypto'),
+		    constant 	= require("config/constant"),
+			wechatId 		= req.query.id;
+			var db_query 	= require('db_query/query'),
+				selection 	= '*',
+				table    	= constant.TAG_MASTER_TABLE;
+			var condition   = '';
+			db_query.selectFromDb(req,res,condition,selection,table,response_data,function(){
+				if(response_data.details.length>0)
+				{
+					callback();
+				}
+				else
+				{
+					response_data.success = false;
+					response_data.message = "No tags row not present in DB table.";
+					res.status(203).send({response_data});
+				}
+			})
+		}],function(err) {
+			response_data.success = true;
+			response_data.message = "select tTagmaster error!";
+			res.status(200).send({message:response_data});
+	});
+});
+
+router.route('/searchbymerchant')
+.get(function (req, res) {
+	var async 			= require('async');
+	var response_data 	= {};
+	async.series([
+		function(callback) {
+			var validate = require('utility/validate');
+			validate.validate_id(req,res,function(){
+				callback();
+			}) 
+		},function(callback){
+			var crypto 	 	= require('crypto'),
+				constant 	= require("config/constant"),
+				wechatid	= req.query.id;
+		    var memberid    = req.query.memberId;
+			var db_query 	= require('db_query/query');
+					
+		    var	sqlstring  = "select " ;
+				sqlstring +="offmerch.offerId ,offmerch.merchantId ,offmerch.merchantName,offmerch.offer_rule_en,";
+				sqlstring +="count(offmerch.merchantId) as cnt ";
+				sqlstring +="from "+constant.MEMBER_TAG_TABLE +" as memtag " ;
+				sqlstring +="INNER JOIN "+constant.TAG_SUBCAT_RELATION+" as tagsubcat on tagsubcat.tagId = memtag.tagId ";
+				sqlstring +="INNER JOIN "+constant.OFFER_BY_MERCHANTS+" as offmerch on tagsubcat.subCategoryId = offmerch.subCategoryId ";
+				sqlstring +="INNER JOIN "+constant.MERCHANT_MASTER+" as mem on offmerch.merchantId = mem.merchantId ";
+				sqlstring +="where memtag.memberId ="+memberid+" and memtag.statusOfTag = 1 ";
+				sqlstring +="group by offmerch.merchantId, offmerch.offerId, offmerch.merchantName,offmerch.offer_rule_en ";
+				
+				sqlstring +="union all ";
+				
+				sqlstring +="select null as offerId,";
+          		sqlstring +="b.merchantId," ;
+          		sqlstring +="b.merchantName," ;
+          		sqlstring +="b.offer_rule_en," ;
+          		sqlstring +="sum(b.cnt) as cnt from ";
+				sqlstring +="(select offmerch.offerId ,offmerch.merchantId ,offmerch.merchantName, ";
+        		sqlstring +="offmerch.offer_rule_en, ";
+        		sqlstring +="count(offmerch.merchantId) as cnt ";
+				sqlstring +="from "+constant.MEMBER_TAG_TABLE +" as memtag " ;
+				sqlstring +="INNER JOIN "+constant.TAG_SUBCAT_RELATION+ " as tagsubcat on tagsubcat.tagId = memtag.tagId ";
+				sqlstring +="INNER JOIN "+constant.OFFER_BY_MERCHANTS+" as offmerch on tagsubcat.subCategoryId = offmerch.subCategoryId ";
+				sqlstring +="INNER JOIN "+constant.MERCHANT_MASTER+" as mem on offmerch.merchantId = mem.merchantId ";
+				sqlstring +="where memtag.memberId ="+memberid+" and memtag.statusOfTag = 1 ";
+				sqlstring +="group by ";
+				sqlstring +="offmerch.merchantId,offmerch.offerId ,offmerch.merchantName ,offmerch.offer_rule_en ";
+				sqlstring +=")b group by b.merchantId, b.merchantName,offer_rule_en ";
+				sqlstring +="order by merchantId,cnt asc,offerId desc " ;
+			db_query.RunSelSqlFromDb(req,res,sqlstring,response_data,function(){
+				len=response_data.details.length;
+				if(len>0)
+				{ 
+					var merch_detail = [];
+					response_data.mdetail =[];
+					for (t=0;t<len;t++)	
+					{
+
+					 	if(response_data.details[t].offerId == null)
+					 	{
+			
+					 		response_data.mdetail.push({"merch_detail": merch_detail,"merch_total": response_data.details[t].cnt});
+					 		merch_detail = [];
+			
+					 	}
+					 	else
+					 	{
+					 		merch_detail.push({ "offerId": response_data.details[t].offerId,
+	               							 "merchantId": response_data.details[t].merchantId ,
+	               						   "merchantName": response_data.details[t].merchantName,
+	                                      "offer_rule_en": response_data.details[t].offer_rule_en
+	                                       });
+
+					 	}
+					 	if(t == len-1)
+					 	{
+					 		callback();
+					 	}
+					 }
+
+				}
+				else
+				{
+					response_data.success = false;
+					response_data.message = "MemberId row not present in DB table.";
+					res.status(203).send({response_data});
+				}
+			})
+		}],function(err) {
+			response_data.details = "";
+			response_data.success = true;
+			response_data.message = "select Merchant search done!";
+			res.status(200).send({response_data});
+	});
+});	
+//******************************************************************
+router.route('/searchbydistance')
+.get(function (req, res) {
+
+	
+	var lat = req.query.lat;
+	var lon = req.query.lon;
+
+	var db_ayan = require('db_query/query')
+	var data ={};
+//******************************************************************
+db_ayan.searchByDistanceTest(req,res,lat,lon,data,function(){
+
+	res.json({ message: data });
+})
+
+})
+//******************************************************************
+/*router.route('/fetchofferhistory')
+.get(function (req, res) {
+
+	
+	var id = req.query.id;
+	
+	var db_ayan = require('db_query/query')
+	var data ={};
+//******************************************************************
+db_ayan.fetchOfferHistoryTest(req,res,id,data,function(){
+
+	res.json({ message: data });
+})
+
+}) */
+router.route('/fetchofferhistory')
+.get(function (req, res) {
+	var async 			= require('async');
+	var response_data 	= {};
+	var constant 		= require("config/constant");
+	async.series([
+		function(callback) {
+			var validate = require('utility/validate');
+			validate.validate_id(req,res,function(){
+				callback();
+			}) 
+		},function(callback){
+			var crypto 	 	= require('crypto'),
+			      id		= req.query.id;
+			var db_query 	= require('db_query/query');
+			//    sql         = require('mssql');
+			 //   request.input('in_wechatid',sql.VarChar(50),wechatid);
+			var	sqlstring  	= 'select top 5 omc.OfferId,ofm.OfferDesc,ofm.merchantId,mem.merchantNameEng from'+ constant.MEMBER_MASTER_TABLE+' mm,'+constant.OFFER_MEMBER_CRM +'  omc,'+constant.OFFER_BY_MERCHANTS+' ofm,'+constant.MERCHANT_MASTER+' mem where mm.memberId=omc.memberId  and omc.OfferId=ofm.OfferId and mem.merchantId=ofm.merchantId and mm.memberWechatId='+"'"+id+"'";
+		   //   sqlstring  	= 'select top 5 omc.OfferId,ofm.OfferDesc,ofm.merchantId,mem.merchantNameEng from tMemberMaster mm,tOfferforMembers_CRM omc,tOfferByMerchants ofm,tMerchantmaster mem where mm.memberId=omc.memberId  and omc.OfferId=ofm.OfferId and mem.merchantId=ofm.merchantId and mm.memberWechatId=@in_id';
+			db_query.RunSelSqlFromDb(req,res,sqlstring,response_data,function(){
+				if(response_data.details.length>0)
+				{
+					callback();
+				}
+				else
+				{
+					response_data.success = false;
+ 					response_data.message = "WechatId row not present in DB table.";
+					res.status(203).send({response_data});
+				}
+			})
+		}],function(err) {
+			response_data.success = true;
+			response_data.message = "select Merchant search done!";
+			res.status(200).send({response_data});
+	});
+});	
+module.exports = router;

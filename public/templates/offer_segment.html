@@ -1,0 +1,143 @@
+<div><a href="#/dashboard" class="btn btn-default segment-back-button"><span class="fa fa-long-arrow-left"></span></a></a></div>
+<div class="container-fluid">
+	<header class="segment-header text-center">
+		<h3>Offer Segment View</h3>
+	</header>
+
+	<div class="row">
+
+		<div class="col-sm-2" style="padding-right: 8px;">
+			<div class="panel panel-default">
+				<div class="panel-heading">FILTERS</div>
+				<div class="panel-body">
+					<div class="rows padding-row" ng-show="checkboxModel.card_type">
+						<strong> Card Type : </strong>
+						<div class="col-sm-12">
+							<select chosen multiple ng-model="card_type_filter_details" ng-options="s.card_type for s in card_type"  placeholder-expression="Card Type" title="Enter card details">
+                            </select>
+						</div>
+						<div class="col-sm-12">
+							 <a class=" pull-right pointer-class"> &nbsp;</a>
+						</div>
+					</div>
+					<div class="rows padding-row" ng-show="checkboxModel.gender">
+						<div class="col-sm-12 padding-row">
+							<strong> Gender : </strong>
+						</div>
+						<div class="col-sm-12">
+							<select chosen multiple ng-model="gender_type_filter" ng-options="s.name for s in gender_type"  placeholder-expression="Gender" title="Gender">
+                            </select>
+						</div>
+
+						<div class="col-sm-12">
+							 <a class=" pull-right pointer-class"> &nbsp;</a>
+						</div>
+					</div>
+					<div class="rows padding-row"  ng-show="checkboxModel.location_details">
+						<div class="col-sm-12">
+							<strong> Location : </strong>
+						</div>
+						<div class="col-sm-12">
+							<select chosen multiple ng-model="location_filter" ng-options="s.cust_location for s in location_name"  placeholder-expression="City Name">
+							</select>
+						</div>
+
+						<div class="col-sm-12">
+							 <a class=" pull-right pointer-class"> &nbsp;</a>
+						</div>
+					</div>
+					<div class="rows" ng-show="checkboxModel.age_grouped">
+						<div class="col-sm-12">
+							<strong> Aged Group : </strong>
+						</div>
+						<div class="col-sm-12">
+							<select chosen multiple ng-model="age_group_filter" ng-options="s.value for s in age_group_type"  placeholder-expression="City Name">
+							</select>
+						</div>
+
+						<div class="col-sm-12">
+							 <a class=" pull-right pointer-class"> &nbsp;</a>
+						</div>
+					</div>
+					<div class="rows" ng-show="checkboxModel.segment">
+						<div class="col-sm-12">
+							<strong> Segment : </strong>
+						</div>
+						<div class="col-sm-12">
+							<select chosen multiple ng-model="segment_filter" ng-options="s.cust_segment for s in segment_type"  placeholder-expression="Segment Name" id="segment_details"  ng-init="segment_filter = default_segment_filter">
+							</select>
+						</div>
+
+						<div class="col-sm-12">
+							 <a class=" pull-right pointer-class"> &nbsp;</a>
+						</div>
+					</div>
+
+					<div class="rows" ng-show="checkboxModel.date_range">
+						<div class="col-sm-12">
+							<strong> Data Range : </strong>
+						</div>
+                        <div class="col-sm-12 date-box-one">
+							 <datepicker date-format="MM-dd-yyyy" selector="form-control">
+		                        <div class="input-group">
+		                            <input class="form-control" placeholder="Start Date" ng-model="start_date">
+		                        </div>
+		                    </datepicker>
+                        </div>
+                        <div class="col-sm-12">
+                            <datepicker date-format="MM-dd-yyyy" selector="form-control">
+		                        <div class="input-group">
+		                             <input class="form-control" placeholder="End Date" ng-model="end_date"/>
+		                        </div>
+		                    </datepicker>
+						</div>
+						<div class="col-sm-12">
+							 <a class="pull-right pointer-class" style="cursor:pointer"> &nbsp;</a>
+						</div>
+					</div>
+                   <div class="col-sm-12">
+                   		<button class="btn btn-primary get-map-btn" ng-click="getNewChatDetails();">Get Map details</button>
+                    </div>
+				</div>
+			</div>
+		</div>
+		<div class="col-sm-10" style="padding-left: 5px;">
+			<div> 
+				<label>Card Type:
+		    		<input type="checkbox" ng-model="checkboxModel.card_type" ng-true-value="true" ng-false-value="false" class="check_box" ng-click="changeChecboxStatus('card_type')"> &nbsp;
+		  		</label>
+		  		<label>Gender:
+		    		<input type="checkbox" ng-model="checkboxModel.gender" ng-true-value="true" ng-false-value="false"  ng-click="changeChecboxStatus('gender')"> &nbsp;
+		  		</label>
+		  		<label>Location:
+		    		<input type="checkbox" ng-model="checkboxModel.location_details" ng-true-value="true" ng-false-value="false" class="check_box"  ng-click="changeChecboxStatus('location')"> &nbsp;
+		  		</label>
+		  		<label> Age-group:
+		    		<input type="checkbox" ng-model="checkboxModel.age_grouped" ng-true-value="true" ng-false-value="false" class="check_box" ng-click="changeChecboxStatus('age_grouped')"> &nbsp;
+		  		</label>
+		  		<label>Data Range:
+		    		<input type="checkbox" ng-model="checkboxModel.date_range" ng-true-value="true" ng-false-value="false" class="check_box" disabled> &nbsp;
+		  		</label>
+		  		<label>Segment:
+		    		<input type="checkbox" ng-model="checkboxModel.segment" ng-true-value="true" ng-false-value="false" class="check_box"  ng-click="changeChecboxStatus('segment')"> &nbsp;
+		  		</label>
+			</div>
+			<div class="loader_angular" ng-show="show_loader"></div>
+			<div id="container" style="min-width: 310px; height: 400px; margin: 0 auto"></div>
+		</div>
+	</div>
+
+</div>
+<style>
+.loader_angular {
+    position: relative;
+    display: block;
+    margin: 0 auto;
+    margin-top: 10px;
+    width: 32px;
+    height: 27px;
+    z-index: 99;
+    background: url("img/loader.gif") center no-repeat;
+    background-size: 70%;
+}
+</style>

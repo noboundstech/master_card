@@ -1,0 +1,312 @@
+<div class="container">
+    <div class="row">
+         <a href="#/dashboard" class="btn btn-default user-profile-back-button"><span class="fa fa-long-arrow-left"></span></a>
+        <div class="col-sm-3 profile-view text-center">
+            <div class="col-md-12">
+                    <a href="#/dashboard" class="btn btn-default profile-back-button"><span class="fa fa-long-arrow-left"></span></a>
+
+                    <header class="page-header">
+                        <h3 class="customer-profile-view">Customer Profile View</h3>
+                        <div class="loader_angular" ng-show="showCustomerLoader"></div>
+                    </header>
+                <form class="form-search">
+                    <div class="row form-box-row">
+                        <div class="col-sm-12 picker-one">
+
+                            <datepicker date-format="MM-dd-yyyy" selector="form-control">
+                                <div class="input-group">
+                                    <input class="form-control" placeholder="Choose a start date" ng-model="start_date">
+                                    <span class="input-group-addon" style="cursor: pointer">
+                                        <i class="fa fa-lg fa-calendar"></i>
+                                    </span>
+                                </div>
+                            </datepicker>
+                        </div>
+                        <div class="col-sm-12">
+                            <datepicker date-format="MM-dd-yyyy" selector="form-control">
+                                <div class="input-group">
+                                    <input class="form-control" placeholder="Choose a end date" ng-model="end_date"/>
+                                    <span class="input-group-addon" style="cursor: pointer">
+                                        <i class="fa fa-lg fa-calendar"></i>
+                                    </span>
+                                </div>
+                            </datepicker>
+                        </div>
+                        <div class="col-sm-12 col-md-offset-0 user-wechat">
+                            <input type="text" class="form-control" ng-model="wechat_id" id="wechat_id" placeholder="Enter Customer Id.">
+                            <p class="err" ng-bind="error_message"></p>
+                        </div>
+                        <div class="col-sm-2">
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-sm-12">
+                            <button type="submit" class="btn btn-primary btn-block submit-btn" ng-click="showCustomerDetail()">Search Customer</button>
+                        </div>
+                        <div class="col-sm-4"></div>
+
+                    </div>
+            </form>
+            </div>
+        </div>
+        <div class="col-sm-9">
+            <div class="col-sm-6 box-new">
+                <div class="row profile-user">
+                    <div class="col-md-3">
+                        
+                          
+                                <a href="#">
+                                    <img class="media-object" src="img/profile.jpg" alt="..." width="80" height="80">
+                                </a>
+                            
+                            
+                                
+                                <h4 class="media-heading profile">{{customer_details.memberFirstName}} {{customer_details.memberLastName}}</h4>
+                                
+                                {{customer_details.memberGender}} {{customer_details.memberAge | number:0}}
+                            
+                      
+                       
+                    </div>
+                      <div class="col-md-8 col-md-offset-1">
+                     <table class="table table-responsive">
+                            <tbody>
+                                <tr>
+                                    <th>Wechat Id :</th>
+                                    <td ng-bind="customer_details.memberWechatId"></td>
+                                </tr>
+                                <tr>
+                                    <th>Card Type :</th>
+                                    <td ng-bind="customer_details.MTRCardType"></td>
+                                </tr>
+                                <tr>
+                                    <th>Points :</th>
+                                    <td ng-bind="customer_details.MTRPoints"></td>
+                                </tr>
+                                <tr>
+                                    <th>Occupation :</th>
+                                    <td ng-bind="customer_details.memberOccupation"></td>
+                                </tr>
+                                <tr>
+                                    <th>Hobbies :</th>
+                                    <td ng-bind="customer_details.memberHobby"></td>
+                                </tr>
+                                <tr>
+                                    <th>Segment :</th>
+                                    <td ng-bind="customer_details.memberSegment"></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+                
+                <div class="row section-map">   
+                    <div class="col-md-12">    
+                        <h3 class="map-he">
+                            Places frequently visited
+                        </h3>            
+                        <div class="row map">
+                            <div class="col-md-6" id = "sample" style = "width:95%; height:200px;">
+                                <bing-map
+                                    credentials="'AjZ0wB-x_wfUhjERvFMimAGIUbgHM7uRTKubZcmsbnE_-DSE49gBI53Ts9ClaeT5'"
+                                    center="mapOptions.center"
+                                    zoom="mapOptions.zoom"
+                                    mapType="mapOptions.mapType"
+                                    scrollwheel= false 
+                                    disableZooming= true>
+                                    
+                                    <pushpin
+                                        lat="pushpin.latitude"
+                                        lng="pushpin.longitude"
+                                        options="pushpin.options"
+                                        events="pushpin.events">
+                                    </pushpin>
+                              
+                                </bing-map>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row match-user">
+                    <div class="col-md-12"> 
+                        <h3 class="header-connection">
+                            Connections or Similarity matching
+                        </h3>
+                        <div class="media main-user">
+                            <div class="media-left">
+                                <a href="#">
+                                    <img src="img/profile.jpg" width="70" height="70" alt="">
+                                </a>
+                            </div>
+                            <div class="media-body">
+                                <h4 class="media-heading main-user-info">Jack Ma</h4>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-12"> 
+                                <ul class="list-inline connection-list">
+                                    <li>
+                                        <figure class="connection-img">
+                                            <img src="img/profile.jpg" width="50" height="50" alt="">
+                                            <figcaption class="user-connections">
+                                                Tom Lee
+                                                <p class="connection-percent">
+                                                    Similarity matching-65% 
+                                                    <br>
+                                                    tomlee@tomlee.com
+                                                </p>
+                                               
+                                            </figcaption>
+                                        </figure>
+                                    </li> 
+                                    <li>
+                                        <figure class="connection-img">
+                                            <img src="img/profile.jpg" width="50" height="50" alt="">
+                                            <figcaption class="user-connections">
+                                                Mark chein
+                                                <p class="connection-percent">
+                                                    Similarity matching-45%
+                                                     <br>
+                                                    tomlee@tomlee.com
+                                                </p>
+
+                                            </figcaption>
+                                        </figure>
+                                    </li>
+                                    <li>
+                                        <figure class="connection-img">
+                                            <img src="img/profile.jpg" width="50" height="50" alt="">
+                                            <figcaption class="user-connections">
+                                                Tom Lee
+                                                <p class="connection-percent">
+                                                Similarity matching-65% 
+                                                  <br>   
+                                                tomlee@tomlee.com
+                                                </p>
+                                            </figcaption>
+                                        </figure>
+                                    </li>
+                                    <li>
+                                        <figure class="connection-img">
+                                            <img src="img/profile.jpg" width="50" height="50" alt="">
+                                            <figcaption class="user-connections">
+                                                Tom Lee
+                                                <p class="connection-percent">
+                                                    Similarity matching-65% 
+                                                     <br>
+                                                    tomlee@tomlee.com
+                                                </p>
+                                            </figcaption>
+                                        </figure>
+                                    </li> 
+                                    <li>
+                                        <figure class="connection-img">
+                                            <img src="img/profile.jpg" width="50" height="50" alt="">
+                                            <figcaption class="user-connections">
+                                                Mark chein
+                                                <p class="connection-percent">
+                                                    Similarity matching-45% 
+                                                     <br>
+                                                    tomlee@tomlee.com
+                                                </p>
+                                            </figcaption>
+                                        </figure>
+                                    </li>
+                                    <li>
+                                        <figure class="connection-img">
+                                            <img src="img/profile.jpg" width="50" height="50" alt="">
+                                            <figcaption class="user-connections">
+                                                Tom Lee
+                                                <p class="connection-percent">
+                                                    Similarity matching-65% 
+                                                     <br>
+                                                    tomlee@tomlee.com
+                                                </p>
+                                            </figcaption>
+                                        </figure>
+                                    </li>                   
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-sm-6">
+                
+                <div class="row progress-campaign">
+                    <h3 class="action-status">
+                    Offer campaign action status
+                    </h3>
+                    <div class="col-sm-12 offer-progress">
+                        <ul class="list-group">
+                            <li class="list-group-item">
+                                Offer campaign Sent:   {{customer_details.total_offer}}
+                            </li>
+                            <li class="list-group-item">Offer campaign Clicked
+                                <div class="progress">
+                                    <div class="progress-bar" role="progressbar" aria-valuenow="70" aria-valuemin="0" aria-valuemax="100" style="width:70%">
+
+                                    70% <span class="addon">100%</span>
+                                    </div>
+                                </div>
+                            </li>
+                            <li class="list-group-item">Offer campaign used
+                                <div class="progress">
+                                    <div class="progress-bar" role="progressbar" aria-valuenow="70" aria-valuemin="0" aria-valuemax="100" style="width:15%">
+                                        15%<span class="addon-2">100%</span>
+                                    </div>
+                                </div>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+                 <div class="row profile-tags">
+                    <div class="col-sm-12">
+                        <h3 class="details-tag">
+                            Tags
+                        </h3>
+                        <div class="col-md-12 col-sm-12 tag-box">
+                            <div class="tag-holder">
+                                <span ng-repeat="tag in customer_tag">
+                                    <span class="tag-style">
+                                           {{$index+1}}. {{tag.tagDesc}}
+                                    </span>
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                 <div class="row offer-section-predict">
+                    <div class="col-sm-12 predicted-offers">
+                        <h3 class="offers-heading">
+                            Predicted Offers
+                        </h3>
+                        <ul class="nav list-group offers-list custom-bullet">
+                            <li>
+                                Stay 4 nights and pay for 3 at Cours ET Pavillons,
+                                Beijing
+                            </li>
+                            <li>
+                                10% off on the a la carte menu bill and gift at FLO Beijing and Tianjin
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<style>
+.loader_angular {
+    position: relative;
+    display: block;
+    margin: 0 auto;
+    width: 32px;
+    height: 27px;
+    z-index: 99;
+    background: url("img/loader.gif") center no-repeat;
+    background-size: 70%;
+}
+</style>
