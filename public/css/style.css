@@ -5,6 +5,17 @@ body{
   
     
 }
+
+.button-box {
+    margin:0 0 0 8%!important;
+}
+.profile-view-load{
+    position:relative;
+    top:14px;
+}
+.user-id-search{
+    margin-top:-54px;
+}
 .segment-header{
     margin-bottom:20px;
 }
@@ -92,6 +103,10 @@ body{
 .customer-profile-view{
     font-size:18px;
     font-weight:bold; 
+    margin-top:18px;
+}
+.progress{
+    margin-bottom:0px;
 }
 .progress-bar{
     background: #0988ea;
@@ -103,7 +118,7 @@ body{
     top:56px;
 }
 .logo-main{
-    margin:34px 0 10px 466px;
+    margin:34px 0 10px 37%;
 }
 .main-window{
      background:#f9f9f9;
@@ -182,9 +197,6 @@ body{
 }
 
 .user-profile-back-button{
-    position:absolute;
-    left:40px;
-    top:21px;
     border-radius:2px;
     padding:2px 8px;
     font-size:20px;
@@ -197,26 +209,16 @@ body{
     background:#fff;
     color:#0988ea;
    
-}{
-    position:absolute;
-    left:307px;
-    top:21px;
-    border-radius:2px;
-    padding:2px 8px;
-    font-size:20px;
-    line-height:22px;
-    color:#0988ea;
-   
 }
+
 .profile-back-button{
-    position:absolute;
-    left:401px;
-    top:21px;
     border-radius:2px;
     padding:2px 8px;
     font-size:20px;
     line-height:22px;
     color:#0988ea;
+    margin-top:12px;
+    margin-bottom:6px;
    
 }
 .profile-back-button:hover,
@@ -226,34 +228,41 @@ body{
    
 }
 .user-wechat{
-  margin-top:30px;  
+  margin-top:10px;  
 }
+
 .submit-btn{
-     margin-top:20px;  
-    margin-bottom:50px;
+     margin-top:10px;  
+    margin-bottom:0px;
     background: #0988ea;
     text-transform: uppercase;
-    padding:12px;
-      border:0;
+    padding:6px;
+    border:0;
 }
 
 .submit-btn:hover,
 .submit-btn:focus{
-     margin-top:20px;  
-    margin-bottom:50px;
+   
     background: #0988ea;
     text-transform: uppercase;
-    padding:12px;
+    
     border:0;
+}
+
+.header{
+    background:#fff;
+    border:1px solid #ccc;
+ -webkit-box-shadow: 0px 1px 4px 0px rgba(50, 50, 50, 0.18);
+    -moz-box-shadow:    0px 1px 4px 0px rgba(50, 50, 50, 0.18);
+    box-shadow:         0px 1px 4px 0px rgba(50, 50, 50, 0.18);
+    
 }
 .profile-view{
     
-    background:#fff;
-    margin-top:20px;
-    border:1px solid #ccc;
-    -webkit-box-shadow: 0px 1px 4px 0px rgba(50, 50, 50, 0.18);
-    -moz-box-shadow:    0px 1px 4px 0px rgba(50, 50, 50, 0.18);
-    box-shadow:         0px 1px 4px 0px rgba(50, 50, 50, 0.18);
+    
+    margin-top:0px;
+   
+   
 }
 .profile-user,
 .section-map,
@@ -272,8 +281,17 @@ box-shadow:         0px 1px 4px 0px rgba(50, 50, 50, 0.18);
  .connection-list > li >.user-connetions{
     font-weight:bold !important;
 }
-.profile-user{
+.profile-user,
+.section-map{
     padding-bottom:0; 
+    margin-left:10px;
+    
+}
+.section-map{
+    padding-bottom:0; 
+    margin-left:0px;
+     margin-right:0px;
+    
     
 }
 
@@ -304,19 +322,58 @@ box-shadow:         0px 1px 4px 0px rgba(50, 50, 50, 0.18);
     vertical-align: top;
     border-top: 0px solid #ddd;
 }
+
+.offer-history > tbody > tr:first-child > td, .offer-history > tbody > tr:first-child > th, .offer-history > tfoot > tr:first-child > td, .offer-history> tfoot > tr:first-child > th, .offer-history > thead > tr:first-child > td, .offer-history > thead > tr:first-child > th {
+    padding: 8px;
+    line-height: 1.42857143;
+    vertical-align: top;
+    border: 1px solid #ddd;
+}
 .offer-progress .list-group-item{
     background: none;
     border:0;
     
 }
-.progress-campaign,
-.profile-tags,
- .offer-section-predict {
+.progress-campaign
+
+ {
     
     background:#fff;
-    margin-left:15px;
+    margin-left:0px;
     margin-top:20px;
-    padding-top:10px;
+    
+     padding-top:10px;
+    padding-bottom:10px;
+    border:1px solid #ccc;
+    -webkit-box-shadow: 0px 1px 4px 0px rgba(50, 50, 50, 0.18);
+-moz-box-shadow:    0px 1px 4px 0px rgba(50, 50, 50, 0.18);
+box-shadow:         0px 1px 4px 0px rgba(50, 50, 50, 0.18);
+}
+.offer-section-predict {
+    
+    background:#fff;
+    margin-left:0px;
+    margin-top:20px;
+    
+     padding-top:10px;
+    padding-bottom:10px;
+    border:1px solid #ccc;
+    -webkit-box-shadow: 0px 1px 4px 0px rgba(50, 50, 50, 0.18);
+-moz-box-shadow:    0px 1px 4px 0px rgba(50, 50, 50, 0.18);
+box-shadow:         0px 1px 4px 0px rgba(50, 50, 50, 0.18);
+}
+.cust-tag{
+    margin-top:-40px;
+    
+}
+.profile-tags
+  {
+    
+    background:#fff;
+    margin-left:0px;
+    margin-top:0px;
+    
+     padding-top:10px;
     padding-bottom:10px;
     border:1px solid #ccc;
     -webkit-box-shadow: 0px 1px 4px 0px rgba(50, 50, 50, 0.18);
@@ -324,6 +381,17 @@ box-shadow:         0px 1px 4px 0px rgba(50, 50, 50, 0.18);
 box-shadow:         0px 1px 4px 0px rgba(50, 50, 50, 0.18);
 }
 
+.progress-campaign{
+    padding-bottom:0px;
+    
+}
+.match-user{
+    margin-left:0px;
+    margin-right:0px;
+}
+.offer-section-predict{
+     margin-left:0px;
+}
 .action-status
 
 {
@@ -343,7 +411,7 @@ box-shadow:         0px 1px 4px 0px rgba(50, 50, 50, 0.18);
     
    font-size:18px;
     font-weight:bold;
-    margin-top:0px;  
+    margin-top:-30px;  
 }
 .offers-heading{
       font-size:18px;
@@ -379,13 +447,15 @@ box-shadow:         0px 1px 4px 0px rgba(50, 50, 50, 0.18);
 
 .addon {
     color: #444;
-    position: relative;
-    left: 274px;
+    position:absolute;
+    left: 85%;
+    top:10%
 }
 .addon-2 {
     color: #444;
-    position: relative;
-    left: 416px;
+    position:absolute;
+    left: 85%;
+    top:10%
 }
 
 
@@ -484,6 +554,7 @@ background-image: linear-gradient(#ffffff 1%, #ffffff 15%)important;
     max-height:75px;
     overflow-y:scroll;
     padding:0;
+    margin-bottom:10px;
     
     
 }
@@ -1719,6 +1790,8 @@ body {
     
 }
   @media(min-width:768px) {
+      
+        
 .main-header #menu-toggle {
   margin-top: 25px !important;
   margin-bottom: 0px !important;
@@ -1728,7 +1801,60 @@ body {
   right: 10px;
 }
 }
+
+@media(max-width:768px){
+    .profile-view{
+          padding-top:0;
+      }   
+    .customer-profile-view{
+        padding-top:12px;
+    }
+    
+    
+}
  @media(max-width:767px) {
+     .profile-back-button {
+    border-radius: 2px;
+    padding: 2px 8px;
+    font-size: 20px;
+    line-height: 22px;
+    color: #0988ea;
+    margin-top:10px!important;
+    margin-bottom:10px!important;     
+}
+     .submit-btn {
+    margin-top: 10px;
+    margin-bottom: 10px;
+    background: #0988ea;
+    text-transform: uppercase;
+    padding: 6px;
+    border: 0;
+}
+     h3.customer-profile-view{margin-left:60px;
+         margin-top:0px!important;
+         
+     }
+     
+     .profile-back-button {
+    border-radius: 2px;
+    padding: 2px 8px;
+    font-size: 20px;
+    line-height: 22px;
+    color: #0988ea;
+    margin-top: 12px;
+    margin-bottom: 0px;
+}
+     .customer-profile-view{
+    font-size:18px;
+    font-weight:bold; 
+    margin-top:18px;
+         display: block;
+}
+     .connection-percent {
+    font-size: 14px;
+    line-height: 16px!important;
+    margin: 10px 0 0 0;
+}
 .navbar-brand {
   width: 65%;
   margin-top: 0;
@@ -1891,6 +2017,16 @@ body {
 /* Responsive Section ended */
 .padding-div {
   padding:15px !important;
+}
+.loader_angular {
+    position: relative;
+    display: block;
+    margin: 0 auto;
+    width: 32px;
+    height: 27px;
+    z-index: 99;
+    background: url("img/loader.gif") center no-repeat;
+    background-size: 70%;
 }
 
 .datepickerdemoBasicUsage {
@@ -2111,19 +2247,8 @@ textarea {
   padding-top:  :10px;
   margin-top: 20px;
 }
-.loader_angular {
-    position: relative;
-    display: block;
-    margin: 0 auto;
-    margin-top: 10px;
-    width: 32px;
-    height: 27px;
-    z-index: 99;
-    background: url("img/loader.gif") center no-repeat;
-    background-size: 70%;
+     
+.highcharts-credits
+{
+  display: none !important
 }
-.disabled {
-        pointer-events: none;
-        cursor: default;
-        opacity: 0.6;
-    }

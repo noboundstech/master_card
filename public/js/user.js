@@ -739,7 +739,7 @@ angular.module('userController', ['applicationService.services'])
 	
 
 	$scope.mapOptions = {};
-    $scope.mapOptions.center = {"latitude": 22.573531, "longitude":  88.433119};
+    $scope.mapOptions.center = {"latitude": 39.9042, "longitude":  116.4074};
     $scope.mapOptions.zoom = 12;
     $scope.mapOptions.mapType = 'a';
      $scope.mapOptions.options = {
@@ -751,8 +751,8 @@ angular.module('userController', ['applicationService.services'])
     $scope.pushpin.options = {
         draggable: false
     }
-    $scope.pushpin.latitude 	= 22.573531;
-	$scope.pushpin.longitude 	= 88.433119;
+    $scope.pushpin.latitude 	= 39.9042;
+	$scope.pushpin.longitude 	= 116.4074;
 
 	var current_date 	= new Date();
 	$scope.start_date 	= current_date.getMonth()+1+"-"+ 1+"-"+current_date.getFullYear();
@@ -766,6 +766,12 @@ angular.module('userController', ['applicationService.services'])
 		if(typeof $scope.wechat_id =='undefined' || $scope.wechat_id =='' || $scope.wechat_id ==null)
 		{
 			$scope.error_message = "Please enter the WeChat Id.";
+			$scope.customer_details = '';
+			$scope.customer_tag = [];
+			$scope.offer_history = '';
+			$scope.mapOptions.center = {"latitude": 39.9042, "longitude":  116.4074};
+			$scope.pushpin.latitude 	= 39.9042;
+			$scope.pushpin.longitude 	= 116.4074;
 			return false;
 		}
 		else
@@ -775,9 +781,11 @@ angular.module('userController', ['applicationService.services'])
 			API.postDetails({wechat_id : $scope.wechat_id},"api/getCustomerDetails").then(function successCallback(response) {
 				if(response.status == 200)
 				{
-					$scope.showCustomerLoader = false;
+					
 					$scope.customer_details = response.data.response_data.details[0];
 					$scope.show_search_details = false;
+
+					// calling api to fetch all tag details
 					API.getDetails("userfetch/fetchtag",{id : $scope.wechat_id}).then(function successCallback(response) {
 						if(response.status == 200)
 						{
@@ -795,18 +803,106 @@ angular.module('userController', ['applicationService.services'])
 						}
 						else
 						{
+
 							// show error message
 						}
+						$scope.showCustomerLoader = false;
 					}, function errorCallback(response) {
-						
+						$scope.showCustomerLoader = false;
 					});
+					// calling api to get offer history of the customer
+					API.getDetails("userfetch/fetchofferhistory",{id : $scope.wechat_id}).then(function successCallback(response) {
+						if(response.status == 200)
+						{
+							if(typeof response.data.message.details !='undefined' && response.data.message.details.length>0)
+							{
+								$scope.offer_history = response.data.message.details;
+							}
+						}
+						else
+						{
+							// show error message
+						}
+						
+					}, function errorCallback(response) {
+						$scope.showCustomerOffer = false;
+					    // called asynchronously if an error occurs
+					    // or server returns response with an error status.
+					});
+					var address_details = '';
+					if($scope.customer_details.AddressLine1 != '' && $scope.customer_details.AddressLine1 != null)
+					{
+						address_details = " "+$scope.customer_details.AddressLine1;
+					}
+					if($scope.customer_details.AddressLine2 != '' && $scope.customer_details.AddressLine2 != null)
+					{
+						address_details+= " "+$scope.customer_details.AddressLine2;
+					}
+					if($scope.customer_details.City != '' && $scope.customer_details.City != null)
+					{
+						address_details+= " "+$scope.customer_details.City;
+					}
+					if($scope.customer_details.District != '' && $scope.customer_details.District != null)
+					{
+						address_details+= " "+$scope.customer_details.District;
+					}
+					if($scope.customer_details.Province != '' && $scope.customer_details.Province != null)
+					{
+						address_details+= " "+$scope.customer_details.Province;
+					}
+					if($scope.customer_details.Country != '' && $scope.customer_details.Country != null)
+					{
+						address_details+= " "+$scope.customer_details.Country;
+					}
+					if(address_details != '')
+					{	
+						var url = 'http://dev.virtualearth.net/REST/v1/Locations/'+address_details+'/?key=AjZ0wB-x_wfUhjERvFMimAGIUbgHM7uRTKubZcmsbnE_-DSE49gBI53Ts9ClaeT5';
+						$.ajax({
+					        url: url,
+					        dataType: "jsonp",
+					        jsonp: "jsonp",
+					        success: function (r) {
+					        	if(r.statusCode == 200 )
+					        	{
+					        		if(r.resourceSets[0].resources.length>0)
+					        		{
+							        	$scope.mapOptions.center = {"latitude": r.resourceSets[0].resources[0].point.coordinates[0], "longitude":  r.resourceSets[0].resources[0].point.coordinates[1]};
+							            $scope.pushpin.latitude =  r.resourceSets[0].resources[0].point.coordinates[0];
+							            $scope.pushpin.longitude =  r.resourceSets[0].resources[0].point.coordinates[1];
+							        }
+							        else
+							        {
+							        	$scope.mapOptions.center = {"latitude": 39.9042, "longitude":  116.4074};
+										$scope.pushpin.latitude 	= 39.9042;
+										$scope.pushpin.longitude 	= 116.4074;
+							        }
+						        }
+						        else
+						        {
+									$scope.mapOptions.center = {"latitude": 39.9042, "longitude":  116.4074};
+									$scope.pushpin.latitude 	= 39.9042;
+									$scope.pushpin.longitude 	= 116.4074;
+						        }
+					        },
+					        error: function (e) {
+					            alert(e.statusText);
+					        }
+					    });
+					}
+
 				}
 				else
 				{
 					$scope.error_message = response.data.response_data.message;
+					$scope.showCustomerLoader = false;
+					$scope.customer_details = '';
+					$scope.customer_tag = [];
+					$scope.offer_history = '';
+					$scope.mapOptions.center = {"latitude": 39.9042, "longitude":  116.4074};
+					$scope.pushpin.latitude 	= 39.9042;
+					$scope.pushpin.longitude 	= 116.4074;
 					// show error message
 				}
-				$scope.showCustomerLoader = false;
 			}, function errorCallback(response) {
 				$scope.showCustomerLoader = false;
 			    // called asynchronously if an error occurs
@@ -832,14 +928,17 @@ angular.module('userController', ['applicationService.services'])
 	$scope.checkboxModel.card_type 			= false;
 	$scope.checkboxModel.gender 			= false;
 	$scope.checkboxModel.location_details 	= false;
-	$scope.checkboxModel.age_grouped 		= true;
+	$scope.checkboxModel.age_grouped 		= false;
 	$scope.checkboxModel.date_range 		= true;
-	$scope.checkboxModel.segment 			= true;
+	$scope.checkboxModel.segment 			= false;
+	$scope.checkboxModel.tag_details 		= false;
+	$scope.x_axis_selected 					= '';
+	$scope.y_axis_selected 					= '';
 	$scope.default_segment_filter = [];
 	$scope.age_group_filter = [];
 
 	var current_date 	= new Date();
-	$scope.start_date 	= current_date.getMonth()+1+"-"+ 1+"-"+current_date.getFullYear();
+	$scope.start_date 	= 1+"-"+ 1+"-"+current_date.getFullYear();
 	$scope.end_date 	= current_date.getMonth()+1+"-"+current_date.getDate()+"-"+current_date.getFullYear();
 	$scope.show_loader = true;
 
@@ -852,7 +951,8 @@ angular.module('userController', ['applicationService.services'])
 			$scope.location_name	= response.data.response_data.custloc;
 			$scope.age_group_type 	= response.data.response_data.age_group;
 			$scope.segment_type 	= response.data.response_data.custseg;
-			$scope.getNewChatDetails();
+			$scope.tag_type 		= response.data.response_data.tag;
+		//	$scope.getNewChatDetails();
 		}
 		else
 		{
@@ -866,253 +966,564 @@ angular.module('userController', ['applicationService.services'])
 
 	$scope.getNewChatDetails = function()
 	{
-
-		$scope.category_details 	= [];
-		$scope.offer_sent_detail 	= [];
-		$scope.offer_click_details 	= [];
-		$scope.offer_response 		= [];
-		if($scope.checkboxModel.card_type == true)
+		$scope.show_loader = true;
+		$scope.card_type_selected_details = [];
+		$scope.segment_selected_details = [];
+		$scope.age_grouped_selected_details = [];
+		$scope.location_filter_selected_details = [];
+		if($scope.x_axis_selected == 'card_type' || $scope.y_axis_selected == 'card_type')
 		{
-			$scope.category_details.push('Standard MasterCard');
-			$scope.offer_sent_detail.push(100);
-			$scope.offer_click_details.push(30);
-			$scope.offer_response.push(22);
-
-			$scope.category_details.push('Gold MasterCard');
-			$scope.offer_sent_detail.push(30);
-			$scope.offer_click_details.push(8);
-			$scope.offer_response.push(8);
-
-			$scope.category_details.push('Platinum MasterCard');
-			$scope.offer_sent_detail.push(30);
-			$scope.offer_click_details.push(8);
-			$scope.offer_response.push(6);
+			for(i=0;i<$scope.card_type_filter_details.length;i++)
+			{
+				$scope.card_type_selected_details.push({"name" : $scope.card_type_filter_details[i].card_type});
+			}
 		}
-		if($scope.checkboxModel.gender == true)
+		if($scope.x_axis_selected == 'age_grouped' || $scope.y_axis_selected == 'age_grouped')
 		{
-			$scope.category_details.push('Male');
-			$scope.offer_sent_detail.push(100);
-			$scope.offer_click_details.push(20);
-			$scope.offer_response.push(10);
-
-			$scope.category_details.push('Female');
-			$scope.offer_sent_detail.push(20);
-			$scope.offer_click_details.push(5);
-			$scope.offer_response.push(7);
+			for(i=0;i<$scope.age_group_filter.length;i++)
+			{
+				$scope.age_grouped_selected_details.push({"name" : $scope.age_group_filter[i].value});
+			}
 		}
-		if($scope.checkboxModel.location_details == true)
+		if($scope.x_axis_selected == 'location' || $scope.y_axis_selected == 'location')
 		{
-			$scope.category_details.push('Hong Kong');
-			$scope.offer_sent_detail.push(130);
-			$scope.offer_click_details.push(18);
-			$scope.offer_response.push(8);
-
-			$scope.category_details.push('Beijing');
-			$scope.offer_sent_detail.push(300);
-			$scope.offer_click_details.push(81);
-			$scope.offer_response.push(62);
-
-			$scope.category_details.push('Shanghai');
-			$scope.offer_sent_detail.push(80);
-			$scope.offer_click_details.push(60);
-			$scope.offer_response.push(5);
+			for(i=0;i<$scope.location_filter.length;i++)
+			{
+				$scope.location_filter_selected_details.push({"name" : $scope.location_filter[i].cust_location});
+			}
 		}
-		if($scope.checkboxModel.age_grouped == true)
+		if($scope.x_axis_selected == 'segment' || $scope.y_axis_selected == 'segment')
 		{
-			$scope.category_details.push('Age Group (10 -20)');
-			$scope.offer_sent_detail.push(100);
-			$scope.offer_click_details.push(20);
-			$scope.offer_response.push(10);
-
-			$scope.category_details.push('Age Group (21-30)');
-			$scope.offer_sent_detail.push(20);
-			$scope.offer_click_details.push(5);
-			$scope.offer_response.push(7);
-
-			$scope.category_details.push('Age Group (30-100)');
-			$scope.offer_sent_detail.push(50);
-			$scope.offer_click_details.push(20);
-			$scope.offer_response.push(15);
+			for(i=0;i<$scope.segment_filter.length;i++)
+			{
+				$scope.segment_selected_details.push({"name" : $scope.segment_filter[i].cust_segment});
+			}
 		}
-		if($scope.checkboxModel.date_range == true)
-		{
+		$scope.request_details = {
+									"card_type"		: $scope.card_type_selected_details,
+									"tags"			: $scope.tag_details_filter,
+									"locations"		: $scope.location_filter_selected_details,
+									"age_grouped"	: $scope.age_grouped_selected_details,
+									"segment"		: $scope.segment_selected_details,
+									"gender"		: $scope.gender_type_filter,
+									"date_range"	:
+														{ 
+															"from" 	: $scope.start_date,
+															"to"	: $scope.end_date
+														},
+									"x_axis" 		: $scope.x_axis_selected,
+									"y_axis" 		: $scope.y_axis_selected 
+								} 
+
+		API.postDetails($scope.request_details,"customer_segment/getCustSegReportData").then(function successCallback(response) {
+			$scope.show_loader = false;
 			
-			$scope.category_details.push('Date Range ('+$scope.start_date+' to '+$scope.end_date+')');
-			$scope.offer_sent_detail.push(60);
-			$scope.offer_click_details.push(25);
-			$scope.offer_response.push(18);
+			if(response.status == 200)
+			{
+				var  category		= response.data.response_data.Graph_data[0].x_axis_name;
+				var chart_details 	= response.data.response_data.Graph_data[0].y_array_header;
+
+				console.log(chart_details);
+				Highcharts.chart('container', {
+
+		        chart: {
+		            type: 'column'
+		        },
+
+		        title: {
+		            text: ""
+		        },
+
+		        xAxis: {
+		            categories : category
+		        },
+
+		        yAxis: {
+		            allowDecimals: false,
+		            min: 0,
+		            title: {
+		                text: $scope.y_axis_selected
+		            }
+		        },
+		        tooltip: {
+		            formatter: function () {
+		                return '<b>' + this.x + '</b><br/>' +
+		                    this.series.name + ': ' + this.y + '<br/>' +
+		                    'Total: ' + this.point.stackTotal;
+		            }
+		        },
+
+		        plotOptions: {
+		            column: {
+		                stacking: 'normal'
+		            }
+		        },
+
+		        series: chart_details
+		    });
 		}
-		if($scope.checkboxModel.segment == true)
+		else
 		{
-			$scope.category_details.push('Segment');
-			$scope.offer_sent_detail.push(60);
-			$scope.offer_click_details.push(25);
-			$scope.offer_response.push(18);
+			// show error message
 		}
+		
+	}, function errorCallback(response) {
+		$scope.show_loader = false;
+	});
 
-		var request_date = {
-			"filter_type" 	: $scope.checkboxModel,
-			"card_type"		: $scope.card_type_filter_details,
-			"gender"		: $scope.gender_type_filter,
-			"location"		: $scope.location_filter,
-			"age_grouped" 	: $scope.age_group_filter,
-			"segment" 		: $scope.segment_filter,
-			"date_range" 	: {
-								"from" : $scope.start_date,
-								"to"   : $scope.end_date
-								}
-		};
-
-	    Highcharts.chart('container', {
-	        chart: {
-	            type: 'column'
-	        },
-	        title: {
-	            text: 'Customer Offer Details'
-	        },
-	        xAxis: {
-	            categories : $scope.category_details,
-	            crosshair: true
-	        },
-	        yAxis: {
-	            min: 0,
-	            title: {
-	                text: 'Offer list'
-	            }
-	        },
-	        tooltip: {
-	            headerFormat: '<span style="font-size:10px">{point.key}</span><table>',
-	            pointFormat: '<tr><td style="color:{series.color};padding:0">{series.name}: </td>' +
-	                '<td style="padding:0"><b>{point.y:.1f}</b></td></tr>',
-	            footerFormat: '</table>',
-	            shared: true,
-	            useHTML: true
-	        },
-	        plotOptions: {
-	            column: {
-	                pointPadding: 0.2,
-	                borderWidth: 0
-	            }
-	        },
-	        series: [{
-	            name: 'Offer Sent',
-	            data: $scope.offer_sent_detail
-
-	        }, {
-	            name: 'Offer Click',
-	            data: $scope.offer_click_details
-
-	        }, {
-	            name: 'Offer Response',
-	            data: $scope.offer_response
-
-	        }]
-	    });
+		 
 	}
 	
-	
-	$scope.changeChecboxStatus = function(type)
+	$scope.changeChecboxStatus = function(type,axis)
 	{
-		if(type =='card_type')
+		if(axis == 'x_axis')
 		{
-			if($scope.checkboxModel.card_type == true)
+			// checking for card type
+			if(type =='card_type')
 			{
-				if($scope.total_checked<3)
+				if($scope.x_axis_selected != 'card_type')
 				{
-					
-					$scope.total_checked++;
-				}
-				else
-				{
-					$scope.checkboxModel.card_type = false;
-					alert("You cannot checked more than 3 filters.")
+
+					if($scope.x_axis_selected == 'gender')
+					{
+						$scope.checkboxModel.gender 	= false;
+					}
+					if($scope.x_axis_selected == 'location')
+					{
+						$scope.checkboxModel.location_details 	= false;
+					}
+					if($scope.x_axis_selected == 'age_grouped')
+					{
+						$scope.checkboxModel.age_grouped 	= false;
+					}
+					if($scope.x_axis_selected == 'tags')
+					{
+						$scope.checkboxModel.tag_details 	= false;
+					}
+					if($scope.x_axis_selected == 'segment')
+					{
+						$scope.checkboxModel.segment 	= false;
+					}
+
+					$scope.x_axis_selected 			= 'card_type';
+					$scope.checkboxModel.card_type 	= true;
+
+					document.getElementById("y_axis_card_type").disabled = true;
+					document.getElementById("y_axis_gender").disabled 	= false;
+					document.getElementById("y_axis_location").disabled = false;
+					document.getElementById("y_axis_age_group").disabled = false;
+					document.getElementById("y_axis_tags").disabled = false;
+					document.getElementById("y_axis_segment").disabled = false;
 				}
 			}
-			else
+			// checking for gender
+			if(type =='gender')
 			{
-				$scope.total_checked--;
+				if($scope.x_axis_selected != 'gender')
+				{
+
+					if($scope.x_axis_selected == 'card_type')
+					{
+						$scope.checkboxModel.card_type 	= false;
+					}
+					if($scope.x_axis_selected == 'location')
+					{
+						$scope.checkboxModel.location_details 	= false;
+					}
+					if($scope.x_axis_selected == 'age_grouped')
+					{
+						$scope.checkboxModel.age_grouped 	= false;
+					}
+					if($scope.x_axis_selected == 'tags')
+					{
+						$scope.checkboxModel.tag_details 	= false;
+					}
+					if($scope.x_axis_selected == 'segment')
+					{
+						$scope.checkboxModel.segment 	= false;
+					}
+
+
+
+					$scope.x_axis_selected 			= 'gender';
+					$scope.checkboxModel.gender 	= true;
+
+					document.getElementById("y_axis_gender").disabled = true;
+					document.getElementById("y_axis_card_type").disabled = false;
+					document.getElementById("y_axis_location").disabled = false;
+					document.getElementById("y_axis_age_group").disabled = false;
+					document.getElementById("y_axis_tags").disabled = false;
+					document.getElementById("y_axis_segment").disabled = false;
+				}
+			}
+			// checking for tags
+			if(type =='tags')
+			{
+				if($scope.x_axis_selected != 'tags')
+				{
+					console.log($scope.x_axis_selected );
+					if($scope.x_axis_selected == 'card_type')
+					{
+						$scope.checkboxModel.card_type 	= false;
+					}
+					if($scope.x_axis_selected == 'location')
+					{
+						$scope.checkboxModel.location_details 	= false;
+					}
+					if($scope.x_axis_selected == 'age_grouped')
+					{
+						$scope.checkboxModel.age_grouped 	= false;
+					}
+					if($scope.x_axis_selected == 'gender')
+					{
+						$scope.checkboxModel.gender 	= false;
+					}
+					if($scope.x_axis_selected == 'segment')
+					{
+						$scope.checkboxModel.segment 	= false;
+					}
+					$scope.x_axis_selected 			= 'tags';
+					$scope.checkboxModel.tag_details = true;
+					document.getElementById("y_axis_tags").disabled = true;
+					document.getElementById("y_axis_card_type").disabled = false;
+					document.getElementById("y_axis_location").disabled = false;
+					document.getElementById("y_axis_age_group").disabled = false;
+					document.getElementById("y_axis_gender").disabled = false;
+					document.getElementById("y_axis_segment").disabled = false;
+				}
+			}
+			// checking for location
+			if(type =='location')
+			{
+				if($scope.x_axis_selected != 'location')
+				{
+					console.log($scope.x_axis_selected );
+					if($scope.x_axis_selected == 'card_type')
+					{
+						$scope.checkboxModel.card_type 	= false;
+					}
+					if($scope.x_axis_selected == 'tags')
+					{
+						$scope.checkboxModel.tag_details 	= false;
+					}
+					if($scope.x_axis_selected == 'age_grouped')
+					{
+						$scope.checkboxModel.age_grouped 	= false;
+					}
+					if($scope.x_axis_selected == 'gender')
+					{
+						$scope.checkboxModel.gender 	= false;
+					}
+					if($scope.x_axis_selected == 'segment')
+					{
+						$scope.checkboxModel.segment 	= false;
+					}
+					$scope.x_axis_selected 					= 'location';
+					$scope.checkboxModel.location_details 	= true;
+					document.getElementById("y_axis_tags").disabled = false;
+					document.getElementById("y_axis_card_type").disabled = false;
+					document.getElementById("y_axis_location").disabled = true;
+					document.getElementById("y_axis_age_group").disabled = false;
+					document.getElementById("y_axis_gender").disabled = false;
+					document.getElementById("y_axis_segment").disabled = false;
+				}
+			}
+			// checking for age group
+			if(type =='age_group')
+			{
+				if($scope.x_axis_selected != 'age_grouped')
+				{
+
+					if($scope.x_axis_selected == 'card_type')
+					{
+						$scope.checkboxModel.card_type 	= false;
+					}
+					if($scope.x_axis_selected == 'tags')
+					{
+						$scope.checkboxModel.tag_details 	= false;
+					}
+					if($scope.x_axis_selected == 'location')
+					{
+						$scope.checkboxModel.location_details 	= false;
+					}
+					if($scope.x_axis_selected == 'gender')
+					{
+						$scope.checkboxModel.gender 	= false;
+					}
+					if($scope.x_axis_selected == 'segment')
+					{
+						$scope.checkboxModel.segment 	= false;
+					}
+					$scope.x_axis_selected 				= 'age_grouped';
+					$scope.checkboxModel.age_grouped 	= true;
+					document.getElementById("y_axis_tags").disabled = false;
+					document.getElementById("y_axis_card_type").disabled = false;
+					document.getElementById("y_axis_location").disabled = false;
+					document.getElementById("y_axis_age_group").disabled = true;
+					document.getElementById("y_axis_gender").disabled = false;
+					document.getElementById("y_axis_segment").disabled = false;
+				}
+			}
+			// checking for segment
+			if(type =='segment')
+			{
+				console.log($scope.x_axis_selected);
+				if($scope.x_axis_selected != 'segment')
+				{
+
+					if($scope.x_axis_selected == 'card_type')
+					{
+						$scope.checkboxModel.card_type 	= false;
+					}
+					if($scope.x_axis_selected == 'tags')
+					{
+						$scope.checkboxModel.tag_details 	= false;
+					}
+					if($scope.x_axis_selected == 'location')
+					{
+						$scope.checkboxModel.location_details 	= false;
+					}
+					if($scope.x_axis_selected == 'gender')
+					{
+						$scope.checkboxModel.gender 	= false;
+					}
+					if($scope.x_axis_selected == 'age_grouped')
+					{
+						$scope.checkboxModel.age_grouped 	= false;
+					}
+					$scope.x_axis_selected 				= 'segment';
+					$scope.checkboxModel.segment 	= true;
+					document.getElementById("y_axis_tags").disabled = false;
+					document.getElementById("y_axis_card_type").disabled = false;
+					document.getElementById("y_axis_location").disabled = false;
+					document.getElementById("y_axis_age_group").disabled = false;
+					document.getElementById("y_axis_gender").disabled = false;
+					document.getElementById("y_axis_segment").disabled = true;
+				}
 			}
 		}
-		if(type =='gender')
+		else
 		{
-			if($scope.checkboxModel.gender == true)
+			// checking for card type
+			if(type =='card_type')
 			{
-				if($scope.total_checked<3)
+				if($scope.y_axis_selected != 'card_type')
 				{
-					
-					$scope.total_checked++;
-				}
-				else
-				{
-					$scope.checkboxModel.gender = false;
-					alert("You cannot checked more than 3 filters.")
+
+					if($scope.y_axis_selected == 'gender')
+					{
+						$scope.checkboxModel.gender 	= false;
+					}
+					if($scope.y_axis_selected == 'location')
+					{
+						$scope.checkboxModel.location_details 	= false;
+					}
+					if($scope.y_axis_selected == 'age_grouped')
+					{
+						$scope.checkboxModel.age_grouped 	= false;
+					}
+					if($scope.y_axis_selected == 'tags')
+					{
+						$scope.checkboxModel.tag_details 	= false;
+					}
+					if($scope.y_axis_selected == 'segment')
+					{
+						$scope.checkboxModel.segment 	= false;
+					}
+
+					$scope.y_axis_selected 			= 'card_type';
+					$scope.checkboxModel.card_type 	= true;
+					document.getElementById("x_axis_card_type").disabled = true;
+					document.getElementById("x_axis_gender").disabled 	= false;
+					document.getElementById("x_axis_location").disabled = false;
+					document.getElementById("x_axis_age_group").disabled = false;
+					document.getElementById("x_axis_tags").disabled = false;
+					document.getElementById("x_axis_segment").disabled = false;
 				}
 			}
-			else
+			// checking for gender
+			if(type =='gender')
 			{
-				$scope.total_checked--;
+				if($scope.y_axis_selected != 'gender')
+				{
+
+					if($scope.y_axis_selected == 'card_type')
+					{
+						$scope.checkboxModel.card_type 	= false;
+					}
+					if($scope.y_axis_selected == 'location')
+					{
+						$scope.checkboxModel.location_details 	= false;
+					}
+					if($scope.y_axis_selected == 'age_grouped')
+					{
+						$scope.checkboxModel.age_grouped 	= false;
+					}
+					if($scope.y_axis_selected == 'tags')
+					{
+						$scope.checkboxModel.tag_details 	= false;
+					}
+					if($scope.y_axis_selected == 'segment')
+					{
+						$scope.checkboxModel.segment 	= false;
+					}
+					$scope.y_axis_selected 			= 'gender';
+					$scope.checkboxModel.gender 	= true;
+
+					document.getElementById("x_axis_gender").disabled = true;
+					document.getElementById("x_axis_card_type").disabled = false;
+					document.getElementById("x_axis_location").disabled = false;
+					document.getElementById("x_axis_age_group").disabled = false;
+					document.getElementById("x_axis_tags").disabled = false;
+					document.getElementById("x_axis_segment").disabled = false;
+				}
+			}
+			// checking for tags
+			if(type =='tags')
+			{
+				if($scope.y_axis_selected != 'tags')
+				{
+					if($scope.y_axis_selected == 'card_type')
+					{
+						$scope.checkboxModel.card_type 	= false;
+					}
+					if($scope.y_axis_selected == 'location')
+					{
+						$scope.checkboxModel.location_details 	= false;
+					}
+					if($scope.y_axis_selected == 'age_grouped')
+					{
+						$scope.checkboxModel.age_grouped 	= false;
+					}
+					if($scope.y_axis_selected == 'gender')
+					{
+						$scope.checkboxModel.gender 	= false;
+					}
+					if($scope.y_axis_selected == 'segment')
+					{
+						$scope.checkboxModel.segment 	= false;
+					}
+					$scope.y_axis_selected 			= 'tags';
+					$scope.checkboxModel.tag_details = true;
+					document.getElementById("x_axis_tags").disabled = true;
+					document.getElementById("x_axis_card_type").disabled = false;
+					document.getElementById("x_axis_location").disabled = false;
+					document.getElementById("x_axis_age_group").disabled = false;
+					document.getElementById("x_axis_gender").disabled = false;
+					document.getElementById("x_axis_segment").disabled = false;
+				}
+			}
+			// checking for location
+			if(type =='location')
+			{
+				if($scope.y_axis_selected != 'location')
+				{
+					console.log($scope.y_axis_selected );
+					if($scope.y_axis_selected == 'card_type')
+					{
+						$scope.checkboxModel.card_type 	= false;
+					}
+					if($scope.y_axis_selected == 'tags')
+					{
+						$scope.checkboxModel.tag_details 	= false;
+					}
+					if($scope.y_axis_selected == 'age_grouped')
+					{
+						$scope.checkboxModel.age_grouped 	= false;
+					}
+					if($scope.y_axis_selected == 'gender')
+					{
+						$scope.checkboxModel.gender 	= false;
+					}
+					if($scope.y_axis_selected == 'segment')
+					{
+						$scope.checkboxModel.segment 	= false;
+					}
+					$scope.y_axis_selected 					= 'location';
+					$scope.checkboxModel.location_details 	= true;
+					document.getElementById("x_axis_tags").disabled = false;
+					document.getElementById("x_axis_card_type").disabled = false;
+					document.getElementById("x_axis_location").disabled = true;
+					document.getElementById("x_axis_age_group").disabled = false;
+					document.getElementById("x_axis_gender").disabled = false;
+					document.getElementById("x_axis_segment").disabled = false;
+				}
+			}
+			// checking for age group
+			if(type =='age_group')
+			{
+				if($scope.y_axis_selected != 'age_grouped')
+				{
+
+					if($scope.y_axis_selected == 'card_type')
+					{
+						$scope.checkboxModel.card_type 	= false;
+					}
+					if($scope.y_axis_selected == 'tags')
+					{
+						$scope.checkboxModel.tag_details 	= false;
+					}
+					if($scope.y_axis_selected == 'location')
+					{
+						$scope.checkboxModel.location_details 	= false;
+					}
+					if($scope.y_axis_selected == 'gender')
+					{
+						$scope.checkboxModel.gender 	= false;
+					}
+					if($scope.y_axis_selected == 'segment')
+					{
+						$scope.checkboxModel.segment 	= false;
+					}
+					$scope.y_axis_selected 				= 'age_grouped';
+					$scope.checkboxModel.age_grouped 	= true;
+					document.getElementById("x_axis_tags").disabled = false;
+					document.getElementById("x_axis_card_type").disabled = false;
+					document.getElementById("x_axis_location").disabled = false;
+					document.getElementById("x_axis_age_group").disabled = true;
+					document.getElementById("x_axis_gender").disabled = false;
+					document.getElementById("x_axis_segment").disabled = false;
+				}
+			}
+			// checking for segment
+			if(type =='segment')
+			{
+				console.log($scope.y_axis_selected);
+				if($scope.y_axis_selected != 'segment')
+				{
+
+					if($scope.y_axis_selected == 'card_type')
+					{
+						$scope.checkboxModel.card_type 	= false;
+					}
+					if($scope.y_axis_selected == 'tags')
+					{
+						$scope.checkboxModel.tag_details 	= false;
+					}
+					if($scope.y_axis_selected == 'location')
+					{
+						$scope.checkboxModel.location_details 	= false;
+					}
+					if($scope.y_axis_selected == 'gender')
+					{
+						$scope.checkboxModel.gender 	= false;
+					}
+					if($scope.y_axis_selected == 'age_group')
+					{
+						$scope.checkboxModel.age_grouped 	= false;
+					}
+					$scope.y_axis_selected 				= 'segment';
+					$scope.checkboxModel.segment 	= true;
+					document.getElementById("x_axis_tags").disabled = false;
+					document.getElementById("x_axis_card_type").disabled = false;
+					document.getElementById("x_axis_location").disabled = false;
+					document.getElementById("x_axis_age_group").disabled = false;
+					document.getElementById("x_axis_gender").disabled = false;
+					document.getElementById("x_axis_segment").disabled = true;
+				}
 			}
 		}
-		if(type =='location')
-		{
-			if($scope.checkboxModel.location_details == true)
-			{
-				if($scope.total_checked<3)
-				{
-					
-					$scope.total_checked++;
-				}
-				else
-				{
-					$scope.checkboxModel.location_details = false;
-					alert("You cannot checked more than 3 filters.")
-				}
-			}
-			else
-			{
-				$scope.total_checked--;
-			}
-		}
-		if(type =='age_grouped')
-		{
-			if($scope.checkboxModel.age_grouped == true)
-			{
-				if($scope.total_checked<3)
-				{
-					
-					$scope.total_checked++;
-				}
-				else
-				{
-					$scope.checkboxModel.age_grouped = false;
-					alert("You cannot checked more than 3 filters.")
-				}
-			}
-			else
-			{
-				$scope.total_checked--;
-			}
-		}
-		if(type =='segment')
-		{
-			if($scope.checkboxModel.segment == true)
-			{
-				if($scope.total_checked<3)
-				{
-					
-					$scope.total_checked++;
-				}
-				else
-				{
-					$scope.checkboxModel.segment = false;
-					alert("You cannot checked more than 3 filters.")
-				}
-			}
-			else
-			{
-				$scope.total_checked--;
-			}
-		}
+
 	}
 
 })

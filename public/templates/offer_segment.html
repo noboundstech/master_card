@@ -1,11 +1,24 @@
-<div><a href="#/dashboard" class="btn btn-default segment-back-button"><span class="fa fa-long-arrow-left"></span></a></a></div>
-<div class="container-fluid">
-	<header class="segment-header text-center">
-		<h3>Offer Segment View</h3>
-	</header>
 
+<div class="header">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-md-12 profile-view">
+                <div class="col-md-12">
+                    <div class="col-md-1 col-sm-1 col-xs-1">
+                        
+                    <a href="#/dashboard" class="btn btn-default profile-back-button"><span class="fa fa-long-arrow-left"></span></a>
+                    </div>
+                     <div class="col-md-3">
+                        <h3 class="customer-profile-view">Offer Segment View</h3>
+                        <h4 class="customer-profile-view hidden-lg hidden-md hidden-sm hidden-xs">Offer Segment View</h4>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="container-fluid" style="margin-top:20px;">
 	<div class="row">
-
 		<div class="col-sm-2" style="padding-right: 8px;">
 			<div class="panel panel-default">
 				<div class="panel-heading">FILTERS</div>
@@ -26,6 +39,19 @@
 						</div>
 						<div class="col-sm-12">
 							<select chosen multiple ng-model="gender_type_filter" ng-options="s.name for s in gender_type"  placeholder-expression="Gender" title="Gender">
+                            </select>
+						</div>
+
+						<div class="col-sm-12">
+							 <a class=" pull-right pointer-class"> &nbsp;</a>
+						</div>
+					</div>
+					<div class="rows padding-row" ng-show="checkboxModel.tag_details">
+						<div class="col-sm-12 padding-row">
+							<strong> Tags : </strong>
+						</div>
+						<div class="col-sm-12">
+							<select chosen multiple ng-model="tag_details_filter" ng-options="s.name for s in tag_type"  placeholder-expression="Gender" title="Gender">
                             </select>
 						</div>
 
@@ -75,7 +101,7 @@
 
 					<div class="rows" ng-show="checkboxModel.date_range">
 						<div class="col-sm-12">
-							<strong> Data Range : </strong>
+							<strong> Date Range : </strong>
 						</div>
                         <div class="col-sm-12 date-box-one">
 							 <datepicker date-format="MM-dd-yyyy" selector="form-control">
@@ -95,32 +121,86 @@
 							 <a class="pull-right pointer-class" style="cursor:pointer"> &nbsp;</a>
 						</div>
 					</div>
+					<div class="rows" ng-show="checkboxModel.date_range">
+						<div class="col-sm-12" style="color:#0988ea">
+							<strong> Customer Id : </strong>
+						</div>
+                        <div class="col-sm-12 date-box-one">
+	                        <div class="input-group">
+	                            <input class="form-control" placeholder="Customer Id" ng-model="customer_id">
+	                        </div>
+		                   
+                        </div>
+                       <div class="col-sm-12"  style="color:#0988ea">
+							<strong>OR  Murchant Name : </strong>
+						</div>
+						<div class="col-sm-12 date-box-one">
+		                        <div class="input-group">
+		                            <input class="form-control" placeholder="Merchant Name" ng-model="Merchant_name">
+		                        </div>
+                        </div>
+					</div>
                    <div class="col-sm-12">
-                   		<button class="btn btn-primary get-map-btn" ng-click="getNewChatDetails();">Get Map details</button>
+                   		<button class="btn btn-primary get-map-btn" ng-click="getNewChatDetails();">View details</button>
                     </div>
 				</div>
 			</div>
 		</div>
 		<div class="col-sm-10" style="padding-left: 5px;">
-			<div> 
-				<label>Card Type:
-		    		<input type="checkbox" ng-model="checkboxModel.card_type" ng-true-value="true" ng-false-value="false" class="check_box" ng-click="changeChecboxStatus('card_type')"> &nbsp;
-		  		</label>
-		  		<label>Gender:
-		    		<input type="checkbox" ng-model="checkboxModel.gender" ng-true-value="true" ng-false-value="false"  ng-click="changeChecboxStatus('gender')"> &nbsp;
-		  		</label>
-		  		<label>Location:
-		    		<input type="checkbox" ng-model="checkboxModel.location_details" ng-true-value="true" ng-false-value="false" class="check_box"  ng-click="changeChecboxStatus('location')"> &nbsp;
-		  		</label>
-		  		<label> Age-group:
-		    		<input type="checkbox" ng-model="checkboxModel.age_grouped" ng-true-value="true" ng-false-value="false" class="check_box" ng-click="changeChecboxStatus('age_grouped')"> &nbsp;
-		  		</label>
-		  		<label>Data Range:
-		    		<input type="checkbox" ng-model="checkboxModel.date_range" ng-true-value="true" ng-false-value="false" class="check_box" disabled> &nbsp;
-		  		</label>
-		  		<label>Segment:
-		    		<input type="checkbox" ng-model="checkboxModel.segment" ng-true-value="true" ng-false-value="false" class="check_box"  ng-click="changeChecboxStatus('segment')"> &nbsp;
-		  		</label>
+
+			<div class="row">
+				<div class="col-sm-6">
+					<div class="col-sm-12">
+						<strong> X-AXIS </strong>
+					</div>
+					<div class="col-sm-12">
+						<label>Card Type:
+							<input type="radio" ng-model="checkboxModel.x_axis" value="card_type" ng-click="changeChecboxStatus('card_type','x_axis')" id="x_axis_card_type">
+				  		</label>
+				  		<label>Gender:
+				  			<input type="radio" ng-model="checkboxModel.x_axis" value="gender" ng-click="changeChecboxStatus('gender','x_axis')"  id="x_axis_gender">
+				  		</label>
+				  		<label>Tags:
+				    		<input type="radio" ng-model="checkboxModel.x_axis" value="tags" ng-click="changeChecboxStatus('tags','x_axis')" id="x_axis_tags">
+				  		</label>
+				  		<label>Location:
+				  			<input type="radio" ng-model="checkboxModel.x_axis" value="location" ng-click="changeChecboxStatus('location','x_axis')" id="x_axis_location">
+				  		</label>
+				  		<label> Age-group:
+				    		<input type="radio" ng-model="checkboxModel.x_axis" value="age_group" ng-click="changeChecboxStatus('age_group','x_axis')" id="x_axis_age_group">
+				  		</label>
+				  		
+				  		<label>Segment:
+				    		<input type="radio" ng-model="checkboxModel.x_axis" value="segment" ng-click="changeChecboxStatus('segment','x_axis')"  id="x_axis_segment">
+				  		</label>
+				  	</div>
+				</div>
+				<div class="col-sm-6">
+					<div class="col-sm-12">
+						<strong> Y-AXIS </strong>
+					</div>
+					<div class="col-sm-12">
+						<label>Card Type:
+							<input type="radio" ng-model="checkboxModel.y_axis" value="card_type" ng-click="changeChecboxStatus('card_type','y_axis')" id="y_axis_card_type">
+				  		</label>
+				  		<label>Gender:
+				  			<input type="radio" ng-model="checkboxModel.y_axis" value="gender" ng-click="changeChecboxStatus('gender','y_axis')"  id="y_axis_gender">
+				  		</label>
+				  		<label>Tags:
+				    		<input type="radio" ng-model="checkboxModel.y_axis" value="tags" ng-click="changeChecboxStatus('tags','y_axis')" id="y_axis_tags">
+				  		</label>
+				  		<label>Location:
+				  			<input type="radio" ng-model="checkboxModel.y_axis" value="location" ng-click="changeChecboxStatus('location','y_axis')" id="y_axis_location">
+				  		</label>
+				  		<label> Age-group:
+				    		<input type="radio" ng-model="checkboxModel.y_axis" value="age_group" ng-click="changeChecboxStatus('age_group','y_axis')" id="y_axis_age_group">
+				  		</label>
+				  		
+				  		<label>Segment:
+				    		<input type="radio" ng-model="checkboxModel.y_axis" value="segment" ng-click="changeChecboxStatus('segment','y_axis')"  id="y_axis_segment">
+				  		</label>
+				  	</div>
+				</div>
 			</div>
 			<div class="loader_angular" ng-show="show_loader"></div>
 			<div id="container" style="min-width: 310px; height: 400px; margin: 0 auto"></div>
@@ -139,5 +219,9 @@
     z-index: 99;
     background: url("img/loader.gif") center no-repeat;
     background-size: 70%;
+}
+.highcharts-credits
+{
+  display: none !important
 }
 </style>

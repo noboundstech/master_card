@@ -22,7 +22,8 @@
     "node-schedule": "^1.2.0",
     "rootpath": "^0.1.2",
     "serve-favicon": "~2.2.1",
-    "socket.io": "^1.5.1"
+    "socket.io": "^1.5.1",
+    "underscore": "^1.8.3"
   },
   "description": "this is test project",
   "main": "app.js",

@@ -125,5 +125,38 @@ module.exports =
 			// if validation 
 			callback();
 		}
-	}
+	},
+	'validate_fromto_dates': function(req,res,callback)         
+    {
+        var validate_success = 1;
+        var error_message ='';
+        var len_from= req.body.date_range.from.length;
+        var len_to= req.body.date_range.to.length;
+       
+        if( typeof req.body.date_range.from =='undefined' || len_from ==0 || req.body.date_range.from ==null)
+
+        {
+            error_message = "undefined or blank or null incoming date_range From";
+            validate_success = 0;
+        }
+        if( typeof req.body.date_range.to =='undefined' || len_to ==0 || req.body.date_range.to ==null)
+
+        {
+            error_message = "undefined or blank or null incoming date_range From";
+            validate_success = 0;
+        }
+        if(validate_success ==0) // if validation is unsuccessful
+        {
+           
+            res.status(203).send({    "status"         : false,
+                                    "error_type"     : "validate error",
+                                    "message"         : error_message
+                                });
+        }
+        else
+        {
+            // if validation
+            callback();
+        }
+    }
 };
