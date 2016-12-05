@@ -11,7 +11,7 @@ router.route('/')
 .post(function (req, res) {
      res.status(404).send("We're sorry,but the page you're looking for can't be found");
 });
-// api to read all previous winner ticket from text file 
+// api to send details of customer
 router.route('/getCustomerDetails')
 .post(function (req, res) {
  
@@ -58,6 +58,41 @@ router.route('/getCustomerDetails')
 				query+= " LEFT JOIN  "+constant.MEMBER_TAG_TABLE+"  as tag ON mem.memberId = tag.memberId";
 				query+= " WHERE mem.memberWechatId=  '"+wechat_id+"'";
 				query+= " GROUP BY mem.memberWechatId,mem.memberFirstName,mem.memberLastName,mem.memberGender,mem.preferredLanguage,mem.memberAccountNumber,mem.MTRCardNumber,mem.MTRPoints,mem.MTRCardType,mem.memberPhone,mem.memberAge,mem.memberOccupation,mem.memberHobby,mem.memberInfo1,mem.memberInfo2,mem.memberInfo3,mem.AddressLatitude,mem.Addresslongitude,mem.AddressLine1,mem.AddressLine2,mem.City,mem.District,mem.Province,mem.Country,mem.memberSegment ";
+			db_query.RunSelSqlFromDb(req,res,query,response_data,function(){
+				if(response_data.details.length>0)
+				{
+					callback();
+				}
+				else
+				{
+					response_data.success = false;
+					response_data.message = "Please Enter valid customer Wechat id.";
+					res.status(203).send({response_data});
+				}
+			})
+		}],function(err) {
+			response_data.success = true;
+			response_data.message = "success!";
+			res.status(200).send({response_data});
+		});
+});
+// api to read all previous winner ticket from text file 
+router.route('/getMerchantOffer')
+.post(function (req, res) {
+ 
+	var async 			= require('async');
+	var sql 			= require('mssql');
+	var config 			= require('config/db_connection');
+	var constant 		= require("config/constant");
+	var db_query 		= require('db_query/query');
+	var response_data 	= {};
+	async.series([
+		function(callback) {
+			var merchant_id 	= 20102;
+			var query = " select mem.offerId, mem.offer_rule_en";
+				query+= " FROM "+constant.MERCHANT_OFFER_DETAILS+" as mem";
+				query+= " where mem.merchantId='"+merchant_id+"'";
+
 			db_query.RunSelSqlFromDb(req,res,query,response_data,function(){
 				if(response_data.details.length>0)
 				{

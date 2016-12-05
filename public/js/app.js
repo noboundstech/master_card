@@ -1,4 +1,4 @@
-angular.module('project', ['ngRoute','homeController','userController','ngStorage','localytics.directives','ngMap','gm','720kb.datepicker','angularBingMaps'])
+angular.module('project', ['ngRoute','homeController','userController','CustomerReportController','ngStorage','localytics.directives','ngMap','gm','720kb.datepicker','angularBingMaps'])
  
 .config(function($routeProvider) {
  

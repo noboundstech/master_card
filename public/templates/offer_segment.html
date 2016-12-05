@@ -24,7 +24,9 @@
 				<div class="panel-heading">FILTERS</div>
 				<div class="panel-body">
 					<div class="rows padding-row" ng-show="checkboxModel.card_type">
-						<strong> Card Type : </strong>
+						<div class="col-sm-12 padding-row">
+							<strong> Card Type : </strong>
+						</div>
 						<div class="col-sm-12">
 							<select chosen multiple ng-model="card_type_filter_details" ng-options="s.card_type for s in card_type"  placeholder-expression="Card Type" title="Enter card details">
                             </select>
@@ -121,27 +123,47 @@
 							 <a class="pull-right pointer-class" style="cursor:pointer"> &nbsp;</a>
 						</div>
 					</div>
-					<div class="rows" ng-show="checkboxModel.date_range">
-						<div class="col-sm-12" style="color:#0988ea">
-							<strong> Customer Id : </strong>
+					<div class="rows">
+						<div class="col-sm-12">
+							<label style="font-size=16px"> <strong> Search By : </strong><br>
+					  		</label>
+							<label style="font-size=12px;font-weight: 100;">Offer Id :
+								<input type="radio" ng-model="checkboxModel.offer_segment_search_by" value="offer_id" ng-click="changeofferSearchStatus('offer_id')" name ="offer_serach_by" id="offer_id" checked>
+					  		</label>
+					  		<label style="font-size=12px;font-weight: 100;">Merchant :
+					  			<input type="radio" ng-model="checkboxModel.offer_segment_search_by" value="merchant_name" ng-click="changeofferSearchStatus('merchant_name')"  name ="offer_serach_by"  id="merchant_name">
+					  		</label>
+					  	</div>
+						<div class="col-sm-12" style="color:#0988ea" ng-show="show_by_offer">
+							<strong> Offer Id : </strong>
 						</div>
-                        <div class="col-sm-12 date-box-one">
+                        <div class="col-sm-12 date-box-one"  ng-show="show_by_offer">
 	                        <div class="input-group">
-	                            <input class="form-control" placeholder="Customer Id" ng-model="customer_id">
+	                            <input class="form-control" placeholder="Offer Id" ng-model="offer_id">
 	                        </div>
 		                   
                         </div>
-                       <div class="col-sm-12"  style="color:#0988ea">
-							<strong>OR  Murchant Name : </strong>
+                       <div class="col-sm-12"  style="color:#0988ea" ng-hide="show_by_offer">
+							<strong>Select Merchant : </strong>
 						</div>
-						<div class="col-sm-12 date-box-one">
+						<div class="col-sm-12 date-box-one"  ng-hide="show_by_offer">
+								<div class="loader_angular" ng-show="show_merchant_loader"></div>
 		                        <div class="input-group">
-		                            <input class="form-control" placeholder="Merchant Name" ng-model="Merchant_name">
+									<select name="singleSelect" id="singleSelect" ng-model="merchant_details" ng-change="getOfferDetails();">
+										<option ng-repeat="option in merchat_details" value="{{option.id}}">{{option.name}}</option>
+									</select>
+		                        </div>
+		                        <strong>Select Offer : </strong>
+		                         <div class="input-group">
+									<select name="singleSelect" id="offerSelect" ng-model="offer_id" ng-change="changeofferSearchStatus('change_to_offer_id')">
+										<option value="" disabled> Select Offer</option>
+										<option ng-repeat="option in offer_details" value="{{option.offerId}}">{{option.offer_rule_en}}</option>
+									</select>
 		                        </div>
                         </div>
 					</div>
                    <div class="col-sm-12">
-                   		<button class="btn btn-primary get-map-btn" ng-click="getNewChatDetails();">View details</button>
+                   		<button class="btn btn-primary get-map-btn" ng-click="getOfferSegmentDetails();">View details</button>
                     </div>
 				</div>
 			</div>

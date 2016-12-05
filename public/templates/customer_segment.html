@@ -24,7 +24,9 @@
 				<div class="panel-heading">FILTERS</div>
 				<div class="panel-body">
 					<div class="rows padding-row" ng-show="checkboxModel.card_type">
-						<strong> Card Type : </strong>
+						<div class="col-sm-12 padding-row">
+							<strong> Card Type : </strong>
+						</div>
 						<div class="col-sm-12">
 							<select chosen multiple ng-model="card_type_filter_details" ng-options="s.card_type for s in card_type"  placeholder-expression="Card Type" title="Enter card details">
                             </select>
@@ -122,7 +124,7 @@
 						</div>
 					</div>
                    <div class="col-sm-12">
-                   		<button class="btn btn-primary get-map-btn" ng-click="getNewChatDetails();">View details</button>
+                   		<button class="btn btn-primary get-map-btn" ng-click="getCustomerSegmentDetails();">View details</button>
                     </div>
 				</div>
 			</div>
