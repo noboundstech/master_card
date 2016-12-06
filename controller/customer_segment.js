@@ -298,17 +298,17 @@ router.route('/getCustSegReportData')
                    }  // end of for
                       cond_sql+=')';
                      break;
-            case "location_details":
+            case "location":
                    x_field_list = 'mm.City ';
-                   x_axis_array = req.body.location_details;
-                   len_city=req.body.location_details.length;
+                   x_axis_array = req.body.location;
+                   len_city=req.body.location.length;
 		     	 	cond_sql=' and mm.City in(';
 			       for (t_city=0;t_city<len_city;t_city++)	
 				   {
 				 	if (t_city==0)
-                    cond_sql+="'"+req.body.location_details[t_city].name+"'";
+                    cond_sql+="'"+req.body.location[t_city].name+"'";
 				    else 
-				    cond_sql+=",'"+req.body.location_details[t_city].name+"'";
+				    cond_sql+=",'"+req.body.location[t_city].name+"'";
                    }  // end of for
                      cond_sql+=')';
                     break;
@@ -316,16 +316,20 @@ router.route('/getCustSegReportData')
                     x_field_list = 'tm.tagDesc ';
                     x_axis_array = req.body.tags;
                     len_tag=req.body.tags.length;
-		     	   cond_sql =' and mm.memberId = memtag.memberId and memtag.tagId = tm.tagId and tm.tagDesc in( ';
+		     	   cond_sql =' and mm.memberId = memtag.memberId and memtag.tagId = tm.tagId and tm.tagDesc in ( ';
 		     	   sqltag='tMemberTags memtag , tTagMaster tm';
-			      for (t_tag=0;t_tag<len_tag;t_tag++)	
-				   {
-				 	if (t_tag==0)
-                    cond_sql+="'"+req.body.location_details[t_tag].name+"'";
-				    else 
-				    cond_sql+=",'"+req.body.location_details[t_tag].name+"'";
-                   }  // end of for
-                     cond_sql+=')';
+				    for (t_tag=0;t_tag<len_tag;t_tag++)	
+					{
+						if (t_tag==0)
+						{
+							cond_sql+="'"+req.body.tags[t_tag].name+"'";
+						}
+						else
+						{ 
+							cond_sql+=",'"+req.body.tags[t_tag].name+"'";
+						}
+	                }  // end of for
+                    cond_sql+=' )';
                     break;       
             case "age_grouped":
                    x_field_list = 'mm.memberAge';
@@ -401,18 +405,18 @@ router.route('/getCustSegReportData')
                       cond_sql+=')';
                      break;
                    }  
-            case "location_details":
+            case "location":
                  {
                    y_field_list = 'mm.City ';
-                   y_axis_array = req.body.location_details;
-                   len_city=req.body.location_details.length;
+                   y_axis_array = req.body.locations;
+                   len_city=req.body.locations.length;
 		     	 	cond_sql=' and mm.City in(';
 			       for (t_city=0;t_city<len_city;t_city++)	
 				   {
 				 	if (t_city==0)
-                    cond_sql+="'"+req.body.location_details[t_city].name+"'";
+                    cond_sql+="'"+req.body.locations[t_city].name+"'";
 				    else 
-				    cond_sql+=",'"+req.body.location_details[t_city].name+"'";
+				    cond_sql+=",'"+req.body.locations[t_city].name+"'";
                    }  // end of for
                      cond_sql+=')';
                     break;
@@ -428,9 +432,9 @@ router.route('/getCustSegReportData')
 			      for (t_tag=0;t_tag<len_tag;t_tag++)	
 				   {
 				 	if (t_tag==0)
-                    cond_sql+="'"+req.body.location_details[t_tag].name+"'";
+                    cond_sql+="'"+req.body.tags[t_tag].name+"'";
 				    else 
-				    cond_sql+=",'"+req.body.location_details[t_tag].name+"'";
+				    cond_sql+=",'"+req.body.tags[t_tag].name+"'";
                    }  // end of for
                      cond_sql+=')';
                     break; 
@@ -486,6 +490,7 @@ router.route('/getCustSegReportData')
                 sqlstring += cond_sql +" ";
 				sqlstring += "group by "+x_field_list +", "+ y_field_list + " ";
 				sqlstring += "order by "+x_field_list +", "+ y_field_list;
+
            //******** create and initialize  Array matrix  
 		    for(x_cnt=0;x_cnt < x_axis_array.length;x_cnt++)
 		     {	
@@ -766,18 +771,18 @@ router.route('/getOfferSegReportData')
                       cond_sql+=') ';
                      break;
                   }   
-            case "location_details":
+            case "location":
                   {
                    x_field_list = 'mm.City ';
-                   x_axis_array = req.body.location_details;
-                   len_city=req.body.location_details.length;
+                   x_axis_array = req.body.location;
+                   len_city=req.body.location.length;
 		     	 	cond_sql=' and mm.City in(';
 			       for (t_city=0;t_city<len_city;t_city++)	
 				   {
 				 	if (t_city==0)
-                    cond_sql+="'"+req.body.location_details[t_city].name+"'";
+                    cond_sql+="'"+req.body.location[t_city].name+"'";
 				    else 
-				    cond_sql+=",'"+req.body.location_details[t_city].name+"'";
+				    cond_sql+=",'"+req.body.location[t_city].name+"'";
                    }  // end of for
                      cond_sql+=')';
                      break;
@@ -792,9 +797,9 @@ router.route('/getOfferSegReportData')
 			      for (t_tag=0;t_tag<len_tag;t_tag++)	
 				   {
 				 	if (t_tag==0)
-                    cond_sql+="'"+req.body.location_details[t_tag].name+"'";
+                    cond_sql+="'"+req.body.tags[t_tag].name+"'";
 				    else 
-				    cond_sql+=",'"+req.body.location_details[t_tag].name+"'";
+				    cond_sql+=",'"+req.body.tags[t_tag].name+"'";
                    }  // end of for
                      cond_sql+=')';
                     break;  
@@ -905,18 +910,18 @@ router.route('/getOfferSegReportData')
                       cond_sql+=')';
                      break;
                    }  
-            case "location_details":
+            case "location":
                  {
                    y_field_list = 'mm.City ';
-                   y_axis_array = req.body.location_details;
-                   len_city=req.body.location_details.length;
+                   y_axis_array = req.body.location;
+                   len_city=req.body.location.length;
 		     	 	cond_sql=' and mm.City in(';
 			       for (t_city=0;t_city<len_city;t_city++)	
 				   {
 				 	if (t_city==0)
-                    cond_sql+="'"+req.body.location_details[t_city].name+"'";
+                    cond_sql+="'"+req.body.location[t_city].name+"'";
 				    else 
-				    cond_sql+=",'"+req.body.location_details[t_city].name+"'";
+				    cond_sql+=",'"+req.body.location[t_city].name+"'";
                    }  // end of for
                      cond_sql+=')';
                     break;
@@ -932,9 +937,9 @@ router.route('/getOfferSegReportData')
 			      for (t_tag=0;t_tag<len_tag;t_tag++)	
 				   {
 				 	if (t_tag==0)
-                    cond_sql+="'"+req.body.location_details[t_tag].name+"'";
+                    cond_sql+="'"+req.body.tags[t_tag].name+"'";
 				    else 
-				    cond_sql+=",'"+req.body.location_details[t_tag].name+"'";
+				    cond_sql+=",'"+req.body.tags[t_tag].name+"'";
                    }  // end of for
                      cond_sql+=')';
                     break; 

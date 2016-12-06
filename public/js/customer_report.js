@@ -201,7 +201,7 @@ angular.module('CustomerReportController', ['applicationService.services'])
 				}
 			}
 			// checking for age group
-			if(type =='age_group')
+			if(type =='age_grouped')
 			{
 				if($scope.x_axis_selected != 'age_grouped')
 				{
@@ -422,7 +422,7 @@ angular.module('CustomerReportController', ['applicationService.services'])
 				}
 			}
 			// checking for age group
-			if(type =='age_group')
+			if(type =='age_grouped')
 			{
 				if($scope.y_axis_selected != 'age_grouped')
 				{
@@ -460,7 +460,6 @@ angular.module('CustomerReportController', ['applicationService.services'])
 			// checking for segment
 			if(type =='segment')
 			{
-				console.log($scope.y_axis_selected);
 				if($scope.y_axis_selected != 'segment')
 				{
 
@@ -480,7 +479,7 @@ angular.module('CustomerReportController', ['applicationService.services'])
 					{
 						$scope.checkboxModel.gender 	= false;
 					}
-					if($scope.y_axis_selected == 'age_group')
+					if($scope.y_axis_selected == 'age_grouped')
 					{
 						$scope.checkboxModel.age_grouped 	= false;
 					}
@@ -583,8 +582,8 @@ angular.module('CustomerReportController', ['applicationService.services'])
 
 		if($scope.selected_axis_details<2)
 		{
-			alert("Please Select both "+$scope.x_axis_selected+" and "+$scope.y_axis_selected+" options");
-			return false;
+			//alert("Please Select both "+$scope.x_axis_selected+" and "+$scope.y_axis_selected+" options");
+			//return false;
 		}
 		$scope.request_details = {
 									"card_type"		: $scope.card_type_selected_details,
