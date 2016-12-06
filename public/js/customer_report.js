@@ -518,6 +518,26 @@ angular.module('CustomerReportController', ['applicationService.services'])
 				}
 			}
 		}
+		if($scope.x_axis_selected == 'gender' || $scope.y_axis_selected == 'gender')
+		{
+			if(typeof $scope.gender_type_filter != 'undefined')
+			{
+				if($scope.gender_type_filter.length>0)
+				{
+					$scope.selected_axis_details++;
+				}
+			}
+		}
+		if($scope.x_axis_selected == 'tags' || $scope.y_axis_selected == 'tags')
+		{
+			if(typeof $scope.tag_details_filter != 'undefined')
+			{
+				if($scope.tag_details_filter.length>0)
+				{
+					$scope.selected_axis_details++;
+				}
+			}
+		}
 		if($scope.x_axis_selected == 'age_grouped' || $scope.y_axis_selected == 'age_grouped')
 		{
 			if(typeof $scope.age_group_filter !='undefined')
@@ -687,6 +707,16 @@ angular.module('CustomerReportController', ['applicationService.services'])
 				}
 			}
 		}
+		if($scope.x_axis_selected == 'gender' || $scope.y_axis_selected == 'gender')
+		{
+			if(typeof $scope.gender_type_filter != 'undefined')
+			{
+				if($scope.gender_type_filter.length>0)
+				{
+					$scope.selected_offer_axis_details++;
+				}
+			}
+		}
 		if($scope.x_axis_selected == 'age_grouped' || $scope.y_axis_selected == 'age_grouped')
 		{
 			if(typeof $scope.age_group_filter != 'undefined')
@@ -724,6 +754,16 @@ angular.module('CustomerReportController', ['applicationService.services'])
 					$scope.segment_selected_details.push({"name" : $scope.segment_filter[i].cust_segment});
 				}
 				if($scope.segment_selected_details.length>0)
+				{
+					$scope.selected_offer_axis_details++;
+				}
+			}
+		}
+		if($scope.x_axis_selected == 'tags' || $scope.y_axis_selected == 'tags')
+		{
+			if(typeof $scope.tag_details_filter != 'undefined')
+			{
+				if($scope.tag_details_filter.length>0)
 				{
 					$scope.selected_offer_axis_details++;
 				}
