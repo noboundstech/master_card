@@ -23,26 +23,30 @@ angular.module('CustomerReportController', ['applicationService.services'])
 	$scope.start_date 	= 1+"-"+ 1+"-"+current_date.getFullYear();
 	$scope.end_date 	= current_date.getMonth()+1+"-"+current_date.getDate()+"-"+current_date.getFullYear();
 	$scope.show_loader = true;
-
 	API.getDetails("customer_segment/getCustReportList",{}).then(function successCallback(response) {
 		$scope.show_loader = false;
 		if(response.status == 200)
 		{
-			$scope.card_type 		= response.data.response_data.cardtype;
-			$scope.gender_type 		= [{"name":"Male"},{"name":"Female"}];
-			$scope.location_name	= response.data.response_data.custloc;
-			$scope.age_group_type 	= response.data.response_data.age_group;
-			$scope.segment_type 	= response.data.response_data.custseg;
-			$scope.tag_type 		= response.data.response_data.tag;
-			$scope.merchat_details 	= response.data.response_data.merchant;
+			$scope.card_type 			= response.data.response_data.cardtype;
+			$scope.gender_type 			= [{"name":"Male"},{"name":"Female"}];
+			$scope.location_name		= response.data.response_data.custloc;
+			$scope.age_group_type 		= response.data.response_data.age_group;
+			$scope.segment_type 		= response.data.response_data.custseg;
+			$scope.tag_type 			= response.data.response_data.tag;
+			$scope.merchat_details 		= response.data.response_data.merchant;
+			$scope.category 			= response.data.response_data.category;
 
+
+			$scope.gender_type_filter 		= $scope.gender_type;
+			$scope.card_type_filter_details = $scope.card_type;
+			$scope.segment_filter 			= $scope.segment_type;
+			$scope.age_group_filter 		= $scope.age_group_type;
 			//	$scope.getNewChatDetails();
 		}
 		else
 		{
 			// show error message
 		}
-		
 	}, function errorCallback(response) {
 		$scope.show_loader = false;
 	});
@@ -62,7 +66,7 @@ angular.module('CustomerReportController', ['applicationService.services'])
 					}
 					if($scope.x_axis_selected == 'location')
 					{
-						$scope.checkboxModel.location_details 	= false;
+						$scope.checkboxModel.location 	= false;
 					}
 					if($scope.x_axis_selected == 'age_grouped')
 					{
@@ -76,6 +80,10 @@ angular.module('CustomerReportController', ['applicationService.services'])
 					{
 						$scope.checkboxModel.segment 	= false;
 					}
+					if($scope.x_axis_selected == 'category')
+					{
+						$scope.checkboxModel.category 	= false;
+					}
 
 					$scope.x_axis_selected 			= 'card_type';
 					$scope.checkboxModel.card_type 	= true;
@@ -86,6 +94,7 @@ angular.module('CustomerReportController', ['applicationService.services'])
 					document.getElementById("y_axis_age_group").disabled = false;
 					document.getElementById("y_axis_tags").disabled = false;
 					document.getElementById("y_axis_segment").disabled = false;
+					document.getElementById("y_axis_category").disabled = false;
 				}
 			}
 			// checking for gender
@@ -100,7 +109,7 @@ angular.module('CustomerReportController', ['applicationService.services'])
 					}
 					if($scope.x_axis_selected == 'location')
 					{
-						$scope.checkboxModel.location_details 	= false;
+						$scope.checkboxModel.location 	= false;
 					}
 					if($scope.x_axis_selected == 'age_grouped')
 					{
@@ -114,7 +123,10 @@ angular.module('CustomerReportController', ['applicationService.services'])
 					{
 						$scope.checkboxModel.segment 	= false;
 					}
-
+					if($scope.x_axis_selected == 'category')
+					{
+						$scope.checkboxModel.category 	= false;
+					}
 
 
 					$scope.x_axis_selected 			= 'gender';
@@ -126,6 +138,7 @@ angular.module('CustomerReportController', ['applicationService.services'])
 					document.getElementById("y_axis_age_group").disabled = false;
 					document.getElementById("y_axis_tags").disabled = false;
 					document.getElementById("y_axis_segment").disabled = false;
+					document.getElementById("y_axis_category").disabled = false;
 				}
 			}
 			// checking for tags
@@ -140,7 +153,7 @@ angular.module('CustomerReportController', ['applicationService.services'])
 					}
 					if($scope.x_axis_selected == 'location')
 					{
-						$scope.checkboxModel.location_details 	= false;
+						$scope.checkboxModel.location 	= false;
 					}
 					if($scope.x_axis_selected == 'age_grouped')
 					{
@@ -154,6 +167,10 @@ angular.module('CustomerReportController', ['applicationService.services'])
 					{
 						$scope.checkboxModel.segment 	= false;
 					}
+					if($scope.x_axis_selected == 'category')
+					{
+						$scope.checkboxModel.category 	= false;
+					}
 					$scope.x_axis_selected 			= 'tags';
 					$scope.checkboxModel.tag_details = true;
 					document.getElementById("y_axis_tags").disabled = true;
@@ -162,6 +179,7 @@ angular.module('CustomerReportController', ['applicationService.services'])
 					document.getElementById("y_axis_age_group").disabled = false;
 					document.getElementById("y_axis_gender").disabled = false;
 					document.getElementById("y_axis_segment").disabled = false;
+					document.getElementById("y_axis_category").disabled = false;
 				}
 			}
 			// checking for location
@@ -169,7 +187,6 @@ angular.module('CustomerReportController', ['applicationService.services'])
 			{
 				if($scope.x_axis_selected != 'location')
 				{
-					console.log($scope.x_axis_selected );
 					if($scope.x_axis_selected == 'card_type')
 					{
 						$scope.checkboxModel.card_type 	= false;
@@ -190,14 +207,19 @@ angular.module('CustomerReportController', ['applicationService.services'])
 					{
 						$scope.checkboxModel.segment 	= false;
 					}
+					if($scope.x_axis_selected == 'category')
+					{
+						$scope.checkboxModel.category 	= false;
+					}
 					$scope.x_axis_selected 					= 'location';
-					$scope.checkboxModel.location_details 	= true;
+					$scope.checkboxModel.location 	= true;
 					document.getElementById("y_axis_tags").disabled = false;
 					document.getElementById("y_axis_card_type").disabled = false;
 					document.getElementById("y_axis_location").disabled = true;
 					document.getElementById("y_axis_age_group").disabled = false;
 					document.getElementById("y_axis_gender").disabled = false;
 					document.getElementById("y_axis_segment").disabled = false;
+					document.getElementById("y_axis_category").disabled = false;
 				}
 			}
 			// checking for age group
@@ -216,7 +238,7 @@ angular.module('CustomerReportController', ['applicationService.services'])
 					}
 					if($scope.x_axis_selected == 'location')
 					{
-						$scope.checkboxModel.location_details 	= false;
+						$scope.checkboxModel.location 	= false;
 					}
 					if($scope.x_axis_selected == 'gender')
 					{
@@ -226,6 +248,10 @@ angular.module('CustomerReportController', ['applicationService.services'])
 					{
 						$scope.checkboxModel.segment 	= false;
 					}
+					if($scope.x_axis_selected == 'category')
+					{
+						$scope.checkboxModel.category 	= false;
+					}
 					$scope.x_axis_selected 				= 'age_grouped';
 					$scope.checkboxModel.age_grouped 	= true;
 					document.getElementById("y_axis_tags").disabled = false;
@@ -234,12 +260,12 @@ angular.module('CustomerReportController', ['applicationService.services'])
 					document.getElementById("y_axis_age_group").disabled = true;
 					document.getElementById("y_axis_gender").disabled = false;
 					document.getElementById("y_axis_segment").disabled = false;
+					document.getElementById("y_axis_category").disabled = false;
 				}
 			}
 			// checking for segment
 			if(type =='segment')
 			{
-				console.log($scope.x_axis_selected);
 				if($scope.x_axis_selected != 'segment')
 				{
 
@@ -253,7 +279,7 @@ angular.module('CustomerReportController', ['applicationService.services'])
 					}
 					if($scope.x_axis_selected == 'location')
 					{
-						$scope.checkboxModel.location_details 	= false;
+						$scope.checkboxModel.location 	= false;
 					}
 					if($scope.x_axis_selected == 'gender')
 					{
@@ -263,6 +289,10 @@ angular.module('CustomerReportController', ['applicationService.services'])
 					{
 						$scope.checkboxModel.age_grouped 	= false;
 					}
+					if($scope.x_axis_selected == 'category')
+					{
+						$scope.checkboxModel.category 	= false;
+					}
 					$scope.x_axis_selected 				= 'segment';
 					$scope.checkboxModel.segment 	= true;
 					document.getElementById("y_axis_tags").disabled = false;
@@ -271,6 +301,47 @@ angular.module('CustomerReportController', ['applicationService.services'])
 					document.getElementById("y_axis_age_group").disabled = false;
 					document.getElementById("y_axis_gender").disabled = false;
 					document.getElementById("y_axis_segment").disabled = true;
+					document.getElementById("y_axis_category").disabled = false;
+				}
+			}
+			if(type =='category')
+			{
+				if($scope.x_axis_selected != 'category')
+				{
+
+					if($scope.x_axis_selected == 'card_type')
+					{
+						$scope.checkboxModel.card_type 	= false;
+					}
+					if($scope.x_axis_selected == 'tags')
+					{
+						$scope.checkboxModel.tag_details 	= false;
+					}
+					if($scope.x_axis_selected == 'location')
+					{
+						$scope.checkboxModel.location 	= false;
+					}
+					if($scope.x_axis_selected == 'gender')
+					{
+						$scope.checkboxModel.gender 	= false;
+					}
+					if($scope.x_axis_selected == 'age_grouped')
+					{
+						$scope.checkboxModel.age_grouped 	= false;
+					}
+					if($scope.x_axis_selected == 'segment')
+					{
+						$scope.checkboxModel.segment 	= false;
+					}
+					$scope.x_axis_selected 				= 'category';
+					$scope.checkboxModel.category 	= true;
+					document.getElementById("y_axis_tags").disabled = false;
+					document.getElementById("y_axis_card_type").disabled = false;
+					document.getElementById("y_axis_location").disabled = false;
+					document.getElementById("y_axis_age_group").disabled = false;
+					document.getElementById("y_axis_gender").disabled = false;
+					document.getElementById("y_axis_segment").disabled = false;
+					document.getElementById("y_axis_category").disabled = true;
 				}
 			}
 		}
@@ -288,7 +359,7 @@ angular.module('CustomerReportController', ['applicationService.services'])
 					}
 					if($scope.y_axis_selected == 'location')
 					{
-						$scope.checkboxModel.location_details 	= false;
+						$scope.checkboxModel.location 	= false;
 					}
 					if($scope.y_axis_selected == 'age_grouped')
 					{
@@ -302,6 +373,10 @@ angular.module('CustomerReportController', ['applicationService.services'])
 					{
 						$scope.checkboxModel.segment 	= false;
 					}
+					if($scope.y_axis_selected == 'category')
+					{
+						$scope.checkboxModel.category 	= false;
+					}
 
 					$scope.y_axis_selected 			= 'card_type';
 					$scope.checkboxModel.card_type 	= true;
@@ -311,6 +386,7 @@ angular.module('CustomerReportController', ['applicationService.services'])
 					document.getElementById("x_axis_age_group").disabled = false;
 					document.getElementById("x_axis_tags").disabled = false;
 					document.getElementById("x_axis_segment").disabled = false;
+					document.getElementById("x_axis_category").disabled = false;
 				}
 			}
 			// checking for gender
@@ -325,7 +401,7 @@ angular.module('CustomerReportController', ['applicationService.services'])
 					}
 					if($scope.y_axis_selected == 'location')
 					{
-						$scope.checkboxModel.location_details 	= false;
+						$scope.checkboxModel.location 	= false;
 					}
 					if($scope.y_axis_selected == 'age_grouped')
 					{
@@ -339,6 +415,10 @@ angular.module('CustomerReportController', ['applicationService.services'])
 					{
 						$scope.checkboxModel.segment 	= false;
 					}
+					if($scope.y_axis_selected == 'category')
+					{
+						$scope.checkboxModel.category 	= false;
+					}
 					$scope.y_axis_selected 			= 'gender';
 					$scope.checkboxModel.gender 	= true;
 
@@ -348,6 +428,7 @@ angular.module('CustomerReportController', ['applicationService.services'])
 					document.getElementById("x_axis_age_group").disabled = false;
 					document.getElementById("x_axis_tags").disabled = false;
 					document.getElementById("x_axis_segment").disabled = false;
+					document.getElementById("x_axis_category").disabled = false;
 				}
 			}
 			// checking for tags
@@ -361,7 +442,7 @@ angular.module('CustomerReportController', ['applicationService.services'])
 					}
 					if($scope.y_axis_selected == 'location')
 					{
-						$scope.checkboxModel.location_details 	= false;
+						$scope.checkboxModel.location 	= false;
 					}
 					if($scope.y_axis_selected == 'age_grouped')
 					{
@@ -375,6 +456,10 @@ angular.module('CustomerReportController', ['applicationService.services'])
 					{
 						$scope.checkboxModel.segment 	= false;
 					}
+					if($scope.y_axis_selected == 'category')
+					{
+						$scope.checkboxModel.category 	= false;
+					}
 					$scope.y_axis_selected 			= 'tags';
 					$scope.checkboxModel.tag_details = true;
 					document.getElementById("x_axis_tags").disabled = true;
@@ -383,6 +468,7 @@ angular.module('CustomerReportController', ['applicationService.services'])
 					document.getElementById("x_axis_age_group").disabled = false;
 					document.getElementById("x_axis_gender").disabled = false;
 					document.getElementById("x_axis_segment").disabled = false;
+					document.getElementById("x_axis_category").disabled = false;
 				}
 			}
 			// checking for location
@@ -411,14 +497,19 @@ angular.module('CustomerReportController', ['applicationService.services'])
 					{
 						$scope.checkboxModel.segment 	= false;
 					}
+					if($scope.y_axis_selected == 'category')
+					{
+						$scope.checkboxModel.category 	= false;
+					}
 					$scope.y_axis_selected 					= 'location';
-					$scope.checkboxModel.location_details 	= true;
+					$scope.checkboxModel.location 	= true;
 					document.getElementById("x_axis_tags").disabled = false;
 					document.getElementById("x_axis_card_type").disabled = false;
 					document.getElementById("x_axis_location").disabled = true;
 					document.getElementById("x_axis_age_group").disabled = false;
 					document.getElementById("x_axis_gender").disabled = false;
 					document.getElementById("x_axis_segment").disabled = false;
+					document.getElementById("x_axis_category").disabled = false;
 				}
 			}
 			// checking for age group
@@ -437,7 +528,7 @@ angular.module('CustomerReportController', ['applicationService.services'])
 					}
 					if($scope.y_axis_selected == 'location')
 					{
-						$scope.checkboxModel.location_details 	= false;
+						$scope.checkboxModel.location 	= false;
 					}
 					if($scope.y_axis_selected == 'gender')
 					{
@@ -447,6 +538,10 @@ angular.module('CustomerReportController', ['applicationService.services'])
 					{
 						$scope.checkboxModel.segment 	= false;
 					}
+					if($scope.y_axis_selected == 'category')
+					{
+						$scope.checkboxModel.category 	= false;
+					}
 					$scope.y_axis_selected 				= 'age_grouped';
 					$scope.checkboxModel.age_grouped 	= true;
 					document.getElementById("x_axis_tags").disabled = false;
@@ -455,6 +550,7 @@ angular.module('CustomerReportController', ['applicationService.services'])
 					document.getElementById("x_axis_age_group").disabled = true;
 					document.getElementById("x_axis_gender").disabled = false;
 					document.getElementById("x_axis_segment").disabled = false;
+					document.getElementById("x_axis_category").disabled = false;
 				}
 			}
 			// checking for segment
@@ -473,7 +569,7 @@ angular.module('CustomerReportController', ['applicationService.services'])
 					}
 					if($scope.y_axis_selected == 'location')
 					{
-						$scope.checkboxModel.location_details 	= false;
+						$scope.checkboxModel.location 	= false;
 					}
 					if($scope.y_axis_selected == 'gender')
 					{
@@ -483,6 +579,10 @@ angular.module('CustomerReportController', ['applicationService.services'])
 					{
 						$scope.checkboxModel.age_grouped 	= false;
 					}
+					if($scope.y_axis_selected == 'category')
+					{
+						$scope.checkboxModel.category 	= false;
+					}
 					$scope.y_axis_selected 				= 'segment';
 					$scope.checkboxModel.segment 	= true;
 					document.getElementById("x_axis_tags").disabled = false;
@@ -491,6 +591,48 @@ angular.module('CustomerReportController', ['applicationService.services'])
 					document.getElementById("x_axis_age_group").disabled = false;
 					document.getElementById("x_axis_gender").disabled = false;
 					document.getElementById("x_axis_segment").disabled = true;
+					document.getElementById("x_axis_category").disabled = false;
+				}
+			}
+			// checking for category
+			if(type =='category')
+			{
+				if($scope.y_axis_selected != 'category')
+				{
+
+					if($scope.y_axis_selected == 'card_type')
+					{
+						$scope.checkboxModel.card_type 	= false;
+					}
+					if($scope.y_axis_selected == 'tags')
+					{
+						$scope.checkboxModel.tag_details 	= false;
+					}
+					if($scope.y_axis_selected == 'location')
+					{
+						$scope.checkboxModel.location 	= false;
+					}
+					if($scope.y_axis_selected == 'gender')
+					{
+						$scope.checkboxModel.gender 	= false;
+					}
+					if($scope.y_axis_selected == 'age_grouped')
+					{
+						$scope.checkboxModel.age_grouped 	= false;
+					}
+					if($scope.y_axis_selected == 'segment')
+					{
+						$scope.checkboxModel.segment 	= false;
+					}
+					$scope.y_axis_selected 				= 'category';
+					$scope.checkboxModel.category 		= true;
+					document.getElementById("x_axis_tags").disabled = false;
+					document.getElementById("x_axis_card_type").disabled = false;
+					document.getElementById("x_axis_location").disabled = false;
+					document.getElementById("x_axis_age_group").disabled = false;
+					document.getElementById("x_axis_gender").disabled = false;
+					document.getElementById("x_axis_segment").disabled = false;
+					document.getElementById("x_axis_category").disabled = true;
 				}
 			}
 		}
@@ -582,80 +724,83 @@ angular.module('CustomerReportController', ['applicationService.services'])
 
 		if($scope.selected_axis_details<2)
 		{
-			//alert("Please Select both "+$scope.x_axis_selected+" and "+$scope.y_axis_selected+" options");
-			//return false;
+			alert("Please Select both "+$scope.x_axis_selected+" and "+$scope.y_axis_selected+" options");
+			return false;
 		}
-		$scope.request_details = {
-									"card_type"		: $scope.card_type_selected_details,
-									"tags"			: $scope.tag_details_filter,
-									"locations"		: $scope.location_filter_selected_details,
-									"age_grouped"	: $scope.age_grouped_selected_details,
-									"segment"		: $scope.segment_selected_details,
-									"gender"		: $scope.gender_type_filter,
-									"date_range"	:
-														{ 
-															"from" 	: $scope.start_date,
-															"to"	: $scope.end_date
-														},
-									"x_axis" 		: $scope.x_axis_selected,
-									"y_axis" 		: $scope.y_axis_selected 
-								} 
+		else
+		{
+			$scope.request_details = {
+										"card_type"		: $scope.card_type_selected_details,
+										"tags"			: $scope.tag_details_filter,
+										"location"		: $scope.location_filter_selected_details,
+										"age_grouped"	: $scope.age_grouped_selected_details,
+										"segment"		: $scope.segment_selected_details,
+										"gender"		: $scope.gender_type_filter,
+										"date_range"	:
+															{ 
+																"from" 	: $scope.start_date,
+																"to"	: $scope.end_date
+															},
+										"x_axis" 		: $scope.x_axis_selected,
+										"y_axis" 		: $scope.y_axis_selected 
+									} 
 
-		API.postDetails($scope.request_details,"customer_segment/getCustSegReportData").then(function successCallback(response) {
-			$scope.show_loader = false;
-			if(response.status == 200)
-			{
-				var message = '';
-			}
-			else
-			{
-				var message = response.data.response_data.message;
-			}
+			API.postDetails($scope.request_details,"customer_segment/getCustSegReportData").then(function successCallback(response) {
+				$scope.show_loader = false;
+				if(response.status == 200)
+				{
+					var message = '';
+				}
+				else
+				{
+					var message = response.data.response_data.message;
+				}
 
-			var  category		= response.data.response_data.Graph_data[0].x_axis_name;
-			var chart_details 	= response.data.response_data.Graph_data[0].y_array_header;
+				var  category		= response.data.response_data.Graph_data[0].x_axis_name;
+				var chart_details 	= response.data.response_data.Graph_data[0].y_array_header;
 
-			Highcharts.chart('container', {
+				Highcharts.chart('container', {
 
-		        chart: {
-		            type: 'column'
-		        },
+			        chart: {
+			            type: 'column'
+			        },
 
-		        title: {
-		            text: message
-		        },
+			        title: {
+			            text: message
+			        },
 
-		        xAxis: {
-		            categories : category
-		        },
+			        xAxis: {
+			            categories : category
+			        },
 
-		        yAxis: {
-		            allowDecimals: false,
-		            min: 0,
-		            title: {
-		                text: $scope.y_axis_selected
-		            }
-		        },
-		        tooltip: {
-		            formatter: function () {
-		                return '<b>' + this.x + '</b><br/>' +
-		                    this.series.name + ': ' + this.y + '<br/>' +
-		                    'Total: ' + this.point.stackTotal;
-		            }
-		        },
+			        yAxis: {
+			            allowDecimals: false,
+			            min: 0,
+			            title: {
+			                text: $scope.y_axis_selected
+			            }
+			        },
+			        tooltip: {
+			            formatter: function () {
+			                return '<b>' + this.x + '</b><br/>' +
+			                    this.series.name + ': ' + this.y + '<br/>' +
+			                    'Total: ' + this.point.stackTotal;
+			            }
+			        },
 
-		        plotOptions: {
-		            column: {
-		                stacking: 'normal'
-		            }
-		        },
+			        plotOptions: {
+			            column: {
+			                stacking: 'normal'
+			            }
+			        },
 
-		        series: chart_details
-		    });
-			
-		}, function errorCallback(response) {
-			$scope.show_loader = false;
-		});
+			        series: chart_details
+			    });
+				
+			}, function errorCallback(response) {
+				$scope.show_loader = false;
+			});
+		}
 	}
 	$scope.changeofferSearchStatus = function(val)
 	{
@@ -681,11 +826,12 @@ angular.module('CustomerReportController', ['applicationService.services'])
 	}
 	$scope.getOfferSegmentDetails = function()
 	{
-		$scope.show_loader = true;
-		$scope.card_type_selected_details = [];
-		$scope.segment_selected_details = [];
-		$scope.age_grouped_selected_details = [];
+		$scope.show_loader 						= true;
+		$scope.card_type_selected_details 		= [];
+		$scope.segment_selected_details 		= [];
+		$scope.age_grouped_selected_details 	= [];
 		$scope.location_filter_selected_details = [];
+		$scope.category_filter_details_arr		= [];
 		$scope.selected_offer_axis_details    	= 0; 
 		if(typeof $scope.offer_id == 'undefined' || $scope.offer_id == '' || $scope.offer_id == null)
 		{
@@ -768,82 +914,101 @@ angular.module('CustomerReportController', ['applicationService.services'])
 				}
 			}
 		}
+
+		if($scope.x_axis_selected == 'category' || $scope.y_axis_selected == 'category')
+		{
+			if(typeof $scope.category_filter_details != 'undefined')
+			{
+				for(i=0;i<$scope.category_filter_details.length;i++)
+				{
+					$scope.category_filter_details_arr.push({"name" : $scope.category_filter_details[i].category});
+				}
+				if($scope.category_filter_details.length>0)
+				{
+					$scope.selected_offer_axis_details++;
+				}
+			}
+		}
 		if($scope.selected_offer_axis_details<2)
 		{
 			alert("Please Select both "+$scope.x_axis_selected+" and "+$scope.y_axis_selected+" options");
 			return false;
 		}
-		$scope.request_details = {
-									"card_type"		: $scope.card_type_selected_details,
-									"tags"			: $scope.tag_details_filter,
-									"offer_id"		: $scope.offer_id,
-									"locations"		: $scope.location_filter_selected_details,
-									"age_grouped"	: $scope.age_grouped_selected_details,
-									"segment"		: $scope.segment_selected_details,
-									"gender"		: $scope.gender_type_filter,
-									"date_range"	:
-														{ 
-															"from" 	: $scope.start_date,
-															"to"	: $scope.end_date
-														},
-									"x_axis" 		: $scope.x_axis_selected,
-									"y_axis" 		: $scope.y_axis_selected 
-								} 
+		else
+		{
+			$scope.request_details = {
+										"card_type"		: $scope.card_type_selected_details,
+										"tags"			: $scope.tag_details_filter,
+										"offer_id"		: $scope.offer_id,
+										"location"		: $scope.location_filter_selected_details,
+										"age_grouped"	: $scope.age_grouped_selected_details,
+										"segment"		: $scope.segment_selected_details,
+										"gender"		: $scope.gender_type_filter,
+										"category" 		: $scope.category_filter_details_arr,
+										"date_range"	:
+															{ 
+																"from" 	: $scope.start_date,
+																"to"	: $scope.end_date
+															},
+										"x_axis" 		: $scope.x_axis_selected,
+										"y_axis" 		: $scope.y_axis_selected 
+									} 
 
-		API.postDetails($scope.request_details,"customer_segment/getOfferSegReportData").then(function successCallback(response) {
-			$scope.show_loader = false;
-			var  category		= response.data.response_data.Graph_data[0].x_axis_name;
-			var chart_details 	= response.data.response_data.Graph_data[0].y_array_header;
-			if(response.status == 203)
-			{
-				var message = response.data.response_data.message;
-			}
-			else
-			{
-				var message = ''; 
-			}
+			API.postDetails($scope.request_details,"customer_segment/getOfferSegReportData").then(function successCallback(response) {
+				$scope.show_loader = false;
+				var  category		= response.data.response_data.Graph_data[0].x_axis_name;
+				var chart_details 	= response.data.response_data.Graph_data[0].y_array_header;
+				if(response.status == 203)
+				{
+					var message = response.data.response_data.message;
+				}
+				else
+				{
+					var message = ''; 
+				}
+					
+				Highcharts.chart('container', {
+
+			        chart: {
+			            type: 'column'
+			        },
+
+			        title: {
+			            text: message
+			        },
+
+			        xAxis: {
+			            categories : category
+			        },
+
+			        yAxis: {
+			            allowDecimals: false,
+			            min: 0,
+			            title: {
+			                text: $scope.y_axis_selected
+			            }
+			        },
+			        tooltip: {
+			            formatter: function () {
+			                return '<b>' + this.x + '</b><br/>' +
+			                    this.series.name + ': ' + this.y + '<br/>' +
+			                    'Total: ' + this.point.stackTotal;
+			            }
+			        },
+
+			        plotOptions: {
+			            column: {
+			                stacking: 'normal'
+			            }
+			        },
+
+			        series: chart_details
+			    });
 				
-			Highcharts.chart('container', {
-
-		        chart: {
-		            type: 'column'
-		        },
-
-		        title: {
-		            text: message
-		        },
-
-		        xAxis: {
-		            categories : category
-		        },
-
-		        yAxis: {
-		            allowDecimals: false,
-		            min: 0,
-		            title: {
-		                text: $scope.y_axis_selected
-		            }
-		        },
-		        tooltip: {
-		            formatter: function () {
-		                return '<b>' + this.x + '</b><br/>' +
-		                    this.series.name + ': ' + this.y + '<br/>' +
-		                    'Total: ' + this.point.stackTotal;
-		            }
-		        },
-
-		        plotOptions: {
-		            column: {
-		                stacking: 'normal'
-		            }
-		        },
-
-		        series: chart_details
-		    });
-			
-		}, function errorCallback(response) {
-			$scope.show_loader = false;
-		});
+			}, function errorCallback(response) {
+				$scope.show_loader = false;
+			});
+		}
 	}
 	$scope.getOfferDetails = function()
 	{

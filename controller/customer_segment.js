@@ -806,10 +806,10 @@ router.route('/getOfferSegReportData')
                  }   
              case "category":
                  {
-                   x_field_list = 'offmer.Category ';
+                   x_field_list = 'offmer.categoryDesc ';
                    x_axis_array = req.body.category;
                    len_category=req.body.category.length;
-		     	 	cond_sql=' and offmer.Category in(';
+		     	 	cond_sql=' and offmer.categoryDesc in(';
 			       for (t_category=0;t_category<len_category;t_category++)	
 				   {
 				 	if (t_category==0)
@@ -967,10 +967,10 @@ router.route('/getOfferSegReportData')
                    }  
             case "category":
                  {
-                   y_field_list = 'offmer.Category ';
+                   y_field_list = 'offmer.categoryDesc ';
                    y_axis_array = req.body.category;
                    len_category=req.body.category.length;
-		     	 	cond_sql=' and offmer.Category in(';
+		     	 	cond_sql=' and offmer.categoryDesc in(';
 			       for (t_category=0;t_category<len_category;t_category++)	
 				   {
 				 	if (t_category==0)

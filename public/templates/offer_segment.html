@@ -23,12 +23,40 @@
 			<div class="panel panel-default">
 				<div class="panel-heading">FILTERS</div>
 				<div class="panel-body">
+					<div class="col-sm-12">
+                   		<button class="btn btn-primary get-map-btn" ng-click="getOfferSegmentDetails();">View details</button>
+                    </div>
+					<div class="rows" ng-show="checkboxModel.age_grouped">
+						<div class="col-sm-12">
+							<strong> Aged Group : </strong>
+						</div>
+						<div class="col-sm-12">
+							<select chosen multiple ng-model="age_group_filter" ng-options="s.value for s in age_group_type"  placeholder-expression="City Name">
+							</select>
+						</div>
+
+						<div class="col-sm-12">
+							 <a class=" pull-right pointer-class"> &nbsp;</a>
+						</div>
+					</div>
 					<div class="rows padding-row" ng-show="checkboxModel.card_type">
 						<div class="col-sm-12 padding-row">
 							<strong> Card Type : </strong>
 						</div>
 						<div class="col-sm-12">
 							<select chosen multiple ng-model="card_type_filter_details" ng-options="s.card_type for s in card_type"  placeholder-expression="Card Type" title="Enter card details">
+                            </select>
+						</div>
+						<div class="col-sm-12">
+							 <a class=" pull-right pointer-class"> &nbsp;</a>
+						</div>
+					</div>
+					<div class="rows padding-row" ng-show="checkboxModel.category">
+						<div class="col-sm-12 padding-row">
+							<strong> Category : </strong>
+						</div>
+						<div class="col-sm-12">
+							<select chosen multiple ng-model="category_filter_details" ng-options="s.category for s in category"  placeholder-expression="Card Type" title="Enter Category details">
                             </select>
 						</div>
 						<div class="col-sm-12">
@@ -48,38 +76,12 @@
 							 <a class=" pull-right pointer-class"> &nbsp;</a>
 						</div>
 					</div>
-					<div class="rows padding-row" ng-show="checkboxModel.tag_details">
-						<div class="col-sm-12 padding-row">
-							<strong> Tags : </strong>
-						</div>
-						<div class="col-sm-12">
-							<select chosen multiple ng-model="tag_details_filter" ng-options="s.name for s in tag_type"  placeholder-expression="Gender" title="Gender">
-                            </select>
-						</div>
-
-						<div class="col-sm-12">
-							 <a class=" pull-right pointer-class"> &nbsp;</a>
-						</div>
-					</div>
-					<div class="rows padding-row"  ng-show="checkboxModel.location_details">
+					<div class="rows padding-row"  ng-show="checkboxModel.location">
 						<div class="col-sm-12">
 							<strong> Location : </strong>
 						</div>
 						<div class="col-sm-12">
 							<select chosen multiple ng-model="location_filter" ng-options="s.cust_location for s in location_name"  placeholder-expression="City Name">
-							</select>
-						</div>
-
-						<div class="col-sm-12">
-							 <a class=" pull-right pointer-class"> &nbsp;</a>
-						</div>
-					</div>
-					<div class="rows" ng-show="checkboxModel.age_grouped">
-						<div class="col-sm-12">
-							<strong> Aged Group : </strong>
-						</div>
-						<div class="col-sm-12">
-							<select chosen multiple ng-model="age_group_filter" ng-options="s.value for s in age_group_type"  placeholder-expression="City Name">
 							</select>
 						</div>
 
@@ -100,7 +102,19 @@
 							 <a class=" pull-right pointer-class"> &nbsp;</a>
 						</div>
 					</div>
+					<div class="rows padding-row" ng-show="checkboxModel.tag_details">
+						<div class="col-sm-12 padding-row">
+							<strong> Tags : </strong>
+						</div>
+						<div class="col-sm-12">
+							<select chosen multiple ng-model="tag_details_filter" ng-options="s.name for s in tag_type"  placeholder-expression="Gender" title="Gender">
+                            </select>
+						</div>
 
+						<div class="col-sm-12">
+							 <a class=" pull-right pointer-class"> &nbsp;</a>
+						</div>
+					</div>
 					<div class="rows" ng-show="checkboxModel.date_range">
 						<div class="col-sm-12">
 							<strong> Date Range : </strong>
@@ -147,24 +161,24 @@
 							<strong>Select Merchant : </strong>
 						</div>
 						<div class="col-sm-12 date-box-one"  ng-hide="show_by_offer">
-								<div class="loader_angular" ng-show="show_merchant_loader"></div>
+								
 		                        <div class="input-group">
-									<select name="singleSelect" id="singleSelect" ng-model="merchant_details" ng-change="getOfferDetails();">
+									<select name="singleSelect" id="singleSelect" ng-model="merchant_details" ng-change="getOfferDetails();" class="input-small">
+										<option value="" disabled> Select Merchant</option>
 										<option ng-repeat="option in merchat_details" value="{{option.id}}">{{option.name}}</option>
 									</select>
 		                        </div>
+		                        <div class="loader_angular" ng-show="show_merchant_loader"></div>
 		                        <strong>Select Offer : </strong>
 		                         <div class="input-group">
-									<select name="singleSelect" id="offerSelect" ng-model="offer_id" ng-change="changeofferSearchStatus('change_to_offer_id')">
+									<select name="singleSelect" id="offerSelect" ng-model="offer_id" ng-change="changeofferSearchStatus('change_to_offer_id')" class="input-small">
 										<option value="" disabled> Select Offer</option>
 										<option ng-repeat="option in offer_details" value="{{option.offerId}}">{{option.offer_rule_en}}</option>
 									</select>
 		                        </div>
                         </div>
 					</div>
-                   <div class="col-sm-12">
-                   		<button class="btn btn-primary get-map-btn" ng-click="getOfferSegmentDetails();">View details</button>
-                    </div>
+                   
 				</div>
 			</div>
 		</div>
@@ -176,8 +190,21 @@
 						<strong> X-AXIS </strong>
 					</div>
 					<div class="col-sm-12">
+						<label> Age-group:
+				    		<input type="radio" ng-model="checkboxModel.x_axis" value="age_grouped" ng-click="changeChecboxStatus('age_grouped','x_axis')" id="x_axis_age_group">
+				  		</label>
 						<label>Card Type:
 							<input type="radio" ng-model="checkboxModel.x_axis" value="card_type" ng-click="changeChecboxStatus('card_type','x_axis')" id="x_axis_card_type">
+				  		</label>
+				  		<label>Category:
+							<input type="radio" ng-model="checkboxModel.x_axis" value="category" ng-click="changeChecboxStatus('category','x_axis')" id="x_axis_category">
+				  		</label>
+
+				  		<label>Location:
+				  			<input type="radio" ng-model="checkboxModel.x_axis" value="location" ng-click="changeChecboxStatus('location','x_axis')" id="x_axis_location">
+				  		</label>
+				  		<label>Segment:
+				    		<input type="radio" ng-model="checkboxModel.x_axis" value="segment" ng-click="changeChecboxStatus('segment','x_axis')"  id="x_axis_segment">
 				  		</label>
 				  		<label>Gender:
 				  			<input type="radio" ng-model="checkboxModel.x_axis" value="gender" ng-click="changeChecboxStatus('gender','x_axis')"  id="x_axis_gender">
@@ -185,16 +212,7 @@
 				  		<label>Tags:
 				    		<input type="radio" ng-model="checkboxModel.x_axis" value="tags" ng-click="changeChecboxStatus('tags','x_axis')" id="x_axis_tags">
 				  		</label>
-				  		<label>Location:
-				  			<input type="radio" ng-model="checkboxModel.x_axis" value="location" ng-click="changeChecboxStatus('location','x_axis')" id="x_axis_location">
-				  		</label>
-				  		<label> Age-group:
-				    		<input type="radio" ng-model="checkboxModel.x_axis" value="age_grouped" ng-click="changeChecboxStatus('age_grouped','x_axis')" id="x_axis_age_group">
-				  		</label>
 				  		
-				  		<label>Segment:
-				    		<input type="radio" ng-model="checkboxModel.x_axis" value="segment" ng-click="changeChecboxStatus('segment','x_axis')"  id="x_axis_segment">
-				  		</label>
 				  	</div>
 				</div>
 				<div class="col-sm-6">
@@ -202,25 +220,28 @@
 						<strong> Y-AXIS </strong>
 					</div>
 					<div class="col-sm-12">
+						<label> Age-group:
+				    		<input type="radio" ng-model="checkboxModel.y_axis" value="age_grouped" ng-click="changeChecboxStatus('age_grouped','y_axis')" id="y_axis_age_group">
+				  		</label>
 						<label>Card Type:
 							<input type="radio" ng-model="checkboxModel.y_axis" value="card_type" ng-click="changeChecboxStatus('card_type','y_axis')" id="y_axis_card_type">
+				  		</label>
+				  		<label>Category:
+							<input type="radio" ng-model="checkboxModel.y_axis" value="category" ng-click="changeChecboxStatus('category','y_axis')" id="y_axis_category">
 				  		</label>
 				  		<label>Gender:
 				  			<input type="radio" ng-model="checkboxModel.y_axis" value="gender" ng-click="changeChecboxStatus('gender','y_axis')"  id="y_axis_gender">
 				  		</label>
-				  		<label>Tags:
-				    		<input type="radio" ng-model="checkboxModel.y_axis" value="tags" ng-click="changeChecboxStatus('tags','y_axis')" id="y_axis_tags">
-				  		</label>
 				  		<label>Location:
 				  			<input type="radio" ng-model="checkboxModel.y_axis" value="location" ng-click="changeChecboxStatus('location','y_axis')" id="y_axis_location">
 				  		</label>
-				  		<label> Age-group:
-				    		<input type="radio" ng-model="checkboxModel.y_axis" value="age_grouped" ng-click="changeChecboxStatus('age_grouped','y_axis')" id="y_axis_age_group">
-				  		</label>
-				  		
 				  		<label>Segment:
 				    		<input type="radio" ng-model="checkboxModel.y_axis" value="segment" ng-click="changeChecboxStatus('segment','y_axis')"  id="y_axis_segment">
 				  		</label>
+				  		<label>Tags:
+				    		<input type="radio" ng-model="checkboxModel.y_axis" value="tags" ng-click="changeChecboxStatus('tags','y_axis')" id="y_axis_tags">
+				  		</label>
+				  			
 				  	</div>
 				</div>
 			</div>

@@ -43,5 +43,7 @@ module.exports = {
     'BIT'        									: 'Bit',
     'SMINT'      									: 'Smallint',
     'DEC_10_6'   									: 'decimal(10, 6)',
-    'DATE_TIME'  									: 'DATETIME'
+    'DATE_TIME'  									: 'DATETIME',
+    'TOP_OFFER_HISTORY_COUNT' 						: '5',
+	'DERIVE_OFFER_FOR_MEMBER'  						: 'tDerivedOffersForMembers'
 };

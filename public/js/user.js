@@ -776,7 +776,9 @@ angular.module('userController', ['applicationService.services'])
 		}
 		else
 		{
-			$scope.showCustomerLoader = true;
+			$scope.showCustomerLoader 	= true;
+			$scope.customer_tag 		= [];
+			$scope.offer_history 		= [];
 			// fetching all profile details of the customer
 			API.postDetails({wechat_id : $scope.wechat_id},"api/getCustomerDetails").then(function successCallback(response) {
 				if(response.status == 200)
@@ -803,32 +805,39 @@ angular.module('userController', ['applicationService.services'])
 						}
 						else
 						{
-
+							$scope.customer_tag = [];
 							// show error message
 						}
-						$scope.showCustomerLoader = false;
-					}, function errorCallback(response) {
-						$scope.showCustomerLoader = false;
 					});
-					// calling api to get offer history of the customer
+
+					// calling api to fetch all tag details
 					API.getDetails("userfetch/fetchofferhistory",{id : $scope.wechat_id}).then(function successCallback(response) {
+						
+						console.log(response);
 						if(response.status == 200)
 						{
-							if(typeof response.data.message.details !='undefined' && response.data.message.details.length>0)
+							if(typeof response.data.response_data.details !='undefined' && response.data.response_data.details.length>0)
 							{
-								$scope.offer_history = response.data.message.details;
+								if(response.data.response_data.details.length>0)
+								{
+									$scope.offer_history = response.data.response_data.details;
+								}
+								else
+								{
+									$scope.offer_history = [];
+								}
 							}
 						}
 						else
 						{
+							$scope.offer_history = [];
 							// show error message
 						}
-						
+						$scope.showCustomerLoader = false;
 					}, function errorCallback(response) {
-						$scope.showCustomerOffer = false;
-					    // called asynchronously if an error occurs
-					    // or server returns response with an error status.
+						$scope.showCustomerLoader = false;
 					});
+					
 					var address_details = '';
 					if($scope.customer_details.AddressLine1 != '' && $scope.customer_details.AddressLine1 != null)
 					{

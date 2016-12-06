@@ -354,64 +354,72 @@ router.route('/searchbydistance')
 
 	var db_ayan = require('db_query/query')
 	var data ={};
-//******************************************************************
-db_ayan.searchByDistanceTest(req,res,lat,lon,data,function(){
+	//******************************************************************
+	db_ayan.searchByDistanceTest(req,res,lat,lon,data,function(){
 
 	res.json({ message: data });
-})
+	})
 
 })
-//******************************************************************
-/*router.route('/fetchofferhistory')
-.get(function (req, res) {
+	//******************************************************************
+	/*router.route('/fetchofferhistory')
+	.get(function (req, res) {
 
-	
-	var id = req.query.id;
-	
-	var db_ayan = require('db_query/query')
-	var data ={};
-//******************************************************************
-db_ayan.fetchOfferHistoryTest(req,res,id,data,function(){
+		
+		var id = req.query.id;
+		
+		var db_ayan = require('db_query/query')
+		var data ={};
+	//******************************************************************
+	db_ayan.fetchOfferHistoryTest(req,res,id,data,function(){
 
-	res.json({ message: data });
-})
+		res.json({ message: data });
+	})
 
-}) */
+	}) */
 router.route('/fetchofferhistory')
 .get(function (req, res) {
-	var async 			= require('async');
-	var response_data 	= {};
-	var constant 		= require("config/constant");
-	async.series([
-		function(callback) {
-			var validate = require('utility/validate');
-			validate.validate_id(req,res,function(){
-				callback();
-			}) 
-		},function(callback){
-			var crypto 	 	= require('crypto'),
-			      id		= req.query.id;
-			var db_query 	= require('db_query/query');
-			//    sql         = require('mssql');
-			 //   request.input('in_wechatid',sql.VarChar(50),wechatid);
-			var	sqlstring  	= 'select top 5 omc.OfferId,ofm.OfferDesc,ofm.merchantId,mem.merchantNameEng from'+ constant.MEMBER_MASTER_TABLE+' mm,'+constant.OFFER_MEMBER_CRM +'  omc,'+constant.OFFER_BY_MERCHANTS+' ofm,'+constant.MERCHANT_MASTER+' mem where mm.memberId=omc.memberId  and omc.OfferId=ofm.OfferId and mem.merchantId=ofm.merchantId and mm.memberWechatId='+"'"+id+"'";
-		   //   sqlstring  	= 'select top 5 omc.OfferId,ofm.OfferDesc,ofm.merchantId,mem.merchantNameEng from tMemberMaster mm,tOfferforMembers_CRM omc,tOfferByMerchants ofm,tMerchantmaster mem where mm.memberId=omc.memberId  and omc.OfferId=ofm.OfferId and mem.merchantId=ofm.merchantId and mm.memberWechatId=@in_id';
-			db_query.RunSelSqlFromDb(req,res,sqlstring,response_data,function(){
-				if(response_data.details.length>0)
-				{
-					callback();
-				}
-				else
-				{
-					response_data.success = false;
- 					response_data.message = "WechatId row not present in DB table.";
-					res.status(203).send({response_data});
-				}
-			})
-		}],function(err) {
-			response_data.success = true;
-			response_data.message = "select Merchant search done!";
-			res.status(200).send({response_data});
-	});
-});	
+    var async             = require('async');
+    var response_data     = {};
+    var constant         = require("config/constant");
+    async.series([
+        function(callback) {
+            var validate = require('utility/validate');
+            validate.validate_id(req,res,function(){
+                callback();
+            })
+        },function(callback){
+            var crypto          = require('crypto'),
+                  id        = req.query.id;
+            var db_query     = require('db_query/query');
+          
+            var sqlstring = '';
+                sqlstring = 'select TOP ' + constant.TOP_OFFER_HISTORY_COUNT+' deroff.offerId,deroff.offer_name_en,offmer.merchantId, ';
+                sqlstring += 'offmer.merchantName from '+constant.DERIVE_OFFER_FOR_MEMBER + ' deroff, ';
+                sqlstring += constant.OFFER_BY_MERCHANTS +' offmer, '+ constant.MEMBER_MASTER_TABLE + ' mem ';
+                sqlstring += ' where deroff.offerId =offmer.offerId and ';
+                sqlstring += ' deroff.memberId = mem.memberId and mem.memberWechatId = '+"'"+ id + "' ";
+                sqlstring += ' order by deroff.offerInsertedTimestamp desc';
+
+            db_query.RunSelSqlFromDb(req,res,sqlstring,response_data,function(){
+                if(response_data.details.length>0)
+                {
+                    callback();
+                }
+                else
+                {
+                    response_data.success = false;
+                     response_data.message = "No Offer History row not present in DB table.";
+                    res.status(203).send({response_data});
+                }
+            })
+        }],function(err) {
+            response_data.success = true;
+            response_data.message = "select Offer History search done!";
+            res.status(200).send({response_data});
+    });
+});   
+
+
+
 module.exports = router;

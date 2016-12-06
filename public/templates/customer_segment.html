@@ -9,8 +9,8 @@
                     <a href="#/dashboard" class="btn btn-default profile-back-button"><span class="fa fa-long-arrow-left"></span></a>
                     </div>
                      <div class="col-md-3">
-                        <h3 class="customer-profile-view">Customer Segment View</h3>
-                        <h4 class="customer-profile-view hidden-lg hidden-md hidden-sm hidden-xs">Customer Segment View</h4>
+                        <h3 class="customer-profile-view">Member Segment View</h3>
+                        <h4 class="customer-profile-view hidden-lg hidden-md hidden-sm hidden-xs">Member Segment View</h4>
                     </div>
                 </div>
             </div>
@@ -23,6 +23,23 @@
 			<div class="panel panel-default">
 				<div class="panel-heading">FILTERS</div>
 				<div class="panel-body">
+
+					<div class="col-sm-12">
+	                   	<button class="btn btn-primary get-map-btn" ng-click="getCustomerSegmentDetails();">View details</button>
+	                </div>
+					<div class="rows" ng-show="checkboxModel.age_grouped">
+						<div class="col-sm-12">
+							<strong> Aged Group : </strong>
+						</div>
+						<div class="col-sm-12">
+							<select chosen multiple ng-model="age_group_filter" ng-options="s.value for s in age_group_type"  placeholder-expression="City Name">
+							</select>
+						</div>
+
+						<div class="col-sm-12">
+							 <a class=" pull-right pointer-class"> &nbsp;</a>
+						</div>
+					</div>
 					<div class="rows padding-row" ng-show="checkboxModel.card_type">
 						<div class="col-sm-12 padding-row">
 							<strong> Card Type : </strong>
@@ -35,6 +52,7 @@
 							 <a class=" pull-right pointer-class"> &nbsp;</a>
 						</div>
 					</div>
+					
 					<div class="rows padding-row" ng-show="checkboxModel.gender">
 						<div class="col-sm-12 padding-row">
 							<strong> Gender : </strong>
@@ -48,38 +66,12 @@
 							 <a class=" pull-right pointer-class"> &nbsp;</a>
 						</div>
 					</div>
-					<div class="rows padding-row" ng-show="checkboxModel.tag_details">
-						<div class="col-sm-12 padding-row">
-							<strong> Tags : </strong>
-						</div>
-						<div class="col-sm-12">
-							<select chosen multiple ng-model="tag_details_filter" ng-options="s.name for s in tag_type"  placeholder-expression="Gender" title="Gender">
-                            </select>
-						</div>
-
-						<div class="col-sm-12">
-							 <a class=" pull-right pointer-class"> &nbsp;</a>
-						</div>
-					</div>
-					<div class="rows padding-row"  ng-show="checkboxModel.location_details">
+					<div class="rows padding-row"  ng-show="checkboxModel.location">
 						<div class="col-sm-12">
 							<strong> Location : </strong>
 						</div>
 						<div class="col-sm-12">
 							<select chosen multiple ng-model="location_filter" ng-options="s.cust_location for s in location_name"  placeholder-expression="City Name">
-							</select>
-						</div>
-
-						<div class="col-sm-12">
-							 <a class=" pull-right pointer-class"> &nbsp;</a>
-						</div>
-					</div>
-					<div class="rows" ng-show="checkboxModel.age_grouped">
-						<div class="col-sm-12">
-							<strong> Aged Group : </strong>
-						</div>
-						<div class="col-sm-12">
-							<select chosen multiple ng-model="age_group_filter" ng-options="s.value for s in age_group_type"  placeholder-expression="City Name">
 							</select>
 						</div>
 
@@ -100,7 +92,19 @@
 							 <a class=" pull-right pointer-class"> &nbsp;</a>
 						</div>
 					</div>
+					<div class="rows padding-row" ng-show="checkboxModel.tag_details">
+						<div class="col-sm-12 padding-row">
+							<strong> Tags : </strong>
+						</div>
+						<div class="col-sm-12">
+							<select chosen multiple ng-model="tag_details_filter" ng-options="s.name for s in tag_type"  placeholder-expression="Gender" title="Gender">
+                            </select>
+						</div>
 
+						<div class="col-sm-12">
+							 <a class=" pull-right pointer-class"> &nbsp;</a>
+						</div>
+					</div>
 					<div class="rows" ng-show="checkboxModel.date_range">
 						<div class="col-sm-12">
 							<strong> Date Range : </strong>
@@ -123,9 +127,7 @@
 							 <a class="pull-right pointer-class" style="cursor:pointer"> &nbsp;</a>
 						</div>
 					</div>
-                   <div class="col-sm-12">
-                   		<button class="btn btn-primary get-map-btn" ng-click="getCustomerSegmentDetails();">View details</button>
-                    </div>
+                  
 				</div>
 			</div>
 		</div>
@@ -189,7 +191,8 @@
 			<div id="container" style="min-width: 310px; height: 400px; margin: 0 auto"></div>
 		</div>
 	</div>
-
+<input type="radio"  id="x_axis_category" style="display:none">
+<input type="radio" id="y_axis_category" style="display:none">
 </div>
 <style>
 .loader_angular {

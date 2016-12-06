@@ -9,18 +9,18 @@
                     <a href="#/dashboard" class="btn btn-default profile-back-button"><span class="fa fa-long-arrow-left"></span></a>
                     </div>
                      <div class="col-md-3">
-                        <h3 class="customer-profile-view">Customer Profile View</h3>
-                        <h4 class="customer-profile-view hidden-lg hidden-md hidden-sm hidden-xs">Customer Profile View</h4>
+                        <h3 class="customer-profile-view">Member Profile View</h3>
+                        <h4 class="customer-profile-view hidden-lg hidden-md hidden-sm hidden-xs">Member Profile View</h4>
                     </div>
                     <div class="loader_angular col-md-1 profile-view-load" ng-show="showCustomerLoader"></div>
                     <form class="form-search user-id-search">
                         <div class="row form-box-row">
                             <div class="col-md-3 col-md-offset-0 user-wechat">
-                                <input type="text" class="form-control" ng-model="wechat_id" id="wechat_id" placeholder="Enter Customer Id.">
+                                <input type="text" class="form-control" ng-model="wechat_id" id="wechat_id" placeholder="Enter Member Id.">
                                 <p class="err" ng-bind="error_message"></p>
                             </div>
                             <div class="col-md-3">
-                                <button type="submit" class="btn btn-primary btn-block submit-btn" ng-click="showCustomerDetail()">Search Customer</button>
+                                <button type="submit" class="btn btn-primary btn-block submit-btn" ng-click="showCustomerDetail()">Search Member</button>
                             </div>
                             <div class="col-md-4"></div>
                         </div>    
@@ -138,19 +138,18 @@
                 <div class="col-md-12 predicted-offers">
                     <h3 class="offers-heading">
                         Offer history
-                        {{offer_history}}
                     </h3>
                     <table class="table table-bordered offer-history">
                         <thead>
                             <tr>
-                            <th class="col-md-4">Merchant Nmae</th>
+                            <th class="col-md-4">Merchant Name</th>
                             <th>Offer Description</th>
                             </tr>
                         </thead>
-                        <tbody>
+                        <tbody ng-repeat="history in offer_history">
                             <tr>
-                            <td>Lorem ipsum</td>
-                            <td>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</td>
+                            <td ng-bind="history.merchantName"></td>
+                            <td ng-bind="history.offer_name_en"></td>
                             
                             </tr>
                         </tbody>
