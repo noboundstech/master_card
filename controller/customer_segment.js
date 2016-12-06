@@ -795,7 +795,7 @@ router.route('/getOfferSegReportData')
                     x_axis_array = req.body.tags;
                     len_tag=req.body.tags.length;
 		     	   cond_sql +=' and mm.memberId = memtag.memberId and memtag.tagId = tm.tagId and tm.tagDesc in( ';
-		     	   sqltag_details=' tMemberTags memtag , tTagMaster tm ';
+		     	   sqltag_details=','+constant.MEMBER_TAG_TABLE + ' memtag,'+ constant.TAG_MASTER_TABLE + ' tm ';
 			      for (t_tag=0;t_tag<len_tag;t_tag++)	
 				   {
 				 	if (t_tag==0)
