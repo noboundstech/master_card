@@ -240,7 +240,7 @@ router.route('/getCustSegReportData')
 			var len_city=0;
 			var len_age=0;
 			var len_tag=0;
-			var sqltag='';
+			var sqltag_details='';
 			var age_group_Yflag =' ';
 			var age_group_Xflag =' ';
 			var t_card=0;
@@ -287,22 +287,22 @@ router.route('/getCustSegReportData')
             case "gender":
                    x_axis_array = req.body.gender;
                    x_field_list = 'mm.memberGender ';
-                   cond_sql=' and (mm.memberGender =';
 		     	   len_gender=req.body.gender.length;
-			     for (t_gender=0;t_gender<len_gender;t_gender++)	
-				   {
-				 	if (t_gender==0)
-                    cond_sql+="'"+req.body.gender[t_gender].name+"'";
-				    else 
-				    cond_sql+=" or mm.memberGender ='"+req.body.gender[t_gender].name+"'";
-                   }  // end of for
-                      cond_sql+=')';
+			     	cond_sql+=' and  mm.memberGender in(';
+				    for (t_gender=0;t_gender<len_gender;t_gender++)
+					{
+						 	if (t_gender==0)
+		                    cond_sql+="'"+req.body.gender[t_gender].name.substr(0, 1)+"'";
+						    else 
+						    cond_sql+=",'"+req.body.gender[t_gender].name.substr(0, 1)+"'";
+	                }  // end of for
+	                cond_sql+=')';
                      break;
             case "location":
                    x_field_list = 'mm.City ';
                    x_axis_array = req.body.location;
                    len_city=req.body.location.length;
-		     	 	cond_sql=' and mm.City in(';
+		     	 	cond_sql+=' and mm.City in(';
 			       for (t_city=0;t_city<len_city;t_city++)	
 				   {
 				 	if (t_city==0)
@@ -316,8 +316,11 @@ router.route('/getCustSegReportData')
                     x_field_list = 'tm.tagDesc ';
                     x_axis_array = req.body.tags;
                     len_tag=req.body.tags.length;
-		     	   cond_sql =' and mm.memberId = memtag.memberId and memtag.tagId = tm.tagId and tm.tagDesc in ( ';
-		     	   sqltag='tMemberTags memtag , tTagMaster tm';
+		     	   cond_sql +=' and mm.memberId = memtag.memberId and memtag.tagId = tm.tagId and tm.tagDesc in ( ';
+		     	   
+		     	   
+		     	  // sqltag='tMemberTags memtag , tTagMaster tm';
+		     	    sqltag_details=','+constant.MEMBER_TAG_TABLE + ' memtag,'+ constant.TAG_MASTER_TABLE + ' tm ';
 				    for (t_tag=0;t_tag<len_tag;t_tag++)	
 					{
 						if (t_tag==0)
@@ -353,7 +356,6 @@ router.route('/getCustSegReportData')
            default: "segment"
                     break;
          }  // end of switch 
-        sqltag=' ';
          switch(y_field)
 		{
 			case "segment":
@@ -361,7 +363,7 @@ router.route('/getCustSegReportData')
 			     y_field_list = 'mm.memberSegment ';
 			     y_axis_array = req.body.segment;
 			     len_seg=req.body.segment.length;
-			     cond_sql=' and  mm.memberSegment in(';
+			     cond_sql+=' and  mm.memberSegment in(';
 			     for (t_seg=0;t_seg<len_seg;t_seg++)	
 				   {
 				 	if (t_seg==0)
@@ -393,30 +395,31 @@ router.route('/getCustSegReportData')
                   {
                    y_field_list = 'mm.memberGender ';
                    y_axis_array = req.body.gender;
-                   cond_sql=' and (mm.memberGender =';
+                //  cond_sql=' and (mm.memberGender =';
 		     	   len_gender=req.body.gender.length;
-			     for (t_gender=0;t_gender<len_gender;t_gender++)	
-				   {
-				 	if (t_gender==0)
-                    cond_sql+="'"+req.body.gender[t_gender].name+"'";
-				    else 
-				    cond_sql+=" or mm.memberGender ='"+req.body.gender[t_gender].name+"'";
-                   }  // end of for
-                      cond_sql+=')';
+		     		cond_sql+=' and  mm.memberGender in(';
+				    for (t_gender=0;t_gender<len_gender;t_gender++)
+					{
+						 	if (t_gender==0)
+		                    cond_sql+="'"+req.body.gender[t_gender].name.substr(0, 1)+"'";
+						    else 
+						    cond_sql+=",'"+req.body.gender[t_gender].name.substr(0, 1)+"'";
+	                }  // end of for
+	                cond_sql+=')';
                      break;
                    }  
             case "location":
                  {
                    y_field_list = 'mm.City ';
-                   y_axis_array = req.body.locations;
-                   len_city=req.body.locations.length;
-		     	 	cond_sql=' and mm.City in(';
+                   y_axis_array = req.body.location;
+                   len_city=req.body.location.length;
+		     	 	cond_sql+=' and mm.City in(';
 			       for (t_city=0;t_city<len_city;t_city++)	
 				   {
 				 	if (t_city==0)
-                    cond_sql+="'"+req.body.locations[t_city].name+"'";
+                    cond_sql+="'"+req.body.location[t_city].name+"'";
 				    else 
-				    cond_sql+=",'"+req.body.locations[t_city].name+"'";
+				    cond_sql+=",'"+req.body.location[t_city].name+"'";
                    }  // end of for
                      cond_sql+=')';
                     break;
@@ -426,8 +429,8 @@ router.route('/getCustSegReportData')
                     y_field_list = 'tm.tagDesc ';
                     y_axis_array = req.body.tags;
                     len_tag=req.body.tags.length;
-                   cond_sql =' and mm.memberId = memtag.memberId and memtag.tagId = tm.tagId and tm.tagDesc in( ';
-		     	   sqltag=','+constant.MEMBER_TAG_TABLE + ' memtag,'+ constant.TAG_MASTER_TABLE + ' tm ';
+                   cond_sql +=' and mm.memberId = memtag.memberId and memtag.tagId = tm.tagId and tm.tagDesc in( ';
+		     	   sqltag_details=','+constant.MEMBER_TAG_TABLE + ' memtag,'+ constant.TAG_MASTER_TABLE + ' tm ';
 		     	  
 			      for (t_tag=0;t_tag<len_tag;t_tag++)	
 				   {
@@ -462,28 +465,27 @@ router.route('/getCustSegReportData')
                    }  
             default: "segment"
                {
-                 y_field_list = 'mm.memberSegment ';
-			     len_seg=req.body.segment.length;
-			     y_axis_array = req.body.segment;
-			     cond_sql=' and  mm.memberSegment in(';
-			     for (t_seg=0;t_seg<len_seg;t_seg++)	
-				   {
-				 	if (t_seg==0)
-                    cond_sql+="'"+req.body.segment[t_seg].name+"'";
-				    else 
-				    cond_sql+=",'"+req.body.segment[t_seg].name+"'";
-                  }  // end of for
-                     cond_sql+=')';
-                    break;
-               }
-         }  // end of switch 
-        
+	                y_field_list = 'mm.memberSegment ';
+				    len_seg=req.body.segment.length;
+				    y_axis_array = req.body.segment;
+				    cond_sql+=' and  mm.memberSegment in(';
+				    for (t_seg=0;t_seg<len_seg;t_seg++)	
+					{
+						 	if (t_seg==0)
+		                    cond_sql+="'"+req.body.segment[t_seg].name+"'";
+						    else 
+						    cond_sql+=",'"+req.body.segment[t_seg].name+"'";
+	                 }  // end of for
+	                     cond_sql+=')';
+	                    break;
+	            }
+		    }  // end of switch 
                var	sqlstring  = "select " + x_field_list +" as x_value, "+ y_field_list +" as y_value ," ;
 		        sqlstring += "count(offres.offerSentTimestamp)as offerSent,"; 
                 sqlstring += "count(offres.offerClicked) as offerClicked,"; 
                 sqlstring += "count(offres.offerUsed) as offerUsed  "
                 sqlstring += "from "+ constant.MEMBER_MASTER_TABLE + " mm, " + constant.OFFER_RESPONSE +" offres ";
-                sqlstring += sqltag + " ";
+                sqlstring += sqltag_details + " ";
                 sqlstring += "where mm.memberId = offres.memberId ";                 
                 sqlstring += "and ((convert(datetime,offres.offerSentTimestamp,120)) between '"+from_date+ "'  and '" +to_date + "' ) "; 
                 sqlstring += "and offres.offerSentTimestamp is not null " ;
@@ -708,7 +710,7 @@ router.route('/getOfferSegReportData')
 			var len_age=0;
 			var len_tag=0;
 			var len_category=0;
-			var sqltag='';
+			var sqltag_details='';
 			var age_group_Yflag =' ';
 			var age_group_Xflag =' ';
 			var t_card=0;
@@ -759,24 +761,24 @@ router.route('/getOfferSegReportData')
                  {
                    x_axis_array = req.body.gender;
                    x_field_list = 'mm.memberGender ';
-                   cond_sql=' and ( mm.memberGender =';
 		     	   len_gender=req.body.gender.length;
-			     for (t_gender=0;t_gender<len_gender;t_gender++)	
-				   {
-				 	if (t_gender==0)
-                    cond_sql+="'"+req.body.gender[t_gender].name+"'";
-				    else 
-				    cond_sql+=" or  mm.memberGender ='"+req.body.gender[t_gender].name+"'";
-                   }  // end of for
-                      cond_sql+=') ';
-                     break;
+					cond_sql+=' and  mm.memberGender in(';
+				    for (t_gender=0;t_gender<len_gender;t_gender++)
+					{
+						 	if (t_gender==0)
+		                    cond_sql+="'"+req.body.gender[t_gender].name.substr(0, 1)+"'";
+						    else 
+						    cond_sql+=",'"+req.body.gender[t_gender].name.substr(0, 1)+"'";
+	                }  // end of for
+	                cond_sql+=')';
+                    break;
                   }   
             case "location":
                   {
                    x_field_list = 'mm.City ';
                    x_axis_array = req.body.location;
                    len_city=req.body.location.length;
-		     	 	cond_sql=' and mm.City in(';
+		     	 	cond_sql+=' and mm.City in(';
 			       for (t_city=0;t_city<len_city;t_city++)	
 				   {
 				 	if (t_city==0)
@@ -792,8 +794,8 @@ router.route('/getOfferSegReportData')
                     x_field_list = 'tm.tagDesc ';
                     x_axis_array = req.body.tags;
                     len_tag=req.body.tags.length;
-		     	   cond_sql =' and mm.memberId = memtag.memberId and memtag.tagId = tm.tagId and tm.tagDesc in( ';
-		     	   sqltag='tMemberTags memtag , tTagMaster tm';
+		     	   cond_sql +=' and mm.memberId = memtag.memberId and memtag.tagId = tm.tagId and tm.tagDesc in( ';
+		     	   sqltag_details=' tMemberTags memtag , tTagMaster tm ';
 			      for (t_tag=0;t_tag<len_tag;t_tag++)	
 				   {
 				 	if (t_tag==0)
@@ -809,7 +811,7 @@ router.route('/getOfferSegReportData')
                    x_field_list = 'offmer.categoryDesc ';
                    x_axis_array = req.body.category;
                    len_category=req.body.category.length;
-		     	 	cond_sql=' and offmer.categoryDesc in(';
+		     	 	cond_sql+=' and offmer.categoryDesc in(';
 			       for (t_category=0;t_category<len_category;t_category++)	
 				   {
 				 	if (t_category==0)
@@ -858,7 +860,6 @@ router.route('/getOfferSegReportData')
                     break;
                   }  
          }  // end of switch 
-        sqltag=' ';
          switch(y_field)
 		{
 			case "segment":
@@ -866,7 +867,7 @@ router.route('/getOfferSegReportData')
 			     y_field_list = 'mm.memberSegment ';
 			     y_axis_array = req.body.segment;
 			     len_seg=req.body.segment.length;
-			     cond_sql=' and  mm.memberSegment in(';
+			     cond_sql+=' and  mm.memberSegment in(';
 			     for (t_seg=0;t_seg<len_seg;t_seg++)	
 				   {
 				 	if (t_seg==0)
@@ -898,16 +899,17 @@ router.route('/getOfferSegReportData')
                   {
                    y_field_list = 'mm.memberGender ';
                    y_axis_array = req.body.gender;
-                   cond_sql=' and (mm.memberGender =';
 		     	   len_gender=req.body.gender.length;
-			     for (t_gender=0;t_gender<len_gender;t_gender++)	
-				   {
-				 	if (t_gender==0)
-                    cond_sql+="'"+req.body.gender[t_gender].name+"'";
-				    else 
-				    cond_sql+=" or mm.memberGender ='"+req.body.gender[t_gender].name+"'";
-                   }  // end of for
-                      cond_sql+=')';
+					cond_sql+=' and  mm.memberGender in(';
+				    for (t_gender=0;t_gender<len_gender;t_gender++)
+					{
+						 	if (t_gender==0)
+		                    cond_sql+="'"+req.body.gender[t_gender].name.substr(0, 1)+"'";
+						    else 
+						    cond_sql+=",'"+req.body.gender[t_gender].name.substr(0, 1)+"'";
+	                }  // end of for
+	                cond_sql+=')';
+
                      break;
                    }  
             case "location":
@@ -915,7 +917,7 @@ router.route('/getOfferSegReportData')
                    y_field_list = 'mm.City ';
                    y_axis_array = req.body.location;
                    len_city=req.body.location.length;
-		     	 	cond_sql=' and mm.City in(';
+		     	 	cond_sql+=' and mm.City in(';
 			       for (t_city=0;t_city<len_city;t_city++)	
 				   {
 				 	if (t_city==0)
@@ -931,8 +933,8 @@ router.route('/getOfferSegReportData')
                     y_field_list = 'tm.tagDesc ';
                     y_axis_array = req.body.tags;
                     len_tag=req.body.tags.length;
-                   cond_sql =' and mm.memberId = memtag.memberId and memtag.tagId = tm.tagId and tm.tagDesc in( ';
-		     	   sqltag=','+constant.MEMBER_TAG_TABLE + ' memtag,'+ constant.TAG_MASTER_TABLE + ' tm ';
+                   cond_sql +=' and mm.memberId = memtag.memberId and memtag.tagId = tm.tagId and tm.tagDesc in( ';
+		     	   sqltag_details=','+constant.MEMBER_TAG_TABLE + ' memtag,'+ constant.TAG_MASTER_TABLE + ' tm ';
 		     	  
 			      for (t_tag=0;t_tag<len_tag;t_tag++)	
 				   {
@@ -970,7 +972,7 @@ router.route('/getOfferSegReportData')
                    y_field_list = 'offmer.categoryDesc ';
                    y_axis_array = req.body.category;
                    len_category=req.body.category.length;
-		     	 	cond_sql=' and offmer.categoryDesc in(';
+		     	 	cond_sql+=' and offmer.categoryDesc in(';
 			       for (t_category=0;t_category<len_category;t_category++)	
 				   {
 				 	if (t_category==0)
@@ -986,7 +988,7 @@ router.route('/getOfferSegReportData')
                  y_field_list = 'mm.memberSegment ';
 			     len_seg=req.body.segment.length;
 			     y_axis_array = req.body.segment;
-			     cond_sql=' and  mm.memberSegment in(';
+			     cond_sql+=' and  mm.memberSegment in(';
 			     for (t_seg=0;t_seg<len_seg;t_seg++)	
 				   {
 				 	if (t_seg==0)
@@ -1003,7 +1005,7 @@ router.route('/getOfferSegReportData')
                 sqlstring += "count(offres.offerClicked) as offerClicked,"; 
                 sqlstring += "count(offres.offerUsed) as offerUsed  "
                 sqlstring += "from "+ constant.MEMBER_MASTER_TABLE + " mm, " + constant.OFFER_RESPONSE +" offres ," + constant.OFFER_BY_MERCHANTS + " offmer ";
-                sqlstring += sqltag + " ";
+                sqlstring += sqltag_details + " ";
                 sqlstring += "where mm.memberId = offres.memberId ";                 
                 sqlstring += "and ((convert(datetime,offres.offerSentTimestamp,120)) between '"+from_date+ "'  and '" +to_date + "' ) "; 
                 sqlstring += "and offres.offerSentTimestamp is not null " ;
@@ -1012,6 +1014,8 @@ router.route('/getOfferSegReportData')
                 sqlstring += cond_sql +" ";
 		        sqlstring += "group by "+x_field_list +", "+ y_field_list + " ";
 		        sqlstring += "order by "+x_field_list +", "+ y_field_list;+" ";
+
+
            //******** create and initialize  Array matrix  
 		    for(x_cnt=0;x_cnt < x_axis_array.length;x_cnt++)
 		     {	

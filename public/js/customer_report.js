@@ -715,7 +715,7 @@ angular.module('CustomerReportController', ['applicationService.services'])
 				{
 					$scope.segment_selected_details.push({"name" : $scope.segment_filter[i].cust_segment});
 				}
-				if($scope.location_filter_selected_details.length>0)
+				if($scope.segment_filter.length>0)
 				{
 					$scope.selected_axis_details++;
 				}
@@ -838,176 +838,179 @@ angular.module('CustomerReportController', ['applicationService.services'])
 			alert("Please Enter your offer Id.");
 			return false;
 		}
-		if($scope.x_axis_selected == 'card_type' || $scope.y_axis_selected == 'card_type')
-		{
-			if(typeof $scope.card_type_filter_details != 'undefined')
-			{
-				for(i=0;i<$scope.card_type_filter_details.length;i++)
-				{
-					$scope.card_type_selected_details.push({"name" : $scope.card_type_filter_details[i].card_type});
-				}
-				if($scope.card_type_filter_details.length>0)
-				{
-					$scope.selected_offer_axis_details++;
-				}
-			}
-		}
-		if($scope.x_axis_selected == 'gender' || $scope.y_axis_selected == 'gender')
-		{
-			if(typeof $scope.gender_type_filter != 'undefined')
-			{
-				if($scope.gender_type_filter.length>0)
-				{
-					$scope.selected_offer_axis_details++;
-				}
-			}
-		}
-		if($scope.x_axis_selected == 'age_grouped' || $scope.y_axis_selected == 'age_grouped')
-		{
-			if(typeof $scope.age_group_filter != 'undefined')
-			{
-				for(i=0;i<$scope.age_group_filter.length;i++)
-				{
-					$scope.age_grouped_selected_details.push({"name" : $scope.age_group_filter[i].value});
-				}
-				if($scope.age_grouped_selected_details.length>0)
-				{
-					$scope.selected_offer_axis_details++;
-				}
-			}
-		}
-		if($scope.x_axis_selected == 'location' || $scope.y_axis_selected == 'location')
-		{
-			if(typeof $scope.card_type_filter_details != 'undefined')
-			{
-				for(i=0;i<$scope.location_filter.length;i++)
-				{
-					$scope.location_filter_selected_details.push({"name" : $scope.location_filter[i].cust_location});
-				}
-				if($scope.location_filter_selected_details.length>0)
-				{
-					$scope.selected_offer_axis_details++;
-				}
-			}
-		}
-		if($scope.x_axis_selected == 'segment' || $scope.y_axis_selected == 'segment')
-		{
-			if(typeof $scope.segment_filter != 'undefined')
-			{
-				for(i=0;i<$scope.segment_filter.length;i++)
-				{
-					$scope.segment_selected_details.push({"name" : $scope.segment_filter[i].cust_segment});
-				}
-				if($scope.segment_selected_details.length>0)
-				{
-					$scope.selected_offer_axis_details++;
-				}
-			}
-		}
-		if($scope.x_axis_selected == 'tags' || $scope.y_axis_selected == 'tags')
-		{
-			if(typeof $scope.tag_details_filter != 'undefined')
-			{
-				if($scope.tag_details_filter.length>0)
-				{
-					$scope.selected_offer_axis_details++;
-				}
-			}
-		}
-
-		if($scope.x_axis_selected == 'category' || $scope.y_axis_selected == 'category')
-		{
-			if(typeof $scope.category_filter_details != 'undefined')
-			{
-				for(i=0;i<$scope.category_filter_details.length;i++)
-				{
-					$scope.category_filter_details_arr.push({"name" : $scope.category_filter_details[i].category});
-				}
-				if($scope.category_filter_details.length>0)
-				{
-					$scope.selected_offer_axis_details++;
-				}
-			}
-		}
-		if($scope.selected_offer_axis_details<2)
-		{
-			alert("Please Select both "+$scope.x_axis_selected+" and "+$scope.y_axis_selected+" options");
-			return false;
-		}
 		else
 		{
-			$scope.request_details = {
-										"card_type"		: $scope.card_type_selected_details,
-										"tags"			: $scope.tag_details_filter,
-										"offer_id"		: $scope.offer_id,
-										"location"		: $scope.location_filter_selected_details,
-										"age_grouped"	: $scope.age_grouped_selected_details,
-										"segment"		: $scope.segment_selected_details,
-										"gender"		: $scope.gender_type_filter,
-										"category" 		: $scope.category_filter_details_arr,
-										"date_range"	:
-															{ 
-																"from" 	: $scope.start_date,
-																"to"	: $scope.end_date
-															},
-										"x_axis" 		: $scope.x_axis_selected,
-										"y_axis" 		: $scope.y_axis_selected 
-									} 
+			if($scope.x_axis_selected == 'card_type' || $scope.y_axis_selected == 'card_type')
+			{
+				if(typeof $scope.card_type_filter_details != 'undefined')
+				{
+					for(i=0;i<$scope.card_type_filter_details.length;i++)
+					{
+						$scope.card_type_selected_details.push({"name" : $scope.card_type_filter_details[i].card_type});
+					}
+					if($scope.card_type_filter_details.length>0)
+					{
+						$scope.selected_offer_axis_details++;
+					}
+				}
+			}
+			if($scope.x_axis_selected == 'gender' || $scope.y_axis_selected == 'gender')
+			{
+				if(typeof $scope.gender_type_filter != 'undefined')
+				{
+					if($scope.gender_type_filter.length>0)
+					{
+						$scope.selected_offer_axis_details++;
+					}
+				}
+			}
+			if($scope.x_axis_selected == 'age_grouped' || $scope.y_axis_selected == 'age_grouped')
+			{
+				if(typeof $scope.age_group_filter != 'undefined')
+				{
+					for(i=0;i<$scope.age_group_filter.length;i++)
+					{
+						$scope.age_grouped_selected_details.push({"name" : $scope.age_group_filter[i].value});
+					}
+					if($scope.age_grouped_selected_details.length>0)
+					{
+						$scope.selected_offer_axis_details++;
+					}
+				}
+			}
+			if($scope.x_axis_selected == 'location' || $scope.y_axis_selected == 'location')
+			{
+				if(typeof $scope.card_type_filter_details != 'undefined')
+				{
+					for(i=0;i<$scope.location_filter.length;i++)
+					{
+						$scope.location_filter_selected_details.push({"name" : $scope.location_filter[i].cust_location});
+					}
+					if($scope.location_filter_selected_details.length>0)
+					{
+						$scope.selected_offer_axis_details++;
+					}
+				}
+			}
+			if($scope.x_axis_selected == 'segment' || $scope.y_axis_selected == 'segment')
+			{
+				if(typeof $scope.segment_filter != 'undefined')
+				{
+					for(i=0;i<$scope.segment_filter.length;i++)
+					{
+						$scope.segment_selected_details.push({"name" : $scope.segment_filter[i].cust_segment});
+					}
+					if($scope.segment_selected_details.length>0)
+					{
+						$scope.selected_offer_axis_details++;
+					}
+				}
+			}
+			if($scope.x_axis_selected == 'tags' || $scope.y_axis_selected == 'tags')
+			{
+				if(typeof $scope.tag_details_filter != 'undefined')
+				{
+					if($scope.tag_details_filter.length>0)
+					{
+						$scope.selected_offer_axis_details++;
+					}
+				}
+			}
 
-			API.postDetails($scope.request_details,"customer_segment/getOfferSegReportData").then(function successCallback(response) {
-				$scope.show_loader = false;
-				var  category		= response.data.response_data.Graph_data[0].x_axis_name;
-				var chart_details 	= response.data.response_data.Graph_data[0].y_array_header;
-				if(response.status == 203)
+			if($scope.x_axis_selected == 'category' || $scope.y_axis_selected == 'category')
+			{
+				if(typeof $scope.category_filter_details != 'undefined')
 				{
-					var message = response.data.response_data.message;
+					for(i=0;i<$scope.category_filter_details.length;i++)
+					{
+						$scope.category_filter_details_arr.push({"name" : $scope.category_filter_details[i].category});
+					}
+					if($scope.category_filter_details.length>0)
+					{
+						$scope.selected_offer_axis_details++;
+					}
 				}
-				else
-				{
-					var message = ''; 
-				}
+			}
+			if($scope.selected_offer_axis_details<2)
+			{
+				alert("Please Select both "+$scope.x_axis_selected+" and "+$scope.y_axis_selected+" options");
+				return false;
+			}
+			else
+			{
+				$scope.request_details = {
+											"card_type"		: $scope.card_type_selected_details,
+											"tags"			: $scope.tag_details_filter,
+											"offer_id"		: $scope.offer_id,
+											"location"		: $scope.location_filter_selected_details,
+											"age_grouped"	: $scope.age_grouped_selected_details,
+											"segment"		: $scope.segment_selected_details,
+											"gender"		: $scope.gender_type_filter,
+											"category" 		: $scope.category_filter_details_arr,
+											"date_range"	:
+																{ 
+																	"from" 	: $scope.start_date,
+																	"to"	: $scope.end_date
+																},
+											"x_axis" 		: $scope.x_axis_selected,
+											"y_axis" 		: $scope.y_axis_selected 
+										} 
+
+				API.postDetails($scope.request_details,"customer_segment/getOfferSegReportData").then(function successCallback(response) {
+					$scope.show_loader = false;
+					var  category		= response.data.response_data.Graph_data[0].x_axis_name;
+					var chart_details 	= response.data.response_data.Graph_data[0].y_array_header;
+					if(response.status == 203)
+					{
+						var message = response.data.response_data.message;
+					}
+					else
+					{
+						var message = ''; 
+					}
+						
+					Highcharts.chart('container', {
+
+				        chart: {
+				            type: 'column'
+				        },
+
+				        title: {
+				            text: message
+				        },
+
+				        xAxis: {
+				            categories : category
+				        },
+
+				        yAxis: {
+				            allowDecimals: false,
+				            min: 0,
+				            title: {
+				                text: $scope.y_axis_selected
+				            }
+				        },
+				        tooltip: {
+				            formatter: function () {
+				                return '<b>' + this.x + '</b><br/>' +
+				                    this.series.name + ': ' + this.y + '<br/>' +
+				                    'Total: ' + this.point.stackTotal;
+				            }
+				        },
+
+				        plotOptions: {
+				            column: {
+				                stacking: 'normal'
+				            }
+				        },
+
+				        series: chart_details
+				    });
 					
-				Highcharts.chart('container', {
-
-			        chart: {
-			            type: 'column'
-			        },
-
-			        title: {
-			            text: message
-			        },
-
-			        xAxis: {
-			            categories : category
-			        },
-
-			        yAxis: {
-			            allowDecimals: false,
-			            min: 0,
-			            title: {
-			                text: $scope.y_axis_selected
-			            }
-			        },
-			        tooltip: {
-			            formatter: function () {
-			                return '<b>' + this.x + '</b><br/>' +
-			                    this.series.name + ': ' + this.y + '<br/>' +
-			                    'Total: ' + this.point.stackTotal;
-			            }
-			        },
-
-			        plotOptions: {
-			            column: {
-			                stacking: 'normal'
-			            }
-			        },
-
-			        series: chart_details
-			    });
-				
-			}, function errorCallback(response) {
-				$scope.show_loader = false;
-			});
+				}, function errorCallback(response) {
+					$scope.show_loader = false;
+				});
+			}
 		}
 	}
 	$scope.getOfferDetails = function()
