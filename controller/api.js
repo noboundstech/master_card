@@ -49,8 +49,16 @@ router.route('/getCustomerDetails')
 				}
 				else
 				{
+					if(req.body.search_by == 'customer_id')
+					{
+						response_data.message = "Please Enter valid customer Wechat Id";
+					}
+					else
+					{
+						response_data.message = "Please Enter valid customer Card no.";
+					}
 					response_data.success = false;
-					response_data.message = "Please Enter valid customer "+req.body.search_by;
+					
 					res.status(203).send({response_data});
 				}
 			})
@@ -74,7 +82,14 @@ router.route('/getCustomerDetails')
 				else
 				{
 					response_data.success = false;
-					response_data.message = "Please Enter valid customer "+req.body.search_by;
+					if(req.body.search_by == 'customer_id')
+					{
+						response_data.message = "Please Enter valid customer Wechat Id";
+					}
+					else
+					{
+						response_data.message = "Please Enter valid customer Card no.";
+					}
 					res.status(203).send({response_data});
 				}
 			})
