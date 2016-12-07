@@ -15,7 +15,7 @@ angular.module('project', ['ngRoute','homeController','userController','Customer
       controller:'dashboard',
       templateUrl:'templates/dashboard.html',
     })
-    .when('/customer_profile', {
+    .when('/member_profile', {
       controller:'customer_profile',
       templateUrl:'templates/customer_profile.html',
     })

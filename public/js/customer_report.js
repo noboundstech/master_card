@@ -50,6 +50,87 @@ angular.module('CustomerReportController', ['applicationService.services'])
 	}, function errorCallback(response) {
 		$scope.show_loader = false;
 	});
+
+	$scope.change_axis_display = function(type,axis)
+	{
+		if(axis =='x_axis')
+		{
+			document.getElementById("y_axis_card_type").disabled = false;
+			document.getElementById("y_axis_gender").disabled 	= false;
+			document.getElementById("y_axis_location").disabled = false;
+			document.getElementById("y_axis_age_group").disabled = false;
+			document.getElementById("y_axis_tags").disabled = false;
+			document.getElementById("y_axis_segment").disabled = false;
+			document.getElementById("y_axis_category").disabled = false;
+			if(type =='card_type')
+			{
+				document.getElementById("y_axis_card_type").disabled = true;
+			}
+			if(type =='gender')
+			{
+				document.getElementById("y_axis_gender").disabled = true;
+			}
+			if(type =='tags')
+			{
+				document.getElementById("y_axis_tags").disabled = true;
+			}
+			if(type =='location')
+			{
+				document.getElementById("y_axis_location").disabled = true;
+			} 
+			if(type =='age_grouped')
+			{
+				document.getElementById("y_axis_age_group").disabled = true;
+			}
+			if(type =='segment')
+			{
+				document.getElementById("y_axis_segment").disabled = true;
+			}
+			if(type =='category')
+			{
+				document.getElementById("y_axis_category").disabled = true;
+			}
+		}
+		else
+		{
+			document.getElementById("x_axis_tags").disabled = false;
+			document.getElementById("x_axis_card_type").disabled = false;
+			document.getElementById("x_axis_location").disabled = false;
+			document.getElementById("x_axis_age_group").disabled = false;
+			document.getElementById("x_axis_gender").disabled = false;
+			document.getElementById("x_axis_segment").disabled = false;
+			document.getElementById("x_axis_category").disabled = false;
+
+			if(type =='card_type')
+			{
+				document.getElementById("x_axis_card_type").disabled = true;
+			}
+			if(type =='gender')
+			{
+				document.getElementById("x_axis_gender").disabled = true;
+			}
+			if(type =='tags')
+			{
+				document.getElementById("x_axis_tags").disabled = true;
+			}
+			if(type =='location')
+			{
+				document.getElementById("x_axis_location").disabled = true;
+			} 
+			if(type =='age_grouped')
+			{
+				document.getElementById("x_axis_age_group").disabled = true;
+			}
+			if(type =='segment')
+			{
+				document.getElementById("x_axis_segment").disabled = true;
+			}
+			if(type =='category')
+			{
+				document.getElementById("x_axis_category").disabled = true;
+			}
+		}
+	}
 	$scope.changeChecboxStatus = function(type,axis)
 	{
 		if(axis == 'x_axis')
@@ -84,17 +165,8 @@ angular.module('CustomerReportController', ['applicationService.services'])
 					{
 						$scope.checkboxModel.category 	= false;
 					}
-
 					$scope.x_axis_selected 			= 'card_type';
 					$scope.checkboxModel.card_type 	= true;
-
-					document.getElementById("y_axis_card_type").disabled = true;
-					document.getElementById("y_axis_gender").disabled 	= false;
-					document.getElementById("y_axis_location").disabled = false;
-					document.getElementById("y_axis_age_group").disabled = false;
-					document.getElementById("y_axis_tags").disabled = false;
-					document.getElementById("y_axis_segment").disabled = false;
-					document.getElementById("y_axis_category").disabled = false;
 				}
 			}
 			// checking for gender
@@ -102,7 +174,6 @@ angular.module('CustomerReportController', ['applicationService.services'])
 			{
 				if($scope.x_axis_selected != 'gender')
 				{
-
 					if($scope.x_axis_selected == 'card_type')
 					{
 						$scope.checkboxModel.card_type 	= false;
@@ -127,18 +198,8 @@ angular.module('CustomerReportController', ['applicationService.services'])
 					{
 						$scope.checkboxModel.category 	= false;
 					}
-
-
 					$scope.x_axis_selected 			= 'gender';
 					$scope.checkboxModel.gender 	= true;
-
-					document.getElementById("y_axis_gender").disabled = true;
-					document.getElementById("y_axis_card_type").disabled = false;
-					document.getElementById("y_axis_location").disabled = false;
-					document.getElementById("y_axis_age_group").disabled = false;
-					document.getElementById("y_axis_tags").disabled = false;
-					document.getElementById("y_axis_segment").disabled = false;
-					document.getElementById("y_axis_category").disabled = false;
 				}
 			}
 			// checking for tags
@@ -173,13 +234,6 @@ angular.module('CustomerReportController', ['applicationService.services'])
 					}
 					$scope.x_axis_selected 			= 'tags';
 					$scope.checkboxModel.tag_details = true;
-					document.getElementById("y_axis_tags").disabled = true;
-					document.getElementById("y_axis_card_type").disabled = false;
-					document.getElementById("y_axis_location").disabled = false;
-					document.getElementById("y_axis_age_group").disabled = false;
-					document.getElementById("y_axis_gender").disabled = false;
-					document.getElementById("y_axis_segment").disabled = false;
-					document.getElementById("y_axis_category").disabled = false;
 				}
 			}
 			// checking for location
@@ -213,13 +267,6 @@ angular.module('CustomerReportController', ['applicationService.services'])
 					}
 					$scope.x_axis_selected 					= 'location';
 					$scope.checkboxModel.location 	= true;
-					document.getElementById("y_axis_tags").disabled = false;
-					document.getElementById("y_axis_card_type").disabled = false;
-					document.getElementById("y_axis_location").disabled = true;
-					document.getElementById("y_axis_age_group").disabled = false;
-					document.getElementById("y_axis_gender").disabled = false;
-					document.getElementById("y_axis_segment").disabled = false;
-					document.getElementById("y_axis_category").disabled = false;
 				}
 			}
 			// checking for age group
@@ -254,13 +301,6 @@ angular.module('CustomerReportController', ['applicationService.services'])
 					}
 					$scope.x_axis_selected 				= 'age_grouped';
 					$scope.checkboxModel.age_grouped 	= true;
-					document.getElementById("y_axis_tags").disabled = false;
-					document.getElementById("y_axis_card_type").disabled = false;
-					document.getElementById("y_axis_location").disabled = false;
-					document.getElementById("y_axis_age_group").disabled = true;
-					document.getElementById("y_axis_gender").disabled = false;
-					document.getElementById("y_axis_segment").disabled = false;
-					document.getElementById("y_axis_category").disabled = false;
 				}
 			}
 			// checking for segment
@@ -295,13 +335,6 @@ angular.module('CustomerReportController', ['applicationService.services'])
 					}
 					$scope.x_axis_selected 				= 'segment';
 					$scope.checkboxModel.segment 	= true;
-					document.getElementById("y_axis_tags").disabled = false;
-					document.getElementById("y_axis_card_type").disabled = false;
-					document.getElementById("y_axis_location").disabled = false;
-					document.getElementById("y_axis_age_group").disabled = false;
-					document.getElementById("y_axis_gender").disabled = false;
-					document.getElementById("y_axis_segment").disabled = true;
-					document.getElementById("y_axis_category").disabled = false;
 				}
 			}
 			if(type =='category')
@@ -335,13 +368,6 @@ angular.module('CustomerReportController', ['applicationService.services'])
 					}
 					$scope.x_axis_selected 				= 'category';
 					$scope.checkboxModel.category 	= true;
-					document.getElementById("y_axis_tags").disabled = false;
-					document.getElementById("y_axis_card_type").disabled = false;
-					document.getElementById("y_axis_location").disabled = false;
-					document.getElementById("y_axis_age_group").disabled = false;
-					document.getElementById("y_axis_gender").disabled = false;
-					document.getElementById("y_axis_segment").disabled = false;
-					document.getElementById("y_axis_category").disabled = true;
 				}
 			}
 		}
@@ -380,13 +406,6 @@ angular.module('CustomerReportController', ['applicationService.services'])
 
 					$scope.y_axis_selected 			= 'card_type';
 					$scope.checkboxModel.card_type 	= true;
-					document.getElementById("x_axis_card_type").disabled = true;
-					document.getElementById("x_axis_gender").disabled 	= false;
-					document.getElementById("x_axis_location").disabled = false;
-					document.getElementById("x_axis_age_group").disabled = false;
-					document.getElementById("x_axis_tags").disabled = false;
-					document.getElementById("x_axis_segment").disabled = false;
-					document.getElementById("x_axis_category").disabled = false;
 				}
 			}
 			// checking for gender
@@ -421,14 +440,6 @@ angular.module('CustomerReportController', ['applicationService.services'])
 					}
 					$scope.y_axis_selected 			= 'gender';
 					$scope.checkboxModel.gender 	= true;
-
-					document.getElementById("x_axis_gender").disabled = true;
-					document.getElementById("x_axis_card_type").disabled = false;
-					document.getElementById("x_axis_location").disabled = false;
-					document.getElementById("x_axis_age_group").disabled = false;
-					document.getElementById("x_axis_tags").disabled = false;
-					document.getElementById("x_axis_segment").disabled = false;
-					document.getElementById("x_axis_category").disabled = false;
 				}
 			}
 			// checking for tags
@@ -462,13 +473,6 @@ angular.module('CustomerReportController', ['applicationService.services'])
 					}
 					$scope.y_axis_selected 			= 'tags';
 					$scope.checkboxModel.tag_details = true;
-					document.getElementById("x_axis_tags").disabled = true;
-					document.getElementById("x_axis_card_type").disabled = false;
-					document.getElementById("x_axis_location").disabled = false;
-					document.getElementById("x_axis_age_group").disabled = false;
-					document.getElementById("x_axis_gender").disabled = false;
-					document.getElementById("x_axis_segment").disabled = false;
-					document.getElementById("x_axis_category").disabled = false;
 				}
 			}
 			// checking for location
@@ -503,13 +507,6 @@ angular.module('CustomerReportController', ['applicationService.services'])
 					}
 					$scope.y_axis_selected 					= 'location';
 					$scope.checkboxModel.location 	= true;
-					document.getElementById("x_axis_tags").disabled = false;
-					document.getElementById("x_axis_card_type").disabled = false;
-					document.getElementById("x_axis_location").disabled = true;
-					document.getElementById("x_axis_age_group").disabled = false;
-					document.getElementById("x_axis_gender").disabled = false;
-					document.getElementById("x_axis_segment").disabled = false;
-					document.getElementById("x_axis_category").disabled = false;
 				}
 			}
 			// checking for age group
@@ -544,13 +541,6 @@ angular.module('CustomerReportController', ['applicationService.services'])
 					}
 					$scope.y_axis_selected 				= 'age_grouped';
 					$scope.checkboxModel.age_grouped 	= true;
-					document.getElementById("x_axis_tags").disabled = false;
-					document.getElementById("x_axis_card_type").disabled = false;
-					document.getElementById("x_axis_location").disabled = false;
-					document.getElementById("x_axis_age_group").disabled = true;
-					document.getElementById("x_axis_gender").disabled = false;
-					document.getElementById("x_axis_segment").disabled = false;
-					document.getElementById("x_axis_category").disabled = false;
 				}
 			}
 			// checking for segment
@@ -585,13 +575,6 @@ angular.module('CustomerReportController', ['applicationService.services'])
 					}
 					$scope.y_axis_selected 				= 'segment';
 					$scope.checkboxModel.segment 	= true;
-					document.getElementById("x_axis_tags").disabled = false;
-					document.getElementById("x_axis_card_type").disabled = false;
-					document.getElementById("x_axis_location").disabled = false;
-					document.getElementById("x_axis_age_group").disabled = false;
-					document.getElementById("x_axis_gender").disabled = false;
-					document.getElementById("x_axis_segment").disabled = true;
-					document.getElementById("x_axis_category").disabled = false;
 				}
 			}
 			// checking for category
@@ -626,20 +609,14 @@ angular.module('CustomerReportController', ['applicationService.services'])
 					}
 					$scope.y_axis_selected 				= 'category';
 					$scope.checkboxModel.category 		= true;
-					document.getElementById("x_axis_tags").disabled = false;
-					document.getElementById("x_axis_card_type").disabled = false;
-					document.getElementById("x_axis_location").disabled = false;
-					document.getElementById("x_axis_age_group").disabled = false;
-					document.getElementById("x_axis_gender").disabled = false;
-					document.getElementById("x_axis_segment").disabled = false;
-					document.getElementById("x_axis_category").disabled = true;
 				}
 			}
 		}
+		$scope.change_axis_display(type,axis);
 	}
 	$scope.getCustomerSegmentDetails = function()
 	{
-		$scope.show_loader 						= true;
+		
 		$scope.card_type_selected_details 		= [];
 		$scope.segment_selected_details 		= [];
 		$scope.age_grouped_selected_details 	= [];
@@ -724,11 +701,20 @@ angular.module('CustomerReportController', ['applicationService.services'])
 
 		if($scope.selected_axis_details<2)
 		{
-			alert("Please Select both "+$scope.x_axis_selected+" and "+$scope.y_axis_selected+" options");
+			$scope.show_loader 				 = true;
+			if(typeof $scope.x_axis_selected == 'undefined' || $scope.x_axis_selected == '' || typeof $scope.y_axis_selected == 'undefined' || $scope.y_axis_selected == '')
+			{
+				alert("Please Select both X-axis and Y-axis options");
+				return false;
+			}
+			var x_axis_det_name = $scope.x_axis_selected.replace("_", " ");
+			var y_axis_det_name = $scope.y_axis_selected.replace("_", " ");
+			alert("Please Select both "+x_axis_det_name+" and "+y_axis_det_name+" options");
 			return false;
 		}
 		else
 		{
+			$scope.show_loader 						= true;
 			$scope.request_details = {
 										"card_type"		: $scope.card_type_selected_details,
 										"tags"			: $scope.tag_details_filter,
@@ -778,7 +764,7 @@ angular.module('CustomerReportController', ['applicationService.services'])
 			            min: 0,
 			            title: {
 			                text: $scope.y_axis_selected
-			            }
+			            },
 			        },
 			        tooltip: {
 			            formatter: function () {
@@ -791,7 +777,7 @@ angular.module('CustomerReportController', ['applicationService.services'])
 			        plotOptions: {
 			            column: {
 			                stacking: 'normal'
-			            }
+			         	}
 			        },
 
 			        series: chart_details
@@ -826,7 +812,7 @@ angular.module('CustomerReportController', ['applicationService.services'])
 	}
 	$scope.getOfferSegmentDetails = function()
 	{
-		$scope.show_loader 						= true;
+		
 		$scope.card_type_selected_details 		= [];
 		$scope.segment_selected_details 		= [];
 		$scope.age_grouped_selected_details 	= [];
@@ -933,11 +919,19 @@ angular.module('CustomerReportController', ['applicationService.services'])
 			}
 			if($scope.selected_offer_axis_details<2)
 			{
-				alert("Please Select both "+$scope.x_axis_selected+" and "+$scope.y_axis_selected+" options");
+				if(typeof $scope.x_axis_selected == 'undefined' || $scope.x_axis_selected == '' || typeof $scope.y_axis_selected == 'undefined' || $scope.y_axis_selected == '')
+				{
+					alert("Please Select both X-axis and Y-axis options");
+					return false;
+				}
+				var x_axis_det_name = $scope.x_axis_selected.replace("_", " ");
+				var y_axis_det_name = $scope.y_axis_selected.replace("_", " ");
+				alert("Please Select both "+x_axis_det_name+" and "+y_axis_det_name+" options");
 				return false;
 			}
 			else
 			{
+				$scope.show_loader 	   = true;
 				$scope.request_details = {
 											"card_type"		: $scope.card_type_selected_details,
 											"tags"			: $scope.tag_details_filter,

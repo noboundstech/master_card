@@ -139,23 +139,23 @@
 						<strong> X-AXIS </strong>
 					</div>
 					<div class="col-sm-12">
-						<label> Age-group:
-				    		<input type="radio" ng-model="checkboxModel.x_axis" value="age_grouped" ng-click="changeChecboxStatus('age_grouped','x_axis')" id="x_axis_age_group">
+						<label>
+				    		<input type="radio" ng-model="checkboxModel.x_axis" value="age_grouped" ng-click="changeChecboxStatus('age_grouped','x_axis')" id="x_axis_age_group">&nbsp;Age group&nbsp;
 				  		</label>
-						<label>Card Type:
-							<input type="radio" ng-model="checkboxModel.x_axis" value="card_type" ng-click="changeChecboxStatus('card_type','x_axis')" id="x_axis_card_type">
+						<label>
+							<input type="radio" ng-model="checkboxModel.x_axis" value="card_type" ng-click="changeChecboxStatus('card_type','x_axis')" id="x_axis_card_type">&nbsp;Card type&nbsp;
 				  		</label>
-				  		<label>Gender:
-				  			<input type="radio" ng-model="checkboxModel.x_axis" value="gender" ng-click="changeChecboxStatus('gender','x_axis')"  id="x_axis_gender">
+				  		<label>
+				  			<input type="radio" ng-model="checkboxModel.x_axis" value="gender" ng-click="changeChecboxStatus('gender','x_axis')"  id="x_axis_gender">&nbsp;Gender&nbsp;
 				  		</label>
-				  		<label>Location:
-				  			<input type="radio" ng-model="checkboxModel.x_axis" value="location" ng-click="changeChecboxStatus('location','x_axis')" id="x_axis_location">
+				  		<label>
+				  			<input type="radio" ng-model="checkboxModel.x_axis" value="location" ng-click="changeChecboxStatus('location','x_axis')" id="x_axis_location">&nbsp;Location&nbsp;
 				  		</label>
-				  		<label>Segment:
-				    		<input type="radio" ng-model="checkboxModel.x_axis" value="segment" ng-click="changeChecboxStatus('segment','x_axis')"  id="x_axis_segment">
+				  		<label>
+				    		<input type="radio" ng-model="checkboxModel.x_axis" value="segment" ng-click="changeChecboxStatus('segment','x_axis')"  id="x_axis_segment">&nbsp;Segment&nbsp;
 				  		</label>
-				  		<label>Tags:
-				    		<input type="radio" ng-model="checkboxModel.x_axis" value="tags" ng-click="changeChecboxStatus('tags','x_axis')" id="x_axis_tags">
+				  		<label>
+				    		<input type="radio" ng-model="checkboxModel.x_axis" value="tags" ng-click="changeChecboxStatus('tags','x_axis')" id="x_axis_tags">&nbsp;Tags&nbsp;
 				  		</label>
 				  		
 				  	</div>
@@ -165,30 +165,30 @@
 						<strong> Y-AXIS </strong>
 					</div>
 					<div class="col-sm-12">
-						<label> Age-group:
-				    		<input type="radio" ng-model="checkboxModel.y_axis" value="age_grouped" ng-click="changeChecboxStatus('age_grouped','y_axis')" id="y_axis_age_group">
+						<label>
+				    		<input type="radio" ng-model="checkboxModel.y_axis" value="age_grouped" ng-click="changeChecboxStatus('age_grouped','y_axis')" id="y_axis_age_group">&nbsp;Age group&nbsp;
 				  		</label>
-						<label>Card Type:
-							<input type="radio" ng-model="checkboxModel.y_axis" value="card_type" ng-click="changeChecboxStatus('card_type','y_axis')" id="y_axis_card_type">
+						<label>
+							<input type="radio" ng-model="checkboxModel.y_axis" value="card_type" ng-click="changeChecboxStatus('card_type','y_axis')" id="y_axis_card_type">&nbsp;Card type&nbsp;
 				  		</label>
-				  		<label>Gender:
-				  			<input type="radio" ng-model="checkboxModel.y_axis" value="gender" ng-click="changeChecboxStatus('gender','y_axis')"  id="y_axis_gender">
+				  		<label>
+				  			<input type="radio" ng-model="checkboxModel.y_axis" value="gender" ng-click="changeChecboxStatus('gender','y_axis')"  id="y_axis_gender">&nbsp;Gender&nbsp;
 				  		</label>
-				  		<label>Location:
-				  			<input type="radio" ng-model="checkboxModel.y_axis" value="location" ng-click="changeChecboxStatus('location','y_axis')" id="y_axis_location">
+				  		<label>
+				  			<input type="radio" ng-model="checkboxModel.y_axis" value="location" ng-click="changeChecboxStatus('location','y_axis')" id="y_axis_location">&nbsp;Location&nbsp;
 				  		</label>
-				  		<label>Segment:
-				    		<input type="radio" ng-model="checkboxModel.y_axis" value="segment" ng-click="changeChecboxStatus('segment','y_axis')"  id="y_axis_segment">
+				  		<label>
+				    		<input type="radio" ng-model="checkboxModel.y_axis" value="segment" ng-click="changeChecboxStatus('segment','y_axis')"  id="y_axis_segment">&nbsp;Segment&nbsp;
 				  		</label>
-				  		<label>Tags:
-				    		<input type="radio" ng-model="checkboxModel.y_axis" value="tags" ng-click="changeChecboxStatus('tags','y_axis')" id="y_axis_tags">
+				  		<label>
+				    		<input type="radio" ng-model="checkboxModel.y_axis" value="tags" ng-click="changeChecboxStatus('tags','y_axis')" id="y_axis_tags">&nbsp;Tags&nbsp;
 				  		</label>
 				  		
 				  	</div>
 				</div>
 			</div>
 			<div class="loader_angular" ng-show="show_loader"></div>
-			<div id="container" style="min-width: 310px; height: 400px; margin: 0 auto"></div>
+			<div id="container" style="min-width: 310px; height: 450px; margin: 0 auto"></div>
 		</div>
 	</div>
 <input type="radio"  id="x_axis_category" style="display:none">
@@ -207,6 +207,10 @@
     background-size: 70%;
 }
 .highcharts-credits
+{
+  display: none !important
+}
+.highcharts-legend
 {
   display: none !important
 }

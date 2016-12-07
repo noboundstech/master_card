@@ -8,21 +8,30 @@
                         
                     <a href="#/dashboard" class="btn btn-default profile-back-button"><span class="fa fa-long-arrow-left"></span></a>
                     </div>
-                     <div class="col-md-3">
+                     <div class="col-md-2">
                         <h3 class="customer-profile-view">Member Profile View</h3>
                         <h4 class="customer-profile-view hidden-lg hidden-md hidden-sm hidden-xs">Member Profile View</h4>
                     </div>
                     <div class="loader_angular col-md-1 profile-view-load" ng-show="showCustomerLoader"></div>
                     <form class="form-search user-id-search">
                         <div class="row form-box-row">
-                            <div class="col-md-3 col-md-offset-0 user-wechat">
-                                <input type="text" class="form-control" ng-model="wechat_id" id="wechat_id" placeholder="Enter Member Id.">
+                             <div class="col-md-2 col-md-offset-0 user-wechat">
+                                <label>
+                                    <input type="radio" name="search_type" value="customer_id" checked="checked" ng-model="search_by" > We chat Id&nbsp;
+                                    <input type="radio" value="card_no" name="search_type" ng-model="search_by"> Card#  
+                                </label>
+                            </div>
+                             <div class="col-md-2 col-md-offset-0 user-wechat" ng-if="search_by == 'customer_id'">
+                                <input type="text" class="form-control" ng-model="wechat_id" id="wechat_id" placeholder="Enter Member WeChat Id.">
                                 <p class="err" ng-bind="error_message"></p>
                             </div>
-                            <div class="col-md-3">
+                            <div class="col-md-2 col-md-offset-0 user-wechat" ng-if="search_by == 'card_no'">
+                                <input type="text" class="form-control" ng-model="card_no" id="card_no" placeholder="Enter Card Number.">
+                                <p class="err" ng-bind="error_message"></p>
+                            </div>
+                            <div class="col-md-2">
                                 <button type="submit" class="btn btn-primary btn-block submit-btn" ng-click="showCustomerDetail()">Search Member</button>
                             </div>
-                            <div class="col-md-4"></div>
                         </div>    
                     </form>
                 </div>
@@ -200,7 +209,7 @@
                                 </a>
                             </div>
                             <div class="media-body">
-                                <h4 class="media-heading main-user-info">Jack Ma</h4>
+                                <h4 class="media-heading main-user-info">{{customer_details.memberFirstName}} {{customer_details.memberLastName}}</h4>
                             </div>
                         </div>
                         <div class="row">

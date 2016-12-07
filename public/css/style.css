@@ -2252,3 +2252,7 @@ textarea {
 {
   display: none !important
 }
+.highcharts-legend
+{
+  display: none !important
+}

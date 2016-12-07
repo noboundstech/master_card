@@ -30,11 +30,23 @@ module.exports =
 	'validateCustomer': function(req,res,callback)          
 	{
 		var validate_success = 1;
-		var error_message =''
-		if(typeof req.body.wechat_id =='undefined' || req.body.wechat_id =='' || req.body.wechat_id ==null)
+		var error_message ='';
+
+		if(req.body.search_by =='customer_id')
 		{
-			error_message = "Please provide customer wechat Id.";
-			validate_success = 0;
+			if(typeof req.body.wechat_id =='undefined' || req.body.wechat_id =='' || req.body.wechat_id ==null)
+			{
+				error_message = "Please provide customer wechat Id.";
+				validate_success = 0;
+			}
+		}
+		if(req.body.card_no =='card_no')
+		{
+			if(typeof req.body.card_no =='undefined' || req.body.card_no =='' || req.body.card_no ==null)
+			{
+				error_message = "Please provide customer card no..";
+				validate_success = 0;
+			}
 		}
 		if(validate_success ==0) // if validation is unsuccessful
 		{

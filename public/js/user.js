@@ -737,7 +737,7 @@ angular.module('userController', ['applicationService.services'])
 	$scope.wechat_id = '';
 	//$scope.customer_tag = [{"tagDesc":"Life Style","tagId":2},{"tagDesc":"Dining","tagId":4},{"tagDesc":"Shopping","tagId":5},{"tagDesc":"Peace-of-mind","tagId":6}];
 	
-
+	$scope.search_by 	="customer_id";
 	$scope.mapOptions = {};
     $scope.mapOptions.center = {"latitude": 39.9042, "longitude":  116.4074};
     $scope.mapOptions.zoom = 12;
@@ -761,164 +761,184 @@ angular.module('userController', ['applicationService.services'])
 	
 	$scope.showCustomerDetail = function()
 	{
-		$scope.wechat_id = document.getElementById("wechat_id").value;
 		$scope.error_message = '';
-		if(typeof $scope.wechat_id =='undefined' || $scope.wechat_id =='' || $scope.wechat_id ==null)
+		if($scope.search_by == 'customer_id')
 		{
-			$scope.error_message = "Please enter the WeChat Id.";
-			$scope.customer_details = '';
-			$scope.customer_tag = [];
-			$scope.offer_history = '';
-			$scope.mapOptions.center = {"latitude": 39.9042, "longitude":  116.4074};
-			$scope.pushpin.latitude 	= 39.9042;
-			$scope.pushpin.longitude 	= 116.4074;
-			return false;
+			$scope.wechat_id = document.getElementById("wechat_id").value;
+			if(typeof $scope.wechat_id =='undefined' || $scope.wechat_id =='' || $scope.wechat_id ==null)
+			{
+				$scope.error_message = "Please enter the WeChat Id.";
+				$scope.customer_details = '';
+				$scope.customer_tag = [];
+				$scope.offer_history = '';
+				$scope.mapOptions.center = {"latitude": 39.9042, "longitude":  116.4074};
+				$scope.pushpin.latitude 	= 39.9042;
+				$scope.pushpin.longitude 	= 116.4074;
+				return false;
+			}
 		}
-		else
+		if($scope.search_by == 'card_no')
 		{
-			$scope.showCustomerLoader 	= true;
-			$scope.customer_tag 		= [];
-			$scope.offer_history 		= [];
-			// fetching all profile details of the customer
-			API.postDetails({wechat_id : $scope.wechat_id},"api/getCustomerDetails").then(function successCallback(response) {
-				if(response.status == 200)
+			$scope.card_no = document.getElementById("card_no").value;
+			if(typeof $scope.card_no =='undefined' || $scope.card_no =='' || $scope.card_no ==null)
+			{
+				$scope.error_message = "Please enter Card Number.";
+				$scope.customer_details = '';
+				$scope.customer_tag = [];
+				$scope.offer_history = '';
+				$scope.mapOptions.center = {"latitude": 39.9042, "longitude":  116.4074};
+				$scope.pushpin.latitude 	= 39.9042;
+				$scope.pushpin.longitude 	= 116.4074;
+				return false;
+			}
+		}
+		
+		$scope.showCustomerLoader 	= true;
+		$scope.customer_tag 		= [];
+		$scope.offer_history 		= [];
+		$scope.request_detail 		= { wechat_id	: $scope.wechat_id,
+										search_by 	: $scope.search_by,
+										card_no 	: $scope.card_no
+										};
+		// fetching all profile details of the customer
+		API.postDetails($scope.request_detail,"api/getCustomerDetails").then(function successCallback(response) {
+			if(response.status == 200)
+			{
+				
+				$scope.customer_details = response.data.response_data.details[0];
+				$scope.show_search_details = false;
+				$scope.wechat_id = response.data.response_data.details[0].memberWechatId
+
+				// calling api to fetch all tag details
+				API.getDetails("userfetch/fetchtag",{id : $scope.wechat_id}).then(function successCallback(response) {
+					if(response.status == 200)
+					{
+						if(typeof response.data.message.details !='undefined' && response.data.message.details.length>0)
+						{
+							if(response.data.message.details.length>0)
+							{
+								$scope.customer_tag = response.data.message.details;
+							}
+							else
+							{
+								$scope.customer_tag = [];
+							}
+						}
+					}
+					else
+					{
+						$scope.customer_tag = [];
+						// show error message
+					}
+				});
+
+				// calling api to fetch all tag details
+				API.getDetails("userfetch/fetchofferhistory",{id : $scope.wechat_id}).then(function successCallback(response) {
+					
+					console.log(response);
+					if(response.status == 200)
+					{
+						if(typeof response.data.response_data.details !='undefined' && response.data.response_data.details.length>0)
+						{
+							if(response.data.response_data.details.length>0)
+							{
+								$scope.offer_history = response.data.response_data.details;
+							}
+							else
+							{
+								$scope.offer_history = [];
+							}
+						}
+					}
+					else
+					{
+						$scope.offer_history = [];
+						// show error message
+					}
+					$scope.showCustomerLoader = false;
+				}, function errorCallback(response) {
+					$scope.showCustomerLoader = false;
+				});
+				
+				var address_details = '';
+				if($scope.customer_details.AddressLine1 != '' && $scope.customer_details.AddressLine1 != null)
 				{
-					
-					$scope.customer_details = response.data.response_data.details[0];
-					$scope.show_search_details = false;
-
-					// calling api to fetch all tag details
-					API.getDetails("userfetch/fetchtag",{id : $scope.wechat_id}).then(function successCallback(response) {
-						if(response.status == 200)
-						{
-							if(typeof response.data.message.details !='undefined' && response.data.message.details.length>0)
-							{
-								if(response.data.message.details.length>0)
-								{
-									$scope.customer_tag = response.data.message.details;
-								}
-								else
-								{
-									$scope.customer_tag = [];
-								}
-							}
-						}
-						else
-						{
-							$scope.customer_tag = [];
-							// show error message
-						}
-					});
-
-					// calling api to fetch all tag details
-					API.getDetails("userfetch/fetchofferhistory",{id : $scope.wechat_id}).then(function successCallback(response) {
-						
-						console.log(response);
-						if(response.status == 200)
-						{
-							if(typeof response.data.response_data.details !='undefined' && response.data.response_data.details.length>0)
-							{
-								if(response.data.response_data.details.length>0)
-								{
-									$scope.offer_history = response.data.response_data.details;
-								}
-								else
-								{
-									$scope.offer_history = [];
-								}
-							}
-						}
-						else
-						{
-							$scope.offer_history = [];
-							// show error message
-						}
-						$scope.showCustomerLoader = false;
-					}, function errorCallback(response) {
-						$scope.showCustomerLoader = false;
-					});
-					
-					var address_details = '';
-					if($scope.customer_details.AddressLine1 != '' && $scope.customer_details.AddressLine1 != null)
-					{
-						address_details = " "+$scope.customer_details.AddressLine1;
-					}
-					if($scope.customer_details.AddressLine2 != '' && $scope.customer_details.AddressLine2 != null)
-					{
-						address_details+= " "+$scope.customer_details.AddressLine2;
-					}
-					if($scope.customer_details.City != '' && $scope.customer_details.City != null)
-					{
-						address_details+= " "+$scope.customer_details.City;
-					}
-					if($scope.customer_details.District != '' && $scope.customer_details.District != null)
-					{
-						address_details+= " "+$scope.customer_details.District;
-					}
-					if($scope.customer_details.Province != '' && $scope.customer_details.Province != null)
-					{
-						address_details+= " "+$scope.customer_details.Province;
-					}
-					if($scope.customer_details.Country != '' && $scope.customer_details.Country != null)
-					{
-						address_details+= " "+$scope.customer_details.Country;
-					}
-					if(address_details != '')
-					{	
-						var url = 'http://dev.virtualearth.net/REST/v1/Locations/'+address_details+'/?key=AjZ0wB-x_wfUhjERvFMimAGIUbgHM7uRTKubZcmsbnE_-DSE49gBI53Ts9ClaeT5';
-						$.ajax({
-					        url: url,
-					        dataType: "jsonp",
-					        jsonp: "jsonp",
-					        success: function (r) {
-					        	if(r.statusCode == 200 )
-					        	{
-					        		if(r.resourceSets[0].resources.length>0)
-					        		{
-							        	$scope.mapOptions.center = {"latitude": r.resourceSets[0].resources[0].point.coordinates[0], "longitude":  r.resourceSets[0].resources[0].point.coordinates[1]};
-							            $scope.pushpin.latitude =  r.resourceSets[0].resources[0].point.coordinates[0];
-							            $scope.pushpin.longitude =  r.resourceSets[0].resources[0].point.coordinates[1];
-							        }
-							        else
-							        {
-							        	$scope.mapOptions.center = {"latitude": 39.9042, "longitude":  116.4074};
-										$scope.pushpin.latitude 	= 39.9042;
-										$scope.pushpin.longitude 	= 116.4074;
-							        }
+					address_details = " "+$scope.customer_details.AddressLine1;
+				}
+				if($scope.customer_details.AddressLine2 != '' && $scope.customer_details.AddressLine2 != null)
+				{
+					address_details+= " "+$scope.customer_details.AddressLine2;
+				}
+				if($scope.customer_details.City != '' && $scope.customer_details.City != null)
+				{
+					address_details+= " "+$scope.customer_details.City;
+				}
+				if($scope.customer_details.District != '' && $scope.customer_details.District != null)
+				{
+					address_details+= " "+$scope.customer_details.District;
+				}
+				if($scope.customer_details.Province != '' && $scope.customer_details.Province != null)
+				{
+					address_details+= " "+$scope.customer_details.Province;
+				}
+				if($scope.customer_details.Country != '' && $scope.customer_details.Country != null)
+				{
+					address_details+= " "+$scope.customer_details.Country;
+				}
+				if(address_details != '')
+				{	
+					var url = 'http://dev.virtualearth.net/REST/v1/Locations/'+address_details+'/?key=AjZ0wB-x_wfUhjERvFMimAGIUbgHM7uRTKubZcmsbnE_-DSE49gBI53Ts9ClaeT5';
+					$.ajax({
+				        url: url,
+				        dataType: "jsonp",
+				        jsonp: "jsonp",
+				        success: function (r) {
+				        	if(r.statusCode == 200 )
+				        	{
+				        		if(r.resourceSets[0].resources.length>0)
+				        		{
+						        	$scope.mapOptions.center = {"latitude": r.resourceSets[0].resources[0].point.coordinates[0], "longitude":  r.resourceSets[0].resources[0].point.coordinates[1]};
+						            $scope.pushpin.latitude =  r.resourceSets[0].resources[0].point.coordinates[0];
+						            $scope.pushpin.longitude =  r.resourceSets[0].resources[0].point.coordinates[1];
 						        }
 						        else
 						        {
-									$scope.mapOptions.center = {"latitude": 39.9042, "longitude":  116.4074};
+						        	$scope.mapOptions.center = {"latitude": 39.9042, "longitude":  116.4074};
 									$scope.pushpin.latitude 	= 39.9042;
 									$scope.pushpin.longitude 	= 116.4074;
 						        }
-					        },
-					        error: function (e) {
-					            alert(e.statusText);
 					        }
-					    });
-					}
+					        else
+					        {
+								$scope.mapOptions.center = {"latitude": 39.9042, "longitude":  116.4074};
+								$scope.pushpin.latitude 	= 39.9042;
+								$scope.pushpin.longitude 	= 116.4074;
+					        }
+				        },
+				        error: function (e) {
+				            alert(e.statusText);
+				        }
+				    });
+				}
 
-				}
-				else
-				{
-					$scope.error_message = response.data.response_data.message;
-					$scope.showCustomerLoader = false;
-					$scope.customer_details = '';
-					$scope.customer_tag = [];
-					$scope.offer_history = '';
-					$scope.mapOptions.center = {"latitude": 39.9042, "longitude":  116.4074};
-					$scope.pushpin.latitude 	= 39.9042;
-					$scope.pushpin.longitude 	= 116.4074;
-					// show error message
-				}
-			}, function errorCallback(response) {
+			}
+			else
+			{
+				$scope.error_message = response.data.response_data.message;
 				$scope.showCustomerLoader = false;
-			    // called asynchronously if an error occurs
-			    // or server returns response with an error status.
-			});
-		}
-		
+				$scope.customer_details = '';
+				$scope.customer_tag = [];
+				$scope.offer_history = '';
+				$scope.mapOptions.center = {"latitude": 39.9042, "longitude":  116.4074};
+				$scope.pushpin.latitude 	= 39.9042;
+				$scope.pushpin.longitude 	= 116.4074;
+				// show error message
+			}
+		}, function errorCallback(response) {
+			$scope.showCustomerLoader = false;
+		    // called asynchronously if an error occurs
+		    // or server returns response with an error status.
+		});
 	}
 
 	$scope.getCustomerForm = function()
