@@ -744,7 +744,14 @@ angular.module('CustomerReportController', ['applicationService.services'])
 
 				var  category		= response.data.response_data.Graph_data[0].x_axis_name;
 				var chart_details 	= response.data.response_data.Graph_data[0].y_array_header;
-
+				if($scope.y_axis_selected == 'age_grouped')
+				{
+					var y_axis_legend_name = "Age Group"
+				}
+				else
+				{
+					var y_axis_legend_name = $scope.y_axis_selected;
+				}
 				Highcharts.chart('container', {
 
 			        chart: {
@@ -763,7 +770,7 @@ angular.module('CustomerReportController', ['applicationService.services'])
 			            allowDecimals: false,
 			            min: 0,
 			            title: {
-			                text: $scope.y_axis_selected
+			                text: y_axis_legend_name
 			            },
 			        },
 			        tooltip: {
@@ -962,7 +969,16 @@ angular.module('CustomerReportController', ['applicationService.services'])
 					{
 						var message = ''; 
 					}
-						
+					
+					if($scope.y_axis_selected == 'age_grouped')
+					{
+						var y_axis_legend_name = "Age Group"
+					}
+					else
+					{
+						var y_axis_legend_name = $scope.y_axis_selected;
+					}
+				
 					Highcharts.chart('container', {
 
 				        chart: {
@@ -981,7 +997,7 @@ angular.module('CustomerReportController', ['applicationService.services'])
 				            allowDecimals: false,
 				            min: 0,
 				            title: {
-				                text: $scope.y_axis_selected
+				                text: y_axis_legend_name
 				            }
 				        },
 				        tooltip: {
