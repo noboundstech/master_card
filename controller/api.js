@@ -20,11 +20,13 @@ router.route('/getCustomerDetails')
 	var config 			= require('config/db_connection');
 	var constant 		= require("config/constant");
 	var db_query 		= require('db_query/query');
+	var utils 			= require('utility/utils');
 	var response_data 	= {};
 	var where_cond 		= '';
 
 	async.series([
 		function(callback) {
+			// validating the customer details
 			var validate = require('utility/validate');
 			validate.validateCustomer(req,res,function(){
 				if(req.body.search_by =='customer_id')
@@ -35,6 +37,12 @@ router.route('/getCustomerDetails')
 				{
 					where_cond =  " mem.MTRCardNumber='"+req.body.card_no+"'";
 				}
+				callback();
+			})
+		},
+		function(callback){
+			//authenticating that request is comming with valid token
+			utils.checkAuthentication(req,res,function(){
 				callback();
 			})
 		},
@@ -94,6 +102,7 @@ router.route('/getCustomerDetails')
 				}
 			})
 		}],function(err) {
+			response_data.user_details = req.decoded;
 			response_data.success = true;
 			response_data.message = "success!";
 			res.status(200).send({response_data});
@@ -111,7 +120,19 @@ router.route('/getMerchantOffer')
 	var response_data 	= {};
 	async.series([
 		function(callback) {
-			var merchant_id 	= 20102;
+			var validate = require('utility/validate');
+			validate.MerchantOffer(req,res,function(){
+				callback();
+			})
+		},
+		function(callback){
+			var utils = require('utility/utils');
+			utils.checkAuthentication(req,res,function(){
+				callback();
+			})
+		},
+		function(callback) {
+			var merchant_id 	= req.body.merchant_id;
 			var query = " select mem.offerId, mem.offer_rule_en";
 				query+= " FROM "+constant.MERCHANT_OFFER_DETAILS+" as mem";
 				query+= " where mem.merchantId='"+merchant_id+"'";
@@ -124,7 +145,46 @@ router.route('/getMerchantOffer')
 				else
 				{
 					response_data.success = false;
-					response_data.message = "Please Enter valid customer Wechat id.";
+					response_data.message = "Please Enter valid Merchant Id.";
+					res.status(203).send({response_data});
+				}
+			})
+		}],function(err) {
+			response_data.success = true;
+			response_data.message = "success!";
+			res.status(200).send({response_data});
+		});
+});
+// api to read all previous winner ticket from text file 
+router.route('/getUserDetails')
+.post(function (req, res) {
+ 
+	var async 			= require('async');
+	var sql 			= require('mssql');
+	var config 			= require('config/db_connection');
+	var constant 		= require("config/constant");
+	var db_query 		= require('db_query/query');
+	var response_data 	= {};
+	async.series([
+		function(callback){
+			var utils = require('utility/utils');
+			utils.checkAuthentication(req,res,function(){
+				callback();
+			})
+		},
+		function(callback) {
+			var query = " select * ";
+				query+= " FROM "+constant.USER_MASTER_TABLE;
+
+			db_query.RunSelSqlFromDb(req,res,query,response_data,function(){
+				if(response_data.details.length>0)
+				{
+					callback();
+				}
+				else
+				{
+					response_data.success = false;
+					response_data.message = "Please Enter valid Merchant Id.";
 					res.status(203).send({response_data});
 				}
 			})

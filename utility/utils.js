@@ -1,12 +1,22 @@
 module.exports =
 {
-	'authenticateUser': function(req,res,next)          
+	'createAuthentication': function(req,res,data,next)          
+	{
+		var jwt 	= require('jsonwebtoken'),
+			config 	= require('config/config');
+			// check header or url parameters or post parameters for token
+		// decode token
+		var token = jwt.sign(data, config.secret);
+		next(token);
+	
+	},
+	'checkAuthentication': function(req,res,next)          
 	{
 		var jwt 	= require('jsonwebtoken'),
 			express = require('express'),
 			config 	= require('config/config');
 			// check header or url parameters or post parameters for token
-		var token = req.body.token || req.param('token') || req.headers['x-access-token'];
+		var token = req.body.token || req.param('token') || req.headers['x-access-token'] || req.query.token;
 		// decode token
 		if (token) {
 			// verifies secret and checks exp
@@ -15,6 +25,8 @@ module.exports =
 					return res.json({ success: false, message: 'Failed to authenticate token.',err :err });		
 				} else {
 					// if everything is good, save to request for use in other routes
+
+					console.log(decoded)
 					req.decoded = decoded;	
 					next();
 				}

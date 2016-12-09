@@ -17,7 +17,10 @@ router.route('/')
 });
 router.route('/login')
 .post(function (req, res) {
-	var async 	= require('async');
+	var async 		= require('async');
+	var utils   	= require('utility/utils'),
+	 	db_query 	= require('db_query/query'),
+		constant 	= require("config/constant");
 	var response_data = {};
 	async.series([
 		function(callback) {
@@ -25,13 +28,13 @@ router.route('/login')
 			validate.validateSignin(req,res,function(){
 				callback();
 			})
-		},function(callback){
+		},
+		function(callback){
 			var crypto 	 	= require('crypto'),
 				userName 	= req.body.username,
-				constant 	= require("config/constant"),
+				
 				password 	= req.body.password;
-			var db_query 	= require('db_query/query'),
-				selection 	= '*',
+			var	selection 	= '*',
 				table    	= constant.USER_MASTER_TABLE;
 			var condition   = [{
 								"name" 	: "userName",
@@ -45,6 +48,7 @@ router.route('/login')
 			db_query.selectFromDb(req,res,condition,selection,table,response_data,function(){
 				if(response_data.details.length>0)
 				{
+					response_data.user_details =  response_data.details;
 					callback();
 				}
 				else
@@ -54,7 +58,36 @@ router.route('/login')
 					res.status(203).send({response_data});
 				}
 			})
-		}],function(err) {
+		},
+		function(callback)
+		{
+			utils.createAuthentication(res,res,response_data.details[0],function(token){
+				response_data.token = token;
+				callback();
+			})
+		},
+		function(callback)
+		{
+			var table     = constant.USER_MASTER_TABLE;
+			var fieldlist   = [
+				 {
+					"name" 	: "userLastLogin",
+				    "type"	: constant.DATE_TIME,
+				    "varname" : "SYSDATETIME()",
+					"value"	: null
+			 	}];
+			var condition   = [{
+					"name" 	: "userId",
+					"type"	: constant.SMINT,
+					"value"	: response_data.details[0].userId
+				}];
+	    	db_query.updateToDb(req,res,condition,fieldlist,table,response_data,function(){
+	    		console.log("updated");
+	    		callback();
+	    	});
+		}
+
+		],function(err) {
 			response_data.success = true;
 			response_data.message = "successfully login!";
 			res.status(200).send({response_data});

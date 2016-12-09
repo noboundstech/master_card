@@ -3,6 +3,9 @@ angular.module('CustomerReportController', ['applicationService.services'])
 {
 	$scope.user_type = localStorage.getItem('user_type');
 	$scope.user_name = localStorage.getItem('csr_name');
+	$rootScope.authenticateUser();
+
+
 	$scope.checkboxModel = {};
 	$scope.total_checked = 3;
 	$rootScope.map_type = 'default';
@@ -23,7 +26,7 @@ angular.module('CustomerReportController', ['applicationService.services'])
 	$scope.start_date 	= 1+"-"+ 1+"-"+current_date.getFullYear();
 	$scope.end_date 	= current_date.getMonth()+1+"-"+current_date.getDate()+"-"+current_date.getFullYear();
 	$scope.show_loader = true;
-	API.getDetails("customer_segment/getCustReportList",{}).then(function successCallback(response) {
+	API.getDetails("customer_segment/getCustReportList",{token : localStorage.getItem('token')}).then(function successCallback(response) {
 		$scope.show_loader = false;
 		if(response.status == 200)
 		{
@@ -728,7 +731,8 @@ angular.module('CustomerReportController', ['applicationService.services'])
 																"to"	: $scope.end_date
 															},
 										"x_axis" 		: $scope.x_axis_selected,
-										"y_axis" 		: $scope.y_axis_selected 
+										"y_axis" 		: $scope.y_axis_selected,
+										"token" 		: localStorage.getItem('token')
 									} 
 
 			API.postDetails($scope.request_details,"customer_segment/getCustSegReportData").then(function successCallback(response) {
@@ -954,7 +958,8 @@ angular.module('CustomerReportController', ['applicationService.services'])
 																	"to"	: $scope.end_date
 																},
 											"x_axis" 		: $scope.x_axis_selected,
-											"y_axis" 		: $scope.y_axis_selected 
+											"y_axis" 		: $scope.y_axis_selected,
+											"token" 		: localStorage.getItem('token')
 										} 
 
 				API.postDetails($scope.request_details,"customer_segment/getOfferSegReportData").then(function successCallback(response) {
@@ -1026,7 +1031,11 @@ angular.module('CustomerReportController', ['applicationService.services'])
 	$scope.getOfferDetails = function()
 	{
 		$scope.show_merchant_loader = true;
-		API.postDetails({merchant_id : $scope.merchant_details},"api/getMerchantOffer").then(function successCallback(response) {
+		$scope.offer_details = {
+			"token" 		: localStorage.getItem('token'),
+			merchant_id 	: $scope.merchant_details
+		}
+		API.postDetails($scope.offer_details,"api/getMerchantOffer").then(function successCallback(response) {
 			$scope.show_merchant_loader = false;
 			$scope.offer_details = response.data.response_data.details;
 		}, function errorCallback(response) {

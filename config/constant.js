@@ -45,5 +45,6 @@ module.exports = {
     'DEC_10_6'   									: 'decimal(10, 6)',
     'DATE_TIME'  									: 'DATETIME',
     'TOP_OFFER_HISTORY_COUNT' 						: '5',
-	'DERIVE_OFFER_FOR_MEMBER'  						: 'tDerivedOffersForMembers'
+	'DERIVE_OFFER_FOR_MEMBER'  						: 'tDerivedOffersForMembers',
+	'MERCHANT_LOCATION'                             : 'tMerchantLocation',
 };

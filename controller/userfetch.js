@@ -16,7 +16,14 @@ router.route('/fetchprofile')
 				callback();
 			})
 			
-		},function(callback){
+		},
+		function(callback){
+			var utils 	= require('utility/utils');
+			utils.checkAuthentication(req,res,function(){
+				callback();
+			})
+		},
+		function(callback){
 			var crypto 	 	= require('crypto'),
 			   constant 	= require("config/constant"),
 			wechatId 		= req.query.id;
@@ -55,6 +62,12 @@ router.route('/fetchtag')
 		function(callback) {
 			var validate = require('utility/validate');
 			validate.validate_id(req,res,function(){
+				callback();
+			})
+		},
+		function(callback){
+			var utils 	= require('utility/utils');
+			utils.checkAuthentication(req,res,function(){
 				callback();
 			})
 		},function(callback){
@@ -152,6 +165,13 @@ router.route('/removetag')
 			validate.validate_tags(req,res,function(){
 				callback();
 			})
+		},
+		function(callback) {
+			var validate = require('utility/validate');
+			validate.validate_tags(req,res,function(){
+				
+				callback();
+			})
 		},function(callback){
 			var crypto 	 	= require('crypto'),
 			constant 	    = require("config/constant"),
@@ -221,10 +241,11 @@ router.route('/fetchalltag')
 	var response_data = {};
 	async.series([
 		function(callback) {
-			/*var validate = require('utility/validate_cust');
-			validate.validate_chatid(req,res,function(){
+			var validate = require('utility/validate');
+			validate.validate_tags(req,res,function(){
+				
 				callback();
-			})*/ callback();
+			})
 		},function(callback){
 			var crypto 	 	= require('crypto'),
 		    constant 	= require("config/constant"),
@@ -262,9 +283,15 @@ router.route('/searchbymerchant')
 			validate.validate_id(req,res,function(){
 				callback();
 			}) 
+		},
+		function(callback) {
+			var validate = require('utility/validate');
+			validate.validate_tags(req,res,function(){
+				
+				callback();
+			})
 		},function(callback){
-			var crypto 	 	= require('crypto'),
-				constant 	= require("config/constant"),
+			var constant 	= require("config/constant"),
 				wechatid	= req.query.id;
 		    var memberid    = req.query.memberId;
 			var db_query 	= require('db_query/query');
@@ -347,36 +374,103 @@ router.route('/searchbymerchant')
 //******************************************************************
 router.route('/searchbydistance')
 .get(function (req, res) {
+    var async             = require('async');
+    var response_data     = {};
+    async.series([
+        function(callback) {
+            var validate = require('utility/validate');
+            validate.validate_id(req,res,function(){
+                callback();
+            })
+        },function(callback){
+            var crypto          = require('crypto'),
+                constant     = require("config/constant"),
+                wechatid    = req.query.id;
+            var memberid    = req.query.memberId;
+            var db_query     = require('db_query/query');
+        //    var in_latitude  = req.query.lat;
+        //    var in_longitude =req.query.long;
+            var in_latitude  = 31.203724;
+            var in_longitude =121.429289;
+            var sqlstring  = "select " ;
+                sqlstring +="offmerch.offerId ,offmerch.merchantId ,offmerch.merchantName,offmerch.offer_rule_en, ";
+                sqlstring +=" dbo.udf_Haversine(mloc.AddressLatitude,mloc.Addresslongitude,"+ in_latitude + " ,"+in_longitude +") as distance, "
+                sqlstring +="count(offmerch.merchantId) as cnt ";
+                sqlstring +="from "+constant.OFFER_BY_MERCHANTS+" as offmerch " ;
+                sqlstring +="INNER JOIN "+constant.MERCHANT_MASTER+" as mem on offmerch.merchantId = mem.merchantId ";
+                sqlstring +="INNER JOIN "+constant.MERCHANT_LOCATION +"  as mloc on  mloc.merchantId = offmerch.merchantId ";
+                sqlstring +="INNER JOIN "+constant.TAG_SUBCAT_RELATION+" as tagsubcat on tagsubcat.subCategoryId = offmerch.subCategoryId   ";
+                sqlstring +="INNER JOIN "+constant.MEMBER_TAG_TABLE+" as memtag on tagsubcat.tagId = memtag.tagId ";
+                sqlstring +="where memtag.memberId ="+memberid+" and memtag.statusOfTag = 1 ";
+                sqlstring +="group by offmerch.merchantId, offmerch.offerId, offmerch.merchantName,offmerch.offer_rule_en ,mloc.AddressLatitude,mloc.Addresslongitude ";
+                sqlstring +="union all ";
+                sqlstring +="select null as offerId,";
+                sqlstring +="b.merchantId," ;
+                sqlstring +="b.merchantName," ;
+                sqlstring +="b.offer_rule_en," ;
+                sqlstring +="b.distance, " ;
+                sqlstring +="sum(b.cnt) as cnt from ";
+                sqlstring +="(select offmerch.offerId ,offmerch.merchantId ,offmerch.merchantName, ";
+                sqlstring +="offmerch.offer_rule_en, ";
+                sqlstring +=" dbo.udf_Haversine(mloc.AddressLatitude,mloc.Addresslongitude,"+ in_latitude + " ,"+in_longitude +") as distance, "
+                sqlstring +="count(offmerch.merchantId) as cnt ";
+                sqlstring +="from "+constant.OFFER_BY_MERCHANTS+" as offmerch " ;
+                sqlstring +="INNER JOIN "+constant.MERCHANT_MASTER+" as mem on offmerch.merchantId = mem.merchantId ";
+                sqlstring +="INNER JOIN "+constant.MERCHANT_LOCATION +"  as mloc on  mloc.merchantId = offmerch.merchantId ";
+                sqlstring +="INNER JOIN "+constant.TAG_SUBCAT_RELATION+" as tagsubcat on tagsubcat.subCategoryId = offmerch.subCategoryId   ";
+                sqlstring +="INNER JOIN "+constant.MEMBER_TAG_TABLE+" as memtag on tagsubcat.tagId = memtag.tagId ";
+                sqlstring +="where memtag.memberId ="+memberid+" and memtag.statusOfTag = 1 ";
+                sqlstring +="group by ";
+                sqlstring +="offmerch.merchantId,offmerch.offerId ,offmerch.merchantName ,offmerch.offer_rule_en ,mloc.AddressLatitude,mloc.Addresslongitude ";
+                sqlstring +=")b group by b.merchantId, b.merchantName,b.offer_rule_en,b.distance  ";
+                sqlstring +="order by merchantId,cnt asc,distance asc ,offerId desc "
+			db_query.RunSelSqlFromDb(req,res,sqlstring,response_data,function(){
+                len=response_data.details.length;
+                if(len>0)
+                {
+                    var merch_dist_detail = [];
+                    response_data.mdetail =[];
+                    for (t=0;t<len;t++)
+                    {
 
-	
-	var lat = req.query.lat;
-	var lon = req.query.lon;
+                         if(response_data.details[t].offerId == null)
+                         {
 
-	var db_ayan = require('db_query/query')
-	var data ={};
-	//******************************************************************
-	db_ayan.searchByDistanceTest(req,res,lat,lon,data,function(){
+							response_data.mdetail.push({"merch_dist_detail": merch_dist_detail,"merch_dist_total": response_data.details[t].cnt});
+                            merch_dist_detail = [];
 
-	res.json({ message: data });
-	})
+                         }
+                         else
+                         {
+                             merch_dist_detail.push({ "offerId": response_data.details[t].offerId,
+                                                "merchantId": response_data.details[t].merchantId ,
+                                              "merchantName": response_data.details[t].merchantName,
+                                          "offer_rule_en": response_data.details[t].offer_rule_en,
+                                          "distance": response_data.details[t].distance
+                                           });
 
-})
-	//******************************************************************
-	/*router.route('/fetchofferhistory')
-	.get(function (req, res) {
+                         }
+                         if(t == len-1)
+                         {
+                             callback();
+                         }
+                     }
 
-		
-		var id = req.query.id;
-		
-		var db_ayan = require('db_query/query')
-		var data ={};
-	//******************************************************************
-	db_ayan.fetchOfferHistoryTest(req,res,id,data,function(){
-
-		res.json({ message: data });
-	})
-
-	}) */
+                }
+                else
+                {
+                    response_data.success = false;
+                    response_data.message = "MemberId row not present in DB table.";
+                    res.status(203).send({response_data});
+                }
+            })
+        }],function(err) {
+            response_data.details = "";
+            response_data.success = true;
+            response_data.message = "select Merchant search done!";
+            res.status(200).send({response_data});
+    });
+}); 
 router.route('/fetchofferhistory')
 .get(function (req, res) {
     var async             = require('async');
@@ -388,9 +482,16 @@ router.route('/fetchofferhistory')
             validate.validate_id(req,res,function(){
                 callback();
             })
-        },function(callback){
-            var crypto          = require('crypto'),
-                  id        = req.query.id;
+        },
+        function(callback) {
+			var validate = require('utility/validate');
+			validate.validate_tags(req,res,function(){
+				
+				callback();
+			})
+		},
+		function(callback){
+            var id        = req.query.id;
             var db_query     = require('db_query/query');
           
             var sqlstring = '';
@@ -419,7 +520,4 @@ router.route('/fetchofferhistory')
             res.status(200).send({response_data});
     });
 });   
-
-
-
 module.exports = router;

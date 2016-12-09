@@ -138,7 +138,7 @@ module.exports =
 			callback();
 		}
 	},
-	'validate_fromto_dates': function(req,res,callback)         
+	'validate_fromto_dates' : function(req,res,callback)         
     {
         var validate_success = 1;
         var error_message ='';
@@ -157,6 +157,32 @@ module.exports =
             error_message = "undefined or blank or null incoming date_range From";
             validate_success = 0;
         }
+        if(validate_success ==0) // if validation is unsuccessful
+        {
+           
+            res.status(203).send({    "status"         : false,
+                                    "error_type"     : "validate error",
+                                    "message"         : error_message
+                                });
+        }
+        else
+        {
+            // if validation
+            callback();
+        }
+    },
+    'MerchantOffer' : function(req,res,callback)         
+    {
+        var validate_success = 1;
+        var error_message ='';
+       
+        if( typeof req.body.merchant_id =='undefined' || req.body.merchant_id =='' || req.body.merchant_id ==null)
+
+        {
+            error_message = "Please Select Merchant Id.";
+            validate_success = 0;
+        }
+        
         if(validate_success ==0) // if validation is unsuccessful
         {
            

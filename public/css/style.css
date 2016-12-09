@@ -2256,3 +2256,9 @@ textarea {
 {
   display: none !important
 }
+.user_list_button
+{
+  padding: 6px 30px !important; 
+  margin-bottom: 9px !important;
+  margin-top: 5px !important;
+}

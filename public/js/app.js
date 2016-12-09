@@ -1,4 +1,5 @@
-angular.module('project', ['ngRoute','homeController','userController','CustomerReportController','ngStorage','localytics.directives','ngMap','gm','720kb.datepicker','angularBingMaps'])
+angular.module('project', ['ngRoute','homeController','userController','adminController','CustomerReportController','ngStorage',
+                          'angularUtils.directives.dirPagination','localytics.directives','ngMap','gm','720kb.datepicker','angularBingMaps'])
  
 .config(function($routeProvider) {
  
@@ -14,6 +15,10 @@ angular.module('project', ['ngRoute','homeController','userController','Customer
     .when('/dashboard', {
       controller:'dashboard',
       templateUrl:'templates/dashboard.html',
+    })
+    .when('/admin', {
+      controller:'admin',
+      templateUrl:'templates/admin.html',
     })
     .when('/member_profile', {
       controller:'customer_profile',
@@ -45,9 +50,29 @@ angular.module('project', ['ngRoute','homeController','userController','Customer
     localStorage.removeItem("user_type");
     localStorage.removeItem("csr_name");
     localStorage.removeItem("char_message");
-    localStorage.removeItem("user_details")
+    localStorage.removeItem("user_details");
+    localStorage.removeItem("csr_id");
+    localStorage.removeItem("customer_csr_name");
+    localStorage.removeItem("token");
     $location.url("");
   }
+
+  $rootScope.authenticateUser = function()
+  {
+    if(typeof localStorage.getItem("token") == 'undefined' || localStorage.getItem("token") == null || localStorage.getItem("token") == '')
+    {
+      alert("Please login again.");
+      $location.url("");
+    }
+  }
+  $rootScope.selected_page_pagination = '20';
+  $rootScope.page_per_pagination = [
+                  {name:'5', value: '5'}, 
+                  {name:'10', value: '10'}, 
+                  {name:'20', value: '20'}, 
+                  {name:'50', value: '50'}, 
+                  {name:'100', value: '100'},     
+              ];
 })
 .directive('googleplace', function() {
     return {

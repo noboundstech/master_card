@@ -23,25 +23,26 @@ angular.module('homeController', ['applicationService.services'])
 			return false;
 		}
 		$scope.Loader = true;
-	// calling api 
+		// calling api 
 		API.postDetails($scope.login,"userLogin/login").then(function successCallback(response) {
 			$scope.Loader = false;
 			if(response.status == 200)
 			{
+				console.log(response);
 				$rootScope.user_name = $scope.login.username;
-				localStorage.setItem('csr_name', JSON.stringify(response.data.response_data.details[0].userName));
-				localStorage.setItem('csr_id', JSON.stringify(response.data.response_data.details[0].userId));
-				if(response.data.response_data.details[0].userActiveStatus == 'Y')
+				localStorage.setItem('csr_name', JSON.stringify(response.data.response_data.user_details[0].userName));
+				localStorage.setItem('csr_id', JSON.stringify(response.data.response_data.user_details[0].userId));
+				localStorage.setItem('token', response.data.response_data.token);
+				if(response.data.response_data.user_details[0].userRole == 'Admin')
 				{
-					localStorage.setItem('user_type',"csr");
+					localStorage.setItem('user_role',"admin");
 				}
 				else
 				{
-					localStorage.setItem('user_type',"admin");
+					localStorage.setItem('user_role',"csr");
 				}
-				localStorage.setItem('last_login',response.data.response_data.details[0].userLastLogin);
+				localStorage.setItem('last_login',response.data.response_data.user_details[0].userLastLogin);
 				$location.url("dashboard");
-
 			}
 			else
 			{

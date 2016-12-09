@@ -1,6 +1,7 @@
 angular.module('userController', ['applicationService.services'])
 .controller('user', function($scope,$rootScope,$http,$routeParams,$location,$localStorage,$interval,API)
 {
+	$rootScope.authenticateUser();
 	$scope.show_id   = 0;
 	$scope.show_cust = false;;
 	$scope.offer_history =[];
@@ -73,6 +74,8 @@ angular.module('userController', ['applicationService.services'])
 	// function to get merchant by location
 	$scope.getMerchantDetailsByLocation = function(lotlng,type)
 	{
+
+		$scope.location_details.token = localStorage.getItem('token');
 		API.getDetails("userfetch/searchbydistance",$scope.location_details).then(function successCallback(response) {
 			$scope.merchant_by_location_details = '';
 			if(response.status == 200)
@@ -208,7 +211,7 @@ angular.module('userController', ['applicationService.services'])
 		$scope.show_cust    = true;
 		$scope.cust         = customer_name;
 		// fetching all the offer offered to the customer
-		API.getDetails("userfetch/fetchofferhistory",{id : id}).then(function successCallback(response) {
+		API.getDetails("userfetch/fetchofferhistory",{id : id,token : localStorage.getItem("token")}).then(function successCallback(response) {
 			if(response.status == 200)
 			{
 				if(typeof response.data.message.details !='undefined' && response.data.message.details.length>0)
@@ -270,7 +273,7 @@ angular.module('userController', ['applicationService.services'])
 		$scope.merchant_details = '';
 		$scope.customer_tag = '';
 		// fetching all tag irrespective of the customer
-		API.getDetails("userfetch/fetchalltag",{}).then(function successCallback(response) {
+		API.getDetails("userfetch/fetchalltag",{token : localStorage.getItem("token")}).then(function successCallback(response) {
 			if(response.status == 200)
 			{
 				if(typeof response.data.message.details !='undefined' && response.data.message.details.length>0)
@@ -289,7 +292,7 @@ angular.module('userController', ['applicationService.services'])
 		    // or server returns response with an error status.
 		});
 		// fetching all profile details of the customer
-		API.getDetails("userfetch/fetchprofile",{id : id}).then(function successCallback(response) {
+		API.getDetails("userfetch/fetchprofile",{id : id,token : localStorage.getItem("token")}).then(function successCallback(response) {
 			if(response.status == 200)
 			{
 				if(typeof response.data.message.details !='undefined' && response.data.message.details.length>0)
@@ -308,7 +311,7 @@ angular.module('userController', ['applicationService.services'])
 		    // or server returns response with an error status.
 		});
 		// calling function to fetch all tag which are taged to this customer
-		$scope.getTagDetailByCustomer({id : id},"showCustomerLoader");
+		$scope.getTagDetailByCustomer({id : id,token : localStorage.getItem("token")},"showCustomerLoader");
 		// fetching all merchant details which are tag to the given customer
 		$scope.getMerchantDetailsByCustomer({id : id},"showCustomerLoader");
 		$scope.getCustomerOfferHistory(id,customer_name,location,index);
@@ -343,7 +346,7 @@ angular.module('userController', ['applicationService.services'])
 	{
 		$scope.showSearchMerchantTagLoader = true;
 		$scope.search_by_merchant_tag = document.getElementById("search_by_merchant_tag").value;
-		API.getDetails("userfetch/searchbypart",{tag : $scope.search_by_merchant_tag}).then(function successCallback(response) {
+		API.getDetails("userfetch/searchbypart",{tag : $scope.search_by_merchant_tag,token : localStorage.getItem("token")}).then(function successCallback(response) {
 
 			$scope.merchant_details = '';
 			if(response.status == 200)
@@ -442,7 +445,8 @@ angular.module('userController', ['applicationService.services'])
     	var details = {	"id" 		: $scope.customer_id,
     					"tags" 		: $scope.add_customer_tag,
     					"csr_id" 	: JSON.parse(localStorage.getItem('csr_id')),
-    					"member_id" : $scope.customer_details.memberId
+    					"member_id" : $scope.customer_details.memberId,
+    					"token" 	: localStorage.getItem("token")
     				};
     	API.postDetails(details,"userfetch/addtag").then(function successCallback(response) {
 			$scope.show_add_tag_loader = false;
@@ -459,7 +463,7 @@ angular.module('userController', ['applicationService.services'])
 				}
 				$scope.add_customer_tag ='';
 				// once the tag got added calling function to refreash the tag details
-				$scope.getTagDetailByCustomer({id :  $scope.customer_id},"show_add_tag_loader");
+				$scope.getTagDetailByCustomer({id :  $scope.customer_id,token : localStorage.getItem("token")},"show_add_tag_loader");
 				// getting all merchant details once the new tag got added by the csr to the customer
 				$scope.getMerchantDetailsByCustomer({id : $scope.customer_id},"show_add_tag_loader");
 			}
@@ -483,12 +487,13 @@ angular.module('userController', ['applicationService.services'])
     									"tagDesc" : tag
     									}],
     					"csr_id" 	: JSON.parse(localStorage.getItem('csr_id')),
-    					"member_id" : $scope.customer_details.memberId
+    					"member_id" : $scope.customer_details.memberId,
+    					"token" 	: localStorage.getItem("token")
     				};
     	API.postDetails(details,"userfetch/removetag").then(function successCallback(response) {
     		
     		// calling function to update the tag to the customer
-    		$scope.getTagDetailByCustomer({id :  $scope.customer_id},"show_remove_tag_loader");
+    		$scope.getTagDetailByCustomer({id :  $scope.customer_id,token : localStorage.getItem("token")},"show_remove_tag_loader");
     		// calling function to update the merchant details of the customer
     		$scope.getMerchantDetailsByCustomer({id : $scope.customer_id},"show_remove_tag_loader");
     	//	$scope.show_remove_tag_loader = false;
@@ -724,13 +729,16 @@ angular.module('userController', ['applicationService.services'])
 	    $location.url("");
 	}
 })
-.controller('dashboard', function($scope,$localStorage)
+.controller('dashboard', function($scope,$localStorage,$rootScope)
 {
+	$rootScope.authenticateUser();
 	$scope.user_type = localStorage.getItem('user_type');
 	$scope.user_name = localStorage.getItem('csr_name');
+	$scope.user_role = localStorage.getItem('user_role');
 })
-.controller('customer_profile', function($scope,$localStorage,API)
+.controller('customer_profile', function($scope,$localStorage,API,$rootScope)
 {
+	$rootScope.authenticateUser();
 	$scope.user_type = localStorage.getItem('user_type');
 	$scope.user_name = localStorage.getItem('csr_name');
 	$scope.show_search_details = true;
@@ -798,7 +806,8 @@ angular.module('userController', ['applicationService.services'])
 		$scope.offer_history 		= [];
 		$scope.request_detail 		= { wechat_id	: $scope.wechat_id,
 										search_by 	: $scope.search_by,
-										card_no 	: $scope.card_no
+										card_no 	: $scope.card_no,
+										token 		: localStorage.getItem("token")
 										};
 		// fetching all profile details of the customer
 		API.postDetails($scope.request_detail,"api/getCustomerDetails").then(function successCallback(response) {
@@ -810,7 +819,7 @@ angular.module('userController', ['applicationService.services'])
 				$scope.wechat_id = response.data.response_data.details[0].memberWechatId
 
 				// calling api to fetch all tag details
-				API.getDetails("userfetch/fetchtag",{id : $scope.wechat_id}).then(function successCallback(response) {
+				API.getDetails("userfetch/fetchtag",{id : $scope.wechat_id,token : localStorage.getItem("token")}).then(function successCallback(response) {
 					if(response.status == 200)
 					{
 						if(typeof response.data.message.details !='undefined' && response.data.message.details.length>0)
@@ -833,7 +842,7 @@ angular.module('userController', ['applicationService.services'])
 				});
 
 				// calling api to fetch all tag details
-				API.getDetails("userfetch/fetchofferhistory",{id : $scope.wechat_id}).then(function successCallback(response) {
+				API.getDetails("userfetch/fetchofferhistory",{id : $scope.wechat_id,token : localStorage.getItem("token")}).then(function successCallback(response) {
 					
 					console.log(response);
 					if(response.status == 200)
