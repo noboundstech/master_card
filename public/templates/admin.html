@@ -24,7 +24,7 @@
                     <div class="row" style="margin-top:10px;margin-bottom:10px">
                         <div class="col-sm-3">
 
-                             <button type="button" class="btn btn-primary">Add New User</button>
+                             <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#addUserModel">Add New User</button>
                         </div>
                         <div class="col-sm-9">
                             <form class="form-inline pull-right">
@@ -76,7 +76,7 @@
                         <div class="col-md-2 col-sm-2" ng-bind="user.UserActiveStatus"></div>
                         <div class="col-md-2 col-sm-2" ng-bind="user.userLastLogin | date : 'medium'"></div>
                         <div class="col-md-3 col-sm-3 text-right" style="float:right">
-                            <button type="button" class="btn btn-success" style=" padding: 6px 30px ; margin-bottom: 9px !important; margin-top: 5px ;">Edit</button>
+                            <button type="button" class="btn btn-success" style=" padding: 6px 30px ; margin-bottom: 9px !important; margin-top: 5px ;" data-toggle="modal" data-target="#updateUserModel" ng-click="EditUserData(user)">Edit</button>
                             <button type="button" class="btn btn-danger" style=" padding: 6px 30px ; margin-bottom: 9px !important; margin-top: 5px ;">Delete</button>
                         </div>
                     </div>
@@ -107,6 +107,103 @@
         </div>
     </div>
 </section>
+<div class="modal fade" id="addUserModel" tabindex="-1" role="dialog" aria-labelledby="offerHistory">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+                <h4 class="modal-title" id="myModalLabel">
+                   Add New User
+                </h4>
+                 <div class="modal-body">
+
+                    <div class="row" style="padding:10px">
+                        <div class="col-sm-3"> <strong>User Name</strong> </div>
+                        <div class="col-sm-9"> <input type="text" name="add_user_name" id="add_user_name" ng-model="add_user_name"></div>
+                    </div>
+                     <div class="row" style="padding:10px">
+                        <div class="col-sm-3"> <strong>User Role</strong> </div>
+                        <div class="col-sm-9"> 
+                            <select id="user_role" name="user_role" model="user_role">
+                                <option value = "" disabled> Select User Role</option>
+                                 <option value="Admin">ADMIN</option>
+                                 <option value="CSR">CSR</option>
+                            </select>
+                        </div>
+                    </div>
+                     <div class="row" style="padding:10px">
+                        <button type="button" class="btn btn-primary btn-block">Add User</button>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">
+                    Close
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="updateUserModel" tabindex="-1" role="dialog" aria-labelledby="offerHistory">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+                <h4 class="modal-title" id="myModalLabel">
+                   Update New User
+
+                </h4>
+                 <div class="modal-body">
+
+                    <div class="row" style="padding:10px">
+                        <div class="col-sm-3"> <strong>User Name</strong> </div>
+                        <div class="col-sm-9"> <input type="text" name="user_name" id="user_name" ng-model="edit_user_Details.userName"></div>
+                    </div>
+                    <div class="row" style="padding:10px">
+                        <div class="col-sm-3"> <strong>User Role</strong> </div>
+                        <div class="col-sm-9"> 
+                            <select id="user_role" name="user_role" model="edit_user_Details.userRole">
+                                <option value = ""> Select User Role</option>
+                                 <option value="Admin">ADMIN</option>
+                                 <option value="CSR">CSR</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="row" style="padding:10px">
+                        <div class="col-sm-3"> <strong>Active Status</strong> </div>
+                        <div class="col-sm-9"> 
+                            <select id="user_status" name="user_status" model="edit_user_Details.UserActiveStatus">
+                                <option value = ""> Select Status</option>
+                                 <option value="Y">Active</option>
+                                 <option value="N">IN-ACTIVE</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="row" style="padding:10px">
+                        <div class="col-sm-3"> <strong>Password</strong> </div>
+                        <div class="col-sm-9"> 
+                            <input type="text" name="user_password" id="user_password" ng-model="edit_user_Details.userPwd">
+                        </div>
+                    </div>
+                     <div class="row" style="padding:10px">
+                        <button type="button" class="btn btn-primary btn-block">Update</button>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">
+                    Close
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+
 <style>
 .loader_angular {
     position: relative;

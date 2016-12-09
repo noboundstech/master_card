@@ -3,6 +3,7 @@ angular.module('adminController', ['applicationService.services'])
 {
 	$scope.user_type = localStorage.getItem('user_type');
 	$scope.user_name = localStorage.getItem('csr_name');
+	$scope.edit_user_Details = {};
 	$rootScope.authenticateUser();
 	$scope.show_loader = true;
 	$scope.details = { "token" 		: localStorage.getItem('token')}
@@ -12,4 +13,10 @@ angular.module('adminController', ['applicationService.services'])
 	}, function errorCallback(response) {
 		
 	});
+
+	$scope.EditUserData = function(data)
+	{
+		$scope.edit_user_Details = data;
+	//	document.getElementById("").value = ;
+	}
 })
