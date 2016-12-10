@@ -7,4 +7,5 @@ module.exports = function (app) {
  //	app.use('/profile', require('controller/profile'));
  	app.use('/customer_segment', require('controller/customer_segment'));
   	app.use('/userfetch', require('controller/userfetch'));
+  	app.use('/adminSection', require('controller/admin_section'));
 };

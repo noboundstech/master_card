@@ -1,26 +1,24 @@
 module.exports = {
-	'AGE_GROUP'     : [
-	        {
-	            "value"     : "18 to 24"
-	        },
-	        {
-	            "value"     : "25 to 34"
-	        },
-	        {
-	            "value"     : "35 to 44"
-	        },
-	        {
-	            "value"     : "45 to 54"
-	        },
-	        {
-	            "value"     : "55 to 64"
-	        },
-	        {
-	           
-	            "value"     : "65 to 100"
-	        }
-	                    
-	              ],
+	'AGE_GROUP' : [
+			        {
+			            "value"     : "18 to 24"
+			        },
+			        {
+			            "value"     : "25 to 34"
+			        },
+			        {
+			            "value"     : "35 to 44"
+			        },
+			        {
+			            "value"     : "45 to 54"
+			        },
+			        {
+			            "value"     : "55 to 64"
+			        },
+			        {
+			            "value"     : "65 to 100"
+			        }
+              	],
 	'USER_MASTER_TABLE'   							: 'tUserMaster',
 	'TAG_MASTER_TABLE'    							: 'tTagMaster',
 	'MEMBER_MASTER_TABLE' 							: 'tMemberMaster',
@@ -39,6 +37,8 @@ module.exports = {
     'VARCHAR100' 									: 'VarChar(100)',
     'VARCHAR20'   									: 'VarChar(20)',
     'VARCHAR2'   									: 'VarChar(2)',
+    'VARCHAR5'   									: 'VarChar(5)',
+    'VARCHAR1'   									: 'VarChar(1)',
     'INT'        									: 'Int',
     'BIT'        									: 'Bit',
     'SMINT'      									: 'Smallint',
@@ -47,4 +47,8 @@ module.exports = {
     'TOP_OFFER_HISTORY_COUNT' 						: '5',
 	'DERIVE_OFFER_FOR_MEMBER'  						: 'tDerivedOffersForMembers',
 	'MERCHANT_LOCATION'                             : 'tMerchantLocation',
+	'MERCHANT_LOCATION'                             : 'tMerchantLocation',
+	'DERIVE_OFFER_FOR_MEMBER'                       : 'tDerivedOffersForMembers',
+	'CHAT_HISTORY_HEADER'                           : 'tMemberChatHistoryHeader',
+	'CHAT_HISTORY_DETAILS'                          : 'tMemberChatHistoryDetails'
 };

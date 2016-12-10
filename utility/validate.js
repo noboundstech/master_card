@@ -118,7 +118,7 @@ module.exports =
         var len= req.body.tags.length;
 		console.log('validate len :',len);
 		if( typeof req.body.tags =='undefined' || len ==0 || req.body.tags ==null)
-	//	if(typeof req.body.tags =='undefined' || len ==0 || req.query.tags ==null)
+		//	if(typeof req.body.tags =='undefined' || len ==0 || req.query.tags ==null)
 		{
 			error_message = "undefined or blank or null incoming tag";
 			validate_success = 0;
@@ -186,6 +186,174 @@ module.exports =
         if(validate_success ==0) // if validation is unsuccessful
         {
            
+            res.status(203).send({    "status"         : false,
+                                    "error_type"     : "validate error",
+                                    "message"         : error_message
+                                });
+        }
+        else
+        {
+            // if validation
+            callback();
+        }
+    },
+    'ValidateAddUser' : function(req,res,callback)         
+    {
+        var validate_success = 1;
+        var error_message ='';
+       
+        if( typeof req.body.user_role =='undefined' || req.body.user_role =='' || req.body.user_role ==null)
+        {
+            error_message = "Please Select User role.";
+            validate_success = 0;
+        }
+        if( typeof req.body.password =='undefined' || req.body.password =='' || req.body.password ==null)
+        {
+            error_message = "Please Enter user password.";
+            validate_success = 0;
+        }
+        if( typeof req.body.add_user_name =='undefined' || req.body.add_user_name =='' || req.body.add_user_name ==null)
+        {
+            error_message = "Please add user name.";
+            validate_success = 0;
+        }
+        if(validate_success ==0) // if validation is unsuccessful
+        {
+           
+            res.status(203).send({   "status"         : false,
+                                    "error_type"     : "validate error",
+                                    "message"         : error_message
+                                });
+        }
+        else
+        {
+            // if validation
+            callback();
+        }
+    },
+     'ValidateUpdateUser' : function(req,res,callback)         
+    {
+        var validate_success = 1;
+        var error_message ='';
+        if( typeof req.body.UserActiveStatus =='undefined' || req.body.UserActiveStatus =='' || req.body.UserActiveStatus ==null)
+        {
+            error_message = "Please select user active status.";
+            validate_success = 0;
+        }
+        if( typeof req.body.userRole =='undefined' || req.body.userRole =='' || req.body.userRole ==null)
+        {
+            error_message = "Please Select User role.";
+            validate_success = 0;
+        }
+        if( typeof req.body.userPwd =='undefined' || req.body.userPwd =='' || req.body.userPwd ==null)
+        {
+            error_message = "Please Enter user password.";
+            validate_success = 0;
+        }
+        if( typeof req.body.userName =='undefined' || req.body.userName =='' || req.body.userName ==null)
+        {
+            error_message = "Please add user name.";
+            validate_success = 0;
+        }
+
+        if(validate_success ==0) // if validation is unsuccessful
+        {
+           
+            res.status(203).send({   "status"         : false,
+                                    "error_type"     : "validate error",
+                                    "message"         : error_message
+                                });
+        }
+        else
+        {
+            // if validation
+            callback();
+        }
+    },
+    'validate_offersent': function(req,res,callback)
+    {
+        var validate_success = 1;
+        var error_message ='';
+        var memberid      = req.body.member_id,
+              csrid       = req.body.csr_id,
+              offerid     = req.body.offer_id,
+
+        if( typeof memberid =='undefined'  || memberid ==''  || memberid ==null)
+
+        {
+            error_message = "undefined or blank or null incoming member id ";
+            validate_success = 0;
+        }
+         if( typeof csrid =='undefined'  || csrid ==''  || csrid ==null)
+
+        {
+            error_message = "undefined or blank or null incoming csrid ";
+            validate_success = 0;
+        }
+        if( typeof offerid =='undefined'  || offerid ==''  || offerid ==null)
+        {
+            error_message = "undefined or blank or null incoming offerid ";
+            validate_success = 0;
+        }
+
+        if(validate_success ==0) // if validation is unsuccessful
+        {
+
+            res.status(203).send({    "status"         : false,
+                                    "error_type"     : "validate error",
+                                    "message"         : error_message
+                                });
+        }
+        else
+        {
+            // if validation
+            callback();
+        }
+    },
+     'validate_memberId': function(req,res,callback)
+    {
+        var validate_success = 1;
+        var error_message ='';
+        var memberid      = req.body.member_id;
+
+
+        if( typeof memberid =='undefined'  || memberid ==''  || memberid ==null)
+
+        {
+            error_message = "undefined or blank or null incoming member id ";
+            validate_success = 0;
+        }
+
+        if(validate_success ==0) // if validation is unsuccessful
+        {
+
+            res.status(203).send({    "status"         : false,
+                                    "error_type"     : "validate error",
+                                    "message"         : error_message
+                                });
+        }
+        else
+        {
+            // if validation
+            callback();
+        }
+    },
+     'validate_usercsrId': function(req,res,callback)
+    {
+        var validate_success = 1;
+        var error_message ='';
+        var   csrid       = req.body.csr_id;
+
+        if( typeof csrid =='undefined'  || csrid ==''  || csrid ==null)
+
+        {
+            error_message = "undefined or blank or null incoming csrid ";
+            validate_success = 0;
+        }
+
+        if(validate_success ==0) // if validation is unsuccessful
+        {
+
             res.status(203).send({    "status"         : false,
                                     "error_type"     : "validate error",
                                     "message"         : error_message

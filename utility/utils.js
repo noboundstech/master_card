@@ -22,7 +22,14 @@ module.exports =
 			// verifies secret and checks exp
 			jwt.verify(token,config.secret, function(err, decoded) {			
 				if (err) {
-					return res.json({ success: false, message: 'Failed to authenticate token.',err :err });		
+					var response_data = {};
+					return res.status(203).send({ 
+						success: false,
+						response_data : {
+											message: 'Please provide valid token.'
+										}
+					});
+				//	return res.json({ success: false, message: 'Failed to authenticate token.',err :err });		
 				} else {
 					// if everything is good, save to request for use in other routes
 					req.decoded = decoded;	
@@ -32,7 +39,7 @@ module.exports =
 		} else {
 			// if there is no token
 			// return an error
-			return res.status(403).send({ 
+			return res.status(203).send({ 
 				success: false, 
 				message: 'No token provided.'
 			});
@@ -56,6 +63,14 @@ module.exports =
 		if(type == constant.VARCHAR2)
 		{
 			return sql.VarChar(2);
+		}
+		if(type == constant.VARCHAR5)
+		{
+			return sql.VarChar(5);
+		}
+		if(type == constant.VARCHAR1)
+		{
+			return sql.VarChar(1);
 		}
 		if(type == constant.INT)
 		{
@@ -115,7 +130,7 @@ module.exports =
 								    "varname" : "SYSDATETIME()",
 									"value"	: cur_date
 								}];
-				     condition   = [{
+				    condition   = [{
 									"name" 	: "tagId",
 									"type"	: constant.INT,
 									"value"	: tagid
@@ -125,7 +140,6 @@ module.exports =
 									"value"	: memberid
 								}];	
 				 	db_query.updateToDb(req,res,condition,fieldlist,table,response_data,function(){
-				 		console.log("update successfully");
 				 		if(response_data.details>0)
 						{
 							//callback();
