@@ -281,7 +281,7 @@ router.route('/getCustSegReportData')
                     cond_sql+=' and mm.MTRCardType in(';
                     for (t_card=0;t_card<len_card;t_card++)
                     {
-                        if (t_card==0)
+                        if(t_card==0)
                             cond_sql+="'"+req.body.card_type[t_card].name+"'";
                         else
                             cond_sql+=",'"+req.body.card_type[t_card].name+"'";

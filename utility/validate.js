@@ -276,7 +276,7 @@ module.exports =
         var error_message ='';
         var memberid      = req.body.member_id,
               csrid       = req.body.csr_id,
-              offerid     = req.body.offer_id,
+              offerid     = req.body.offer_id;
 
         if( typeof memberid =='undefined'  || memberid ==''  || memberid ==null)
 
@@ -318,7 +318,6 @@ module.exports =
 
 
         if( typeof memberid =='undefined'  || memberid ==''  || memberid ==null)
-
         {
             error_message = "undefined or blank or null incoming member id ";
             validate_success = 0;
@@ -326,10 +325,9 @@ module.exports =
 
         if(validate_success ==0) // if validation is unsuccessful
         {
-
-            res.status(203).send({    "status"         : false,
+            res.status(203).send({  "status"         : false,
                                     "error_type"     : "validate error",
-                                    "message"         : error_message
+                                    "message"        : error_message
                                 });
         }
         else
