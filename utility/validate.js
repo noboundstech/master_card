@@ -116,7 +116,6 @@ module.exports =
 		var validate_success = 1;
 		var error_message ='';
         var len= req.body.tags.length;
-		console.log('validate len :',len);
 		if( typeof req.body.tags =='undefined' || len ==0 || req.body.tags ==null)
 		//	if(typeof req.body.tags =='undefined' || len ==0 || req.query.tags ==null)
 		{

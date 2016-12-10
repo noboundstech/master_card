@@ -5,7 +5,7 @@ router.route('/getCustReportList')
 .get(function (req, res) {
     var async             = require('async');
     var response_data     = {};
-    async.series([
+    async.parallel([
         function(callback){
             var utils = require('utility/utils');
             utils.checkAuthentication(req,res,function(){
