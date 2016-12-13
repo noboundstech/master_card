@@ -13,7 +13,9 @@ angular.module('userController', ['applicationService.services'])
 	$scope.chat_details =[];
 	$scope.search_type  = "distance";
 	$scope.search_by_merchant_tag = '';
+	$scope.search_by_distance_filter = 0;
 	var socket = io.connect();
+	$scope.csr_name = JSON.parse(localStorage.getItem('csr_name'));
 	// the default center if we can give
 	$scope.points = '';
 
@@ -74,15 +76,16 @@ angular.module('userController', ['applicationService.services'])
 	// function to get merchant by location
 	$scope.getMerchantDetailsByLocation = function(lotlng,type)
 	{
-
-		$scope.location_details.token = localStorage.getItem('token');
+		$scope.location_details.id     		= $scope.customer_id;
+		$scope.location_details.member_id 	= $scope.customer_details.memberId;
+		$scope.location_details.token 		= localStorage.getItem('token');
 		API.getDetails("userfetch/searchbydistance",$scope.location_details).then(function successCallback(response) {
 			$scope.merchant_by_location_details = '';
-			if(response.status == 200)
+			if(response.status == 200 || response.status == 304)
 			{
-				if(typeof response.data.message.details !='undefined' && response.data.message.details.length>0)
+				if(typeof response.data.response_data.mdetail !='undefined' && response.data.response_data.mdetail.length>0)
 				{
-					$scope.merchant_by_location_details = response.data.message.details;
+					$scope.merchant_by_location_details = response.data.response_data.mdetail;
 				}
 			}
 			else
@@ -123,8 +126,9 @@ angular.module('userController', ['applicationService.services'])
 	// function to get tag made to the customer
 	$scope.getTagDetailByCustomer = function(detail,type)
 	{
+		detail.token = localStorage.getItem('token');
 		API.getDetails("userfetch/fetchtag",detail).then(function successCallback(response) {
-			if(response.status == 200)
+			if(response.status == 200 || response.status == 304)
 			{
 				if(typeof response.data.message.details !='undefined' && response.data.message.details.length>0)
 				{
@@ -174,12 +178,14 @@ angular.module('userController', ['applicationService.services'])
 	// function to get all merchant details which are tag to the customer
 	$scope.getMerchantDetailsByCustomer = function(details,type)
 	{
+		details.member_id = $scope.customer_details.memberId;
+		details.token = localStorage.getItem('token');
 		API.getDetails("userfetch/searchbymerchant",details).then(function successCallback(response) {
 			if(response.status == 200)
 			{
-				if(typeof response.data.response_data.details !='undefined' && response.data.response_data.details.length>0)
+				if(typeof response.data.response_data.mdetail !='undefined' && response.data.response_data.mdetail.length>0)
 				{
-					$scope.merchant_details = response.data.response_data.details;
+					$scope.merchant_details = response.data.response_data.mdetail;
 				}
 			}
 			else
@@ -210,13 +216,20 @@ angular.module('userController', ['applicationService.services'])
 		$scope.show_id      = id;
 		$scope.show_cust    = true;
 		$scope.cust         = customer_name;
+		$scope.no_offer_found = false;
 		// fetching all the offer offered to the customer
 		API.getDetails("userfetch/fetchofferhistory",{id : id,token : localStorage.getItem("token")}).then(function successCallback(response) {
-			if(response.status == 200)
+			
+			console.log(response);
+			if(response.status == 200 || response.status == 304)
 			{
-				if(typeof response.data.message.details !='undefined' && response.data.message.details.length>0)
+				if(typeof response.data.response_data.details !='undefined' && response.data.response_data.details.length>0)
 				{
-					$scope.offer_history = response.data.message.details;
+					$scope.offer_history = response.data.response_data.details;
+				}
+				else
+				{
+					$scope.no_offer_found  = true;
 				}
 			}
 			else
@@ -262,9 +275,8 @@ angular.module('userController', ['applicationService.services'])
 		// adding new user into the socket
 		$(".messages").scrollTop($(".messages")[0].scrollHeight);
 	}
-
 	// get all customer details when the csr will click on customer list in left side
-	$scope.getCustomerDetails = function(id,customer_name,location,index)
+	$scope.getCustomerDetails = function(details,id,customer_name,location,index)
 	{
 		$scope.showCustomerLoader = true;
 		$scope.customer_id = id;
@@ -274,7 +286,7 @@ angular.module('userController', ['applicationService.services'])
 		$scope.customer_tag = '';
 		// fetching all tag irrespective of the customer
 		API.getDetails("userfetch/fetchalltag",{token : localStorage.getItem("token")}).then(function successCallback(response) {
-			if(response.status == 200)
+			if(response.status == 200 || response.status == 304)
 			{
 				if(typeof response.data.message.details !='undefined' && response.data.message.details.length>0)
 				{
@@ -291,14 +303,59 @@ angular.module('userController', ['applicationService.services'])
 		    // called asynchronously if an error occurs
 		    // or server returns response with an error status.
 		});
+		
 		// fetching all profile details of the customer
 		API.getDetails("userfetch/fetchprofile",{id : id,token : localStorage.getItem("token")}).then(function successCallback(response) {
-			if(response.status == 200)
+			if(response.status == 200 || response.status == 304)
 			{
 				if(typeof response.data.message.details !='undefined' && response.data.message.details.length>0)
 				{
+
 					$scope.customer_details = response.data.message.details[0];
+					$scope.user_detail_selected = {
+						"id" 	: $scope.customer_id,
+						"token" 	 	: localStorage.getItem("token"),
+						"member_id" 	: response.data.message.details[0].memberId
+					};
+					if(typeof $scope.user_details[index].chat_header == 'undefined' || $scope.user_details[index].chat_header == '' || $scope.user_details[index].chat_header == null)
+					{
+						$scope.user_details[index].chat_header = Math.floor((Math.random() * 100000) + 1);
+						
+						API.postDetails($scope.user_detail_selected,"userfetch/AddChatHeader").then(function successCallback(response) {
+							if(response.status == 200 || response.status == 304)
+							{
+								if(typeof response.data.message.details !='undefined' && response.data.message.details.length>0)
+								{
+									$scope.present_customer_details = $scope.user_details[index];
+									$scope.customer_details.chatheaderid = response.data.message.details.max_header_id;
+								}
+							}
+							else
+							{
+								// show error message
+							}
+						}, function errorCallback(response) {
+							$scope.showCustomerLoader = false;
+						    // called asynchronously if an error occurs
+						    // or server returns response with an error status.
+						});
+						$scope.current_header_id = $scope.user_details[index].chat_header;
+						$scope.present_customer_details = $scope.user_details[index];
+					}
+					else
+					{
+						$scope.current_header_id = $scope.user_details[index].chat_header;
+						$scope.present_customer_details = $scope.user_details[index];
+					}
+
+					$scope.getMerchantDetailsByCustomer({id : id},"showCustomerLoader");
 				}
+
+				// calling function to fetch all tag which are taged to this customer
+				$scope.getTagDetailByCustomer({id : id,token : localStorage.getItem("token")},"showCustomerLoader");
+				// fetching all merchant details which are tag to the given customer
+				$scope.getCustomerOfferHistory(id,customer_name,location,index);
+				$scope.search_type  = "distance";
 			}
 			else
 			{
@@ -310,12 +367,6 @@ angular.module('userController', ['applicationService.services'])
 		    // called asynchronously if an error occurs
 		    // or server returns response with an error status.
 		});
-		// calling function to fetch all tag which are taged to this customer
-		$scope.getTagDetailByCustomer({id : id,token : localStorage.getItem("token")},"showCustomerLoader");
-		// fetching all merchant details which are tag to the given customer
-		$scope.getMerchantDetailsByCustomer({id : id},"showCustomerLoader");
-		$scope.getCustomerOfferHistory(id,customer_name,location,index);
-		$scope.search_type  = "distance";
 	}
 	$scope.openReadmoreModel = function(details)
 	{
@@ -337,7 +388,6 @@ angular.module('userController', ['applicationService.services'])
 	    $scope.pushpin.longitude 	= $scope.mapOptions.center.longitude;
 		$scope.merchant_by_location_details = '';
 		$scope.showSearchByDistanceLoader = true;
-
 		// calling function to get all merchant details by the given location
 		$scope.getMerchantDetailsByLocation($scope.location_details,"showSearchByDistanceLoader");
 	}
@@ -442,11 +492,12 @@ angular.module('userController', ['applicationService.services'])
     		return false;
     	}
     	$scope.show_add_tag_loader = true;
-    	var details = {	"id" 		: $scope.customer_id,
-    					"tags" 		: $scope.add_customer_tag,
-    					"csr_id" 	: JSON.parse(localStorage.getItem('csr_id')),
-    					"member_id" : $scope.customer_details.memberId,
-    					"token" 	: localStorage.getItem("token")
+    	var details = {	"id" 				: $scope.customer_id,
+    					"tags" 				: $scope.add_customer_tag,
+    					"csr_id" 			: JSON.parse(localStorage.getItem('csr_id')),
+    					"member_id" 		: $scope.customer_details.memberId,
+    					"chatheaderid" 		: $scope.present_customer_details.chat_header,
+    					"token" 			: localStorage.getItem("token")
     				};
     	API.postDetails(details,"userfetch/addtag").then(function successCallback(response) {
 			$scope.show_add_tag_loader = false;
@@ -482,13 +533,14 @@ angular.module('userController', ['applicationService.services'])
     {
     	
     	$scope.show_remove_tag_loader = true;
-    	var details = {	"id" 		: $scope.customer_id,
-    					"tags" 		: [{ "tagId" : tagId,
-    									"tagDesc" : tag
-    									}],
-    					"csr_id" 	: JSON.parse(localStorage.getItem('csr_id')),
-    					"member_id" : $scope.customer_details.memberId,
-    					"token" 	: localStorage.getItem("token")
+    	var details = {	"id" 				: $scope.customer_id,
+    					"tags" 				: [{ "tagId" : tagId,
+    											"tagDesc" : tag
+    											}],
+    					"csr_id" 			: JSON.parse(localStorage.getItem('csr_id')),
+    					"member_id" 		: $scope.customer_details.memberId,
+    					"token" 			: localStorage.getItem("token"),
+    					"chatheaderid" 	: $scope.present_customer_details.chat_header
     				};
     	API.postDetails(details,"userfetch/removetag").then(function successCallback(response) {
     		
@@ -503,10 +555,7 @@ angular.module('userController', ['applicationService.services'])
 		    // or server returns response with an error status.
 		});
     }
-
-
     /* socket related code */
-
     if(localStorage.getItem('char_message') != 'undefined' && localStorage.getItem('char_message') != null)
 	{
 		$scope.chat_details = JSON.parse(localStorage.getItem('char_message'));
@@ -516,10 +565,10 @@ angular.module('userController', ['applicationService.services'])
 		console.log("clear all data");
 	}, 300000);
 
-	if(localStorage.getItem('csr_name') != 'undefined' && localStorage.getItem('csr_name') != null)
+	if(localStorage.getItem('token') != 'undefined' && localStorage.getItem('token') != null)
 	{
-		$scope.csr_id 	= JSON.parse(localStorage.getItem('csr_name'));
-		socket.emit('new user',{type : "csr" , id : $scope.csr_id,"csr" : $scope.csr_id},function(data){
+		$scope.csr_id 	=  localStorage.getItem('token');
+		socket.emit('new user',{type : "csr" , id : localStorage.getItem('token'),"csr" : localStorage.getItem('token')},function(data){
 			if(!data.status)
 			{
 				if(data.connect_by =='csr')
@@ -536,16 +585,17 @@ angular.module('userController', ['applicationService.services'])
 	}
   	$scope.sendChatMessageFromCsr = function (){
   		var checkedValue = '';
+  		$scope.value_checked = [];
   		if($scope.search_type == 'distance')
   		{
-  			
-
 			var inputElements = document.getElementsByClassName('distance_offer_checkbox');
 			for(var i=0; inputElements[i]; ++i){
 			    if(inputElements[i].checked){
 		      		if(checkedValue != '' && checkedValue != 'undefined ' && checkedValue != null)
 		      		{
 		           		checkedValue +=" , "+inputElements[i].value;
+		           		console.log(inputElements[i]);
+		           		$scope.value_checked.push(inputElements[i].id);
 		            }
 		            else
 		            {
@@ -589,11 +639,29 @@ angular.module('userController', ['applicationService.services'])
   		}
   		if($scope.message_sending_detail != '')
 		{
-  			socket.emit("send message",{ "csr_id" : $scope.csr_id,"sender_id" : $scope.csr_id,"customer_id" :$scope.cust_id,"message" : $scope.message_sending_detail,"cust_id" : $scope.send_to_customer});
+
+			console.log($scope.value_checked);
+
+			console.log($scope.customer_details);
+			console.log($scope.customer_details.chatheaderid);
+			console.log($scope.customer_details.memberId);
+  			socket.emit("send message",
+  				{
+	  				"sender_id" 		: $scope.csr_id,
+	  				"customer_id" 		: $scope.cust_id,
+	  				"typeofdata"		: "TX",
+	  				"converseby" 		: "CSR",
+	  				"message" 			: $scope.message_sending_detail,
+	  				"chatheaderid" 		: $scope.customer_details.chatheaderid,
+	  				"member_id" 		: $scope.customer_details.memberId,
+	  				"cust_id" 			: $scope.send_to_customer
+	  			});
   		}
   		$scope.csr_message ='';
 	}
 	socket.on("new message",function(data){
+
+		console.log(data);
 		$scope.chat_details.push(data);
 		//$scope.$apply();
 		$(".messages").scrollTop($(".messages")[0].scrollHeight);

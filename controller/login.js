@@ -48,8 +48,17 @@ router.route('/login')
 			db_query.selectFromDb(req,res,condition,selection,table,response_data,function(){
 				if(response_data.details.length>0)
 				{
-					response_data.user_details =  response_data.details;
-					callback();
+					if(response_data.details[0].UserActiveStatus == constant.ACTIVE_STATUS)
+					{
+						response_data.user_details =  response_data.details;
+						callback();
+					}
+					else
+					{
+						response_data.success = false;
+						response_data.message = "Please Enter active Username and Password.";
+						res.status(203).send({response_data});
+					}
 				}
 				else
 				{

@@ -27,7 +27,7 @@ angular.module('CustomerReportController', ['applicationService.services'])
 	$scope.end_date 	= current_date.getMonth()+1+"-"+current_date.getDate()+"-"+current_date.getFullYear();
 	$scope.show_loader = true;
 	API.getDetails("customer_segment/getCustReportList",{token : localStorage.getItem('token')}).then(function successCallback(response) {
-		$scope.show_loader = false;
+		
 		if(response.status == 200)
 		{
 			$scope.card_type 			= response.data.response_data.cardtype;
@@ -38,16 +38,36 @@ angular.module('CustomerReportController', ['applicationService.services'])
 			$scope.tag_type 			= response.data.response_data.tag;
 			$scope.merchat_details 		= response.data.response_data.merchant;
 			$scope.category 			= response.data.response_data.category;
-
-
 			$scope.gender_type_filter 		= $scope.gender_type;
 			$scope.card_type_filter_details = $scope.card_type;
 			$scope.segment_filter 			= $scope.segment_type;
 			$scope.age_group_filter 		= $scope.age_group_type;
-			//	$scope.getNewChatDetails();
+
+			document.getElementById("x_axis_card_type").checked = true;
+			document.getElementById("y_axis_card_type").disabled = true;
+			$scope.x_axis_selected = 'card_type';
+			$scope.checkboxModel.card_type 	= true;
+			document.getElementById("y_axis_gender").checked = true;
+			document.getElementById("x_axis_gender").disabled = true;
+			$scope.y_axis_selected = 'gender';
+			$scope.checkboxModel.gender 	= true;
+
+
+			$scope.offer_id = 22;
+			if($location.path() == '/offer_segment')
+			{
+				$scope.getOfferSegmentDetails();
+			}
+			else
+			{
+				$scope.getCustomerSegmentDetails();
+			}
+
+			//$scope.show_loader = false;
 		}
 		else
 		{
+			$scope.show_loader = false;
 			// show error message
 		}
 	}, function errorCallback(response) {

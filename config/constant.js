@@ -50,5 +50,7 @@ module.exports = {
 	'MERCHANT_LOCATION'                             : 'tMerchantLocation',
 	'DERIVE_OFFER_FOR_MEMBER'                       : 'tDerivedOffersForMembers',
 	'CHAT_HISTORY_HEADER'                           : 'tMemberChatHistoryHeader',
-	'CHAT_HISTORY_DETAILS'                          : 'tMemberChatHistoryDetails'
+	'CHAT_HISTORY_DETAILS'                          : 'tMemberChatHistoryDetails',
+	'ACTIVE_STATUS'                          		: 'Y',
+	'VARCHAR255'                                    : 'VarChar(255)'
 };

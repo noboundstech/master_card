@@ -17,6 +17,8 @@ module.exports =
 			config 	= require('config/config');
 			// check header or url parameters or post parameters for token
 		var token = req.body.token || req.param('token') || req.headers['x-access-token'] || req.query.token;
+
+		console.log(token);
 		// decode token
 		if (token) {
 			// verifies secret and checks exp
@@ -86,12 +88,20 @@ module.exports =
 		}
 		if(type == constant.DEC_10_6)
 		{
-			return sql.decimal(10, 6);
+			return sql.Decimal(10, 6);
 		}
 		if(type == constant.DATE_TIME)
 		{
 			return sql.datetime;
 		}
+		if(type == constant.BIGINT)
+        {
+            return sql.bigint;
+        }
+        if(type == constant.VARCHAR255)
+        {
+            return sql.VarChar(255);
+        }
 	},
 	'addAndUpdateTags' : function(req,res,response_data,callback_fun)
 	{
@@ -100,7 +110,7 @@ module.exports =
 		len         	= req.body.tags.length;
 		var action 		= [];
 		var memberid    = req.body.member_id,
-			   csrid    = req.body.csr_id,
+			  csrid     =   req.decoded.userId,
 	       tagstatus    = 1,		      
 		    wechatId    = req.body.id,
 		    cur_date 	= null,

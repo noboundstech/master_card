@@ -97,9 +97,10 @@ function findNewCsrForConnection(data,users,total_user,total_csr,socket,csr_id,c
         var details = {
                         id              : data.id,
                         image           : "img/user.png",
-                        notification    : 5,
+                        notification    : 0,
                         name            : "Kennedy john"+data.id ,
                         last_login      : "0 min",
+                        chat_header     : "",
                         offer_history   : [{
                                   date : "10/3/2016",
                                   time : "9.30 A.M",
@@ -120,8 +121,6 @@ function findNewCsrForConnection(data,users,total_user,total_csr,socket,csr_id,c
 }
 app.io = io.sockets.on("connection",function(socket){
   socket.on('new user',function(data,callback){
-
-    console.log(data,"data sending from csr")
     // if user already holding any old connection
     if(data.id in users)
     {
@@ -165,9 +164,10 @@ app.io = io.sockets.on("connection",function(socket){
             var details = {
                         id              : data.id,
                         image           : "img/user.png",
-                        notification    : 5,
+                        notification    : 0,
                         name            : data.id ,
                         last_login      : "0 min",
+                        chat_header     : "",
                         offer_history   : [{
                                   date : "10/3/2016",
                                   time : "9.30 A.M",
@@ -186,11 +186,10 @@ app.io = io.sockets.on("connection",function(socket){
     socket_details = socket;
   });
   socket.on("send message",function(data){
-    console.log(data)
     data.date = new Date();
+    data.typeofdata = "TX";
     if(data.cust_id in users)
     {
-      console.log("it is in user");
       if(typeof users[data.cust_id] !="undefined")
       {
         if(data.cust_id !='csr')
@@ -205,7 +204,6 @@ app.io = io.sockets.on("connection",function(socket){
     }
     else
     {
-      console.log("outside user");
       // this is if only csr is in socket
       if(typeof users[data.csr_id] != 'undefined')
       {

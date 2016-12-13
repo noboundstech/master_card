@@ -28,7 +28,7 @@ angular.module('project', ['ngRoute','homeController','userController','adminCon
       controller:'offer_segment',
       templateUrl:'templates/offer_segment.html',
     })
-     .when('/customer_segment', {
+     .when('/member_segment', {
       controller:'offer_segment',
       templateUrl:'templates/customer_segment.html',
     })

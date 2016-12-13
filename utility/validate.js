@@ -269,14 +269,20 @@ module.exports =
             callback();
         }
     },
-    'validate_offersent': function(req,res,callback)
+     'validate_offersent': function(req,res,callback)        
     {
         var validate_success = 1;
         var error_message ='';
         var memberid      = req.body.member_id,
               csrid       = req.body.csr_id,
+                 id       = req.body.id,
               offerid     = req.body.offer_id;
+        if( typeof id =='undefined'  || id ==''  || id ==null)
 
+        {
+            error_message = "undefined or blank or null incoming wechatid ";
+            validate_success = 0;
+        }
         if( typeof memberid =='undefined'  || memberid ==''  || memberid ==null)
 
         {
@@ -294,10 +300,10 @@ module.exports =
             error_message = "undefined or blank or null incoming offerid ";
             validate_success = 0;
         }
-
+    
         if(validate_success ==0) // if validation is unsuccessful
         {
-
+          
             res.status(203).send({    "status"         : false,
                                     "error_type"     : "validate error",
                                     "message"         : error_message
@@ -309,24 +315,31 @@ module.exports =
             callback();
         }
     },
-     'validate_memberId': function(req,res,callback)
+     'validate_memberId': function(req,res,callback)        
     {
         var validate_success = 1;
         var error_message ='';
-        var memberid      = req.body.member_id;
+        var memberid      = req.body.member_id,
+                  id      = req.body.id;
+        if( typeof id =='undefined'  || id ==''  || id ==null)
 
-
+        {
+            error_message = "undefined or blank or null incoming wechatid ";
+            validate_success = 0;
+        }
         if( typeof memberid =='undefined'  || memberid ==''  || memberid ==null)
+
         {
             error_message = "undefined or blank or null incoming member id ";
             validate_success = 0;
         }
-
+             
         if(validate_success ==0) // if validation is unsuccessful
         {
-            res.status(203).send({  "status"         : false,
+          
+            res.status(203).send({    "status"         : false,
                                     "error_type"     : "validate error",
-                                    "message"        : error_message
+                                    "message"         : error_message
                                 });
         }
         else

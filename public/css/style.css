@@ -507,7 +507,7 @@ background-image: linear-gradient(#ffffff 1%, #ffffff 15%)important;
     font-weight:400;
     margin-top:0; 
     display: inline-block;
-    margin-left:-91px; 
+ /*   margin-left:-91px; */
     margin-right:0px;
     color:#4f4f4f;
     text-transform:uppercase;
@@ -1426,13 +1426,13 @@ body {
   display: inline-block;
 }
 .profile-details {
-  font-size: 16px;
+  font-size: 14px;
   font-family: 'latoregular', sans-serif;
   font-weight: bold;
   letter-spacing: 0px;
   color:#34495e;
   margin-top: 16px;
-  margin-right: 10px;
+  margin-right: 2px;
   
 }
 .profile-details-box {
@@ -1759,7 +1759,7 @@ body {
     font-weight: 400;
     margin-top: 20px;
     display: inline-block;
-    margin-left: -14px;
+/*    margin-left: -14px; */
     margin-right: 0px;
     color: #4f4f4f;
     text-transform: uppercase;

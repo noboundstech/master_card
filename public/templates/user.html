@@ -17,7 +17,7 @@
                 <span>
                     <img src="img/customers.png" class="customers">
                 </span>
-                <span class="cs-name">Customer List({{csr_id}})</span>
+                <span class="cs-name">Customer List({{csr_name}})</span>
                 <span class="alert"><span class="number">{{user_details.length}}</span></span>
             </button>
             <a data-target="#menu-toggle" class="btn btn-default hidden-lg hidden-md" id="menu-toggle">
@@ -37,7 +37,7 @@
         <!-- userlist  started -->
         <ul class="sidebar-nav">
             <li ng-repeat="user in user_details track by $index" style="cursor:pointer"   ng-class="{ 'active': show_id == user.id }"> 
-                <a ng-click="getCustomerDetails(user.id,user.name,user.location,$index);" >
+                <a ng-click="getCustomerDetails(user,user.id,user.name,user.location,$index);" >
                     <div class="media-object pull-left">
                         <img ng-src="{{user.image}}" class="profile-box img-circle">
                         <span class="notification">{{user.notification}}</span>
@@ -58,13 +58,13 @@
                         <a>
                             <div class="info-area">
                                 <span class="fa fa-calendar-check-o date-info">
-                                    <p>offer id : {{offer.OfferId}}</p>
+                                    <p>offer id : {{offer.offerId}}</p>
                                 </span>
                                 <span class="fa fa-clock-o time-info">
                                     <p>merchant id : {{offer.merchantId}}</p>
                                 </span>
                             </div>
-                            <div class="history-box">{{offer.merchantNameEng}}
+                            <div class="history-box">{{offer.merchantName}}
                                 <span class="read-more">
                                     <img src="img/more-icon.png">
                                     <button type="button" class="more" data-toggle="modal" data-target="#myModal" ng-click="openReadmoreModel(offer);">Read More</button>
@@ -72,7 +72,8 @@
                             </div>
                         </a>
                     </li>
-                     <li ng-hide="offer_history.length">
+
+                    <li ng-show="no_offer_found">
                         <a> No Offer Found.</a>
                      </li>
                 </ul>
@@ -86,6 +87,7 @@
     <div class="right-panel container-fluid">
         <div class="row"> 
             <!-- chat section started -->
+            <div class="loader_angular" ng-show="showCustomerLoader"></div>
             <div class="col-md-7 zone" ng-show="show_cust">
                 <h4 class="chat-heading">
                     <span class="fa fa-comments chat-bubble">
@@ -149,7 +151,7 @@
                             <p ng-if="customer_details != ''" style="font-size:14px" class="profile-info-details chatid">
                                 WECHATID :{{customer_details.memberWechatId}}
                             </p>
-                            <div class="loader_angular" ng-show="showCustomerLoader"></div>
+                            
                         </div>
                         <div class="col-md-12 customer-info">
                                       
@@ -282,7 +284,11 @@
                     <div class="col-md-12 user-box merchant-section" >
                         <h4 class="merchant-offer ">Merchant Offer Details : </h4>
                         <div class="input-group">
-                            <input type="text" class="form-control" placeholder="Search offer" id="search_by_merchant_tag" ng-model="filter_merchant">
+                            <input type="text" class="form-control" placeholder="Search by distance" ng-model="search_by_distance_filter"  ng-if="search_type == 'distance'">
+
+                            <input type="text" class="form-control" placeholder="Search by merchant" id="search_by_merchant_filter" ng-model="search_by_merchant_filter" ng-if="search_type == 'merchant'">
+
+                            <input type="text" class="form-control" placeholder="Search by offer" id="search_by_offer_filter" ng-model="search_by_offer_filter" ng-if="search_type == 'offer'">
                             <span class="input-group-btn">
                                 <button type="submit" name="search" id="search-btn" class="btn btn-flat">
                                     <i class="fa fa-search"></i>
@@ -297,22 +303,52 @@
                             <input type="radio" name="radio_search" value="merchant"  ng-model="search_type" ng-click="searchType('merchant');"> Search by Merchant:
                              <input type="radio" name="radio_search" value="offer"  ng-model="search_type" ng-click="searchType('offer');"> Search by Offer:
                         </p>
-                        
                         <form>
                             <div class="tab-content">
                                 <div class="tab-pane active" id="prices"  ng-if="search_type == 'distance'">
                                     <ul class="list-group offer-list" id="style-3">
-                                        <li class="list-group-item" ng-repeat="dist in merchant_by_location_details | filter : filter_merchant">
-                                            <input type="checkbox" name="distance_offer_checkbox[]" value="'{{dist.distance}}'" ng-false-value="''" class="distance_offer_checkbox" draggable="true" ondragstart="drag(event)">
-                                            <span  draggable="true" ondragstart="drag(event)" id="{{dist.distance}}">{{dist.distance}} </span>
+                                        {{search_by_distance_filter}}
+                                        <li class="list-group-item" ng-repeat="dist in merchant_by_location_details | filter : search_by_distance_filter | orderBy : '-merch_dist_total'"    ng-if="dist.distance >= search_by_distance_filter">
+                                            {{dist.distance}}
+                                            <div>
+                                                <strong> {{dist.merchantName}} ({{dist.merch_dist_total}})</strong>
+                                            </div>
+                                            <div ng-repeat = "offer in dist.merch_dist_detail">
+
+                
+                                                <input type="checkbox" name="distance_offer_checkbox[]" value="'{{offer.offer_rule_en}}'" ng-false-value="''" class="distance_offer_checkbox" draggable="true" ondragstart="drag(event)">
+                                                <span  draggable="true" ondragstart="drag(event)" id="{{offer.offer_rule_en}}">{{offer.offer_rule_en}} </span>
+                                            </div>
                                         </li>
                                     </ul>
                                 </div>
                                 <div class="tab-pane active" id="features"  ng-if="search_type == 'merchant'">
                                     <ul class="list-group offer-list" id="style-3">
-                                        <li class="list-group-item" ng-repeat="merchant in merchant_details | orderBy : 'merchant.merchantNameEng'  | filter : filter_merchant">
-                                             <input type="checkbox" name="merchant_offer_checkbox[]" value="'{{merchant.merchantNameEng}}'" ng-false-value="''" class="merchant_offer_checkbox">
-                                             <span  draggable="true" ondragstart="drag(event)" id="{{{merchant.merchantNameEng}}">{{{merchant.merchantNameEng}} </span>
+                                        <li class="list-group-item" ng-repeat="search_merchant in merchant_details | orderBy : '-merch_total'  | filter : search_by_merchant_filter">
+                                            <div>
+                                                <strong> 
+                                                    {{search_merchant.merchantName}} ({{search_merchant.merch_total}})
+                                                </strong>
+                                            </div>
+                                            <div ng-repeat = "merchant_offer in search_merchant.merch_detail">
+                                                 <input type="checkbox" name="merchant_offer_checkbox[]" value="'{{merchant_offer.offer_rule_en}}'" ng-false-value="''" class="distance_offer_checkbox" draggable="true" ondragstart="drag(event)">
+                                                <span  draggable="true" ondragstart="drag(event)">{{merchant_offer.offer_rule_en}} </span>
+                                            </div>
+                                        </li>
+                                    </ul>
+                                </div>
+                                <div class="tab-pane active" id="features"  ng-if="search_type == 'offer'">
+                                    <ul class="list-group offer-list" id="style-3">
+                                        <li class="list-group-item" ng-repeat="search_merchant in merchant_details | orderBy : '-merch_total' ">
+                                            <div>
+                                                <strong> 
+                                                    {{search_merchant.merchantName}} ({{search_merchant.merch_total}})
+                                                </strong>
+                                            </div>
+                                            <div ng-repeat = "merchant_offer in search_merchant.merch_detail | filter : search_by_offer_filter">
+                                                 <input type="checkbox" name="merchant_offer_checkbox[]" value="'{{merchant_offer.offer_rule_en}}'" ng-false-value="''" class="distance_offer_checkbox" draggable="true" ondragstart="drag(event)">
+                                                <span  draggable="true" ondragstart="drag(event)">{{merchant_offer.offer_rule_en}} </span>
+                                            </div>
                                         </li>
                                     </ul>
                                 </div>
@@ -340,7 +376,7 @@
 
                     <div class="row" style="padding:10px">
                         <div class="col-sm-3"> <strong>Offer Id</strong> </div>
-                        <div class="col-sm-9"> {{user_offer_history_details.OfferId}}</div>
+                        <div class="col-sm-9"> {{user_offer_history_details.offerId}}</div>
                     </div>
                      <div class="row" style="padding:10px">
                         <div class="col-sm-3"> <strong>Merchand Id</strong> </div>
@@ -348,11 +384,11 @@
                     </div>
                      <div class="row" style="padding:10px">
                         <div class="col-sm-3"> <strong>Merchand Name</strong> </div>
-                        <div class="col-sm-9"> {{user_offer_history_details.merchantNameEng}}</div>
+                        <div class="col-sm-9"> {{user_offer_history_details.merchantName}}</div>
                     </div>
                     <div class="row" style="padding:10px">
                         <div class="col-sm-3"> <strong>Description </strong></div>
-                        <div class="col-sm-9"> {{user_offer_history_details.OfferDesc}}</div>
+                        <div class="col-sm-9"> {{user_offer_history_details.offer_name_en}}</div>
                     </div>
                 </div>
             </div>

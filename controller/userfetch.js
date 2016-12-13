@@ -1,3 +1,4 @@
+
 var express = require('express'),
 	app 	= express(),
     router  = express.Router();
@@ -104,11 +105,10 @@ router.route('/addtag')
 		len         = req.body.tags.length;
 		action 		= [],
 		memberid    = req.body.member_id,
-		csrid    	= req.body.csr_id,
+	//	csrid    	= req.body.csr_id,
         tagstatus   = 1,		      
 	    wechatId    = req.body.id,
          table     	= constant.MEMBER_TAG_TABLE;
-   
     var fieldlist  ={};
     var condition  ={};
 	var async 		= require('async');
@@ -121,6 +121,12 @@ router.route('/addtag')
 			var validate = require('utility/validate');
 			validate.validate_tags(req,res,function(){
 				
+				callback();
+			})
+		},
+		function(callback){
+			var utils 	= require('utility/utils');
+			utils.checkAuthentication(req,res,function(){
 				callback();
 			})
 		},
@@ -146,11 +152,48 @@ router.route('/addtag')
 						"message" 		: "please provide tag which you want to insert"
 					});
         	}
-		 
-		    
+		   },function(callback){
+			var crypto 	 	= require('crypto'),
+			constant 	    = require("config/constant"),
+		    db_query 	    = require('db_query/query');
+		    var table       = constant.CHAT_HISTORY_HEADER;
+		    var tagaddedstatus =0;
+		    var cur_date = null ;
+		    var chatheaderid   = req.body.chatheaderid;
+		    var fieldlist   = [
+								 {
+									"name" 	: "memberTagAdded",
+								    "type"	: constant.BIT,
+								    "varname" : "tagaddedstatus",
+									"value"	: tagaddedstatus
+							 	},
+							 	 {
+								    "name" 	: "ChatStartTimeStamp",
+								    "type"	: constant.DATE_TIME,
+								    "varname" : "SYSDATETIME()",
+								 	"value"	: cur_date
+								  }];
+		     var condition   = [{
+								"name" 	: "memberChatHeaderId",
+								"type"	: constant.INT,
+								"value"	: chatheaderid
+							}];				 	
+	    	db_query.updateToDb(req,res,condition,fieldlist,table,response_data,function(){
+				if(response_data.details > 0)
+				{
+					callback();
+				}
+				else
+				{
+					response_data.success = false;
+					response_data.message = "update  to table tMemberChatHistoryHeader Addtag flag not successful";
+					res.status(203).send({response_data});
+				}
+			})
+ 
 		}],function(err) {
 			response_data.success = true;
-			response_data.message = "Insert to table tMembertags ok!";
+			response_data.message = "You Have Successfully added the tags!";
 			res.status(200).send({message:response_data});
 	});
 });
@@ -166,10 +209,9 @@ router.route('/removetag')
 				callback();
 			})
 		},
-		function(callback) {
-			var validate = require('utility/validate');
-			validate.validate_tags(req,res,function(){
-				
+		function(callback){
+			var utils 	= require('utility/utils');
+			utils.checkAuthentication(req,res,function(){
 				callback();
 			})
 		},function(callback){
@@ -178,11 +220,11 @@ router.route('/removetag')
 		    db_query 	    = require('db_query/query'),
 		    len= req.body.tags.length;
 		    var memberid      = req.body.member_id,
-			      csrid       = req.body.csr_id,
-			      tagstatus   = 0;			      
-			       wechatId   = req.body.id,
-			       cur_date = null;
-			       table     = constant.MEMBER_TAG_TABLE;
+			    csrid      =   req.decoded.userId,
+			    tagstatus  = 0,	      
+			    wechatId   = req.body.id,
+			    cur_date   = null,
+			    table      = constant.MEMBER_TAG_TABLE;
 					 
 					
 			       var tagid       = req.body.tags[0].tagId;
@@ -235,15 +277,15 @@ router.route('/removetag')
 			res.status(200).send({message:response_data});
 	});
 });
+//************************************************************
 router.route('/fetchalltag')
 .get(function (req, res) {
 	var async 	= require('async');
 	var response_data = {};
 	async.series([
-		function(callback) {
-			var validate = require('utility/validate');
-			validate.validate_tags(req,res,function(){
-				
+		function(callback){
+			var utils 	= require('utility/utils');
+			utils.checkAuthentication(req,res,function(){
 				callback();
 			})
 		},function(callback){
@@ -272,7 +314,394 @@ router.route('/fetchalltag')
 			res.status(200).send({message:response_data});
 	});
 });
+//********************************************************
+router.route('/offerSentbyCSR')
+.post(function (req, res) {
+	var async 	= require('async');
+	var response_data = {};
+	async.series([
+		function(callback) {
+			var validate = require('utility/validate');
+			validate.validate_offersent(req,res,function(){
+				callback();
+			})
+		},function(callback){
+			var utils 	= require('utility/utils');
+			utils.checkAuthentication(req,res,function(){
+				callback();
+			})
+		},function(callback){
+			var crypto 	 	= require('crypto'),
+			constant 	    = require("config/constant"),
+		    db_query 	    = require('db_query/query');
+	
+		    var memberid      = req.body.member_id,
+			      csrid       = req.decoded.userId,
+			      offerid     = req.body.offer_id,			      
+			       wechatId   = req.body.id;
+			      
+			       table     = constant.OFFER_SENT_TO_MEMBER_BY_CSR;
+			    var  cur_date = null;   
+				var statusoftag =0;	 
+	
+			       var fieldlist   = [
 
+							 {
+								"name" 	: "memberId",
+							    "type"	: constant.INT,
+							    "varname" : "memberid",
+							 	"value"	: memberid
+							  },
+							 {
+								"name" 	: "offerId",
+							    "type"	: constant.INT,
+							    "varname" : "offerid",
+							  	"value"	: offerid
+						 	},
+						  	{
+								"name" 	: "insertedByUserId",
+							    "type"	: constant.SMINT,
+							    "varname" : "csrid",
+								"value"	: csrid
+							  },
+                            {
+								"name" 	: "assignedDateTime",
+							    "type"	: constant.DATE_TIME,
+							    "varname" : "SYSDATETIME()",
+							    "value"	: cur_date
+							  },
+							   {
+								"name" 	: "statusOfTag",
+							    "type"	: constant.BIT,
+							    "varname" : "statusoftag",
+								"value"	: statusoftag
+							  }
+							 
+                               ];
+					var condition   = '';
+		
+	    	db_query.insertToDb(req,res,condition,fieldlist,table,response_data,function(){
+				if(response_data.details > 0)
+				{
+					callback();
+				}
+				else
+				{
+					response_data.success = false;
+					response_data.message = "Insert  to table tOfferSenttoMemberByCSR not successful";
+					res.status(203).send({response_data});
+				}
+			})
+     
+		}],function(err) {
+			response_data.success = true;
+			response_data.message = "Insert to table tOfferSenttoMemberByCSR ok!";
+			res.status(200).send({message:response_data});
+	});
+});
+//*********************************************
+router.route('/AddChatHeader')
+.post(function (req, res) {
+	var async 	= require('async');
+	var memberid    = req.body.member_id,
+	     
+			wechatId    = req.body.id,
+			lat         = "",
+			longitude   = "",
+	       constant 	= require("config/constant");
+	var table       = constant.CHAT_HISTORY_HEADER;
+	var response_data = {};
+	async.series([
+		
+		function(callback) {
+			var validate = require('utility/validate');
+			validate.validate_memberId(req,res,function(){
+				callback();
+			})
+		},function(callback){
+			var utils 	= require('utility/utils');
+			utils.checkAuthentication(req,res,function(){
+				callback();
+			})
+		},
+		function(callback){
+
+			lat         	= req.body.lat;
+			longitude       = req.body.longitude;
+			var constant 	    = require("config/constant"),
+		    db_query 	    = require('db_query/query');
+		    var  csrid       = req.decoded.userId;
+		    var  cur_date = null;   
+			var statusoftag =0;	 
+	             if (typeof longitude =='undefined'  || longitude =='')
+	             {
+                   longitude=0;
+	             }
+	             if (typeof lat =='undefined'  || lat =='')
+	             {
+                   lat=0;
+	             }
+			       var fieldlist   = [
+			                 {
+								"name" 	: "ChatStartTimeStamp",
+							    "type"	: constant.DATE_TIME,
+							    "varname" : "SYSDATETIME()",
+							 	"value"	: cur_date
+							  },
+                              {
+							    "name" 	: "ChatEndTimeStamp",
+							    "type"	: constant.DATE_TIME,
+							    "varname" : "SYSDATETIME()",
+							 	"value"	: cur_date
+							  },
+							  {
+								"name" 	: "userId",
+							    "type"	: constant.SMINT,
+							    "varname" : "csrid",
+								"value"	: csrid
+							  },
+
+							 {
+								"name" 	: "memberId",
+							    "type"	: constant.INT,
+							    "varname" : "memberid",
+							 	"value"	: memberid
+							  },
+							 {
+								"name" 	: "memberLat",
+							    "type"	: constant.DEC_10_6,
+							    "varname" : "lat",
+							  	"value"	: lat
+						 	},
+						  	
+							   {
+							   "name" 	: "memberLong",
+							    "type"	: constant.DEC_10_6,
+							    "varname" : "long",
+							  	"value"	: longitude
+							  },
+							   {
+								"name" 	: "memberTagAdded",
+							    "type"	: constant.BIT,
+							    "varname" : "statusoftag",
+							    "value"	: statusoftag
+							  }
+                               ];
+					var condition   = '';
+			
+	    	db_query.insertToDb(req,res,condition,fieldlist,table,response_data,function(){
+				if(response_data.details > 0)
+				{
+					callback();
+				}
+				else
+				{
+					response_data.success = false;
+					response_data.message = "Insert  to table tmemberChatHeaderId not successful";
+					res.status(203).send({response_data});
+				}
+			})
+        },
+		function(callback){
+
+			var db_query    = require('db_query/query');
+			    csrid       = req.decoded.userId;
+			sqlstring  	= 'select max(memberChatHeaderId) as max_header_id from '+constant.CHAT_HISTORY_HEADER+' where memberId='+memberid+' and userId=' + csrid  ;
+		
+			db_query.RunSelSqlFromDb(req,res,sqlstring,response_data,function(){
+				if(response_data.details.length>0)
+				{   
+					//response_data.chatHeader = [{ "HeaderId ": response_data.details.max_header_id,
+					 //                             "MemberId ": memberid}];
+
+					callback();
+				}
+				else
+				{
+					response_data.success = false;
+					response_data.message = "matching data not present for member in DB table.tmemberChatHeaderId";
+					res.status(203).send({response_data});
+				}
+			})
+
+		}],function(err) {
+			response_data.success = true;
+			response_data.message = "Insert to table tmemberChatHeader ok!";
+			res.status(200).send({message:response_data});
+	});
+});
+//****************************************************************
+router.route('/UpdateChatHeader')
+.post(function (req, res) {
+	var async 	= require('async');
+	var		chatheaderid   = req.body.chatheaderid,		
+	        constant 	= require("config/constant");
+	var table       = constant.CHAT_HISTORY_HEADER;
+	var response_data = {};
+	async.series([
+		
+		function(callback) {
+			var validate = require('utility/validate');
+			validate.validate_headerid(req,res,function(){
+				callback();
+			})
+		},
+		function(callback){
+			var utils 	= require('utility/utils');
+			utils.checkAuthentication(req,res,function(){
+				callback();
+			})
+		},
+		function(callback){
+			var crypto 	 	= require('crypto'),
+			constant 	    = require("config/constant"),
+		    db_query 	    = require('db_query/query');
+		    var  cur_date = null;   
+		 
+	            
+			       var fieldlist   = [
+			                 
+                              {
+							    "name" 	: "ChatEndTimeStamp",
+							    "type"	: constant.DATE_TIME,
+							    "varname" : "SYSDATETIME()",
+							 	"value"	: cur_date
+							  }						 						  								
+                               ];
+					var condition   = 
+					           { 
+					           	"name" 	: "memberChatHeaderId",
+							    "type"	: constant.INT,
+				     		 	"value"	: chatheaderid
+							    }
+			
+	    	db_query.updateToDb(req,res,condition,fieldlist,table,response_data,function(){
+				if(response_data.details > 0)
+				{
+					callback();
+				}
+				else
+				{
+					response_data.success = false;
+					response_data.message = "Update  to table tmemberChatHeaderId not successful";
+					res.status(203).send({response_data});
+				}
+			})
+       
+		}],function(err) {
+			response_data.success = true;
+			response_data.message = "Update  to table tmemberChatHeader ok!";
+			res.status(200).send({message:response_data});
+	});
+});
+//****************************************************************
+router.route('/AddChatDetails')
+.post(function (req, res) {
+	var async 	= require('async');
+	
+	var response_data = {};
+	async.series([
+		
+	     function(callback) {
+			var validate = require('utility/validate');
+			validate.validate_memberId(req,res,function(){
+				callback();
+			})
+		},
+		function(callback){
+			var utils 	= require('utility/utils');
+			utils.checkAuthentication(req,res,function(){
+				callback();
+			})
+		},
+		function(callback){
+			var crypto 	 	= require('crypto'),
+			constant 	    = require("config/constant"),
+		    db_query 	    = require('db_query/query');
+		  
+		    
+			    var cur_date = null;   
+				var statusoftag =0;	 
+				var memberid    = req.body.member_id,
+			        csrid       = req.decoded.userId,
+			        offerid     = req.body.offer_id,			      
+			        wechatId    = req.body.id,
+			        converseby    = req.body.converseby,
+			        typeofdata  = req.body.typeofdata,
+			        textdata    = req.body.textdata,
+			        chatheaderid    = req.body.chatheaderid,
+			       // imagedata    = req.body.imagedata,
+			       // sounddata    = req.body.sounddata,
+			        imagedata    = null,
+			        sounddata    = null,
+			        table = constant.CHAT_HISTORY_DETAILS;
+	         
+			       var fieldlist   = [
+			                  {
+								"name" 	: "memberChatHeaderId",
+							    "type"	: constant.INT,
+							    "varname" : "chatheaderid",
+							 	"value"	: chatheaderid
+							  },
+			                 {
+								"name" 	: "converseBy",
+							    "type"	: constant.VARCHAR2,
+							    "varname" : "converseby",
+							 	"value"	: converseby
+							  },
+                              {
+							    "name" 	: "typeOfData",
+							    "type"	: constant.VARCHAR2,
+							    "varname" : "typeofdata",
+							 	"value"	: typeofdata
+							  },
+							  {
+								"name" 	: "chatText",
+							    "type"	: constant.VARCHAR255,
+							    "varname" : "csrid",
+								"value"	: textdata
+							  },
+						/*	   {
+								"name" 	: "chatImage",
+							    "type"	: constant.VARCHAR255,
+							    "varname" : "imagedata",
+								"value"	: imagedata
+							  },
+							   {
+								"name" 	: "chatSound",
+							    "type"	: constant.VARCHAR255,
+							    "varname" : "sounddata",
+								"value"	: sounddata
+							  },*/
+							  {
+							     "name" 	: "offerId",
+							      "type"	: constant.INT,
+							    "varname"   : "offerid",
+							  	"value"	    : offerid
+							   }
+                               ];
+					var condition   = '';
+			
+	    	db_query.insertToDb(req,res,condition,fieldlist,table,response_data,function(){
+				if(response_data.details > 0)
+				{
+					callback();
+				}
+				else
+				{
+					response_data.success = false;
+					response_data.message = "Insert  to table tmemberChatDetails not successful";
+					res.status(203).send({response_data});
+				}
+			})
+        
+		}],function(err) {
+			response_data.success = true;
+			response_data.message = "Insert to table tmemberChatDetails ok!";
+			res.status(200).send({message:response_data});
+	});
+});
+//********************************************************
 router.route('/searchbymerchant')
 .get(function (req, res) {
 	var async 			= require('async');
@@ -284,16 +713,15 @@ router.route('/searchbymerchant')
 				callback();
 			}) 
 		},
-		function(callback) {
-			var validate = require('utility/validate');
-			validate.validate_tags(req,res,function(){
-				
+		function(callback){
+			var utils 	= require('utility/utils');
+			utils.checkAuthentication(req,res,function(){
 				callback();
 			})
 		},function(callback){
 			var constant 	= require("config/constant"),
 				wechatid	= req.query.id;
-		    var memberid    = req.query.memberId;
+		    var memberid    = req.query.member_id;
 			var db_query 	= require('db_query/query');
 					
 		    var	sqlstring  = "select " ;
@@ -337,15 +765,16 @@ router.route('/searchbymerchant')
 					 	if(response_data.details[t].offerId == null)
 					 	{
 			
-					 		response_data.mdetail.push({"merch_detail": merch_detail,"merch_total": response_data.details[t].cnt});
+					 		response_data.mdetail.push({"merch_detail": merch_detail,
+					 									"merchantId": response_data.details[t].merchantId ,
+	               						   				"merchantName": response_data.details[t].merchantName,
+					 									"merch_total": response_data.details[t].cnt});
 					 		merch_detail = [];
 			
 					 	}
 					 	else
 					 	{
 					 		merch_detail.push({ "offerId": response_data.details[t].offerId,
-	               							 "merchantId": response_data.details[t].merchantId ,
-	               						   "merchantName": response_data.details[t].merchantName,
 	                                      "offer_rule_en": response_data.details[t].offer_rule_en
 	                                       });
 
@@ -383,15 +812,19 @@ router.route('/searchbydistance')
                 callback();
             })
         },function(callback){
-            var crypto          = require('crypto'),
-                constant     = require("config/constant"),
+			var utils 	= require('utility/utils');
+			utils.checkAuthentication(req,res,function(){
+				callback();
+			})
+		},function(callback){
+            var constant     = require("config/constant"),
                 wechatid    = req.query.id;
-            var memberid    = req.query.memberId;
+            var memberid    = req.query.member_id;
             var db_query     = require('db_query/query');
         //    var in_latitude  = req.query.lat;
         //    var in_longitude =req.query.long;
-            var in_latitude  = 31.203724;
-            var in_longitude =121.429289;
+            var in_latitude  = req.query.lat;
+            var in_longitude =req.query.lon;
             var sqlstring  = "select " ;
                 sqlstring +="offmerch.offerId ,offmerch.merchantId ,offmerch.merchantName,offmerch.offer_rule_en, ";
                 sqlstring +=" dbo.udf_Haversine(mloc.AddressLatitude,mloc.Addresslongitude,"+ in_latitude + " ,"+in_longitude +") as distance, "
@@ -435,19 +868,20 @@ router.route('/searchbydistance')
 
                          if(response_data.details[t].offerId == null)
                          {
-
-							response_data.mdetail.push({"merch_dist_detail": merch_dist_detail,"merch_dist_total": response_data.details[t].cnt});
+							response_data.mdetail.push({
+														"merch_dist_detail": merch_dist_detail,
+														"merch_dist_total": response_data.details[t].cnt,
+														"merchantId": response_data.details[t].merchantId ,
+                                              			"merchantName": response_data.details[t].merchantName,
+                                              			"distance": response_data.details[t].distance
+                                              		   });
                             merch_dist_detail = [];
-
                          }
                          else
                          {
                              merch_dist_detail.push({ "offerId": response_data.details[t].offerId,
-                                                "merchantId": response_data.details[t].merchantId ,
-                                              "merchantName": response_data.details[t].merchantName,
-                                          "offer_rule_en": response_data.details[t].offer_rule_en,
-                                          "distance": response_data.details[t].distance
-                                           });
+			                                          "offer_rule_en": response_data.details[t].offer_rule_en
+                                           			});
 
                          }
                          if(t == len-1)
@@ -483,10 +917,9 @@ router.route('/fetchofferhistory')
                 callback();
             })
         },
-        function(callback) {
-			var validate = require('utility/validate');
-			validate.validate_tags(req,res,function(){
-				
+        function(callback){
+			var utils 	= require('utility/utils');
+			utils.checkAuthentication(req,res,function(){
 				callback();
 			})
 		},
