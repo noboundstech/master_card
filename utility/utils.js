@@ -17,8 +17,6 @@ module.exports =
 			config 	= require('config/config');
 			// check header or url parameters or post parameters for token
 		var token = req.body.token || req.param('token') || req.headers['x-access-token'] || req.query.token;
-
-		console.log(token);
 		// decode token
 		if (token) {
 			// verifies secret and checks exp
@@ -103,7 +101,7 @@ module.exports =
             return sql.VarChar(255);
         }
 	},
-	'addAndUpdateTags' : function(req,res,response_data,callback_fun)
+	'addAndUpdateTags' : function(req,res,row,response_data,callback_fun)
 	{
 		var constant 	= require("config/constant"),
 		db_query 		= require('db_query/query'),
@@ -228,5 +226,179 @@ module.exports =
 				}
     			
     		});
-	} 
+	},
+	'insertchatdata' : function(req,res,row,response_data,callback_fun)
+    {
+		var  constant    = require("config/constant"),
+		db_query         = require('db_query/query');
+
+		var memberid    = req.body.chat_details[row].member_id,
+			csrid       = req.decoded.userId,
+			offerid     = 0,
+			wechatId    = req.body.chat_details[row].cust_id,
+			converseby  = req.body.chat_details[row].converseby,
+			typeofdata  = req.body.chat_details[row].typeofdata,
+			textdata    = req.body.chat_details[row].message,
+			chatheaderid    = req.body.chat_details[row].chatheaderid,
+			// imagedata    = req.body.imagedata,
+			// sounddata    = req.body.sounddata,
+			imagedata    = null,
+			sounddata    = null,
+			table = constant.CHAT_HISTORY_DETAILS;
+		var len_offer = req.body.chat_details[row].offer_details.length,
+			offer_cnt =0;
+
+		var fieldlist   = [
+								{
+								"name"     : "memberChatHeaderId",
+								"type"    : constant.INT,
+								"varname" : "chatheaderid",
+								"value"    : chatheaderid
+								},
+								{
+								"name"     : "converseBy",
+								"type"    : constant.VARCHAR2,
+								"varname" : "converseby",
+								"value"    : converseby
+								},
+								{
+								"name"     : "typeOfData",
+								"type"    : constant.VARCHAR2,
+								"varname" : "typeofdata",
+								"value"    : typeofdata
+								},
+								{
+								"name"     : "chatText",
+								"type"    : constant.VARCHAR255,
+								"varname" : "csrid",
+								"value"    : textdata
+								},
+								/*       {
+								"name"     : "chatImage",
+								"type"    : constant.VARCHAR255,
+								"varname" : "imagedata",
+								"value"    : imagedata
+								},
+								{
+								"name"     : "chatSound",
+								"type"    : constant.VARCHAR255,
+								"varname" : "sounddata",
+								"value"    : sounddata
+								},*/
+								{
+								"name"     : "offerId",
+								"type"    : constant.INT,
+								"varname"   : "offerid",
+								"value"        : offerid
+								}
+							];
+		var condition   = '';
+		console.log(len_offer);
+		if (len_offer == 0 )
+		{
+			db_query.insertToDb(req,res,condition,fieldlist,table,response_data,function(){
+				if(response_data.details > 0)
+				{
+					callback();
+				}
+				else
+				{
+					response_data.success = false;
+					response_data.message = "Insert  to table tmemberChatDetails not successful";
+					res.status(203).send({response_data});
+				}
+			})
+		}    // end of if
+		else
+		{
+			var total_row = 0;
+			for(offer_cnt=0;offer_cnt<len_offer;offer_cnt++)
+			{
+				var utils     = require('utility/utils');
+				utils.addchatoffers(req,res,response_data,function(){
+					total_row++;
+					if(total_row == len_offer)
+					{
+						callback();
+					}
+				})
+			}  // end of for
+		}  // end of else
+    },
+    'addchatoffers' : function(req,res,response_data,callback_fun)
+    {
+    	var constant    = require("config/constant"),
+			db_query    = require('db_query/query'),
+			memberid    = req.body.member_id,
+			csrid       = req.decoded.userId,
+			offerid     = req.body.offer_id,
+			wechatId    = req.body.cust_id,
+			converseby  = req.body.converseby,
+			typeofdata  = req.body.typeofdata,
+			textdata    = req.body.message,
+			chatheaderid= req.body.chatheaderid,
+			// imagedata    = req.body.imagedata,
+			// sounddata    = req.body.sounddata,
+			imagedata   = null,
+			sounddata   = null,
+			table 		= constant.CHAT_HISTORY_DETAILS;
+		var fieldlist   = [
+							{
+							"name"     : "memberChatHeaderId",
+							"type"    : constant.INT,
+							"varname" : "chatheaderid",
+							"value"    : chatheaderid
+							},
+							{
+							"name"     : "converseBy",
+							"type"    : constant.VARCHAR2,
+							"varname" : "converseby",
+							"value"    : converseby
+							},
+							{
+							"name"     : "typeOfData",
+							"type"    : constant.VARCHAR2,
+							"varname" : "typeofdata",
+							"value"    : typeofdata
+							},
+							{
+							"name"     : "chatText",
+							"type"    : constant.VARCHAR255,
+							"varname" : "csrid",
+							"value"    : textdata
+							},
+							/*       {
+							"name"     : "chatImage",
+							"type"    : constant.VARCHAR255,
+							"varname" : "imagedata",
+							"value"    : imagedata
+							},
+							{
+							"name"     : "chatSound",
+							"type"    : constant.VARCHAR255,
+							"varname" : "sounddata",
+							"value"    : sounddata
+							},*/
+							{
+							"name"       : "offerId",
+							"type"        : constant.INT,
+							"varname"   : "offerid",
+							"value"        : offerid
+							}
+						];
+		var condition   = '';
+
+		db_query.insertToDb(req,res,condition,fieldlist,table,response_data,function(){
+			if(response_data.details > 0)
+			{
+				callback();
+			}
+			else
+			{
+				response_data.success = false;
+				response_data.message = "Insert Offer to table tmemberChatDetails not successful";
+				res.status(203).send({response_data});
+			}
+		})
+    } 
 };

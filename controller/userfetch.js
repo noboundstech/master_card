@@ -136,7 +136,7 @@ router.route('/addtag')
         		var total_row = 0;
         		for(row=0;row<len;row++)	
         		{
-        			utils.addAndUpdateTags(req,res,response_data,function(){
+        			utils.addAndUpdateTags(req,res,row,response_data,function(){
         				total_row++;
         				if(total_row == len)
         				{
@@ -595,112 +595,58 @@ router.route('/UpdateChatHeader')
 	});
 });
 //****************************************************************
+
 router.route('/AddChatDetails')
 .post(function (req, res) {
-	var async 	= require('async');
-	
-	var response_data = {};
-	async.series([
-		
-	     function(callback) {
-			var validate = require('utility/validate');
-			validate.validate_memberId(req,res,function(){
-				callback();
-			})
-		},
-		function(callback){
-			var utils 	= require('utility/utils');
-			utils.checkAuthentication(req,res,function(){
-				callback();
-			})
-		},
-		function(callback){
-			var crypto 	 	= require('crypto'),
-			constant 	    = require("config/constant"),
-		    db_query 	    = require('db_query/query');
-		  
-		    
-			    var cur_date = null;   
-				var statusoftag =0;	 
-				var memberid    = req.body.member_id,
-			        csrid       = req.decoded.userId,
-			        offerid     = req.body.offer_id,			      
-			        wechatId    = req.body.id,
-			        converseby    = req.body.converseby,
-			        typeofdata  = req.body.typeofdata,
-			        textdata    = req.body.textdata,
-			        chatheaderid    = req.body.chatheaderid,
-			       // imagedata    = req.body.imagedata,
-			       // sounddata    = req.body.sounddata,
-			        imagedata    = null,
-			        sounddata    = null,
-			        table = constant.CHAT_HISTORY_DETAILS;
-	         
-			       var fieldlist   = [
-			                  {
-								"name" 	: "memberChatHeaderId",
-							    "type"	: constant.INT,
-							    "varname" : "chatheaderid",
-							 	"value"	: chatheaderid
-							  },
-			                 {
-								"name" 	: "converseBy",
-							    "type"	: constant.VARCHAR2,
-							    "varname" : "converseby",
-							 	"value"	: converseby
-							  },
-                              {
-							    "name" 	: "typeOfData",
-							    "type"	: constant.VARCHAR2,
-							    "varname" : "typeofdata",
-							 	"value"	: typeofdata
-							  },
-							  {
-								"name" 	: "chatText",
-							    "type"	: constant.VARCHAR255,
-							    "varname" : "csrid",
-								"value"	: textdata
-							  },
-						/*	   {
-								"name" 	: "chatImage",
-							    "type"	: constant.VARCHAR255,
-							    "varname" : "imagedata",
-								"value"	: imagedata
-							  },
-							   {
-								"name" 	: "chatSound",
-							    "type"	: constant.VARCHAR255,
-							    "varname" : "sounddata",
-								"value"	: sounddata
-							  },*/
-							  {
-							     "name" 	: "offerId",
-							      "type"	: constant.INT,
-							    "varname"   : "offerid",
-							  	"value"	    : offerid
-							   }
-                               ];
-					var condition   = '';
-			
-	    	db_query.insertToDb(req,res,condition,fieldlist,table,response_data,function(){
-				if(response_data.details > 0)
-				{
-					callback();
-				}
-				else
-				{
-					response_data.success = false;
-					response_data.message = "Insert  to table tmemberChatDetails not successful";
-					res.status(203).send({response_data});
-				}
-			})
-        
-		}],function(err) {
-			response_data.success = true;
-			response_data.message = "Insert to table tmemberChatDetails ok!";
-			res.status(200).send({message:response_data});
-	});
+    var async     = require('async');
+    var response_data = {};
+    async.series([
+        /* function(callback) {
+            var validate = require('utility/validate');
+            validate.validate_memberId(req,res,function(){
+                callback();
+            })
+        },*/
+        function(callback){
+            var utils     = require('utility/utils');
+            utils.checkAuthentication(req,res,function(){
+                callback();
+            })
+        },
+        function(callback){
+            var utils     = require('utility/utils');
+            var len_chat= req.body.chat_details.length;
+            if(len_chat>0)
+            {
+                var total_row = 0;
+                for(row=0;row<len_chat;row++)
+                {
+					utils.insertchatdata(req,res,row,response_data,function(){
+                        total_row++;
+                        console.log(total_row,"total row");
+                        console.log(len_chat,"len chat");
+                        if(total_row == len_chat)
+                        {
+                            callback();
+                        }
+                    })
+                }
+            }
+            else
+            {
+                res.status(203).send({    "status"         : false,
+                        "error_type"     : "validate error",
+                        "message"         : "please provide chat details which you want to insert"
+                });
+            }
+        }],function(err) {
+            response_data.success = true;
+            response_data.message = "Insert to table tmemberChatDetails ok!";
+            res.status(200).send({message:response_data});
+    });
 });
+
+
 //********************************************************
 router.route('/searchbymerchant')
 .get(function (req, res) {
@@ -873,7 +819,7 @@ router.route('/searchbydistance')
 														"merch_dist_total": response_data.details[t].cnt,
 														"merchantId": response_data.details[t].merchantId ,
                                               			"merchantName": response_data.details[t].merchantName,
-                                              			"distance": response_data.details[t].distance
+                                              			"distance": parseInt(response_data.details[t].distance)
                                               		   });
                             merch_dist_detail = [];
                          }

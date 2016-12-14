@@ -124,6 +124,7 @@ app.io = io.sockets.on("connection",function(socket){
     // if user already holding any old connection
     if(data.id in users)
     {
+      console.log("connection already in");
       if(data.type == 'csr')
       {
         callback({status : false,connect_by : "csr", message : "please close your previous session by closing your previous browser where you signin."});
@@ -135,9 +136,11 @@ app.io = io.sockets.on("connection",function(socket){
     }
     else
     {
+
       // creating connection for csr
       if(typeof data.type != 'undefined' && data.type != '' && data.type != null && data.type == 'csr')
       {
+        console.log(data);
           socket.unique_id        = data.id;
           socket.csr_id           = data.csr;
           total_user[data.id]     = 0;
@@ -188,11 +191,18 @@ app.io = io.sockets.on("connection",function(socket){
   socket.on("send message",function(data){
     data.date = new Date();
     data.typeofdata = "TX";
+    if(typeof data.converseby == 'undefined')
+    {
+      data.converseby = "CU";
+    }
     if(data.cust_id in users)
     {
       if(typeof users[data.cust_id] !="undefined")
       {
-        if(data.cust_id !='csr')
+        console.log(data.csr_id,"csr id");
+      //  console.log(users[data.cust_id],"customer details");
+    //    console.log( users[data.csr_id],"csr details")
+        if(data.converseby !='CS')
         {
           users[data.cust_id].emit("new message",data);
         }

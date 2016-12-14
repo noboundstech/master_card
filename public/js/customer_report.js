@@ -1063,3 +1063,97 @@ angular.module('CustomerReportController', ['applicationService.services'])
 		});
 	}
 })
+
+
+
+
+
+
+.controller('customer', function($scope,$http,$routeParams,$location,$localStorage)
+{
+	$scope.show_id   = 0;
+	$scope.show_cust = false;;
+	$scope.offer_history =[];
+	$scope.state =[];
+	$scope.states = [];
+	var socket = io.connect();
+	$scope.cust_id 	= $routeParams.userId;
+	$scope.cust_id = $scope.cust_id.substr(1);
+	$scope.chat_details =[];
+
+	
+
+	$scope.makeNewConnection = function()
+	{
+		socket.emit('new user',{type : "customer" , "id" : $scope.cust_id,"csr" : $scope.csr_id},function(data){
+			if(!data.status)
+			{
+				alert(data.message)
+			}
+			else
+			{
+				$scope.csr_id = data.csr_id;
+				localStorage.setItem('customer_csr_name', JSON.stringify(data.csr_id));
+			}
+		});
+	}
+	if(localStorage.getItem('customer_csr_name') != 'undefined' && localStorage.getItem('customer_csr_name') != null)
+	{
+		$scope.csr_id = JSON.parse(localStorage.getItem('customer_csr_name'));
+		$scope.makeNewConnection();
+	}
+	else
+	{
+		$scope.csr_id   = 'find_new_csr';
+		$scope.makeNewConnection();
+	}
+	socket.on("make_connection_with_csr",function(data){
+
+		localStorage.setItem('customer_csr_name', JSON.stringify(data));
+		$scope.csr_id = data;
+		$scope.$apply();
+	})
+	$scope.sendChatMessageByCustomer = function (){
+		if($scope.customer_message != '')
+		{
+  			socket.emit("send message", {
+							  				"sender_id" 		: $scope.cust_id,
+							  				"customer_id" 		: $scope.cust_id,
+							  				"typeofdata"		: "TX",
+							  				"converseby" 		: "CU",
+							  				"message" 			: $scope.customer_message,
+							  				"chatheaderid" 		: "",
+							  				"member_id" 		: "",
+							  				"cust_id" 			: $scope.cust_id,
+							  				"csr_id" 			: $scope.csr_id
+							  			});
+  		}
+  		$scope.customer_message ='';
+	}
+	socket.on("new message",function(data){
+		console.log(data);
+		$scope.chat_details.push(data);
+		$scope.$apply();
+		$(".messages").scrollTop($(".messages")[0].scrollHeight);
+		$scope.addChatIntoLocalstorage($scope.chat_details);
+	})
+	$scope.addChatIntoLocalstorage = function(data)
+	{
+		localStorage.setItem('chat_message', JSON.stringify(data));
+	}
+	if(localStorage.getItem('chat_message') != 'undefined' && localStorage.getItem('chat_message') != null)
+	{
+		$scope.chat_details = JSON.parse(localStorage.getItem('chat_message'));
+	}
+	$(".messages").scrollTop($(".messages")[0].scrollHeight);
+	$scope.clearTextMessage = function()
+	{
+		$scope.customer_message = '';
+	}
+	$scope.logoutCustomer = function()
+	{
+		localStorage.removeItem("customer_csr_name");
+	    localStorage.removeItem("chat_message");
+	    $location.url("");
+	}
+})

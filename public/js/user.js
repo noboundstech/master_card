@@ -13,9 +13,11 @@ angular.module('userController', ['applicationService.services'])
 	$scope.chat_details =[];
 	$scope.search_type  = "distance";
 	$scope.search_by_merchant_tag = '';
-	$scope.search_by_distance_filter = 0;
+	$scope.search_by_distance_filter = 10000;
 	var socket = io.connect();
 	$scope.csr_name = JSON.parse(localStorage.getItem('csr_name'));
+
+	$scope.csr_id    = localStorage.getItem('csr_id');
 	// the default center if we can give
 	$scope.points = '';
 
@@ -322,12 +324,15 @@ angular.module('userController', ['applicationService.services'])
 						$scope.user_details[index].chat_header = Math.floor((Math.random() * 100000) + 1);
 						
 						API.postDetails($scope.user_detail_selected,"userfetch/AddChatHeader").then(function successCallback(response) {
+							
+							console.log(response);
 							if(response.status == 200 || response.status == 304)
 							{
 								if(typeof response.data.message.details !='undefined' && response.data.message.details.length>0)
 								{
 									$scope.present_customer_details = $scope.user_details[index];
-									$scope.customer_details.chatheaderid = response.data.message.details.max_header_id;
+									$scope.customer_details.chatheaderid = response.data.message.details[0].max_header_id;
+									console.log($scope.customer_details.chatheaderid);
 								}
 							}
 							else
@@ -375,6 +380,7 @@ angular.module('userController', ['applicationService.services'])
 
 	$scope.searchType = function(type)
 	{
+		$scope.changeLocation('current');
 		$scope.search_type  = type;
 	}
 	$scope.changeLocation = function(location_type)
@@ -419,11 +425,12 @@ angular.module('userController', ['applicationService.services'])
 	}
 	$scope.addChatIntoLocalstorage = function(data)
 	{
-		localStorage.setItem('char_message', JSON.stringify(data));
+		localStorage.setItem('chat_message', JSON.stringify(data));
 	}
 	$scope.clearTextMessage = function()
 	{
 		$scope.csr_message = '';
+		document.getElementById("dragable_id").value ='';
 	}
 
 	// getting all merchant details if csr provide location by typing
@@ -556,19 +563,51 @@ angular.module('userController', ['applicationService.services'])
 		});
     }
     /* socket related code */
-    if(localStorage.getItem('char_message') != 'undefined' && localStorage.getItem('char_message') != null)
+    if(localStorage.getItem('chat_message') != 'undefined' && localStorage.getItem('chat_message') != null)
 	{
-		$scope.chat_details = JSON.parse(localStorage.getItem('char_message'));
+		$scope.chat_details = JSON.parse(localStorage.getItem('chat_message'));
 	}
 	$(".messages").scrollTop($(".messages")[0].scrollHeight);
-	var stop = $interval(function() {
-		console.log("clear all data");
-	}, 300000);
 
+	var stop = $interval(function() {
+	
+		$scope.previous_chat_message = localStorage.getItem('chat_message');
+		//	localStorage.removeItem('chat_message');
+		var details = {"chat_details" :$scope.chat_details ,
+						"token" : localStorage.getItem("token")};
+
+		if($scope.previous_chat_message!= null)
+		{
+			if($scope.previous_chat_message.length> 0)
+			{
+				/*
+				API.postDetails(details,"userfetch/AddChatDetails").then(function successCallback(response) {
+					if(response.status == 200)
+					{
+						$scope.previous_chat_message = '';
+					}
+					else
+					{
+						$scope.reinsert_chat = JSON.parse(localStorage.getItem('chat_message'));
+						if($scope.reinsert_chat == null)
+						{
+							$scope.reinsert_chat = [];
+						}
+						for(i=0;i<$scope.previous_chat_message.length;i++)
+						{
+							$scope.reinsert_chat.push($scope.previous_chat_message[i]);
+						}
+						localStorage.setItem('chat_message',JSON.stringify($scope.reinsert_chat));
+					}
+				});
+				*/
+			}
+		}
+	}, 30000);
 	if(localStorage.getItem('token') != 'undefined' && localStorage.getItem('token') != null)
 	{
-		$scope.csr_id 	=  localStorage.getItem('token');
-		socket.emit('new user',{type : "csr" , id : localStorage.getItem('token'),"csr" : localStorage.getItem('token')},function(data){
+		//	$scope.csr_id 	=  localStorage.getItem('token');
+		socket.emit('new user',{type : "csr" , id : $scope.csr_id,"csr" : $scope.csr_id},function(data){
 			if(!data.status)
 			{
 				if(data.connect_by =='csr')
@@ -583,9 +622,20 @@ angular.module('userController', ['applicationService.services'])
 			}
 		});
 	}
+	$scope.value_checked = [];
   	$scope.sendChatMessageFromCsr = function (){
   		var checkedValue = '';
-  		$scope.value_checked = [];
+  		if(document.getElementById("dragable_id").value !='')
+  		{
+  			var details = document.getElementById("dragable_id").value.split("#");
+  			for(i=0;i<details.length;i++)
+  			{
+  				if(details[i]!='undefined')
+  				{
+  					$scope.value_checked.push({"offer_id" :details[i]});
+  				}
+  			}
+  		}
   		if($scope.search_type == 'distance')
   		{
 			var inputElements = document.getElementsByClassName('distance_offer_checkbox');
@@ -593,13 +643,15 @@ angular.module('userController', ['applicationService.services'])
 			    if(inputElements[i].checked){
 		      		if(checkedValue != '' && checkedValue != 'undefined ' && checkedValue != null)
 		      		{
-		           		checkedValue +=" , "+inputElements[i].value;
-		           		console.log(inputElements[i]);
-		           		$scope.value_checked.push(inputElements[i].id);
+		      			var details = inputElements[i].value.split("#");
+		           		checkedValue +="  , "+details[0];
+		           		$scope.value_checked.push({"offer_id" :details[1]});
 		            }
 		            else
 		            {
-		            	checkedValue +=inputElements[i].value;
+		            	var details = inputElements[i].value.split("#");
+		            	checkedValue +="  "+details[0];
+		            	$scope.value_checked.push({"offer_id" :details[1]});
 		            }
 		            inputElements[i].checked = false;
 			    }
@@ -612,11 +664,36 @@ angular.module('userController', ['applicationService.services'])
 			    if(inputElements[i].checked){
 		      		if(checkedValue != '' && checkedValue != 'undefined ' && checkedValue != null)
 		      		{
-		           		checkedValue +=" , "+inputElements[i].value;
+		      			var details = inputElements[i].value.split("#");
+		           		checkedValue +="  , "+details[0];
+		           		$scope.value_checked.push({"offer_id" :details[1]});
 		            }
 		            else
 		            {
-		            	checkedValue +=inputElements[i].value;
+		            	var details = inputElements[i].value.split("#");
+		            	checkedValue +="  "+details[0];
+		            	$scope.value_checked.push({"offer_id" :details[1]});
+		            }
+		            inputElements[i].checked = false;
+			    }
+			}
+  		}
+  		if($scope.search_type == 'offer')
+  		{
+			var inputElements = document.getElementsByClassName('offer_search_checkbox');
+			for(var i=0; inputElements[i]; ++i){
+			    if(inputElements[i].checked){
+		      		if(checkedValue != '' && checkedValue != 'undefined ' && checkedValue != null)
+		      		{
+		           		var details = inputElements[i].value.split("#");
+		           		checkedValue +="  , "+details[0];
+		           		$scope.value_checked.push({"offer_id" :details[1]});
+		            }
+		            else
+		            {
+		            	var details = inputElements[i].value.split("#");
+		            	checkedValue +="  "+details[0];
+		            	$scope.value_checked.push({"offer_id" :details[1]});
 		            }
 		            inputElements[i].checked = false;
 			    }
@@ -639,29 +716,34 @@ angular.module('userController', ['applicationService.services'])
   		}
   		if($scope.message_sending_detail != '')
 		{
-
-			console.log($scope.value_checked);
-
-			console.log($scope.customer_details);
-			console.log($scope.customer_details.chatheaderid);
-			console.log($scope.customer_details.memberId);
   			socket.emit("send message",
   				{
 	  				"sender_id" 		: $scope.csr_id,
 	  				"customer_id" 		: $scope.cust_id,
 	  				"typeofdata"		: "TX",
-	  				"converseby" 		: "CSR",
+	  				"converseby" 		: "CS",
 	  				"message" 			: $scope.message_sending_detail,
 	  				"chatheaderid" 		: $scope.customer_details.chatheaderid,
 	  				"member_id" 		: $scope.customer_details.memberId,
-	  				"cust_id" 			: $scope.send_to_customer
+	  				"cust_id" 			: $scope.send_to_customer,
+	  				"csr_id" 			: $scope.csr_id,
+	  				"offer_details" 	: $scope.value_checked
 	  			});
   		}
   		$scope.csr_message ='';
+  		$scope.value_checked = [];
 	}
 	socket.on("new message",function(data){
-
-		console.log(data);
+		if(typeof data.converseby =='undefined' || data.converseby =='CU')
+		{
+			for(i=0;i<$scope.user_details.length;i++)
+			{
+				if($scope.user_details[i].id == data.id)
+				{
+					data.chatheaderid = $scope.user_details[i].chatheaderid;
+				}
+			}
+		}
 		$scope.chat_details.push(data);
 		//$scope.$apply();
 		$(".messages").scrollTop($(".messages")[0].scrollHeight);
@@ -719,84 +801,7 @@ angular.module('userController', ['applicationService.services'])
 		$scope.$apply();
 	})
 })
-.controller('customer', function($scope,$http,$routeParams,$location,$localStorage)
-{
-	$scope.show_id   = 0;
-	$scope.show_cust = false;;
-	$scope.offer_history =[];
-	$scope.state =[];
-	$scope.states = [];
-	var socket = io.connect();
-	$scope.cust_id 	= $routeParams.userId;
-	$scope.cust_id = $scope.cust_id.substr(1);
-	$scope.chat_details =[];
 
-	
-
-	$scope.makeNewConnection = function()
-	{
-		socket.emit('new user',{type : "customer" , "id" : $scope.cust_id,"csr" : $scope.csr_id},function(data){
-			if(!data.status)
-			{
-				alert(data.message)
-			}
-			else
-			{
-				$scope.csr_id = data.csr_id;
-				localStorage.setItem('customer_csr_name', JSON.stringify(data.csr_id));
-			}
-		});
-	}
-	if(localStorage.getItem('customer_csr_name') != 'undefined' && localStorage.getItem('customer_csr_name') != null)
-	{
-		$scope.csr_id = JSON.parse(localStorage.getItem('customer_csr_name'));
-		$scope.makeNewConnection();
-	}
-	else
-	{
-		$scope.csr_id   = 'find_new_csr';
-		$scope.makeNewConnection();
-	}
-	socket.on("make_connection_with_csr",function(data){
-
-		localStorage.setItem('customer_csr_name', JSON.stringify(data));
-		$scope.csr_id = data;
-		$scope.$apply();
-	})
-	$scope.sendChatMessageByCustomer = function (){
-		if($scope.customer_message != '')
-		{
-  			socket.emit("send message",{ "csr_id" : $scope.csr_id,"sender_id" : $scope.cust_id,"customer_id" :$scope.cust_id,"message" : $scope.customer_message,"cust_id" : $scope.cust_id});
-  		}
-  		$scope.customer_message ='';
-	}
-	socket.on("new message",function(data){
-
-		$scope.chat_details.push(data);
-		$scope.$apply();
-		$(".messages").scrollTop($(".messages")[0].scrollHeight);
-		$scope.addChatIntoLocalstorage($scope.chat_details);
-	})
-	$scope.addChatIntoLocalstorage = function(data)
-	{
-		localStorage.setItem('chat_message', JSON.stringify(data));
-	}
-	if(localStorage.getItem('chat_message') != 'undefined' && localStorage.getItem('chat_message') != null)
-	{
-		$scope.chat_details = JSON.parse(localStorage.getItem('chat_message'));
-	}
-	$(".messages").scrollTop($(".messages")[0].scrollHeight);
-	$scope.clearTextMessage = function()
-	{
-		$scope.customer_message = '';
-	}
-	$scope.logoutCustomer = function()
-	{
-		localStorage.removeItem("customer_csr_name");
-	    localStorage.removeItem("chat_message");
-	    $location.url("");
-	}
-})
 .controller('dashboard', function($scope,$localStorage,$rootScope)
 {
 	$rootScope.authenticateUser();

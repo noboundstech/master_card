@@ -28,7 +28,7 @@ router.route('/getCustReportList')
             //****************************************************************************
             //**** Distinct Customer segment list from DB table for Response  ************
             //****************************************************************************
-            var    sqlstring  = "select distinct memberSegment from "+ constant.MEMBER_MASTER_TABLE + ' where memberSegment IS NOT NULL';
+            var    sqlstring  = "select distinct memberSegment from "+ constant.MEMBER_MASTER_TABLE + ' where memberSegment IS NOT NULL ORDER BY memberSegment';
             db_query.RunSelSqlFromDb(req,res,sqlstring,response_data,function(){
                 var len_seg=response_data.details.length;
                 if(len_seg>0)
@@ -56,7 +56,7 @@ router.route('/getCustReportList')
             //****************************************************************************
             //**** Distinct City list from DB table for Response ************
             //****************************************************************************
-            var    sqlstring  = "select distinct City from "+ constant.MEMBER_MASTER_TABLE + ' where City IS NOT NULL';
+            var    sqlstring  = "select distinct City from "+ constant.MEMBER_MASTER_TABLE + ' where City IS NOT NULL ORDER BY City';
             db_query.RunSelSqlFromDb(req,res,sqlstring,response_data,function(){
                 var len_loc=response_data.details.length;
                 if(len_loc>0)
@@ -83,7 +83,7 @@ router.route('/getCustReportList')
             //****************************************************************************
             //**** Distinct Card Type list from DB table for Response  ************
             //****************************************************************************
-            var    sqlstring  = "select distinct MTRCardType from "+ constant.MEMBER_MASTER_TABLE + ' where MTRCardType IS NOT NULL';
+            var    sqlstring  = "select distinct MTRCardType from "+ constant.MEMBER_MASTER_TABLE + ' where MTRCardType IS NOT NULL ORDER BY MTRCardType';
             db_query.RunSelSqlFromDb(req,res,sqlstring,response_data,function(){
                 var len_card=response_data.details.length;
                 if(len_card>0)
@@ -110,7 +110,7 @@ router.route('/getCustReportList')
             //****************************************************************************
             //**** Distinct CategoryDesc list from DB table for Response  ************
             //****************************************************************************
-            var    sqlstring  = "select distinct categoryDesc from "+ constant.CATEGORY + ' where categoryDesc IS NOT NULL';
+            var    sqlstring  = "select distinct categoryDesc from "+ constant.CATEGORY + ' where categoryDesc IS NOT NULL ORDER BY categoryDesc';
             db_query.RunSelSqlFromDb(req,res,sqlstring,response_data,function(){
                 var len_cate=response_data.details.length;
                 if(len_cate>0)
@@ -138,7 +138,7 @@ router.route('/getCustReportList')
             //****************************************************************************
             //**** Distinct Merchant id /name list from DB table for Response  ************
             //****************************************************************************
-            var    sqlstring  = "select distinct merchantName ,merchantId from "+ constant.OFFER_BY_MERCHANTS + ' where merchantName IS NOT NULL';
+            var    sqlstring  = "select distinct merchantName ,merchantId from "+ constant.OFFER_BY_MERCHANTS + ' where merchantName IS NOT NULL ORDER BY merchantName';
             db_query.RunSelSqlFromDb(req,res,sqlstring,response_data,function(){
                 var len_merch=response_data.details.length;
                 if(len_merch>0)
@@ -168,7 +168,7 @@ router.route('/getCustReportList')
             //****************************************************************************
             //**** Distinct tag desc list from DB table for Response ************
             //****************************************************************************
-            var    sqlstring  = "select distinct tagDesc ,tagId from " + constant.TAG_MASTER_TABLE+ ' where tagDesc IS NOT NULL';
+            var    sqlstring  = "select distinct tagDesc ,tagId from " + constant.TAG_MASTER_TABLE+ ' where tagDesc IS NOT NULL  ORDER BY tagDesc';
             db_query.RunSelSqlFromDb(req,res,sqlstring,response_data,function(){
                 var len_tag=response_data.details.length;
                 if(len_tag>0)

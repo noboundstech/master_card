@@ -284,11 +284,11 @@
                     <div class="col-md-12 user-box merchant-section" >
                         <h4 class="merchant-offer ">Merchant Offer Details : </h4>
                         <div class="input-group">
-                            <input type="text" class="form-control" placeholder="Search by distance" ng-model="search_by_distance_filter"  ng-if="search_type == 'distance'">
+                            <input type="number" class="form-control" placeholder="Search by distance" ng-model="search_by_distance_filter"  ng-show="search_type == 'distance'">
 
-                            <input type="text" class="form-control" placeholder="Search by merchant" id="search_by_merchant_filter" ng-model="search_by_merchant_filter" ng-if="search_type == 'merchant'">
+                            <input type="text" class="form-control" placeholder="Search by merchant" id="search_by_merchant_filter" ng-model="search_by_merchant_filter" ng-show="search_type == 'merchant'">
 
-                            <input type="text" class="form-control" placeholder="Search by offer" id="search_by_offer_filter" ng-model="search_by_offer_filter" ng-if="search_type == 'offer'">
+                            <input type="text" class="form-control" placeholder="Search by offer" id="search_by_offer_filter" ng-model="search_by_offer_filter" ng-show="search_type == 'offer'">
                             <span class="input-group-btn">
                                 <button type="submit" name="search" id="search-btn" class="btn btn-flat">
                                     <i class="fa fa-search"></i>
@@ -305,24 +305,21 @@
                         </p>
                         <form>
                             <div class="tab-content">
-                                <div class="tab-pane active" id="prices"  ng-if="search_type == 'distance'">
+                                <div class="tab-pane active" id="prices"  ng-show="search_type == 'distance'">
                                     <ul class="list-group offer-list" id="style-3">
-                                        {{search_by_distance_filter}}
-                                        <li class="list-group-item" ng-repeat="dist in merchant_by_location_details | filter : search_by_distance_filter | orderBy : '-merch_dist_total'"    ng-if="dist.distance >= search_by_distance_filter">
-                                            {{dist.distance}}
+
+                                        <li class="list-group-item" ng-repeat="dist in merchant_by_location_details | orderBy : '-merch_dist_total'"    ng-show="dist.distance  <= search_by_distance_filter">
                                             <div>
-                                                <strong> {{dist.merchantName}} ({{dist.merch_dist_total}})</strong>
+                                                <strong> {{dist.merchantName}} ({{dist.distance}})</strong>
                                             </div>
                                             <div ng-repeat = "offer in dist.merch_dist_detail">
-
-                
-                                                <input type="checkbox" name="distance_offer_checkbox[]" value="'{{offer.offer_rule_en}}'" ng-false-value="''" class="distance_offer_checkbox" draggable="true" ondragstart="drag(event)">
-                                                <span  draggable="true" ondragstart="drag(event)" id="{{offer.offer_rule_en}}">{{offer.offer_rule_en}} </span>
+                                                <input type="checkbox" name="distance_offer_checkbox[]" value="{{offer.offer_rule_en}}#{{offer.offerId}}" ng-false-value="''" class="distance_offer_checkbox" draggable="true" ondragstart="drag(event)">
+                                                <span  draggable="true" ondragstart="drag(event)" id="{{offer.offer_rule_en}}#{{offer.offerId}}">{{offer.offer_rule_en}} </span>
                                             </div>
                                         </li>
                                     </ul>
                                 </div>
-                                <div class="tab-pane active" id="features"  ng-if="search_type == 'merchant'">
+                                <div class="tab-pane active" id="features"  ng-show="search_type == 'merchant'">
                                     <ul class="list-group offer-list" id="style-3">
                                         <li class="list-group-item" ng-repeat="search_merchant in merchant_details | orderBy : '-merch_total'  | filter : search_by_merchant_filter">
                                             <div>
@@ -331,23 +328,25 @@
                                                 </strong>
                                             </div>
                                             <div ng-repeat = "merchant_offer in search_merchant.merch_detail">
-                                                 <input type="checkbox" name="merchant_offer_checkbox[]" value="'{{merchant_offer.offer_rule_en}}'" ng-false-value="''" class="distance_offer_checkbox" draggable="true" ondragstart="drag(event)">
-                                                <span  draggable="true" ondragstart="drag(event)">{{merchant_offer.offer_rule_en}} </span>
+                                                 <input type="checkbox" name="merchant_offer_checkbox[]" value="{{merchant_offer.offer_rule_en}}#{{merchant_offer.offerId}}" ng-false-value="''" class="distance_offer_checkbox" draggable="true" ondragstart="drag(event)">
+                                                <span  draggable="true" ondragstart="drag(event)" id="{{merchant_offer.offer_rule_en}}#{{offer.offerId}}">{{merchant_offer.offer_rule_en}} </span>
                                             </div>
                                         </li>
                                     </ul>
                                 </div>
-                                <div class="tab-pane active" id="features"  ng-if="search_type == 'offer'">
+                                <div class="tab-pane active" id="features"  ng-show="search_type == 'offer'">
                                     <ul class="list-group offer-list" id="style-3">
+
                                         <li class="list-group-item" ng-repeat="search_merchant in merchant_details | orderBy : '-merch_total' ">
+                                            <!--
                                             <div>
                                                 <strong> 
                                                     {{search_merchant.merchantName}} ({{search_merchant.merch_total}})
                                                 </strong>
-                                            </div>
+                                            </div>-->
                                             <div ng-repeat = "merchant_offer in search_merchant.merch_detail | filter : search_by_offer_filter">
-                                                 <input type="checkbox" name="merchant_offer_checkbox[]" value="'{{merchant_offer.offer_rule_en}}'" ng-false-value="''" class="distance_offer_checkbox" draggable="true" ondragstart="drag(event)">
-                                                <span  draggable="true" ondragstart="drag(event)">{{merchant_offer.offer_rule_en}} </span>
+                                                 <input type="checkbox" name="offer_search_checkbox[]" value="'{{merchant_offer.offer_rule_en}}'" ng-false-value="''" class="distance_offer_checkbox" draggable="true" ondragstart="drag(event)">
+                                                <span  draggable="true" ondragstart="drag(event)"  id="{{merchant_offer.offer_rule_en}}#{{offer.offerId}}">{{merchant_offer.offer_rule_en}} </span>
                                             </div>
                                         </li>
                                     </ul>
@@ -399,6 +398,7 @@
             </div>
         </div>
     </div>
+    <input type="hidden" name="dragable_id" id="dragable_id" value="">
 </div>
 
 <style>
@@ -415,21 +415,33 @@
 </style>
 
 <script>
-function allowDrop(ev) {
-    ev.preventDefault();
-}
+ function allowDrop(ev) {
+        var offer_details = "  "+ev.target.id+"  ";
+        alert(offer_details);
+        ev.preventDefault();
+    }
 
-function drag(ev) {
-    var details = "  "+ev.target.id+"  ";
-    ev.dataTransfer.setData("text", details);
+    function drag(ev) {
+        var offer_details = "  "+ev.target.id+"  ";
+        var details = offer_details.split("#");
+        ev.dataTransfer.setData("text", details[0]);
+        var total_offer_id = '';
+        if(document.getElementById("dragable_id").value!='')
+        {
+            total_offer_id = document.getElementById("dragable_id").value+"#"+details[1];
+        }
+        else
+        {
+            total_offer_id = details[1];
+        }
+        document.getElementById("dragable_id").value = total_offer_id;
+    }
 
-}
+    function drop(ev) {
+        ev.preventDefault();
+        console.log(data);
+        ev.target.appendChild(document.getElementById(data));
+       
 
-function drop(ev) {
-    ev.preventDefault();
-    
-    ev.target.appendChild(document.getElementById(data));
-   
-
-}
+    }
 </script>
