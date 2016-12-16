@@ -2,9 +2,9 @@ angular.module('applicationService.services', [])
     .factory('API', function ($http) 
     {
 	  	//   var base = "http://localhost:3500/";
-        var base = "http://139.59.11.3:3500/";
-        return  {
-				getDetails : function (url,params) {
+             var base = "http://139.59.11.3:3500/";
+        retu//rn  {
+			etDetails : function (url,params) {
 					return $http.get(base+url,
                     {
                         method : 'GET',  

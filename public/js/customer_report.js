@@ -759,13 +759,33 @@ angular.module('CustomerReportController', ['applicationService.services'])
 				$scope.show_loader = false;
 				if(response.status == 200)
 				{
-					var message = '';
+				//	var message = '';
+				    
+				    if($scope.y_axis_selected == 'age_grouped')
+						{
+							var y_head= "Age Group";
+                        }
+                        else
+                        {
+						     var y_head =$scope.y_axis_selected.replace("_", " ");
+                        
+						}
+						if($scope.x_axis_selected == 'age_grouped')
+						{
+							var x_head= "Age Group";
+                        }
+                        else
+                        {
+						     var x_head =$scope.x_axis_selected.replace("_", " ");
+                        
+						}
+					var message =  x_head +' vs. ' + y_head ;
 				}
 				else
 				{
 					var message = response.data.response_data.message;
 				}
-
+                
 				var  category		= response.data.response_data.Graph_data[0].x_axis_name;
 				var chart_details 	= response.data.response_data.Graph_data[0].y_array_header;
 				if($scope.y_axis_selected == 'age_grouped')
@@ -992,7 +1012,27 @@ angular.module('CustomerReportController', ['applicationService.services'])
 					}
 					else
 					{
-						var message = ''; 
+						//var message = ''; 
+						if($scope.y_axis_selected == 'age_grouped')
+						{
+							var y_head= "Age Group";
+                        }
+                        else
+                        {
+						     var y_head =$scope.y_axis_selected.replace("_", " ");
+                        
+						}
+						if($scope.x_axis_selected == 'age_grouped')
+						{
+							var x_head= "Age Group";
+                        }
+                        else
+                        {
+						     var x_head =$scope.x_axis_selected.replace("_", " ");
+                        
+						}
+				       
+					    var message =  x_head +' vs. ' + y_head ;
 					}
 					
 					if($scope.y_axis_selected == 'age_grouped')

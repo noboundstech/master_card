@@ -8,16 +8,16 @@
                         
                     <a href="#/dashboard" class="btn btn-default profile-back-button"><span class="fa fa-long-arrow-left"></span></a>
                     </div>
-                     <div class="col-md-2">
-                        <h3 class="customer-profile-view">Member Profile View</h3>
-                        <h4 class="customer-profile-view hidden-lg hidden-md hidden-sm hidden-xs">Member Profile View</h4>
+                     <div class="col-md-3">
+                       <h3 class="customer-profile-view">  <a href="#/dashboard">Home </a> >&nbsp;&nbsp;&nbsp;Member Profile View</h3>
+                        <h4 class="customer-profile-view hidden-lg hidden-md hidden-sm hidden-xs"> <a href="#/dashboard">Home </a> >&nbsp;&nbsp;&nbsp;Member Profile View</h4>
                     </div>
                     <div class="loader_angular col-md-1 profile-view-load" ng-show="showCustomerLoader"></div>
                     <form class="form-search user-id-search">
                         <div class="row form-box-row">
                              <div class="col-md-2 col-md-offset-0 user-wechat">
                                 <label>
-                                    <input type="radio" name="search_type" value="customer_id" checked="checked" ng-model="search_by" > We chat Id&nbsp;
+                                    <input type="radio" name="search_type" value="customer_id" checked="checked" ng-model="search_by" > Wechat Id&nbsp;
                                     <input type="radio" value="card_no" name="search_type" ng-model="search_by"> Card#  
                                 </label>
                             </div>
@@ -196,7 +196,7 @@
                     </div>
                 </div>
              
-             
+             <div class="overlay"></div>
               <div class="row match-user">
                     <div class="col-md-12"> 
                         <h3 class="header-connection">
@@ -219,11 +219,11 @@
                                         <figure class="connection-img">
                                             <img src="img/profile.jpg" width="50" height="50" alt="">
                                             <figcaption class="user-connections">
-                                                Tom Lee
+                                                XYZ
                                                 <p class="connection-percent">
                                                     Similarity matching-65% 
                                                     <br>
-                                                    tomlee@tomlee.com
+                                                    xyz@tomlee.com
                                                 </p>
                                                
                                             </figcaption>
@@ -233,11 +233,11 @@
                                         <figure class="connection-img">
                                             <img src="img/profile.jpg" width="50" height="50" alt="">
                                             <figcaption class="user-connections">
-                                                Mark chein
+                                                 XYZ
                                                 <p class="connection-percent">
                                                     Similarity matching-45%
                                                      <br>
-                                                    tomlee@tomlee.com
+                                                    xyz@tomlee.com
                                                 </p>
 
                                             </figcaption>
@@ -247,11 +247,11 @@
                                         <figure class="connection-img">
                                             <img src="img/profile.jpg" width="50" height="50" alt="">
                                             <figcaption class="user-connections">
-                                                Tom Lee
+                                                 XYZ
                                                 <p class="connection-percent">
                                                 Similarity matching-65% 
                                                   <br>   
-                                                tomlee@tomlee.com
+                                                xyz@tomlee.com
                                                 </p>
                                             </figcaption>
                                         </figure>
@@ -260,11 +260,11 @@
                                         <figure class="connection-img">
                                             <img src="img/profile.jpg" width="50" height="50" alt="">
                                             <figcaption class="user-connections">
-                                                Tom Lee
+                                                 XYZ
                                                 <p class="connection-percent">
                                                     Similarity matching-65% 
                                                      <br>
-                                                    tomlee@tomlee.com
+                                                    xyz@tomlee.com
                                                 </p>
                                             </figcaption>
                                         </figure>
@@ -273,11 +273,11 @@
                                         <figure class="connection-img">
                                             <img src="img/profile.jpg" width="50" height="50" alt="">
                                             <figcaption class="user-connections">
-                                                Mark chein
+                                                 XYZ
                                                 <p class="connection-percent">
                                                     Similarity matching-45% 
                                                      <br>
-                                                    tomlee@tomlee.com
+                                                    xyz@tomlee.com
                                                 </p>
                                             </figcaption>
                                         </figure>
@@ -286,11 +286,11 @@
                                         <figure class="connection-img">
                                             <img src="img/profile.jpg" width="50" height="50" alt="">
                                             <figcaption class="user-connections">
-                                                Tom Lee
+                                                 XYZ
                                                 <p class="connection-percent">
                                                     Similarity matching-65% 
                                                      <br>
-                                                    tomlee@tomlee.com
+                                                    xyz@tomlee.com
                                                 </p>
                                             </figcaption>
                                         </figure>
@@ -300,6 +300,7 @@
                         </div>
                   </div>
              </div>
+          
         </div>
         
         </div>
@@ -307,6 +308,9 @@
 
 
 <style>
+    body{
+        overflow-x: hidden;
+    }
 .loader_angular {
     position: relative;
     display: block;
@@ -316,5 +320,14 @@
     z-index: 99;
     background: url("img/loader.gif") center no-repeat;
     background-size: 70%;
+}
+    
+ .overlay{
+  position:absolute; 
+  top:260px;
+  width: 610px;
+  height:287px;
+  z-index: 10;
+  background-color: rgba(255,255,255,0.7); /*dim the background*/
 }
 </style>

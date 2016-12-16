@@ -48,7 +48,6 @@ module.exports = {
 	'DERIVE_OFFER_FOR_MEMBER'  						: 'tDerivedOffersForMembers',
 	'MERCHANT_LOCATION'                             : 'tMerchantLocation',
 	'MERCHANT_LOCATION'                             : 'tMerchantLocation',
-	'DERIVE_OFFER_FOR_MEMBER'                       : 'tDerivedOffersForMembers',
 	'CHAT_HISTORY_HEADER'                           : 'tMemberChatHistoryHeader',
 	'CHAT_HISTORY_DETAILS'                          : 'tMemberChatHistoryDetails',
 	'ACTIVE_STATUS'                          		: 'Y',
