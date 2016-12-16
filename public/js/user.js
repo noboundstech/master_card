@@ -887,7 +887,8 @@ angular.module('userController', ['applicationService.services'])
 			if(response.status == 200)
 			{
 				
-				$scope.customer_details = response.data.response_data.details[0];
+				$scope.customer_details = response.data.response_data.customer_details[0];
+				$scope.predicted_offer  = response.data.response_data.predicted_offer;
 				$scope.show_search_details = false;
 				$scope.wechat_id = response.data.response_data.details[0].memberWechatId
 

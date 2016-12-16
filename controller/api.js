@@ -24,7 +24,7 @@ router.route('/getCustomerDetails')
 	var response_data 	= {};
 	var where_cond 		= '';
 
-	async.series([
+	async.parallel([
 		function(callback) {
 			// validating the customer details
 			var validate = require('utility/validate');
@@ -85,6 +85,7 @@ router.route('/getCustomerDetails')
 			db_query.RunSelSqlFromDb(req,res,query,response_data,function(){
 				if(response_data.details.length>0)
 				{
+					response_data.customer_details = response_data.details;
 					callback();
 				}
 				else
@@ -101,7 +102,35 @@ router.route('/getCustomerDetails')
 					res.status(203).send({response_data});
 				}
 			})
-		}],function(err) {
+		},
+		function(callback){
+            var query = 'select TOP 5 doff.offer_name_en as offer_name  ';
+                query+= ' from '+constant.DERIVE_OFFER_FOR_MEMBER+ ' doff';
+                query+= ' INNER JOIN '+constant.MEMBER_MASTER_TABLE+' mem ON';
+                query+= ' mem.memberId = doff.memberId where ';
+                query+=  where_cond;
+                query+= 'order by offerInsertedTimestamp desc';
+				db_query.RunSelSqlFromDb(req,res,query,response_data,function(){
+                if(response_data.details.length>0)
+                {
+                    response_data.predicted_offer = response_data.details;
+                    callback();
+                }
+                else
+                {
+                    response_data.success = false;
+                    if(req.body.search_by == 'customer_id')
+                    {
+                        response_data.message = "Please Enter valid customer Wechat Id";
+                    }
+                    else
+                    {
+                        response_data.message = "Please Enter valid customer Card no.";
+                    }
+                    res.status(203).send({response_data});
+                }
+            })
+        }],function(err) {
 			response_data.user_details = req.decoded;
 			response_data.success = true;
 			response_data.message = "success!";

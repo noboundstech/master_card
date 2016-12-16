@@ -133,13 +133,10 @@
                             Predicted Offers
                         </h3>
                         <ul class="nav list-group offers-list custom-bullet">
-                            <li>
-                                Stay 4 nights and pay for 3 at Cours ET Pavillons,
-                                Beijing
+                            <li ng-repeat="p_offer in predicted_offer">
+                                {{p_offer.offer_name}}
                             </li>
-                            <li>
-                                10% off on the a la carte menu bill and gift at FLO Beijing and Tianjin
-                            </li>
+                            
                         </ul>
                     </div>
             </div>
