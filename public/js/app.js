@@ -1,4 +1,4 @@
-angular.module('project', ['ngRoute','homeController','userController','adminController','CustomerReportController','ngStorage',
+angular.module('project', ['ngRoute','homeController','userController','adminController','offerController','CustomerReportController','ngStorage',
                           'angularUtils.directives.dirPagination','localytics.directives','ngMap','gm','720kb.datepicker','angularBingMaps'])
  
 .config(function($routeProvider) {
@@ -36,7 +36,15 @@ angular.module('project', ['ngRoute','homeController','userController','adminCon
       controller:'customer',
       templateUrl:'templates/customer.html',
     })
-
+    .when('/offer_display_view', {
+      controller:'offer_display_view',
+      templateUrl:'templates/offer_display_view.html',
+    })
+    .when('/merchant_display_view', {
+      controller:'merchant_display_view',
+      templateUrl:'templates/merchant_display_view.html',
+    })
+     
     .otherwise({
       redirectTo:'/'
     });

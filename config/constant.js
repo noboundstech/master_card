@@ -51,5 +51,7 @@ module.exports = {
 	'CHAT_HISTORY_HEADER'                           : 'tMemberChatHistoryHeader',
 	'CHAT_HISTORY_DETAILS'                          : 'tMemberChatHistoryDetails',
 	'ACTIVE_STATUS'                          		: 'Y',
-	'VARCHAR255'                                    : 'VarChar(255)'
+	'VARCHAR255'                                    : 'VarChar(255)',
+	'MERCHANT_LOCATION'                             : 'tMerchantLocation',
+	'SUBCATEGORY' 									: 'tSubCategory'
 };

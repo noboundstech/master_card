@@ -732,7 +732,7 @@ angular.module('CustomerReportController', ['applicationService.services'])
 			}
 			var x_axis_det_name = $scope.x_axis_selected.replace("_", " ");
 			var y_axis_det_name = $scope.y_axis_selected.replace("_", " ");
-			alert("Please Select both "+x_axis_det_name+" and "+y_axis_det_name+" options");
+			alert("Please Select both "+x_axis_det_name.toUpperCase()+" and "+y_axis_det_name.toUpperCase()+" options");
 			return false;
 		}
 		else
@@ -779,7 +779,7 @@ angular.module('CustomerReportController', ['applicationService.services'])
 						     var x_head =$scope.x_axis_selected.replace("_", " ");
                         
 						}
-					var message =  x_head +' vs. ' + y_head ;
+					var message =  x_head.toUpperCase() +' vs. ' + y_head.toUpperCase() ;
 				}
 				else
 				{
@@ -796,6 +796,7 @@ angular.module('CustomerReportController', ['applicationService.services'])
 				{
 					var y_axis_legend_name = $scope.y_axis_selected;
 				}
+				var y_axis_legend_name = y_axis_legend_name.toUpperCase();
 				Highcharts.chart('container', {
 
 			        chart: {
@@ -975,8 +976,8 @@ angular.module('CustomerReportController', ['applicationService.services'])
 					alert("Please Select both X-axis and Y-axis options");
 					return false;
 				}
-				var x_axis_det_name = $scope.x_axis_selected.replace("_", " ");
-				var y_axis_det_name = $scope.y_axis_selected.replace("_", " ");
+				var x_axis_det_name = $scope.x_axis_selected.replace("_", " ").toUpperCase();
+				var y_axis_det_name = $scope.y_axis_selected.replace("_", " ").toUpperCase();
 				alert("Please Select both "+x_axis_det_name+" and "+y_axis_det_name+" options");
 				return false;
 			}
@@ -1032,7 +1033,7 @@ angular.module('CustomerReportController', ['applicationService.services'])
                         
 						}
 				       
-					    var message =  x_head +' vs. ' + y_head ;
+					    var message =  x_head.toUpperCase() +' vs. ' + y_head.toUpperCase() ;
 					}
 					
 					if($scope.y_axis_selected == 'age_grouped')
@@ -1043,7 +1044,7 @@ angular.module('CustomerReportController', ['applicationService.services'])
 					{
 						var y_axis_legend_name = $scope.y_axis_selected;
 					}
-				
+					var y_axis_legend_name = y_axis_legend_name.toUpperCase();
 					Highcharts.chart('container', {
 
 				        chart: {
