@@ -3,8 +3,8 @@ angular.module('applicationService.services', [])
     {
 	  	//   var base = "http://localhost:3500/";
              var base = "http://139.59.11.3:3500/";
-        retu//rn  {
-			etDetails : function (url,params) {
+        return  {
+				getDetails : function (url,params) {
 					return $http.get(base+url,
                     {
                         method : 'GET',  
