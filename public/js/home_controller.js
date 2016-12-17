@@ -28,7 +28,6 @@ angular.module('homeController', ['applicationService.services'])
 			$scope.Loader = false;
 			if(response.status == 200)
 			{
-				console.log(response);
 				$rootScope.user_name = $scope.login.username;
 				localStorage.setItem('csr_name', JSON.stringify(response.data.response_data.user_details[0].userName));
 				localStorage.setItem('csr_id', JSON.stringify(response.data.response_data.user_details[0].userId));
@@ -56,4 +55,33 @@ angular.module('homeController', ['applicationService.services'])
 		    // or server returns response with an error status.
 		});
 	}
-});
+})
+.controller('forget_password', function($scope,API,$location,$rootScope)
+{
+	$scope.login = {};
+	$scope.Loader = false;
+	$scope.forgetPassword = function()
+	{
+		$scope.error = '';
+		if(typeof $scope.email =='undefined' || $scope.email =='' || $scope.email ==null)
+		{
+			$scope.error = "Please enter your Email Id.";
+			return false;
+		}
+		$scope.Loader = true;
+		API.postDetails({email : $scope.email},"userLogin/forget_password").then(function successCallback(response) {
+			console.log(response);
+			$scope.Loader = false;
+			if(response.status == 200)
+			{
+
+				$scope.success = response.data.response_data.message;
+			}
+			else
+			{
+				$scope.error = response.data.response_data.message;
+			}
+		});
+		
+	}
+})

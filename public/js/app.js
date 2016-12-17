@@ -8,6 +8,10 @@ angular.module('project', ['ngRoute','homeController','userController','adminCon
       controller:'login',
       templateUrl:'templates/login.html',
     })
+     .when('/forget_password', {
+      controller:'forget_password',
+      templateUrl:'templates/forgot_password.html',
+    })
     .when('/user', {
       controller:'user',
       templateUrl:'templates/user.html',
@@ -75,11 +79,11 @@ angular.module('project', ['ngRoute','homeController','userController','adminCon
   }
   $rootScope.selected_page_pagination = '20';
   $rootScope.page_per_pagination = [
-                  {name:'5', value: '5'}, 
-                  {name:'10', value: '10'}, 
-                  {name:'20', value: '20'}, 
-                  {name:'50', value: '50'}, 
-                  {name:'100', value: '100'},     
+                  {name:'5 per page', value: '5'}, 
+                  {name:'10 per page', value: '10'}, 
+                  {name:'20 per page', value: '20'}, 
+                  {name:'50 per page', value: '50'}, 
+                  {name:'100 per page', value: '100'},     
               ];
 })
 .directive('googleplace', function() {

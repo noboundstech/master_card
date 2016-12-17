@@ -18,6 +18,7 @@ angular.module('CustomerReportController', ['applicationService.services'])
 	$scope.checkboxModel.tag_details 		= false;
 	$scope.x_axis_selected 					= '';
 	$scope.y_axis_selected 					= '';
+	$scope.offer_name 						= '';
 	$scope.default_segment_filter = [];
 	$scope.age_group_filter = [];
 	$scope.show_by_offer = true;
@@ -849,28 +850,36 @@ angular.module('CustomerReportController', ['applicationService.services'])
 		}
 		else
 		{
+			$scope.offer_name = '';
 			if(val =='offer_id')
 			{
 				$scope.show_by_offer = true;
 				$scope.offer_id = '';
-			//	$scope.checkboxModel.offer_segment_search_by = "customer_id";
+				for(i=0;i<$scope.offer_details.length;i++)
+				{
+					if($scope.offer_id == $scope.offer_details[i].offerId)
+					{
+						$scope.offer_name = $scope.offer_details[i].offer_rule_en
+					}
+				}
 			}
 			else
 			{
 				$scope.show_by_offer = false;
 			//	$scope.checkboxModel.offer_segment_search_by = "customer_id";
 			}
+
 		}
 	}
 	$scope.getOfferSegmentDetails = function()
 	{
-		
 		$scope.card_type_selected_details 		= [];
 		$scope.segment_selected_details 		= [];
 		$scope.age_grouped_selected_details 	= [];
 		$scope.location_filter_selected_details = [];
 		$scope.category_filter_details_arr		= [];
 		$scope.selected_offer_axis_details    	= 0; 
+		$scope.offer_name 						= '';
 		if(typeof $scope.offer_id == 'undefined' || $scope.offer_id == '' || $scope.offer_id == null)
 		{
 			alert("Please Enter your offer Id.");
@@ -1007,6 +1016,7 @@ angular.module('CustomerReportController', ['applicationService.services'])
 					$scope.show_loader = false;
 					var  category		= response.data.response_data.Graph_data[0].x_axis_name;
 					var chart_details 	= response.data.response_data.Graph_data[0].y_array_header;
+					$scope.offer_name 	= response.data.response_data.offer_name;
 					if(response.status == 203)
 					{
 						var message = response.data.response_data.message;
@@ -1092,11 +1102,11 @@ angular.module('CustomerReportController', ['applicationService.services'])
 	$scope.getOfferDetails = function()
 	{
 		$scope.show_merchant_loader = true;
-		$scope.offer_details = {
+		$scope.get_offer_details = {
 			"token" 		: localStorage.getItem('token'),
 			merchant_id 	: $scope.merchant_details
 		}
-		API.postDetails($scope.offer_details,"api/getMerchantOffer").then(function successCallback(response) {
+		API.postDetails($scope.get_offer_details,"api/getMerchantOffer").then(function successCallback(response) {
 			$scope.show_merchant_loader = false;
 			$scope.offer_details = response.data.response_data.details;
 		}, function errorCallback(response) {

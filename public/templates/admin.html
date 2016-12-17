@@ -22,11 +22,14 @@
                 <div>
                     <div class="loader_angular" ng-show="show_loader"></div>
                     <div class="row" style="margin-top:10px;margin-bottom:10px">
-                        <div class="col-sm-3">
+                        <div class="col-sm-2">
 
                              <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#addUserModel" ng-click="AddNewUser();">Add New User</button>
                         </div>
-                        <div class="col-sm-9">
+                        <div class="col-sm-3">
+                            <Strong>Total user : {{user_list.length}}</strong>
+                        </div>
+                        <div class="col-sm-7">
                             <form class="form-inline pull-right">
                                 <div class="form-group">
                                     <label >Search</label>
@@ -35,43 +38,33 @@
                             </form>
                         </div>
                     </div>
-                    <div class="row btn-primary">
-                        <div class="col-md-1 col-sm-1">
-                            <div class="row">
+                    <div class="btn-primary">
+                        <div class="col-md-1 col-sm-1" style="background-color : #337ab7">
+                            
                                 <h5>&nbsp;Sl no.</h5>
-                            </div>
+                           
                         </div>
-                        <div class="col-md-2 col-sm-2">
-                            <div class="row">
-                                <h5>User Name</h5>
-                            </div>
+                        <div class="col-md-2 col-sm-2" style="background-color : #337ab7">
+                            <h5>User Name</h5>
                         </div>
                         
-                        <div class="col-md-2 col-sm-2">
-                            <div class="row">
-                                <h5>User Role</h5>
-                            </div>
+                        <div class="col-md-2 col-sm-2"  style="background-color : #337ab7">
+                            <h5>User Role</h5>
                         </div>
                         
-                        <div class="col-md-2 col-sm-2">
-                            <div class="row">
-                                <h5>Active Status</h5>
-                            </div>
+                        <div class="col-md-2 col-sm-2" style="background-color : #337ab7">
+                            <h5>Active Status</h5>
                         </div>
-                         <div class="col-md-3 col-sm-3">
-                            <div class="row">
+                         <div class="col-md-3 col-sm-3"  style="background-color : #337ab7">
                                 <h5>Last login</h5>
-                            </div>
                         </div>
-                        <div class="col-md-2 col-sm-2" style="text-align:right">
-                            <div class="row" styel="margin-right:10px">
-                                <h5>
-                                    Action&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                                </h5>
-                            </div>
+                        <div class="col-md-2 col-sm-2" style="background-color : #337ab7;padding-right:15px;text-align:right">
+                            <h5>
+                                Action
+                            </h5>
                         </div>
                     </div>
-                    <div class="row table-striped" dir-paginate="user in user_list | orderBy : 'name' | itemsPerPage: selected_search_type_per_page | filter:search">
+                    <div class="row table-bordered" dir-paginate="user in user_list | orderBy : 'name' | itemsPerPage: selected_search_type_per_page | filter:search">
                         <div class="col-md-1 col-sm-1" style=" padding: 6px 30px ; margin-bottom: 9px !important; margin-top: 5px ;">
                             {{$index+1}}
                         </div>
@@ -84,25 +77,23 @@
                             <button type="button" class="btn btn-success" style=" padding: 6px 30px ; margin-bottom: 9px !important; margin-top: 5px ;" data-toggle="modal" data-target="#updateUserModel" ng-click="EditUserData(user)">Edit</button>
                         </div>
                     </div>
-                    <div class="table-striped" style="margin-top:10px;">
-                        <div class="row">
-                            <div class="col-sm-6">
-                                <label>
-                                    Show 
-                                    <select ng-model="selected_search_type_per_page" 
-                                        ng-options="search.value as search.name for search in page_per_pagination" 
-                                        ng-init="selected_search_type_per_page=selected_page_pagination" style="height:30px">
-                                    </select>
-                                </label>
-                            </div>
-                            <div class="col-sm-6 text-right">
-                                <div class="text-center">
-                                    <dir-pagination-controls 
-                                    boundary-links="true" 
-                                    max-size="3" 
-                                    direction-links="true">
-                                    </dir-pagination-controls>
-                                </div>
+                    <div class="row table-bordered" style="margin-top:10px;">
+                        <div class="col-sm-6">
+                            <label>
+                                Show 
+                                <select ng-model="selected_search_type_per_page" 
+                                    ng-options="search.value as search.name for search in page_per_pagination" 
+                                    ng-init="selected_search_type_per_page=selected_page_pagination" style="height:30px">
+                                </select>
+                            </label>
+                        </div>
+                        <div class="col-sm-6 text-right">
+                            <div class="text-center">
+                                <dir-pagination-controls 
+                                boundary-links="true" 
+                                max-size="3" 
+                                direction-links="true">
+                                </dir-pagination-controls>
                             </div>
                         </div>
                     </div>

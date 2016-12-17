@@ -120,7 +120,6 @@ router.route('/updateUserDetails')
 								"value"	: req.body.userName
 							}];
 			db_query.selectFromDb(req,res,condition,selection,table,response_data,function(){
-				console.log(response_data.details);
 				if(response_data.details.length>0)
 				{
 					callback();

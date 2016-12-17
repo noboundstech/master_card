@@ -623,8 +623,6 @@ router.route('/AddChatDetails')
                 {
 					utils.insertchatdata(req,res,row,response_data,function(){
                         total_row++;
-                        console.log(total_row,"total row");
-                        console.log(len_chat,"len chat");
                         if(total_row == len_chat)
                         {
                             callback();

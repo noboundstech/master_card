@@ -17,36 +17,40 @@
     </div>
 </div>
 <div class="content container-fluid">
-
 	<div class="row">
 		<div class="col-sm-3">
-			<div class="loader_angular col-md-1 profile-view-load" ng-show="show_loader"></div>
+			
 			<div class="panel panel-default">
 				<div class="panel-heading">FILTERS</div>
 				<div class="panel-body">
 					<div class="col-sm-12">
-                   		<button class="btn btn-primary get-map-btn" ng-click="getOfferSegmentDetails();">View details</button>
+                   		<button class="btn btn-primary get-map-btn" ng-click="getMerchantDisplayView();">View details</button>
+                   		<div class="loader_angular col-md-1 profile-view-load" ng-show="show_loader"></div>
                     </div>
                     <div class="rows">
 						<div class="col-sm-12">
-							<strong> Date Range : </strong>
-						</div>
-                        <div class="col-sm-12 date-box-one">
-							 <datepicker date-format="MM-dd-yyyy" selector="form-control">
-		                        <div class="input-group">
-		                            <input class="form-control" placeholder="Start Date" ng-model="start_date">
-		                        </div>
-		                    </datepicker>
-                        </div>
-                        <div class="col-sm-12">
-                            <datepicker date-format="MM-dd-yyyy" selector="form-control">
-		                        <div class="input-group">
-		                             <input class="form-control" placeholder="End Date" ng-model="end_date"/>
-		                        </div>
-		                    </datepicker>
+							<strong> Merchant : </strong>
 						</div>
 						<div class="col-sm-12">
-							 <a class="pull-right pointer-class" style="cursor:pointer"> &nbsp;</a>
+							<select chosen multiple ng-model="merchant_selected" ng-options="s.name for s in merchat_details track by s.id"  placeholder-expression="Segment Name" id="merchant_selected" >
+							</select>
+						</div>
+
+						<div class="col-sm-12">
+							 <a class=" pull-right pointer-class"> &nbsp;</a>
+						</div>
+					</div>
+                    <div class="rows padding-row">
+						<div class="col-sm-12">
+							<strong>Merchant Location : </strong>
+						</div>
+						<div class="col-sm-12">
+							<select chosen multiple ng-model="merchant_location_selected" ng-options="s.name for s in merchant_location_name"  placeholder-expression="City Name">
+							</select>
+						</div>
+
+						<div class="col-sm-12">
+							 <a class=" pull-right pointer-class"> &nbsp;</a>
 						</div>
 					</div>
 					<div class="rows padding-row">
@@ -54,7 +58,7 @@
 							<strong> Card Type : </strong>
 						</div>
 						<div class="col-sm-12">
-							<select chosen multiple ng-model="card_type_filter_details" ng-options="s.name for s in card_type"  placeholder-expression="Card Type" title="Enter card details">
+							<select chosen multiple ng-model="card_type_selected" ng-options="s.name for s in card_type"  placeholder-expression="Card Type" title="Enter card details">
                             </select>
 						</div>
 						<div class="col-sm-12">
@@ -73,33 +77,6 @@
 							 <a class=" pull-right pointer-class"> &nbsp;</a>
 						</div>
 					</div>
-
-					<div class="rows padding-row">
-						<div class="col-sm-12">
-							<strong> Location : </strong>
-						</div>
-						<div class="col-sm-12">
-							<select chosen multiple ng-model="location_selected" ng-options="s.name for s in location_name"  placeholder-expression="City Name">
-							</select>
-						</div>
-
-						<div class="col-sm-12">
-							 <a class=" pull-right pointer-class"> &nbsp;</a>
-						</div>
-					</div>
-					<div class="rows">
-						<div class="col-sm-12">
-							<strong> Merchant : </strong>
-						</div>
-						<div class="col-sm-12">
-							<select chosen multiple ng-model="merchant_selected" ng-options="s.name for s in merchat_details track by s.id"  placeholder-expression="Segment Name" id="merchant_selected" >
-							</select>
-						</div>
-
-						<div class="col-sm-12">
-							 <a class=" pull-right pointer-class"> &nbsp;</a>
-						</div>
-					</div>
 					<div class="rows padding-row" ng-hide="category_selected.length>0">
 						<div class="col-sm-12 padding-row">
 							<strong>Sub-Category : </strong>
@@ -108,6 +85,19 @@
 							<select chosen multiple ng-model="sub_category_selected" ng-options="s.name for s in sub_category"  placeholder-expression="Card Type" title="Enter Category details">
                             </select>
 						</div>
+						<div class="col-sm-12">
+							 <a class=" pull-right pointer-class"> &nbsp;</a>
+						</div>
+					</div>
+					<div class="rows padding-row">
+						<div class="col-sm-12">
+							<strong>Offer Location : </strong>
+						</div>
+						<div class="col-sm-12">
+							<select chosen multiple ng-model="location_selected" ng-options="s.name for s in location_name"  placeholder-expression="City Name">
+							</select>
+						</div>
+
 						<div class="col-sm-12">
 							 <a class=" pull-right pointer-class"> &nbsp;</a>
 						</div>
@@ -130,6 +120,86 @@
 			</div>
 		</div>
 		<div class="col-sm-9">
+			<div class="row">
+				<div class="col-md-2 col-sm-2" style="margin-top:5px;padding-top:5px;font-size:16px">
+					<strong><span>Total : {{details_response.length}}</span></strong>
+				</div>
+            	<div class="col-md-10 col-sm-10" style="padding-top:5px;">
+            		<form class="form-inline pull-right">
+                        <div class="form-group">
+                            <label >Search</label>
+                            <input type="text" ng-model="search" class="form-control" placeholder="Search">
+                        </div>
+                    </form>
+                </div>
+            </div>
+            <div class="table-responsive">
+	            <table class="table table-bordered">
+	    			<thead class="btn-primary">
+						<tr>
+							<th>Merchant Id 
+							</th>
+							<th ng-click="sort('merchantName')">Merchant  
+								<span class="glyphicon glyphicon-menu-down" ng-if="sortBy == 'merchantName'"></span>
+								<span class="glyphicon glyphicon-menu-up" ng-if="sortBy == '-merchantName'"></span>
+							</th>
+							<th ng-click="sort('LocationName')">Address  
+								<span class="glyphicon glyphicon-menu-down" ng-if="sortBy == 'LocationName'"></span>
+								<span class="glyphicon glyphicon-menu-up" ng-if="sortBy == '-LocationName'"></span>
+							</th>
+							<th ng-click="sort('City')">Merchant Location  
+								<span class="glyphicon glyphicon-menu-down" ng-if="sortBy == 'City'"></span>
+								<span class="glyphicon glyphicon-menu-up" ng-if="sortBy == '-City'"></span>
+							</th>
+							<th ng-click="sort('CategoryDesc')">Category 
+								<span class="glyphicon glyphicon-menu-down" ng-if="sortBy == 'CategoryDesc'"></span>
+								<span class="glyphicon glyphicon-menu-up" ng-if="sortBy == '-CategoryDesc'"></span>
+							</th>
+							<th ng-click="sort('subCategoryDesc')">Sub Category  
+								<span class="glyphicon glyphicon-menu-down" ng-if="sortBy == 'subCategoryDesc'"></span>
+								<span class="glyphicon glyphicon-menu-up" ng-if="sortBy == '-subCategoryDesc'"></span>
+							</th>
+							<th ng-click="sort('offer_address_en')">Offer Location 
+								<span class="glyphicon glyphicon-menu-down" ng-if="sortBy == 'offer_address_en'"></span>
+								<span class="glyphicon glyphicon-menu-up" ng-if="sortBy == '-offer_address_en'"></span>
+							</th>
+						</tr>
+					</thead>
+					<tbody dir-paginate="details in details_response | orderBy:sortBy:reverse | itemsPerPage: selected_search_type_per_page | filter:search">
+						<tr >
+							<td ng-bind="details.MerchantId"></td>
+							<td ng-bind="details.merchantName"></td>
+							<td>{{details.LocationName}}  {{details.LocationAddress1 }}</td>
+							<td ng-bind="details.City"></td>
+							<td ng-bind="details.CategoryDesc"></td>
+							<td ng-bind="details.subCategoryDesc"></td>
+							<td ng-bind="details.offer_address_en"></td>
+						</tr>
+					</tbody>
+				</table>
+				 <div class="table-striped" style="margin-top:10px;">
+                    <div class="row">
+                        <div class="col-sm-6">
+                            <label>
+                                Show 
+                                <select ng-model="selected_search_type_per_page" 
+                                    ng-options="search.value as search.name for search in page_per_pagination" 
+                                    ng-init="selected_search_type_per_page=selected_page_pagination" style="height:30px">
+                                </select>
+                            </label>
+                        </div>
+                        <div class="col-sm-6 text-right">
+                            <div class="text-center">
+                                <dir-pagination-controls 
+                                boundary-links="true" 
+                                max-size="3" 
+                                direction-links="true">
+                                </dir-pagination-controls>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+			</div>
 		</div>
 	</div>
 </div>

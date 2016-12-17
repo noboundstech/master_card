@@ -16,10 +16,13 @@ module.exports =
 		}
 		if(validate_success ==0) // if validation is unsuccessful
 		{
-			res.status(203).send({	"status" 		: false,
-									"error_type" 	: "validate error",
-									"message" 		: error_message
-								});
+			res.status(203).send({  "status"        : false,
+                                    "error_type"    : "validate error",
+                                    "response_data" : {
+                                                        "message"       : error_message
+
+                                                    }
+                                });
 		}
 		else
 		{
@@ -27,6 +30,32 @@ module.exports =
 			callback();
 		}
 	},
+    'validateForgetPassword': function(req,res,callback)          
+    {
+        var validate_success = 1;
+        var error_message =''
+        if(typeof req.body.email =='undefined' || req.body.email =='' || req.body.email ==null)
+        {
+            error_message = "Please enter your Email Id.";
+            validate_success = 0;
+        }
+       
+        if(validate_success ==0) // if validation is unsuccessful
+        {
+            res.status(203).send({  "status"        : false,
+                                    "error_type"    : "validate error",
+                                    "response_data" : {
+                                                        "message"       : error_message
+
+                                                    }
+                                });
+        }
+        else
+        {
+            // if validation 
+            callback();
+        }
+    },
 	'validateCustomer': function(req,res,callback)          
 	{
 		var validate_success = 1;

@@ -163,7 +163,7 @@ router.route('/getMerchantOffer')
 		function(callback) {
 			var merchant_id 	= req.body.merchant_id;
 			var query = " select mem.offerId, mem.offer_rule_en";
-				query+= " FROM "+constant.MERCHANT_OFFER_DETAILS+" as mem";
+				query+= " FROM "+constant.OFFER_BY_MERCHANTS+" as mem";
 				query+= " where mem.merchantId='"+merchant_id+"'";
 
 			db_query.RunSelSqlFromDb(req,res,query,response_data,function(){

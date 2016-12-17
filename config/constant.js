@@ -32,7 +32,6 @@ module.exports = {
     'MERCHANT_GROUP_MEMBER_TAG_RELATION_TABLE'   	: 'tMerchantGroupMemberTagRelation',
     'CATEGORY'            							: 'tCategory',
     'OFFER_RESPONSE'      							: 'tOfferResponse',
-    'MERCHANT_OFFER_DETAILS'						: 'tOfferByMerchants',
 	'VARCHAR50'  									: 'VarChar(50)',
     'VARCHAR100' 									: 'VarChar(100)',
     'VARCHAR20'   									: 'VarChar(20)',

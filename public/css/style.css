@@ -75,6 +75,8 @@ body{
    color:#0988ea;
 }
 
+
+
 .customer-report .btn-default.active, .btn-default:active, .open > .dropdown-toggle.btn-default {
     color: #333;
     background-color:#fff;
@@ -127,7 +129,7 @@ body{
     -webkit-box-shadow: 0px 1px 4px 0px rgba(50, 50, 50, 0.18);
     -moz-box-shadow:    0px 1px 4px 0px rgba(50, 50, 50, 0.18);
     box-shadow:         0px 1px 4px 0px rgba(50, 50, 50, 0.18);
-    height:280px;
+    min-height:350px;
     text-align: center;
    
 }
@@ -343,8 +345,8 @@ box-shadow:         0px 1px 4px 0px rgba(50, 50, 50, 0.18);
     padding-bottom:10px;
     border:1px solid #ccc;
     -webkit-box-shadow: 0px 1px 4px 0px rgba(50, 50, 50, 0.18);
--moz-box-shadow:    0px 1px 4px 0px rgba(50, 50, 50, 0.18);
-box-shadow:         0px 1px 4px 0px rgba(50, 50, 50, 0.18);
+  -moz-box-shadow:    0px 1px 4px 0px rgba(50, 50, 50, 0.18);
+  box-shadow:         0px 1px 4px 0px rgba(50, 50, 50, 0.18);
 }
 .offer-section-predict {
     
@@ -689,9 +691,7 @@ background-image: linear-gradient(#ffffff 1%, #ffffff 15%)important;
  * Copyright 2013-2016 Start Bootstrap
  * Licensed under MIT (https://github.com/BlackrockDigital/startbootstrap/blob/gh-pages/LICENSE)
  */
-* {
-  box-sizing: border-box;
-}
+
 body {
   /* overflow: hidden; */
   font-family: 'latoregular', sans-serif;
@@ -758,6 +758,7 @@ body {
 #myModal {
   z-index: 2000;
 }
+
 .modal-content .arrow_box-left:after {
   content: "";
   position: absolute;
@@ -1811,14 +1812,14 @@ body {
   @media(min-width:768px) {
       
         
-.main-header #menu-toggle {
-  margin-top: 25px !important;
-  margin-bottom: 0px !important;
-  line-height: 0;
-  padding: 0;
-  position: absolute;
-  right: 10px;
-}
+  .main-header #menu-toggle {
+    margin-top: 25px !important;
+    margin-bottom: 0px !important;
+    line-height: 0;
+    padding: 0;
+    position: absolute;
+    right: 10px;
+  }
 }
 
 @media(max-width:768px){
@@ -1831,17 +1832,16 @@ body {
     
     
 }
- @media(max-width:767px) {
-     .profile-back-button {
-    border-radius: 2px;
-    padding: 2px 8px;
-    font-size: 20px;
-    line-height: 22px;
-    color: #0988ea;
-    margin-top:10px!important;
-    margin-bottom:10px!important;     
+.profile-back-button {
+  border-radius: 2px;
+  padding: 2px 8px;
+  font-size: 20px;
+  line-height: 22px;
+  color: #0988ea;
+  margin-top:10px!important;
+  margin-bottom:10px!important;     
 }
-     .submit-btn {
+ .submit-btn {
     margin-top: 10px;
     margin-bottom: 10px;
     background: #0988ea;
@@ -1849,30 +1849,30 @@ body {
     padding: 6px;
     border: 0;
 }
-     h3.customer-profile-view{margin-left:60px;
-         margin-top:0px!important;
-         
-     }
-     
-     .profile-back-button {
-    border-radius: 2px;
-    padding: 2px 8px;
-    font-size: 20px;
-    line-height: 22px;
-    color: #0988ea;
-    margin-top: 12px;
-    margin-bottom: 0px;
+h3.customer-profile-view{
+  margin-left:60px;
+  margin-top:0px!important;
+ }
+ 
+.profile-back-button {
+  border-radius: 2px;
+  padding: 2px 8px;
+  font-size: 20px;
+  line-height: 22px;
+  color: #0988ea;
+  margin-top: 12px;
+  margin-bottom: 0px;
 }
-     .customer-profile-view{
-    font-size:18px;
-    font-weight:bold; 
-    margin-top:18px;
-         display: block;
+.customer-profile-view{
+  font-size:18px;
+  font-weight:bold; 
+  margin-top:18px;
+  display: block;
 }
-     .connection-percent {
-    font-size: 14px;
-    line-height: 16px!important;
-    margin: 10px 0 0 0;
+.connection-percent {
+  font-size: 14px;
+  line-height: 16px!important;
+  margin: 10px 0 0 0;
 }
 .navbar-brand {
   width: 65%;
@@ -2049,13 +2049,18 @@ body {
 }
 
 .datepickerdemoBasicUsage {
-  /** Demo styles for mdCalendar. */ }
-  .datepickerdemoBasicUsage md-content {
-    padding-bottom: 200px; }
-  .datepickerdemoBasicUsage .validation-messages {
+    /** Demo styles for mdCalendar. */
+
+}
+.datepickerdemoBasicUsage md-content {
+    padding-bottom: 200px; 
+  }
+  .datepickerdemoBasicUsage .validation-messages
+  {
     font-size: 12px;
     color: #dd2c00;
-    margin-left: 15px; }
+    margin-left: 15px;
+  }
 
 
 /*
@@ -2066,9 +2071,6 @@ Use of this source code is governed by an MIT-style license that can be foundin 
    User profile custom styles
 ========================================================================== */
 
-* {
-    box-sizing: border-box;
-}
 body {
     font-family: 'Roboto', sans-serif;
     overflow-x: hidden;
@@ -2280,4 +2282,8 @@ textarea {
   padding: 6px 30px !important; 
   margin-bottom: 9px !important;
   margin-top: 5px !important;
+}
+.success_message{
+  color:green;
+  margin-top:10px;
 }

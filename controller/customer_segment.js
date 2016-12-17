@@ -1042,7 +1042,7 @@ router.route('/getOfferSegReportData')
             //************************************************
             var sqlstring  = "select " + x_field_list +" as x_value, "+ y_field_list +" as y_value ," ;
                 sqlstring += "count(offres.offerSentTimestamp)as offerSent,";
-                sqlstring += "count(offres.offerClicked) as offerClicked,";
+                sqlstring += "count(offres.offerClicked) as offerClicked, offmer.offer_rule_en as offer_name, ";
                 sqlstring += "count(offres.offerUsed) as offerUsed  "
                 sqlstring += "from "+ constant.MEMBER_MASTER_TABLE + " mm, " + constant.OFFER_RESPONSE +" offres ," + constant.OFFER_BY_MERCHANTS + " offmer ";
                 sqlstring += sqltag_details + " ";
@@ -1052,7 +1052,7 @@ router.route('/getOfferSegReportData')
                 sqlstring += "and offmer.offerId = offres.offerId ";
                 sqlstring += "and offmer.offerId = " + in_offerId + " ";
                 sqlstring += cond_sql +" ";
-                sqlstring += "group by "+x_field_list +", "+ y_field_list + " ";
+                sqlstring += "group by "+x_field_list +", "+ y_field_list + ", offmer.offer_rule_en ";
                 sqlstring += "order by "+x_field_list +", "+ y_field_list;+" ";
             //********************************************************************
             //** create and initialize  Array matrix  with all selected X and Y Values
@@ -1077,6 +1077,7 @@ router.route('/getOfferSegReportData')
                 if (response_data.details.length > 0)
                 {
 
+                    response_data.offer_name = response_data.details[0].offer_name;
                     //*******************************************************
                     // sumarize response data for X axis or Y axis as age_grouped
                     // Special Check  for Age Group   and Gender to override DB table value with
@@ -1155,6 +1156,7 @@ router.route('/getOfferSegReportData')
                         {
                             for(y_cnt=0; y_cnt < y_axis_array.length;y_cnt++)
                             {
+
                                 if ( graph1[x_cnt].xheader[0].xname == response_data.details[result].x_value &&
                                 graph1[x_cnt].xheader[1].ydata[y_cnt].yname == response_data.details[result].y_value)
                                 {
