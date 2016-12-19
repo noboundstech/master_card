@@ -4,19 +4,19 @@ module.exports = {
 			            "value"     				: "18 to 24"
 			        },
 			        {
-			            "value"     : "25 to 34"
+			            "value"     				: "25 to 34"
 			        },
 			        {
-			            "value"     : "35 to 44"
+			            "value"     				: "35 to 44"
 			        },
 			        {
-			            "value"     : "45 to 54"
+			            "value"     				: "45 to 54"
 			        },
 			        {
-			            "value"     : "55 to 64"
+			            "value"     				: "55 to 64"
 			        },
 			        {
-			            "value"     : "65 to 100"
+			            "value"     				: "65 to 100"
 			        }
               	],
 	'USER_MASTER_TABLE'   							: 'tUserMaster',
