@@ -6,34 +6,37 @@
                 <div class="col-md-12">
                     <div class="col-md-1 col-sm-1 col-xs-1">
                         
-                    <a href="#/dashboard" class="btn btn-default profile-back-button"><span class="fa fa-long-arrow-left"></span></a>
+                        <a href="#/dashboard" class="btn btn-default profile-back-button"><span class="fa fa-long-arrow-left"></span></a>
                     </div>
-                     <div class="col-md-3">
-                       <h3 class="customer-profile-view">  <a href="#/dashboard">Home </a> >&nbsp;&nbsp;&nbsp;Member Profile View</h3>
-                        <h4 class="customer-profile-view hidden-lg hidden-md hidden-sm hidden-xs"> <a href="#/dashboard">Home </a> >&nbsp;&nbsp;&nbsp;Member Profile View</h4>
+                    <div class="col-md-3">
+                       <h4 class="customer-profile-view">  <a href="#/dashboard">Home </a> >&nbsp;&nbsp;&nbsp;Member Profile View</h4>
+                        <h5 class="customer-profile-view hidden-lg hidden-md hidden-sm hidden-xs"> <a href="#/dashboard">Home </a> >&nbsp;&nbsp;&nbsp;Member Profile View</h5>
+                         <div class="loader_angular col-md-1 profile-view-load" ng-show="showCustomerLoader"></div>
                     </div>
-                    <div class="loader_angular col-md-1 profile-view-load" ng-show="showCustomerLoader"></div>
-                    <form class="form-search user-id-search">
-                        <div class="row form-box-row">
-                             <div class="col-md-2 col-md-offset-0 user-wechat">
-                                <label>
-                                    <input type="radio" name="search_type" value="customer_id" checked="checked" ng-model="search_by" > Wechat Id&nbsp;
-                                    <input type="radio" value="card_no" name="search_type" ng-model="search_by"> Card#  
-                                </label>
-                            </div>
-                             <div class="col-md-2 col-md-offset-0 user-wechat" ng-if="search_by == 'customer_id'">
-                                <input type="text" class="form-control" ng-model="wechat_id" id="wechat_id" placeholder="Enter Member WeChat Id.">
-                                <p class="err" ng-bind="error_message"></p>
-                            </div>
-                            <div class="col-md-2 col-md-offset-0 user-wechat" ng-if="search_by == 'card_no'">
-                                <input type="text" class="form-control" ng-model="card_no" id="card_no" placeholder="Enter Card Number.">
-                                <p class="err" ng-bind="error_message"></p>
-                            </div>
-                            <div class="col-md-2">
-                                <button type="submit" class="btn btn-primary btn-block submit-btn" ng-click="showCustomerDetail()">Search Member</button>
-                            </div>
-                        </div>    
-                    </form>
+                    
+                        <form class="form-search user-id-search">
+                            <div class="row form-box-row">
+                                 <div class="col-md-2 col-md-offset-0 user-wechat">
+                                    <label>
+                                        <input type="radio" name="search_type" value="customer_id" checked="checked" ng-model="search_by" > Wechat Id&nbsp;
+                                        <input type="radio" value="card_no" name="search_type" ng-model="search_by"> Card#  
+                                    </label>
+                                </div>
+                                 <div class="col-md-2 col-md-offset-0 user-wechat" ng-if="search_by == 'customer_id'">
+                                    <input type="text" class="form-control" ng-model="wechat_id" id="wechat_id" placeholder="Enter Member WeChat Id.">
+                                    <p class="err" ng-bind="error_message"></p>
+                                </div>
+                                <div class="col-md-2 col-md-offset-0 user-wechat" ng-if="search_by == 'card_no'">
+                                    <input type="text" class="form-control" ng-model="card_no" id="card_no" placeholder="Enter Card Number.">
+                                    <p class="err" ng-bind="error_message"></p>
+                                </div>
+                                <div class="col-md-2">
+                                    <button type="submit" class="btn btn-primary btn-block submit-btn" ng-click="showCustomerDetail()">Search Member</button>
+                                </div>
+                                 <a style="float:left;margin:10px 0 0 40px; cursor:pointer;" class="main-logtout" ng-click="logout_user();" > logout</a>
+                            </div>  
+                        </form>
+                       
                 </div>
             </div>
         </div>

@@ -4,8 +4,6 @@ angular.module('CustomerReportController', ['applicationService.services'])
 	$scope.user_type = localStorage.getItem('user_type');
 	$scope.user_name = localStorage.getItem('csr_name');
 	$rootScope.authenticateUser();
-
-
 	$scope.checkboxModel = {};
 	$scope.total_checked = 3;
 	$rootScope.map_type = 'default';
@@ -27,6 +25,19 @@ angular.module('CustomerReportController', ['applicationService.services'])
 	$scope.start_date 	= 1+"-"+ 1+"-"+current_date.getFullYear();
 	$scope.end_date 	= current_date.getMonth()+1+"-"+current_date.getDate()+"-"+current_date.getFullYear();
 	$scope.show_loader = true;
+
+	if($location.path() == '/offer_segment')
+	{
+		$scope.page_title = "Offer Segment View";
+	}
+	else
+	{
+		$scope.page_title = "Member Segment View";
+	}
+
+
+
+
 	API.getDetails("customer_segment/getCustReportList",{token : localStorage.getItem('token')}).then(function successCallback(response) {
 		
 		if(response.status == 200)

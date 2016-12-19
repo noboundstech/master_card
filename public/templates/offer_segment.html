@@ -1,22 +1,4 @@
-
-<div class="header">
-    <div class="container-fluid">
-        <div class="row">
-            <div class="col-md-12 profile-view">
-                <div class="col-md-12">
-                    <div class="col-md-1 col-sm-1 col-xs-1">
-                        
-                    <a href="#/dashboard" class="btn btn-default profile-back-button"><span class="fa fa-long-arrow-left"></span></a>
-                    </div>
-                     <div class="col-md-3">
-                        <h3 class="customer-profile-view">Offer Segment View</h3>
-                        <h4 class="customer-profile-view hidden-lg hidden-md hidden-sm hidden-xs">Offer Segment View</h4>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-</div>
+<div page-Header></div>
 <div class="container-fluid" style="margin-top:20px;">
 	<div class="row" style="margin-bottom:20px;">
 		<div class="col-sm-2" style="padding-right: 8px;">
@@ -24,7 +6,7 @@
 				<div class="panel-heading">FILTERS</div>
 				<div class="panel-body">
 					<div class="col-sm-12">
-                   		<button class="btn btn-primary get-map-btn" ng-click="getOfferSegmentDetails();">View details</button>
+                   		<button class="btn btn-primary" ng-click="getOfferSegmentDetails();">View details</button>
                     </div>
                     
 					<div class="rows" ng-show="checkboxModel.age_grouped">
@@ -145,78 +127,78 @@
 		</div>
 		<div class="col-sm-10" style="padding-left: 5px;">
            <div class="rows">
-						<div class="col-sm-3">
-							<label style="font-size=16px"> <strong> Search By : </strong><br>
-					  		</label>
-							<label style="font-size=12px;font-weight: 100;">Offer Id :
-								<input type="radio" ng-model="checkboxModel.offer_segment_search_by" value="offer_id" ng-click="changeofferSearchStatus('offer_id')" name ="offer_serach_by" id="offer_id" checked>
-					  		</label>
-					  		<label style="font-size=12px;font-weight: 100;">Merchant :
-					  			<input type="radio" ng-model="checkboxModel.offer_segment_search_by" value="merchant_name" ng-click="changeofferSearchStatus('merchant_name')"  name ="offer_serach_by"  id="merchant_name">
-					  		</label>
-					  	</div>
-						<div class="col-sm-3" style="color:#0988ea" ng-show="show_by_offer">
-							<div class="input-group" >
-                                <div class="col-sm-5"><span style="display:block;margin-top:7px;"><strong> Offer Id : </strong></span></div><div class="col-sm-7"><input class="form-control" placeholder="Offer Id" ng-model="offer_id"></div>
-	                        </div>
-						</div>
-                        <div class="col-sm-12 date-box-one"  ng-show="show_by_offer" style="margin-top:-2px;">
-	                        
-                             <div class="col-sm-2" style="padding-left:0px; padding-right"><span style="display:block;margin-top:7px;color:#0988ea"><strong> Offer Description : </strong></span></div>
-                            <div class="col-sm-10" style="margin-top:8px;" ng-bind="offer_name"></div>
-	                    
-		                   
+				<div class="col-sm-3">
+					<label style="font-size=16px"> <strong> Search By : </strong><br>
+			  		</label>
+					<label style="font-size=12px;font-weight: 100;">Offer Id :
+						<input type="radio" ng-model="checkboxModel.offer_segment_search_by" value="offer_id" ng-click="changeofferSearchStatus('offer_id')" name ="offer_serach_by" id="offer_id" checked>
+			  		</label>
+			  		<label style="font-size=12px;font-weight: 100;">Merchant :
+			  			<input type="radio" ng-model="checkboxModel.offer_segment_search_by" value="merchant_name" ng-click="changeofferSearchStatus('merchant_name')"  name ="offer_serach_by"  id="merchant_name">
+			  		</label>
+			  	</div>
+				<div class="col-sm-3" style="color:#0988ea" ng-show="show_by_offer">
+					<div class="input-group" >
+                        <div class="col-sm-5"><span style="display:block;margin-top:7px;"><strong> Offer Id : </strong></span></div><div class="col-sm-7"><input class="form-control" placeholder="Offer Id" ng-model="offer_id"></div>
+                    </div>
+				</div>
+                <div class="col-sm-12 date-box-one"  ng-show="show_by_offer" style="margin-top:-2px;">
+                    
+                     <div class="col-sm-2" style="padding-left:0px; padding-right"><span style="display:block;margin-top:7px;color:#0988ea"><strong> Offer Description : </strong></span></div>
+                    <div class="col-sm-10" style="margin-top:8px;" ng-bind="offer_name"></div>
+                
+                   
+                </div>
+               <div class="col-sm-3 merchant-select"  style="color:#0988ea" ng-hide="show_by_offer">
+					<strong>Select Merchant : </strong>
+                    <strong style="color:#0988ea;display:block; margin-top:10px;">Select Offer : </strong>
+				</div>
+				<div class="col-sm-3 date-box-one"  ng-hide="show_by_offer">
+						
+                        <div class="input-group col-sm-4" style="margin-top:-18px;margin-bottom:10px;">
+							<select name="singleSelect" id="singleSelect" ng-model="merchant_details" ng-change="getOfferDetails();" class="input-small">
+								<option value="" disabled> Select Merchant</option>
+								<option ng-repeat="option in merchat_details" value="{{option.id}}">{{option.name}}</option>
+							</select>
                         </div>
-                       <div class="col-sm-3 merchant-select"  style="color:#0988ea" ng-hide="show_by_offer">
-							<strong>Select Merchant : </strong>
-                            <strong style="color:#0988ea;display:block; margin-top:10px;">Select Offer : </strong>
-						</div>
-						<div class="col-sm-3 date-box-one"  ng-hide="show_by_offer">
-								
-		                        <div class="input-group col-sm-4" style="margin-top:-18px;margin-bottom:10px;">
-									<select name="singleSelect" id="singleSelect" ng-model="merchant_details" ng-change="getOfferDetails();" class="input-small">
-										<option value="" disabled> Select Merchant</option>
-										<option ng-repeat="option in merchat_details" value="{{option.id}}">{{option.name}}</option>
-									</select>
-		                        </div>
-		                        <div class="loader_angular col-sm-4 select-merchant-loader" ng-show="show_merchant_loader"></div>
-		                        
-		                         <div class="input-group col-sm-4">
-                                    
-									<select name="singleSelect" id="offerSelect" ng-model="offer_id" ng-change="changeofferSearchStatus('change_to_offer_id')" class="input-small">
-										<option value="" disabled> Select Offer</option>
-										<option ng-repeat="option in offer_details" value="{{option.offerId}}">{{option.offer_rule_en}}</option>
-									</select>
-		                        </div>
+                        <div class="loader_angular col-sm-4 select-merchant-loader" ng-show="show_merchant_loader"></div>
+                        
+                         <div class="input-group col-sm-4">
+                            
+							<select name="singleSelect" id="offerSelect" ng-model="offer_id" ng-change="changeofferSearchStatus('change_to_offer_id')" class="input-small">
+								<option value="" disabled> Select Offer</option>
+								<option ng-repeat="option in offer_details" value="{{option.offerId}}">{{option.offer_rule_en}}</option>
+							</select>
                         </div>
-					</div>
+                </div>
+			</div>
         
 			<div class="row">
-				<div class="col-sm-6">
+				<div class="col-sm-6" style="border-right:1px solid;">
 					<div class="col-sm-12">
 						<strong> X-AXIS </strong>
 					</div>
 					<div class="col-sm-12">
-						<label>
+						<label style="font-weight:100">
 				    		<input type="radio" ng-model="checkboxModel.x_axis" value="age_grouped" ng-click="changeChecboxStatus('age_grouped','x_axis')" id="x_axis_age_group">&nbsp;Age group&nbsp;
 				  		</label>
-						<label>
+						<label style="font-weight:100">
 							<input type="radio" ng-model="checkboxModel.x_axis" value="card_type" ng-click="changeChecboxStatus('card_type','x_axis')" id="x_axis_card_type">&nbsp;Card Type&nbsp;
 				  		</label>
-				  		<label>
+				  		<label style="font-weight:100">
 							<input type="radio" ng-model="checkboxModel.x_axis" value="category" ng-click="changeChecboxStatus('category','x_axis')" id="x_axis_category">&nbsp;Category&nbsp;
 				  		</label>
 
-				  		<label>
+				  		<label style="font-weight:100">
 				  			<input type="radio" ng-model="checkboxModel.x_axis" value="location" ng-click="changeChecboxStatus('location','x_axis')" id="x_axis_location">&nbsp;Location&nbsp;
 				  		</label>
-				  		<label>
+				  		<label style="font-weight:100">
 				    		<input type="radio" ng-model="checkboxModel.x_axis" value="segment" ng-click="changeChecboxStatus('segment','x_axis')"  id="x_axis_segment">&nbsp;Segment&nbsp;
 				  		</label>
-				  		<label>
+				  		<label style="font-weight:100">
 				  			<input type="radio" ng-model="checkboxModel.x_axis" value="gender" ng-click="changeChecboxStatus('gender','x_axis')"  id="x_axis_gender">&nbsp;Gender&nbsp;
 				  		</label>
-				  		<label>
+				  		<label style="font-weight:100">
 				    		<input type="radio" ng-model="checkboxModel.x_axis" value="tags" ng-click="changeChecboxStatus('tags','x_axis')" id="x_axis_tags">&nbsp;Tags&nbsp;
 				  		</label>
 				  		
@@ -227,25 +209,25 @@
 						<strong> Y-AXIS </strong>
 					</div>
 					<div class="col-sm-12">
-						<label>
+						<label style="font-weight:100">
 				    		<input type="radio" ng-model="checkboxModel.y_axis" value="age_grouped" ng-click="changeChecboxStatus('age_grouped','y_axis')" id="y_axis_age_group">&nbsp;Age-group&nbsp;
 				  		</label>
-						<label>
+						<label style="font-weight:100">
 							<input type="radio" ng-model="checkboxModel.y_axis" value="card_type" ng-click="changeChecboxStatus('card_type','y_axis')" id="y_axis_card_type">&nbsp;Card Type&nbsp;
 				  		</label>
-				  		<label>
+				  		<label style="font-weight:100">
 							<input type="radio" ng-model="checkboxModel.y_axis" value="category" ng-click="changeChecboxStatus('category','y_axis')" id="y_axis_category">&nbsp;Category&nbsp;
 				  		</label>
-				  		<label>
+				  		<label style="font-weight:100">
 				  			<input type="radio" ng-model="checkboxModel.y_axis" value="gender" ng-click="changeChecboxStatus('gender','y_axis')"  id="y_axis_gender">&nbsp;Gender&nbsp;
 				  		</label>
-				  		<label>
+				  		<label style="font-weight:100">
 				  			<input type="radio" ng-model="checkboxModel.y_axis" value="location" ng-click="changeChecboxStatus('location','y_axis')" id="y_axis_location">&nbsp;Location&nbsp;
 				  		</label>
-				  		<label>
+				  		<label style="font-weight:100">
 				    		<input type="radio" ng-model="checkboxModel.y_axis" value="segment" ng-click="changeChecboxStatus('segment','y_axis')"  id="y_axis_segment">&nbsp;Segment&nbsp;
 				  		</label>
-				  		<label>
+				  		<label style="font-weight:100">
 				    		<input type="radio" ng-model="checkboxModel.y_axis" value="tags" ng-click="changeChecboxStatus('tags','y_axis')" id="y_axis_tags">&nbsp;Tags&nbsp;
 				  		</label>
 				  			

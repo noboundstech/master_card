@@ -1,6 +1,7 @@
 angular.module('offerController', ['applicationService.services'])
 .controller('offer_display_view', function($scope,$http,$routeParams,$location,$localStorage,$rootScope,API)
 {
+	$scope.page_title = "Offer Dispaly View";
 	$scope.user_type = localStorage.getItem('user_type');
 	$scope.user_name = localStorage.getItem('csr_name');
 	$rootScope.authenticateUser();
@@ -57,10 +58,11 @@ angular.module('offerController', ['applicationService.services'])
 			location 		: $scope.location_selected,
 			date_range 		: {"from":$scope.start_date ,"to":$scope.end_date}
 		};
-		$scope.show_loader = true;
+		$scope.show_loader_details = true;
 		API.postDetails($scope.details,"view_offer_merchant/getOfferView").then(function successCallback(response) {
-			$scope.show_loader = false;
+			$scope.show_loader_details = false;
 			$scope.details_response = response.data.response_data.details;
+			document.getElementById("close_filter").click();
 		});
 	}
 	$scope.sortBy = 'merchantName'
@@ -79,6 +81,7 @@ angular.module('offerController', ['applicationService.services'])
 })
 .controller('merchant_display_view', function($scope,$http,$routeParams,$location,$localStorage,$rootScope,API)
 {
+	$scope.page_title = "Merchant Dispaly View";
 	$scope.user_type = localStorage.getItem('user_type');
 	$scope.user_name = localStorage.getItem('csr_name');
 	$rootScope.authenticateUser();
@@ -137,10 +140,11 @@ angular.module('offerController', ['applicationService.services'])
 			location 			: $scope.location_selected,
 			merchant_location 	: $scope.merchant_location_selected
 		};
-		$scope.show_loader = true;
+		$scope.show_loader_filter = true;
 		API.postDetails($scope.details,"view_offer_merchant/getMerchantView").then(function successCallback(response) {
-			$scope.show_loader = false;
+			$scope.show_loader_filter = false;
 			$scope.details_response = response.data.response_data.details;
+			document.getElementById("close_filter").click();
 		});
 	}
 	$scope.sortBy = 'merchantName'

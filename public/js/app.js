@@ -103,4 +103,10 @@ angular.module('project', ['ngRoute','homeController','userController','adminCon
             });
         }
     };
-});
+})
+.directive('pageHeader', function () {
+  console.log("in");
+        return {
+             templateUrl: "templates/include/header.html"
+        };
+    })

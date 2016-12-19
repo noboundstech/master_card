@@ -597,7 +597,7 @@ background-image: linear-gradient(#ffffff 1%, #ffffff 15%)important;
 
 .loginmodal-container h1 {
   text-align: center;
-  font-size: 1.8em;
+  font-size: 1.5em;
   font-family: roboto;
 }
 
@@ -610,7 +610,7 @@ background-image: linear-gradient(#ffffff 1%, #ffffff 15%)important;
 
 .loginmodal-container input[type=text], input[type=password] {
   height: 44px;
-  font-size: 16px;
+  font-size: 14px;
   width: 100%;
   margin-bottom: 10px;
   -webkit-appearance: none;
@@ -785,7 +785,7 @@ body {
   border-radius: 40px;
   padding: 15px 0 25px;
   width: 70%;
-  font-size: 16px;
+  font-size: 14px;
   box-shadow: 1px 1.732px 9px 0px rgba( 0, 0, 0,.3);
   left: 80px;
 }
@@ -912,7 +912,7 @@ body {
   padding: 0;
 }
 .fa-bars {
-  font-size: 24px;
+  font-size: 20px;
 }
 /* main header ended */
 
@@ -971,7 +971,7 @@ body {
   margin: 0;
 }
 .media-body h5 {
-  font-size: 15px;
+  font-size: 14px;
   padding: 0;
   line-height: 0;
 }
@@ -1058,7 +1058,7 @@ body {
 }
 .sidebar-nav > li > a {
   padding: 20px 30px 10px 20px;
-  font-size: 16px;
+  font-size: 14px;
 }
 .sidebar-nav li a {
   display: block;
@@ -1101,7 +1101,7 @@ body {
 .customer-list {
   color: #fff;
   padding: 0px 25px;
-  font-size: 14px;
+  font-size: 12px;
   margin-top: 32px;
   margin-bottom: 25px;
   font-family: 'latoregular', sans-serif;
@@ -1226,7 +1226,7 @@ body {
 }
 .chat-heading {
   margin: 14px 40px 20px;
-  font-size: 16px;
+  font-size: 14px;
   font-family: 'latoregular', sans-serif;
   font-weight: bold;
   border-bottom: 1px solid #dceaf4;
@@ -1255,7 +1255,7 @@ body {
   border-radius: 40px;
   padding:20px;
   width: 70%;
-  font-size: 16px;
+  font-size: 14px;
   box-shadow: 1px 1.732px 9px 0px rgba( 0, 0, 0,.3);
   left: 90px;
 }
@@ -1284,7 +1284,7 @@ body {
   border-radius: 40px;
   padding: 20px;
   width: 70%;
-  font-size: 16px;
+  font-size: 14px;
   box-shadow: 1px 1.732px 9px 0px rgba( 0, 0, 0,.3);
   left: 80px;
 }
@@ -1459,7 +1459,7 @@ body {
   padding-top: 20px;
 }
 .tag-details {
-  font-size: 18px;
+  font-size: 16px;
   font-family: 'latoregular', sans-serif;
   font-weight: bold;
   color: #34495e;
@@ -1540,7 +1540,7 @@ body {
   color: #474747;
 }
 .purchase-record {
-  font-size: 16px;
+  font-size: 14px;
   font-family: 'latoregular', sans-serif;
   font-weight: bold;
   color: #34495e;
@@ -1659,7 +1659,7 @@ body {
   margin-left: 30px;
 }
 .merchant-offer {
-  font-size: 16px;
+  font-size: 14px;
   font-family: 'latoregular', sans-serif;
   font-weight: bold;
   color: #34495e;
@@ -1835,7 +1835,7 @@ body {
 .profile-back-button {
   border-radius: 2px;
   padding: 2px 8px;
-  font-size: 20px;
+  font-size: 16px;
   line-height: 22px;
   color: #0988ea;
   margin-top:10px!important;
@@ -1857,8 +1857,8 @@ h3.customer-profile-view{
 .profile-back-button {
   border-radius: 2px;
   padding: 2px 8px;
-  font-size: 20px;
-  line-height: 22px;
+  font-size: 16px;
+  line-height: 20px;
   color: #0988ea;
   margin-top: 12px;
   margin-bottom: 0px;

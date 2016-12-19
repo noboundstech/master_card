@@ -1,32 +1,15 @@
-
-<div class="header">
-    <div class="container-fluid">
-        <div class="row">
-            <div class="col-md-12 profile-view">
-                <div class="col-md-12">
-                    <div class="col-md-1 col-sm-1 col-xs-1">
-                        
-                    <a href="#/dashboard" class="btn btn-default profile-back-button"><span class="fa fa-long-arrow-left"></span></a>
-                    </div>
-                     <div class="col-md-3">
-                        <h3 class="customer-profile-view">Member Segment View</h3>
-                        <h4 class="customer-profile-view hidden-lg hidden-md hidden-sm hidden-xs">Member Segment View</h4>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-</div>
+<div page-Header></div>
 <div class="container-fluid" style="margin-top:20px;">
 	<div class="row">
 		<div class="col-sm-2" style="padding-right: 8px;">
 			<div class="panel panel-default">
 				<div class="panel-heading">FILTERS</div>
 				<div class="panel-body">
-
-					<div class="col-sm-12">
-	                   	<button class="btn btn-primary get-map-btn" ng-click="getCustomerSegmentDetails();">View details</button>
-	                </div>
+					<div class="row">
+						<div class="col-sm-12 ">
+		                   	<button class="btn btn-primary pull-right" ng-click="getCustomerSegmentDetails();">View Filter details</button>
+		                </div>
+		            </div>
 					<div class="rows" ng-show="checkboxModel.age_grouped">
 						<div class="col-sm-12">
 							<strong> Aged Group : </strong>
@@ -134,27 +117,27 @@
 		<div class="col-sm-10" style="padding-left: 5px;">
 
 			<div class="row">
-				<div class="col-sm-6">
+				<div class="col-sm-6" style="border-right:1px solid;">
 					<div class="col-sm-12">
 						<strong> X-AXIS </strong>
 					</div>
 					<div class="col-sm-12">
-						<label>
+						<label style="font-weight:100">
 				    		<input type="radio" ng-model="checkboxModel.x_axis" value="age_grouped" ng-click="changeChecboxStatus('age_grouped','x_axis')" id="x_axis_age_group">&nbsp;Age group&nbsp;
 				  		</label>
-						<label>
+						<label style="font-weight:100">
 							<input type="radio" ng-model="checkboxModel.x_axis" value="card_type" ng-click="changeChecboxStatus('card_type','x_axis')" id="x_axis_card_type">&nbsp;Card type&nbsp;
 				  		</label>
-				  		<label>
+				  		<label style="font-weight:100">
 				  			<input type="radio" ng-model="checkboxModel.x_axis" value="gender" ng-click="changeChecboxStatus('gender','x_axis')"  id="x_axis_gender">&nbsp;Gender&nbsp;
 				  		</label>
-				  		<label>
+				  		<label style="font-weight:100">
 				  			<input type="radio" ng-model="checkboxModel.x_axis" value="location" ng-click="changeChecboxStatus('location','x_axis')" id="x_axis_location">&nbsp;Location&nbsp;
 				  		</label>
-				  		<label>
+				  		<label style="font-weight:100">
 				    		<input type="radio" ng-model="checkboxModel.x_axis" value="segment" ng-click="changeChecboxStatus('segment','x_axis')"  id="x_axis_segment">&nbsp;Segment&nbsp;
 				  		</label>
-				  		<label>
+				  		<label style="font-weight:100">
 				    		<input type="radio" ng-model="checkboxModel.x_axis" value="tags" ng-click="changeChecboxStatus('tags','x_axis')" id="x_axis_tags">&nbsp;Tags&nbsp;
 				  		</label>
 				  		
@@ -165,22 +148,22 @@
 						<strong> Y-AXIS </strong>
 					</div>
 					<div class="col-sm-12">
-						<label>
+						<label style="font-weight:100">
 				    		<input type="radio" ng-model="checkboxModel.y_axis" value="age_grouped" ng-click="changeChecboxStatus('age_grouped','y_axis')" id="y_axis_age_group">&nbsp;Age group&nbsp;
 				  		</label>
-						<label>
+						<label style="font-weight:100">
 							<input type="radio" ng-model="checkboxModel.y_axis" value="card_type" ng-click="changeChecboxStatus('card_type','y_axis')" id="y_axis_card_type">&nbsp;Card type&nbsp;
 				  		</label>
-				  		<label>
+				  		<label style="font-weight:100">
 				  			<input type="radio" ng-model="checkboxModel.y_axis" value="gender" ng-click="changeChecboxStatus('gender','y_axis')"  id="y_axis_gender">&nbsp;Gender&nbsp;
 				  		</label>
-				  		<label>
+				  		<label style="font-weight:100">
 				  			<input type="radio" ng-model="checkboxModel.y_axis" value="location" ng-click="changeChecboxStatus('location','y_axis')" id="y_axis_location">&nbsp;Location&nbsp;
 				  		</label>
-				  		<label>
+				  		<label style="font-weight:100">
 				    		<input type="radio" ng-model="checkboxModel.y_axis" value="segment" ng-click="changeChecboxStatus('segment','y_axis')"  id="y_axis_segment">&nbsp;Segment&nbsp;
 				  		</label>
-				  		<label>
+				  		<label style="font-weight:100">
 				    		<input type="radio" ng-model="checkboxModel.y_axis" value="tags" ng-click="changeChecboxStatus('tags','y_axis')" id="y_axis_tags">&nbsp;Tags&nbsp;
 				  		</label>
 				  		
