@@ -10,6 +10,5 @@ module.exports = {
 	'email_port'		: 587,
 	'email_ssl'			: false,
 	'secure_connection' : false,
-  //  'database': 'mongodb://noder:noderauth&54;proximus.modulusmongo.net:27017/so9pojyN'
 
 };
