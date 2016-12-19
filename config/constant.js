@@ -1,7 +1,7 @@
 module.exports = {
 	'AGE_GROUP' : [
 			        {
-			            "value"     : "18 to 24"
+			            "value"     				: "18 to 24"
 			        },
 			        {
 			            "value"     : "25 to 34"
