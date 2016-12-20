@@ -54,6 +54,11 @@ angular.module('adminController', ['applicationService.services'])
 			$scope.error = "Please enter user password.";
 			return false;
 		}
+		if(typeof $scope.add_user.email_id =='undefined' || $scope.add_user.email_id =='' || $scope.add_user.email_id == null)
+		{
+			$scope.error = "Please enter user emailId.";
+			return false;
+		}
 		if(typeof $scope.add_user.user_role =='undefined' || $scope.add_user.user_role =='' || $scope.add_user.user_role == null)
 		{
 			$scope.error = "Please select the user role.";
@@ -95,6 +100,11 @@ angular.module('adminController', ['applicationService.services'])
 		if(typeof $scope.edit_user_Details.userPwd =='undefined' || $scope.edit_user_Details.userPwd =='' || $scope.edit_user_Details.userPwd == null)
 		{
 			$scope.error = "Please enter user password.";
+			return false;
+		}
+		if(typeof $scope.edit_user_Details.userEMailId =='undefined' || $scope.edit_user_Details.userEMailId =='' || $scope.edit_user_Details.userEMailId == null)
+		{
+			$scope.error = "Please enter user emailId.";
 			return false;
 		}
 		if(typeof $scope.edit_user_Details.userRole =='undefined' || $scope.edit_user_Details.userRole =='' || $scope.edit_user_Details.userRole == null)

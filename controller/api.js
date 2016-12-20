@@ -223,4 +223,54 @@ router.route('/getUserDetails')
 			res.status(200).send({response_data});
 		});
 });
+
+
+router.route('/BulkInsert')
+.post(function (req, res) {
+ 
+	var async 			= require('async');
+	var sql 			= require('mssql');
+	var config 			= require('config/db_connection');
+	var constant 		= require("config/constant");
+	var db_query 		= require('db_query/query');
+	var response_data 	= {};
+	var sql = require('mssql');
+	var inserted_value = '';
+	console.log(req.body.details);
+	var inserted_field = "(ChatStartTimestamp,ChatEndTimestamp,userId,memberId,memberLat,memberLong,memberTagAdded)";
+	for(var i=0;i<req.body.details.length;i++)
+	{
+		var value = req.body.details[i];
+	    inserted_value+="( SYSDATETIME() , SYSDATETIME() ,"+value.userId+","+value.memberId+","+value.memberLat+","+value.memberLong+","+value.memberTagAdded+")";
+		if(i!=req.body.details.length-1)
+		{
+			inserted_value+=",";
+		}
+	}
+
+	var config = require('config/db_connection');
+	var connection1 = new sql.Connection(config, function(err) {
+		//console.log(err);
+
+		var request = new sql.Request(connection1); // or: var request = connection1.request();
+	
+		var sql_query = 'insert into '+constant.CHAT_HISTORY_HEADER+' '+inserted_field+' values '+inserted_value+'' ;
+	    console.log(sql_query);
+	   	request.query(sql_query).then(function(recordset) {
+    		data.details = recordset;
+        		callback();
+    		connection1.close();
+	    }).catch(function(err) {
+	    	console.log(err)
+	    	//res.send({data : err});
+	    	connection1.close();
+	        // ... query error checks 
+	    });
+	    
+	});
+});
+
+
+
+
 module.exports = router;

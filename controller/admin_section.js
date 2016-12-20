@@ -75,6 +75,11 @@ router.route('/addNewUser')
 						    "varname" 	: "user_role",
 							"value"		: req.body.user_role
 						},{
+							"name" 		: "userEMailId",
+						    "type"		: constant.VARCHAR100,
+						    "varname" 	: "userEMailId",
+							"value"		: req.body.email_id
+						},{
 							"name" 		: "UserActiveStatus",
 						    "type"		: constant.VARCHAR1,
 						    "varname" 	: "active_status",
@@ -146,6 +151,11 @@ router.route('/updateUserDetails')
 						    "type"		: constant.VARCHAR5,
 						    "varname" 	: "user_role",
 							"value"		: req.body.userRole
+						},{
+							"name" 		: "userEMailId",
+						    "type"		: constant.VARCHAR100,
+						    "varname" 	: "userEMailId",
+							"value"		: req.body.userEMailId
 						},{
 							"name" 		: "UserActiveStatus",
 						    "type"		: constant.VARCHAR1,

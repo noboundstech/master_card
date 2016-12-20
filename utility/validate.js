@@ -240,6 +240,11 @@ module.exports =
             error_message = "Please Enter user password.";
             validate_success = 0;
         }
+        if( typeof req.body.email_id =='undefined' || req.body.email_id =='' || req.body.email_id ==null)
+        {
+            error_message = "Please Enter user Email Id.";
+            validate_success = 0;
+        }
         if( typeof req.body.add_user_name =='undefined' || req.body.add_user_name =='' || req.body.add_user_name ==null)
         {
             error_message = "Please add user name.";
@@ -271,6 +276,11 @@ module.exports =
         if( typeof req.body.userRole =='undefined' || req.body.userRole =='' || req.body.userRole ==null)
         {
             error_message = "Please Select User role.";
+            validate_success = 0;
+        }
+        if( typeof req.body.userEMailId =='undefined' || req.body.userEMailId =='' || req.body.userEMailId ==null)
+        {
+            error_message = "Please Enter email Id.";
             validate_success = 0;
         }
         if( typeof req.body.userPwd =='undefined' || req.body.userPwd =='' || req.body.userPwd ==null)

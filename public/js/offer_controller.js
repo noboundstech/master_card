@@ -1,5 +1,5 @@
 angular.module('offerController', ['applicationService.services'])
-.controller('offer_display_view', function($scope,$http,$routeParams,$location,$localStorage,$rootScope,API)
+.controller('offer_display_view', function($scope,Excel,$timeout,$location,$localStorage,$rootScope,API)
 {
 	$scope.page_title = "Offer Display View";
 	$scope.user_type = localStorage.getItem('user_type');
@@ -10,6 +10,13 @@ angular.module('offerController', ['applicationService.services'])
 	$scope.start_date 	= 1+"-"+ 1+"-"+current_date.getFullYear();
 	$scope.end_date 	= current_date.getMonth()+1+"-"+current_date.getDate()+"-"+current_date.getFullYear();
 	$scope.show_loader = true;
+
+
+	$scope.exportToExcel=function(tableId){ // ex: '#my-table'
+        var exportHref=Excel.tableToExcel(tableId,'WireWorkbenchDataExport');
+        $timeout(function(){location.href=exportHref;},100); // trigger download
+    }
+
 	API.getDetails("view_offer_merchant/getViewList",{token : localStorage.getItem('token')}).then(function successCallback(response) {
 		if(response.status == 200)
 		{
@@ -79,7 +86,7 @@ angular.module('offerController', ['applicationService.services'])
 		}
 	}
 })
-.controller('merchant_display_view', function($scope,$http,$routeParams,$location,$localStorage,$rootScope,API)
+.controller('merchant_display_view', function($scope,Excel,$timeout,$location,$localStorage,$rootScope,API)
 {
 	$scope.page_title = "Merchant Display View";
 	$scope.user_type = localStorage.getItem('user_type');
@@ -90,6 +97,12 @@ angular.module('offerController', ['applicationService.services'])
 	$scope.start_date 	= current_date.getMonth()+1+"-"+ 1+"-"+current_date.getFullYear();
 	$scope.end_date 	= current_date.getMonth()+1+"-"+current_date.getDate()+"-"+current_date.getFullYear();
 	$scope.show_loader = true;
+
+	$scope.exportToExcel=function(tableId){ // ex: '#my-table'
+        var exportHref=Excel.tableToExcel(tableId,'WireWorkbenchDataExport');
+        $timeout(function(){location.href=exportHref;},100); // trigger download
+    }
+
 	API.getDetails("view_offer_merchant/getViewList",{token : localStorage.getItem('token')}).then(function successCallback(response) {
 		if(response.status == 200)
 		{
