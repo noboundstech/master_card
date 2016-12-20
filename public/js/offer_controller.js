@@ -1,7 +1,7 @@
 angular.module('offerController', ['applicationService.services'])
 .controller('offer_display_view', function($scope,$http,$routeParams,$location,$localStorage,$rootScope,API)
 {
-	$scope.page_title = "Offer Dispaly View";
+	$scope.page_title = "Offer Display View";
 	$scope.user_type = localStorage.getItem('user_type');
 	$scope.user_name = localStorage.getItem('csr_name');
 	$rootScope.authenticateUser();
@@ -81,7 +81,7 @@ angular.module('offerController', ['applicationService.services'])
 })
 .controller('merchant_display_view', function($scope,$http,$routeParams,$location,$localStorage,$rootScope,API)
 {
-	$scope.page_title = "Merchant Dispaly View";
+	$scope.page_title = "Merchant Display View";
 	$scope.user_type = localStorage.getItem('user_type');
 	$scope.user_name = localStorage.getItem('csr_name');
 	$rootScope.authenticateUser();
