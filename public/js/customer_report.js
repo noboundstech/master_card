@@ -659,7 +659,8 @@ angular.module('CustomerReportController', ['applicationService.services'])
 		$scope.segment_selected_details 		= [];
 		$scope.age_grouped_selected_details 	= [];
 		$scope.location_filter_selected_details = [];
-		$scope.selected_axis_details    		= 0;    
+		$scope.selected_axis_details    		= 0;
+		$scope.error =  '';
 		if($scope.x_axis_selected == 'card_type' || $scope.y_axis_selected == 'card_type')
 		{
 			if(typeof $scope.card_type_filter_details !='undefined')
@@ -909,6 +910,7 @@ angular.module('CustomerReportController', ['applicationService.services'])
 		$scope.category_filter_details_arr		= [];
 		$scope.selected_offer_axis_details    	= 0; 
 		$scope.offer_name 						= '';
+		$scope.error =  '';
 		if(typeof $scope.offer_id == 'undefined' || $scope.offer_id == '' || $scope.offer_id == null)
 		{
 			alert("Please Enter your offer Id.");

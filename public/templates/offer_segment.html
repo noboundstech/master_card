@@ -150,17 +150,18 @@
 				<div class="col-sm-4 date-box-one"  ng-hide="show_by_offer">
 						
                         <div class="input-group col-sm-4" style="margin-top:-18px;margin-bottom:10px;">
-							<select name="singleSelect" id="singleSelect" ng-model="merchant_details" ng-change="getOfferDetails();" class="input-small">
+							<select chosen name="singleSelect" id="singleSelect" ng-model="merchant_details" ng-change="getOfferDetails();" class="input-small">
 								<option value="" disabled> Select Merchant</option>
 								<option ng-repeat="option in merchat_details" value="{{option.id}}">{{option.name}}</option>
 							</select>
+
                         </div>
                         <div class="loader_angular col-sm-4 select-merchant-loader" ng-show="show_merchant_loader"></div>
                         
                          <div class="input-group col-sm-4">
                             
-							<select name="singleSelect" id="offerSelect" ng-model="offer_id" ng-change="changeofferSearchStatus('change_to_offer_id')" class="input-small">
-								<option value=""> Select Offer</option>
+							<select chosen name="singleSelect" id="offerSelect" ng-model="offer_id" ng-change="changeofferSearchStatus('change_to_offer_id')" class="input-small">
+								<option value="" disabled> Select Offer</option>
 								<option ng-repeat="option in offer_details" value="{{option.offerId}}">{{option.offer_rule_en}}</option>
 							</select>
                         </div>
