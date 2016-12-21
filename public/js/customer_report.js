@@ -56,14 +56,20 @@ angular.module('CustomerReportController', ['applicationService.services'])
 			{
 				document.getElementById("x_axis_card_type").checked = true;
 			}
-			document.getElementById("y_axis_card_type").disabled = true;
+			if(document.getElementById("y_axis_card_type") != null)
+			{
+				document.getElementById("y_axis_card_type").disabled = true;
+			}
 			$scope.x_axis_selected = 'card_type';
 			$scope.checkboxModel.card_type 	= true;
 			if(document.getElementById("y_axis_gender") != null)
 			{
 				document.getElementById("y_axis_gender").checked = true;
 			}
-			document.getElementById("x_axis_gender").disabled = true;
+			if(document.getElementById("x_axis_gender") != null)
+			{
+				document.getElementById("x_axis_gender").disabled = true;
+			}
 			$scope.y_axis_selected = 'gender';
 			$scope.checkboxModel.gender 	= true;
 
