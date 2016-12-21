@@ -871,15 +871,19 @@ angular.module('CustomerReportController', ['applicationService.services'])
 	{
 		if(val == 'change_to_offer_id')
 		{
-			if($scope.offer_id != '')
+			if($scope.offer_id_details != '' && $scope.offer_id_details != null)
 			{
-				$scope.show_by_offer = true;
-				$scope.checkboxModel.offer_segment_search_by = "offer_id";
-				for(i=0;i<$scope.offer_details.length;i++)
+				if(typeof $scope.offer_id_details.offerId != "undefined")
 				{
-					if($scope.offer_id == $scope.offer_details[i].offerId)
+					$scope.offer_id = $scope.offer_id_details.offerId;
+					$scope.show_by_offer = true;
+					$scope.checkboxModel.offer_segment_search_by = "offer_id";
+					for(i=0;i<$scope.offer_details.length;i++)
 					{
-						$scope.offer_name = $scope.offer_details[i].offer_rule_en
+						if($scope.offer_id == $scope.offer_details[i].offerId)
+						{
+							$scope.offer_name = $scope.offer_details[i].offer_rule_en
+						}
 					}
 				}
 			}
@@ -1146,7 +1150,7 @@ angular.module('CustomerReportController', ['applicationService.services'])
 		$scope.show_merchant_loader = true;
 		$scope.get_offer_details = {
 			"token" 		: localStorage.getItem('token'),
-			merchant_id 	: $scope.merchant_details
+			merchant_id 	: $scope.merchant_details.id
 		}
 		API.postDetails($scope.get_offer_details,"api/getMerchantOffer").then(function successCallback(response) {
 			$scope.show_merchant_loader = false;
