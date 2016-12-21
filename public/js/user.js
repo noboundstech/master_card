@@ -222,7 +222,6 @@ angular.module('userController', ['applicationService.services'])
 		// fetching all the offer offered to the customer
 		API.getDetails("userfetch/fetchofferhistory",{id : id,token : localStorage.getItem("token")}).then(function successCallback(response) {
 			
-			console.log(response);
 			if(response.status == 200 || response.status == 304)
 			{
 				if(typeof response.data.response_data.details !='undefined' && response.data.response_data.details.length>0)
@@ -325,14 +324,12 @@ angular.module('userController', ['applicationService.services'])
 						
 						API.postDetails($scope.user_detail_selected,"userfetch/AddChatHeader").then(function successCallback(response) {
 							
-							console.log(response);
 							if(response.status == 200 || response.status == 304)
 							{
 								if(typeof response.data.message.details !='undefined' && response.data.message.details.length>0)
 								{
 									$scope.present_customer_details = $scope.user_details[index];
 									$scope.customer_details.chatheaderid = response.data.message.details[0].max_header_id;
-									console.log($scope.customer_details.chatheaderid);
 								}
 							}
 							else
@@ -900,7 +897,7 @@ angular.module('userController', ['applicationService.services'])
 							if(response.data.message.details.length>0)
 							{
 								$scope.customer_tag = response.data.message.details;
-								console.log(response.data.message.details)
+
 							}
 						}
 					}
@@ -914,7 +911,6 @@ angular.module('userController', ['applicationService.services'])
 				// calling api to fetch all tag details
 				API.getDetails("userfetch/fetchofferhistory",{id : $scope.wechat_id,token : localStorage.getItem("token")}).then(function successCallback(response) {
 					
-					console.log(response);
 					if(response.status == 200)
 					{
 						if(typeof response.data.response_data.details !='undefined' && response.data.response_data.details.length>0)

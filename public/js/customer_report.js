@@ -856,8 +856,18 @@ angular.module('CustomerReportController', ['applicationService.services'])
 	{
 		if(val == 'change_to_offer_id')
 		{
-			$scope.show_by_offer = true;
-			$scope.checkboxModel.offer_segment_search_by = "offer_id";
+			if($scope.offer_id != '')
+			{
+				$scope.show_by_offer = true;
+				$scope.checkboxModel.offer_segment_search_by = "offer_id";
+				for(i=0;i<$scope.offer_details.length;i++)
+				{
+					if($scope.offer_id == $scope.offer_details[i].offerId)
+					{
+						$scope.offer_name = $scope.offer_details[i].offer_rule_en
+					}
+				}
+			}
 		}
 		else
 		{
@@ -1125,11 +1135,6 @@ angular.module('CustomerReportController', ['applicationService.services'])
 		});
 	}
 })
-
-
-
-
-
 
 .controller('customer', function($scope,$http,$routeParams,$location,$localStorage)
 {

@@ -111,24 +111,8 @@ router.route('/getCustomerDetails')
                 query+=  where_cond;
                 query+= 'order by offerInsertedTimestamp desc';
 				db_query.RunSelSqlFromDb(req,res,query,response_data,function(){
-                if(response_data.details.length>0)
-                {
-                    response_data.predicted_offer = response_data.details;
-                    callback();
-                }
-                else
-                {
-                    response_data.success = false;
-                    if(req.body.search_by == 'customer_id')
-                    {
-                        response_data.message = "Please Enter valid customer Wechat Id";
-                    }
-                    else
-                    {
-                        response_data.message = "Please Enter valid customer Card no.";
-                    }
-                    res.status(203).send({response_data});
-                }
+                response_data.predicted_offer = response_data.details;
+                callback();
             })
         }],function(err) {
 			response_data.user_details = req.decoded;
