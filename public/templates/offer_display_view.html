@@ -158,7 +158,7 @@
 				                    </datepicker>
 								</div>
 								<div class="col-sm-12">
-									 <a class="pull-right pointer-class" style="cursor:pointer"> &nbsp;</a>
+									 <span class="err" ng-bind="error" style="padding:10px"></span>
 								</div>
 							</div>
 							<div class="rows padding-row">
@@ -256,7 +256,7 @@
                 </div>
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-default" data-dismiss="modal">
+                <button type="button" class="btn btn-default" data-dismiss="modal" id="close_filter">
                     Close
                 </button>
             </div>

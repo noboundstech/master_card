@@ -7,7 +7,7 @@
 				<div class="panel-body">
 					<div class="row">
 						<div class="col-sm-12 ">
-		                   	<button class="btn btn-primary pull-right" ng-click="getCustomerSegmentDetails();">View Filter details</button>
+		                   	<button class="btn btn-primary" ng-click="getCustomerSegmentDetails();" style="padding : 6px 4px">View Filter details</button>
 		                </div>
 		            </div>
 					<div class="rows" ng-show="checkboxModel.age_grouped">
@@ -107,7 +107,7 @@
 		                    </datepicker>
 						</div>
 						<div class="col-sm-12">
-							 <a class="pull-right pointer-class" style="cursor:pointer"> &nbsp;</a>
+							 <span class="err" ng-bind="error" style="padding:10px"></span>
 						</div>
 					</div>
                   

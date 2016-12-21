@@ -1,5 +1,5 @@
 angular.module('CustomerReportController', ['applicationService.services'])
-.controller('offer_segment', function($scope,$http,$routeParams,$location,$localStorage,$rootScope,API)
+.controller('offer_segment', function($scope,MyService,$http,$routeParams,$location,$localStorage,$rootScope,API)
 {
 	$scope.user_type = localStorage.getItem('user_type');
 	$scope.user_name = localStorage.getItem('csr_name');
@@ -35,9 +35,6 @@ angular.module('CustomerReportController', ['applicationService.services'])
 		$scope.page_title = "Member Segment View";
 	}
 
-
-
-
 	API.getDetails("customer_segment/getCustReportList",{token : localStorage.getItem('token')}).then(function successCallback(response) {
 		
 		if(response.status == 200)
@@ -55,11 +52,17 @@ angular.module('CustomerReportController', ['applicationService.services'])
 			$scope.segment_filter 			= $scope.segment_type;
 			$scope.age_group_filter 		= $scope.age_group_type;
 
-			document.getElementById("x_axis_card_type").checked = true;
+			if(document.getElementById("x_axis_card_type") != null)
+			{
+				document.getElementById("x_axis_card_type").checked = true;
+			}
 			document.getElementById("y_axis_card_type").disabled = true;
 			$scope.x_axis_selected = 'card_type';
 			$scope.checkboxModel.card_type 	= true;
-			document.getElementById("y_axis_gender").checked = true;
+			if(document.getElementById("y_axis_gender") != null)
+			{
+				document.getElementById("y_axis_gender").checked = true;
+			}
 			document.getElementById("x_axis_gender").disabled = true;
 			$scope.y_axis_selected = 'gender';
 			$scope.checkboxModel.gender 	= true;
@@ -749,6 +752,11 @@ angular.module('CustomerReportController', ['applicationService.services'])
 		}
 		else
 		{
+			if(MyService.compareTwoDate($scope.start_date,$scope.end_date)== 'error')
+			{
+				$scope.error = "Your end date must be greater that start date";
+				return false;
+			}
 			$scope.show_loader 						= true;
 			$scope.request_details = {
 										"card_type"		: $scope.card_type_selected_details,
@@ -1013,6 +1021,11 @@ angular.module('CustomerReportController', ['applicationService.services'])
 			}
 			else
 			{
+				if(MyService.compareTwoDate($scope.start_date,$scope.end_date)== 'error')
+				{
+					$scope.error = "Your end date must be greater that start date";
+					return false;
+				}
 				$scope.show_loader 	   = true;
 				$scope.request_details = {
 											"card_type"		: $scope.card_type_selected_details,

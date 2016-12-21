@@ -1,5 +1,5 @@
 angular.module('offerController', ['applicationService.services'])
-.controller('offer_display_view', function($scope,Excel,$timeout,$location,$localStorage,$rootScope,API)
+.controller('offer_display_view', function($scope,Excel,MyService,$timeout,$location,$localStorage,$rootScope,API)
 {
 	$scope.page_title = "Offer Display View";
 	$scope.user_type = localStorage.getItem('user_type');
@@ -49,6 +49,7 @@ angular.module('offerController', ['applicationService.services'])
 				token 			: localStorage.getItem('token'),
 				date_range 		: {"from":$scope.start_date ,"to":$scope.end_date}
 			};
+
 			API.postDetails($scope.details,"view_offer_merchant/getOfferView").then(function successCallback(response) {
 				$scope.details_response = response.data.response_data.details;
 				$scope.show_loader = false;
@@ -73,6 +74,11 @@ angular.module('offerController', ['applicationService.services'])
 			location 		: $scope.location_selected,
 			date_range 		: {"from":$scope.start_date ,"to":$scope.end_date}
 		};
+		if(MyService.compareTwoDate($scope.start_date,$scope.end_date)== 'error')
+		{
+			$scope.error = "Your end date must be greater that start date";
+			return false;
+		}
 		$scope.show_loader_details = true;
 		API.postDetails($scope.details,"view_offer_merchant/getOfferView").then(function successCallback(response) {
 			$scope.show_loader_details = false;
