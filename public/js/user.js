@@ -850,7 +850,6 @@ angular.module('userController', ['applicationService.services'])
 			{
 				$scope.error_message = "Please enter the WeChat Id.";
 				$scope.customer_details = '';
-				$scope.customer_tag = [];
 				$scope.offer_history = '';
 				$scope.mapOptions.center = {"latitude": 39.9042, "longitude":  116.4074};
 				$scope.pushpin.latitude 	= 39.9042;
@@ -901,10 +900,7 @@ angular.module('userController', ['applicationService.services'])
 							if(response.data.message.details.length>0)
 							{
 								$scope.customer_tag = response.data.message.details;
-							}
-							else
-							{
-								$scope.customer_tag = [];
+								console.log(response.data.message.details)
 							}
 						}
 					}
