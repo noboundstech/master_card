@@ -25,6 +25,9 @@
 					<span class="glyphicon glyphicon-share"></span>
 					Export to Excel
 				</button>
+				 <button class="btn btn-link" class="btn btn-primary" data-toggle="modal" data-target="#ShowPdfModel">
+					Generate PDF View
+				</button>
 				<table class="table table-bordered" id="tableToExport" style="display:none">
 	    			<thead class="btn-primary">
 						<tr>
@@ -139,13 +142,7 @@
 	</div>
 </div>
 
-
-
-
-
-
-
-
+<!-- model section -->
 <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="offerHistory">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
@@ -260,6 +257,76 @@
         </div>
     </div>
     <input type="hidden" name="dragable_id" id="dragable_id" value="">
+</div>
+
+<div class="modal fade" id="ShowPdfModel" tabindex="-1" role="dialog" aria-labelledby="offerHistory">
+    <div class="modal-dialog" role="document" style="width:95%">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+                <h4 class="modal-title text-center" id="myModalLabel">
+                   Download PDF For Merchant Display View
+
+                </h4>
+                 <div class="modal-body">
+                 	<button class="btn btn-link" ng-click="generatePDF()" class="btn btn-primary">
+						<span class="glyphicon glyphicon-download-alt"></span>
+						Download PDF
+					</button>
+                   <table class="table table-bordered" id="tableToPdf">
+	    			<thead class="btn-primary">
+						<tr>
+							<th>Merchant Id 
+							</th>
+							<th ng-click="sort('merchantName')">Merchant  
+								<span class="glyphicon glyphicon-menu-down" ng-if="sortBy == 'merchantName'"></span>
+								<span class="glyphicon glyphicon-menu-up" ng-if="sortBy == '-merchantName'"></span>
+							</th>
+							<th ng-click="sort('LocationName')">Address  
+								<span class="glyphicon glyphicon-menu-down" ng-if="sortBy == 'LocationName'"></span>
+								<span class="glyphicon glyphicon-menu-up" ng-if="sortBy == '-LocationName'"></span>
+							</th>
+							<th ng-click="sort('City')">Merchant Location  
+								<span class="glyphicon glyphicon-menu-down" ng-if="sortBy == 'City'"></span>
+								<span class="glyphicon glyphicon-menu-up" ng-if="sortBy == '-City'"></span>
+							</th>
+							<th ng-click="sort('CategoryDesc')">Category 
+								<span class="glyphicon glyphicon-menu-down" ng-if="sortBy == 'CategoryDesc'"></span>
+								<span class="glyphicon glyphicon-menu-up" ng-if="sortBy == '-CategoryDesc'"></span>
+							</th>
+							<th ng-click="sort('subCategoryDesc')">Sub Category  
+								<span class="glyphicon glyphicon-menu-down" ng-if="sortBy == 'subCategoryDesc'"></span>
+								<span class="glyphicon glyphicon-menu-up" ng-if="sortBy == '-subCategoryDesc'"></span>
+							</th>
+							<th ng-click="sort('offer_address_en')">Offer Location 
+								<span class="glyphicon glyphicon-menu-down" ng-if="sortBy == 'offer_address_en'"></span>
+								<span class="glyphicon glyphicon-menu-up" ng-if="sortBy == '-offer_address_en'"></span>
+							</th>
+						</tr>
+					</thead>
+					<tbody>
+						<tr  ng-repeat="history in details_response | orderBy:sortBy:reverse | filter:search">
+							<td ng-bind="history.MerchantId"></td>
+							<td ng-bind="history.merchantName"></td>
+							<td>{{history.LocationName}}  {{history.LocationAddress1 }}</td>
+							<td ng-bind="history.City"></td>
+							<td ng-bind="history.CategoryDesc"></td>
+							<td ng-bind="history.subCategoryDesc"></td>
+							<td ng-bind="history.offer_address_en"></td>
+						</tr>
+					</tbody>
+				</table>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal" id="close_pdf_model">
+                    Close
+                </button>
+            </div>
+        </div>
+    </div>
 </div>
 <style>
     body{

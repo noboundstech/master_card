@@ -16,7 +16,15 @@ angular.module('offerController', ['applicationService.services'])
         var exportHref=Excel.tableToExcel(tableId,'WireWorkbenchDataExport');
         $timeout(function(){location.href=exportHref;},100); // trigger download
     }
-
+    $scope.generatePDF = function() {
+    	$timeout(function(){
+    		kendo.drawing.drawDOM($("#tableToPdf")).then(function(group) {
+				kendo.drawing.pdf.saveAs(group, "OFFER DISPLAY VIEW.pdf");
+				document.getElementById("close_pdf_model").click();
+			});
+    	},100); 
+	}
+	
 	API.getDetails("view_offer_merchant/getViewList",{token : localStorage.getItem('token')}).then(function successCallback(response) {
 		if(response.status == 200)
 		{
@@ -102,6 +110,15 @@ angular.module('offerController', ['applicationService.services'])
         var exportHref=Excel.tableToExcel(tableId,'WireWorkbenchDataExport');
         $timeout(function(){location.href=exportHref;},100); // trigger download
     }
+
+    $scope.generatePDF = function() {
+    	$timeout(function(){
+    		kendo.drawing.drawDOM($("#tableToPdf")).then(function(group) {
+				kendo.drawing.pdf.saveAs(group, "MERCHANT DISPLAY VIEW.pdf");
+				document.getElementById("close_pdf_model").click();
+			});
+    	},100); 
+	}
 
 	API.getDetails("view_offer_merchant/getViewList",{token : localStorage.getItem('token')}).then(function successCallback(response) {
 		if(response.status == 200)
