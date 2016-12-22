@@ -1,3 +1,5 @@
+<!-- <div page-Header></div>  -->
+
 <div class="header">
     <div class="container-fluid">
         <div class="row">
@@ -64,7 +66,8 @@
                     <a href="#">
                         <img class="media-object" src="img/profile.jpg" alt="..." width="60" height="60">
                     </a>
-                    <h4 class="media-heading profile">{{customer_details.memberFirstName}} {{customer_details.memberLastName}}</h4>
+
+                    <h5 class="media-heading profile">{{customer_details.memberFirstName}} {{customer_details.memberLastName}}</h5>
                     {{customer_details.memberGender}} {{customer_details.memberAge | number:0}}
                 </div>
                 <div class="col-md-9">
@@ -78,6 +81,13 @@
                                 <th>Card Type :</th>
                                 <td ng-bind="customer_details.MTRCardType"></td>
                             </tr>
+                            <tr>
+                                <th>
+                                    Ph No.
+                                </th>
+                                <td ng-bind="customer_details.memberPhone">
+                                    
+                                </td>
                             <tr>
                                 <th>Points :</th>
                                 <td ng-bind="customer_details.MTRPoints"></td>

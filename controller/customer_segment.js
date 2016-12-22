@@ -1,3 +1,4 @@
+
 var express = require('express'),
     router  = express.Router();
 //********************************************************
@@ -247,7 +248,8 @@ router.route('/getCustSegReportData')
                 t_gender        = 0,
                 t_city          = 0,
                 t_tag           = 0,
-                t_age           = 0;
+                t_age           = 0,
+                t_age1          = 0;
             //******************************************************************************
                     //*********  check x  and y paramerter received  set SQL preparation variables
             //******************************************************************************
@@ -503,6 +505,7 @@ router.route('/getCustSegReportData')
             sqlstring += cond_sql +" ";
             sqlstring += "group by "+x_field_list +", "+ y_field_list + " ";
             sqlstring += "order by "+x_field_list +", "+ y_field_list;
+          
                 //********************************************************************
                            //** create and initialize  Array matrix  with all selected X and Y Values
                 //*******************************************************************
@@ -544,18 +547,27 @@ router.route('/getCustSegReportData')
                             //**************************************************
                             //***   Process for Gender
                             //***************************************************
-
+                           
                             for(t_gender=0;t_gender<len_gender;t_gender++)
                             {
-                                if ( y_axis_array[t_gender].name.substr(0, 1) == response_data.details[age].y_value)
+                                if (gender_Yflag=='Y' )
                                 {
+                                   if ( y_axis_array[t_gender].name.substr(0, 1) == response_data.details[age].y_value)
+                                   {  
                                     response_data.details[age].y_value = y_axis_array[t_gender].name;
-                                }
-                                else if ( x_axis_array[t_gender].name.substr(0, 1) == response_data.details[age].x_value)
-                                {
+                       
+                                   }
+                                 }  
+                                else 
+                                 {
+                                    if ( x_axis_array[t_gender].name.substr(0, 1) == response_data.details[age].x_value)
+                                    {
                                     response_data.details[age].x_value = x_axis_array[t_gender].name;
-                                }
+                                    }
+                                 }   
+                            
                             }
+                           
                             //**************************************************
                             //***   Process for AGE Group
                             //***************************************************
@@ -567,7 +579,7 @@ router.route('/getCustSegReportData')
                             {
                                 var detail_age =response_data.details[age].x_value;
                             }
-                            for(var t_age1=0;t_age1<len_age;t_age1++)
+                            for ( t_age1=0;t_age1<len_age;t_age1++)
                             {
                                 if (age_group_Yflag == 'Y')
                                 {
@@ -582,7 +594,7 @@ router.route('/getCustSegReportData')
                                 var max = str_arr1[1];
                                 var min1 = min.trim();
                                 var max1 = max.trim();
-                                if (detail_age >= min1 && detail_age <= max1)
+                              if (detail_age >= min1 && detail_age <= max1)
                                 {
                                     if (age_group_Yflag == 'Y')
                                     {
@@ -594,8 +606,7 @@ router.route('/getCustSegReportData')
                                     }
                                 }
                             }
-
-                            response_data.tmp ={ "det" :response_data.details};
+                              response_data.tmp ={ "det" :response_data.details};
                         }     // end of for
                     } // end of (age_group_Yflag='Y' || age_group_Xflag='Y')
                     var graph=[];
@@ -1054,6 +1065,7 @@ router.route('/getOfferSegReportData')
                 sqlstring += cond_sql +" ";
                 sqlstring += "group by "+x_field_list +", "+ y_field_list + ", offmer.offer_rule_en ";
                 sqlstring += "order by "+x_field_list +", "+ y_field_list;+" ";
+
             //********************************************************************
             //** create and initialize  Array matrix  with all selected X and Y Values
             //*******************************************************************
@@ -1094,13 +1106,20 @@ router.route('/getOfferSegReportData')
 
                             for(t_gender=0;t_gender<len_gender;t_gender++)
                             {
-                                if ( y_axis_array[t_gender].name.substr(0, 1) == response_data.details[age].y_value)
+                                if (gender_Yflag=='Y' )
                                 {
+                                 
+                                  if ( y_axis_array[t_gender].name.substr(0, 1) == response_data.details[age].y_value)
+                                   {
                                     response_data.details[age].y_value = y_axis_array[t_gender].name;
+                                   }
                                 }
-                                else if ( x_axis_array[t_gender].name.substr(0, 1) == response_data.details[age].x_value)
+                                else 
                                 {
+                                   if ( x_axis_array[t_gender].name.substr(0, 1) == response_data.details[age].x_value)
+                                   {
                                     response_data.details[age].x_value = x_axis_array[t_gender].name;
+                                   }
                                 }
                             }
                             //**************************************************

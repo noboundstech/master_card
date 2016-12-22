@@ -806,13 +806,14 @@ angular.module('userController', ['applicationService.services'])
 	$scope.user_name = localStorage.getItem('csr_name');
 	$scope.user_role = localStorage.getItem('user_role');
 })
-.controller('customer_profile', function($scope,$localStorage,API,$rootScope)
+.controller('member_profile', function($scope,$localStorage,API,$rootScope)
 {
 	$rootScope.authenticateUser();
 	$scope.user_type = localStorage.getItem('user_type');
 	$scope.user_name = localStorage.getItem('csr_name');
 	$scope.show_search_details = true;
 	$scope.wechat_id = '';
+	$scope.page_title = "Member Profile View";
 	//$scope.customer_tag = [{"tagDesc":"Life Style","tagId":2},{"tagDesc":"Dining","tagId":4},{"tagDesc":"Shopping","tagId":5},{"tagDesc":"Peace-of-mind","tagId":6}];
 	
 	$scope.search_by 	="customer_id";

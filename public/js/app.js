@@ -25,8 +25,8 @@ angular.module('project', ['ngRoute','homeController','userController','adminCon
       templateUrl:'templates/admin.html',
     })
     .when('/member_profile', {
-      controller:'customer_profile',
-      templateUrl:'templates/customer_profile.html',
+      controller:'member_profile',
+      templateUrl:'templates/member_profile.html',
     })
     .when('/offer_segment', {
       controller:'offer_segment',
@@ -34,7 +34,7 @@ angular.module('project', ['ngRoute','homeController','userController','adminCon
     })
      .when('/member_segment', {
       controller:'offer_segment',
-      templateUrl:'templates/customer_segment.html',
+      templateUrl:'templates/member_segment.html',
     })
      .when('/customer:userId', {
       controller:'customer',

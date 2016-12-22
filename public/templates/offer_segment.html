@@ -4,16 +4,16 @@
 		<div class="col-sm-2" style="padding-right: 8px;">
 			<div class="panel panel-default">
 				<div class="panel-heading">FILTERS</div>
-				<div class="panel-body">
+				<div class="panel-body" style="font-size:12px">
 					<div class="col-sm-12">
-                   		<button class="btn btn-primary" ng-click="getOfferSegmentDetails();">View details</button>
+                   		<button class="btn btn-primary" ng-click="getOfferSegmentDetails();" style="padding : 6px 4px">View details</button>
                     </div>
                     
-					<div class="rows" ng-show="checkboxModel.age_grouped">
+					<div class="rows padding-row" ng-show="checkboxModel.age_grouped">
 						<div class="col-sm-12">
-							<strong> Aged Group : </strong>
+							<strong> AGE GROUP : </strong>
 						</div>
-						<div class="col-sm-12">
+						<div class="col-sm-12 padding-2">
 							<select chosen multiple ng-model="age_group_filter" ng-options="s.value for s in age_group_type"  placeholder-expression="City Name">
 							</select>
 						</div>
@@ -24,9 +24,9 @@
 					</div>
 					<div class="rows padding-row" ng-show="checkboxModel.card_type">
 						<div class="col-sm-12 padding-row">
-							<strong> Card Type : </strong>
+							<strong> CARD TYPE : </strong>
 						</div>
-						<div class="col-sm-12">
+						<div class="col-sm-12 padding-2">
 							<select chosen multiple ng-model="card_type_filter_details" ng-options="s.card_type for s in card_type"  placeholder-expression="Card Type" title="Enter card details">
                             </select>
 						</div>
@@ -36,9 +36,9 @@
 					</div>
 					<div class="rows padding-row" ng-show="checkboxModel.category">
 						<div class="col-sm-12 padding-row">
-							<strong> Category : </strong>
+							<strong> CATEGORY : </strong>
 						</div>
-						<div class="col-sm-12">
+						<div class="col-sm-12 padding-2">
 							<select chosen multiple ng-model="category_filter_details" ng-options="s.category for s in category"  placeholder-expression="Card Type" title="Enter Category details">
                             </select>
 						</div>
@@ -48,9 +48,9 @@
 					</div>
 					<div class="rows padding-row" ng-show="checkboxModel.gender">
 						<div class="col-sm-12 padding-row">
-							<strong> Gender : </strong>
+							<strong> GENDER : </strong>
 						</div>
-						<div class="col-sm-12">
+						<div class="col-sm-12 padding-2">
 							<select chosen multiple ng-model="gender_type_filter" ng-options="s.name for s in gender_type"  placeholder-expression="Gender" title="Gender">
                             </select>
 						</div>
@@ -60,10 +60,10 @@
 						</div>
 					</div>
 					<div class="rows padding-row"  ng-show="checkboxModel.location">
-						<div class="col-sm-12">
-							<strong> Location : </strong>
+						<div class="col-sm-12 padding-row">
+							<strong> LOCATION : </strong>
 						</div>
-						<div class="col-sm-12">
+						<div class="col-sm-12 padding-2">
 							<select chosen multiple ng-model="location_filter" ng-options="s.cust_location for s in location_name"  placeholder-expression="City Name">
 							</select>
 						</div>
@@ -72,11 +72,11 @@
 							 <a class=" pull-right pointer-class"> &nbsp;</a>
 						</div>
 					</div>
-					<div class="rows" ng-show="checkboxModel.segment">
-						<div class="col-sm-12">
-							<strong> Segment : </strong>
+					<div class="rows padding-row" ng-show="checkboxModel.segment">
+						<div class="col-sm-12 padding-row">
+							<strong> SEGMENT : </strong>
 						</div>
-						<div class="col-sm-12">
+						<div class="col-sm-12 padding-2">
 							<select chosen multiple ng-model="segment_filter" ng-options="s.cust_segment for s in segment_type"  placeholder-expression="Segment Name" id="segment_details"  ng-init="segment_filter = default_segment_filter">
 							</select>
 						</div>
@@ -87,9 +87,9 @@
 					</div>
 					<div class="rows padding-row" ng-show="checkboxModel.tag_details">
 						<div class="col-sm-12 padding-row">
-							<strong> Tags : </strong>
+							<strong> TAGS : </strong>
 						</div>
-						<div class="col-sm-12">
+						<div class="col-sm-12 padding-2">
 							<select chosen multiple ng-model="tag_details_filter" ng-options="s.name for s in tag_type"  placeholder-expression="Gender" title="Gender">
                             </select>
 						</div>
@@ -98,18 +98,18 @@
 							 <a class=" pull-right pointer-class"> &nbsp;</a>
 						</div>
 					</div>
-					<div class="rows" ng-show="checkboxModel.date_range">
-						<div class="col-sm-12">
-							<strong> Date Range : </strong>
+					<div class="rows padding-row" ng-show="checkboxModel.date_range">
+						<div class="col-sm-12 padding-row">
+							<strong> DATE RANGE : </strong>
 						</div>
-                        <div class="col-sm-12 date-box-one">
+                        <div class="col-sm-12 date-box-one padding-2">
 							 <datepicker date-format="MM-dd-yyyy" selector="form-control">
 		                        <div class="input-group">
 		                            <input class="form-control" placeholder="Start Date" ng-model="start_date">
 		                        </div>
 		                    </datepicker>
                         </div>
-                        <div class="col-sm-12">
+                        <div class="col-sm-12 padding-2">
                             <datepicker date-format="MM-dd-yyyy" selector="form-control">
 		                        <div class="input-group">
 		                             <input class="form-control" placeholder="End Date" ng-model="end_date"/>
@@ -120,8 +120,6 @@
 							 <span class="err" ng-bind="error" style="padding:10px"></span>
 						</div>
 					</div>
-					
-                   
 				</div>
 			</div>
 		</div>

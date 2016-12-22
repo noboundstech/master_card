@@ -35,6 +35,30 @@ angular.module('CustomerReportController', ['applicationService.services'])
 		$scope.page_title = "Member Segment View";
 	}
 
+	$scope.selectAllFilter = function(type)
+	{
+		if(type == 'age_group')
+		{
+			$scope.age_group_filter = $scope.age_group_type;
+		}
+		if(type == 'card_type')
+		{
+			$scope.card_type_filter_details = $scope.card_type;
+		}
+		if(type == 'gender')
+		{
+			$scope.gender_type_filter = $scope.gender_type;
+		}
+		if(type == 'segment')
+		{
+			$scope.segment_filter = $scope.segment_type;
+		}
+		if(type == 'tags')
+		{
+			$scope.tag_details_filter = $scope.tag_type;
+		}
+	}
+
 	API.getDetails("customer_segment/getCustReportList",{token : localStorage.getItem('token')}).then(function successCallback(response) {
 		
 		if(response.status == 200)
@@ -667,6 +691,9 @@ angular.module('CustomerReportController', ['applicationService.services'])
 		$scope.location_filter_selected_details = [];
 		$scope.selected_axis_details    		= 0;
 		$scope.error =  '';
+		$scope.x_axis_error_select_msg 			= '';
+		$scope.y_axis_error_select_msg 			= '';
+		$scope.empty_in_selection 				= '';
 		if($scope.x_axis_selected == 'card_type' || $scope.y_axis_selected == 'card_type')
 		{
 			if(typeof $scope.card_type_filter_details !='undefined')
@@ -679,6 +706,19 @@ angular.module('CustomerReportController', ['applicationService.services'])
 				{
 					$scope.selected_axis_details++;
 				}
+				else
+				{
+					if($scope.x_axis_selected == 'card_type')
+					{
+						$scope.x_axis_error_select_msg 	 = "SELECT CARD TYPE";
+						$scope.empty_in_selection = "x_axis";
+					}
+					if($scope.y_axis_selected == 'card_type')
+					{
+						$scope.y_axis_error_select_msg 	 = "SELECT CARD TYPE";
+						$scope.empty_in_selection = "y_axis";
+					}
+				}
 			}
 		}
 		if($scope.x_axis_selected == 'gender' || $scope.y_axis_selected == 'gender')
@@ -688,6 +728,19 @@ angular.module('CustomerReportController', ['applicationService.services'])
 				if($scope.gender_type_filter.length>0)
 				{
 					$scope.selected_axis_details++;
+				}
+				else
+				{
+					if($scope.x_axis_selected == 'gender')
+					{
+						$scope.x_axis_error_select_msg 	 = "SELECT GENDER";
+						$scope.empty_in_selection = "x_axis";
+					}
+					if($scope.y_axis_selected == 'gender')
+					{
+						$scope.y_axis_error_select_msg 	 = "SELECT GENDER";
+						$scope.empty_in_selection = "y_axis";
+					}
 				}
 			}
 		}
@@ -699,10 +752,24 @@ angular.module('CustomerReportController', ['applicationService.services'])
 				{
 					$scope.selected_axis_details++;
 				}
+				else
+				{
+					if($scope.x_axis_selected == 'tags')
+					{
+						$scope.x_axis_error_select_msg 	 = "SELECT TAGS";
+						$scope.empty_in_selection = "x_axis";
+					}
+					if($scope.y_axis_selected == 'tags')
+					{
+						$scope.y_axis_error_select_msg 	 = "SELECT TAGS";
+						$scope.empty_in_selection = "y_axis";
+					}
+				}
 			}
 		}
 		if($scope.x_axis_selected == 'age_grouped' || $scope.y_axis_selected == 'age_grouped')
 		{
+			console.log($scope.age_group_filter);
 			if(typeof $scope.age_group_filter !='undefined')
 			{
 				for(i=0;i<$scope.age_group_filter.length;i++)
@@ -712,6 +779,19 @@ angular.module('CustomerReportController', ['applicationService.services'])
 				if($scope.age_grouped_selected_details.length>0)
 				{
 					$scope.selected_axis_details++;
+				}
+				else
+				{
+					if($scope.x_axis_selected == 'age_grouped')
+					{
+						$scope.x_axis_error_select_msg 	 = "SELECT AGE GROUP";
+						$scope.empty_in_selection = "x_axis";
+					}
+					if($scope.y_axis_selected == 'age_grouped')
+					{
+						$scope.y_axis_error_select_msg 	 = "SELECT AGE GROUP";
+						$scope.empty_in_selection = "y_axis";
+					}
 				}
 			}
 		}
@@ -727,6 +807,19 @@ angular.module('CustomerReportController', ['applicationService.services'])
 				{
 					$scope.selected_axis_details++;
 				}
+				else
+				{
+					if($scope.x_axis_selected == 'location')
+					{
+						$scope.x_axis_error_select_msg 	 = "SELECT LOCATION";
+						$scope.empty_in_selection = "x_axis";
+					}
+					if($scope.y_axis_selected == 'location')
+					{
+						$scope.y_axis_error_select_msg 	 = "SELECT LOCATION";
+						$scope.empty_in_selection = "y_axis";
+					}
+				}
 			}
 		}
 		if($scope.x_axis_selected == 'segment' || $scope.y_axis_selected == 'segment')
@@ -741,31 +834,59 @@ angular.module('CustomerReportController', ['applicationService.services'])
 				{
 					$scope.selected_axis_details++;
 				}
+				else
+				{
+					if($scope.x_axis_selected == 'segment')
+					{
+						$scope.x_axis_error_select_msg 	 = "SELECT SEGMENT";
+						$scope.empty_in_selection = "x_axis";
+					}
+					if($scope.y_axis_selected == 'segment')
+					{
+						$scope.y_axis_error_select_msg 	 = "SELECT SEGMENT";
+						$scope.empty_in_selection = "y_axis";
+					}
+				}
 			}
 		}
-
+		if(MyService.compareTwoDate($scope.start_date,$scope.end_date)== 'error')
+		{
+			$scope.error = "End date must be greater than start date";
+			$scope.selected_axis_details = 1;
+			return false;
+		}
 		if($scope.selected_axis_details<2)
 		{
-			$scope.show_loader 				 = true;
-			if(typeof $scope.x_axis_selected == 'undefined' || $scope.x_axis_selected == '' || typeof $scope.y_axis_selected == 'undefined' || $scope.y_axis_selected == '')
+			if(typeof $scope.x_axis_selected == 'undefined' || $scope.x_axis_selected == '' || $scope.x_axis_selected == null )
 			{
-				alert("Please Select both X-axis and Y-axis options");
+				$scope.error = "Select X-axis option";
 				return false;
 			}
+			if(typeof $scope.y_axis_selected == 'undefined' || $scope.y_axis_selected == '')
+			{
+				$scope.error = "Select Y-axis option";
+				return false;
+			}
+
 			var x_axis_det_name = $scope.x_axis_selected.replace("_", " ");
 			var y_axis_det_name = $scope.y_axis_selected.replace("_", " ");
-			alert("Please Select both "+x_axis_det_name.toUpperCase()+" and "+y_axis_det_name.toUpperCase()+" options");
+			if($scope.empty_in_selection == "x_axis")
+			{
+				$scope.error = $scope.x_axis_error_select_msg;
+				return false;
+			}
+			else
+			{
+				$scope.error = $scope.y_axis_error_select_msg;
+				return false;
+			}
 			return false;
 		}
 		else
 		{
-			if(MyService.compareTwoDate($scope.start_date,$scope.end_date)== 'error')
-			{
-				$scope.error = "Your end date must be greater that start date";
-				return false;
-			}
-			$scope.show_loader 						= true;
-			$scope.request_details = {
+			
+			$scope.show_loader 		= true;
+			$scope.request_details  = {
 										"card_type"		: $scope.card_type_selected_details,
 										"tags"			: $scope.tag_details_filter,
 										"location"		: $scope.location_filter_selected_details,
@@ -895,11 +1016,14 @@ angular.module('CustomerReportController', ['applicationService.services'])
 			{
 				$scope.show_by_offer = true;
 				$scope.offer_id = '';
-				for(i=0;i<$scope.offer_details.length;i++)
+				if(typeof $scope.offer_details != 'undefined')
 				{
-					if($scope.offer_id == $scope.offer_details[i].offerId)
+					for(i=0;i<$scope.offer_details.length;i++)
 					{
-						$scope.offer_name = $scope.offer_details[i].offer_rule_en
+						if($scope.offer_id == $scope.offer_details[i].offerId)
+						{
+							$scope.offer_name = $scope.offer_details[i].offer_rule_en
+						}
 					}
 				}
 			}
