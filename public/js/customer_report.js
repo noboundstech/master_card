@@ -57,6 +57,10 @@ angular.module('CustomerReportController', ['applicationService.services'])
 		{
 			$scope.tag_details_filter = $scope.tag_type;
 		}
+		if(type == 'category')
+		{
+			$scope.category_filter_details = $scope.category;
+		}
 	}
 
 	API.getDetails("customer_segment/getCustReportList",{token : localStorage.getItem('token')}).then(function successCallback(response) {
@@ -997,8 +1001,8 @@ angular.module('CustomerReportController', ['applicationService.services'])
 				if(typeof $scope.offer_id_details.offerId != "undefined")
 				{
 					$scope.offer_id = $scope.offer_id_details.offerId;
-					$scope.show_by_offer = true;
-					$scope.checkboxModel.offer_segment_search_by = "offer_id";
+					//$scope.show_by_offer = true;
+					//$scope.checkboxModel.offer_segment_search_by = "offer_id";
 					for(i=0;i<$scope.offer_details.length;i++)
 					{
 						if($scope.offer_id == $scope.offer_details[i].offerId)
@@ -1044,11 +1048,13 @@ angular.module('CustomerReportController', ['applicationService.services'])
 		$scope.category_filter_details_arr		= [];
 		$scope.selected_offer_axis_details    	= 0; 
 		$scope.offer_name 						= '';
-		$scope.error =  '';
+		$scope.error 							= '';
+		$scope.x_axis_error_select_msg 			= '';
+		$scope.y_axis_error_select_msg 			= '';
+		$scope.empty_in_selection 				= '';
 		if(typeof $scope.offer_id == 'undefined' || $scope.offer_id == '' || $scope.offer_id == null)
 		{
-			alert("Please Enter your offer Id.");
-			return false;
+			$scope.error = 'Please Enter Offer Id.';
 		}
 		else
 		{
@@ -1064,6 +1070,19 @@ angular.module('CustomerReportController', ['applicationService.services'])
 					{
 						$scope.selected_offer_axis_details++;
 					}
+					else
+					{
+						if($scope.x_axis_selected == 'card_type')
+						{
+							$scope.x_axis_error_select_msg 	 = "SELECT CARD TYPE";
+							$scope.empty_in_selection = "x_axis";
+						}
+						if($scope.y_axis_selected == 'card_type')
+						{
+							$scope.y_axis_error_select_msg 	 = "SELECT CARD TYPE";
+							$scope.empty_in_selection = "y_axis";
+						}
+					}
 				}
 			}
 			if($scope.x_axis_selected == 'gender' || $scope.y_axis_selected == 'gender')
@@ -1073,6 +1092,19 @@ angular.module('CustomerReportController', ['applicationService.services'])
 					if($scope.gender_type_filter.length>0)
 					{
 						$scope.selected_offer_axis_details++;
+					}
+					else
+					{
+						if($scope.x_axis_selected == 'gender')
+						{
+							$scope.x_axis_error_select_msg 	 = "SELECT GENDER";
+							$scope.empty_in_selection = "x_axis";
+						}
+						if($scope.y_axis_selected == 'gender')
+						{
+							$scope.y_axis_error_select_msg 	 = "SELECT GENDER";
+							$scope.empty_in_selection = "y_axis";
+						}
 					}
 				}
 			}
@@ -1088,6 +1120,19 @@ angular.module('CustomerReportController', ['applicationService.services'])
 					{
 						$scope.selected_offer_axis_details++;
 					}
+					else
+					{
+						if($scope.x_axis_selected == 'age_grouped')
+						{
+							$scope.x_axis_error_select_msg 	 = "SELECT AGE GROUP";
+							$scope.empty_in_selection = "x_axis";
+						}
+						if($scope.y_axis_selected == 'age_grouped')
+						{
+							$scope.y_axis_error_select_msg 	 = "SELECT AGE GROUP";
+							$scope.empty_in_selection = "y_axis";
+						}
+					}
 				}
 			}
 			if($scope.x_axis_selected == 'location' || $scope.y_axis_selected == 'location')
@@ -1101,6 +1146,19 @@ angular.module('CustomerReportController', ['applicationService.services'])
 					if($scope.location_filter_selected_details.length>0)
 					{
 						$scope.selected_offer_axis_details++;
+					}
+					else
+					{
+						if($scope.x_axis_selected == 'location')
+						{
+							$scope.x_axis_error_select_msg 	 = "SELECT LOCATION";
+							$scope.empty_in_selection = "x_axis";
+						}
+						if($scope.y_axis_selected == 'location')
+						{
+							$scope.y_axis_error_select_msg 	 = "SELECT LOCATION";
+							$scope.empty_in_selection = "y_axis";
+						}
 					}
 				}
 			}
@@ -1116,6 +1174,19 @@ angular.module('CustomerReportController', ['applicationService.services'])
 					{
 						$scope.selected_offer_axis_details++;
 					}
+					else
+					{
+						if($scope.x_axis_selected == 'segment')
+						{
+							$scope.x_axis_error_select_msg 	 = "SELECT SEGMENT";
+							$scope.empty_in_selection = "x_axis";
+						}
+						if($scope.y_axis_selected == 'segment')
+						{
+							$scope.y_axis_error_select_msg 	 = "SELECT SEGMENT";
+							$scope.empty_in_selection = "y_axis";
+						}
+					}
 				}
 			}
 			if($scope.x_axis_selected == 'tags' || $scope.y_axis_selected == 'tags')
@@ -1125,6 +1196,19 @@ angular.module('CustomerReportController', ['applicationService.services'])
 					if($scope.tag_details_filter.length>0)
 					{
 						$scope.selected_offer_axis_details++;
+					}
+					else
+					{
+						if($scope.x_axis_selected == 'tags')
+						{
+							$scope.x_axis_error_select_msg 	 = "SELECT TAGS";
+							$scope.empty_in_selection = "x_axis";
+						}
+						if($scope.y_axis_selected == 'tags')
+						{
+							$scope.y_axis_error_select_msg 	 = "SELECT TAGS";
+							$scope.empty_in_selection = "y_axis";
+						}
 					}
 				}
 			}
@@ -1141,27 +1225,56 @@ angular.module('CustomerReportController', ['applicationService.services'])
 					{
 						$scope.selected_offer_axis_details++;
 					}
+					else
+					{
+						if($scope.x_axis_selected == 'category')
+						{
+							$scope.x_axis_error_select_msg 	 = "SELECT CATEGORY";
+							$scope.empty_in_selection = "x_axis";
+						}
+						if($scope.y_axis_selected == 'category')
+						{
+							$scope.y_axis_error_select_msg 	 = "SELECT CATEGORY";
+							$scope.empty_in_selection = "y_axis";
+						}
+					}
 				}
+			}
+			if(MyService.compareTwoDate($scope.start_date,$scope.end_date)== 'error')
+			{
+				$scope.error = "End date must be greater that start date";
+				$scope.selected_axis_details = 1;
+				return false;
 			}
 			if($scope.selected_offer_axis_details<2)
 			{
-				if(typeof $scope.x_axis_selected == 'undefined' || $scope.x_axis_selected == '' || typeof $scope.y_axis_selected == 'undefined' || $scope.y_axis_selected == '')
+				if(typeof $scope.x_axis_selected == 'undefined' || $scope.x_axis_selected == '' || $scope.x_axis_selected == null )
 				{
-					alert("Please Select both X-axis and Y-axis options");
+					$scope.error = "Select X-axis option";
 					return false;
 				}
-				var x_axis_det_name = $scope.x_axis_selected.replace("_", " ").toUpperCase();
-				var y_axis_det_name = $scope.y_axis_selected.replace("_", " ").toUpperCase();
-				alert("Please Select both "+x_axis_det_name+" and "+y_axis_det_name+" options");
+				if(typeof $scope.y_axis_selected == 'undefined' || $scope.y_axis_selected == '' || $scope.y_axis_selected == null)
+				{
+					$scope.error = "Select Y-axis option";
+					return false;
+				}
+
+				var x_axis_det_name = $scope.x_axis_selected.replace("_", " ");
+				var y_axis_det_name = $scope.y_axis_selected.replace("_", " ");
+				if($scope.empty_in_selection == "x_axis")
+				{
+					$scope.error = $scope.x_axis_error_select_msg;
+					return false;
+				}
+				else
+				{
+					$scope.error = $scope.y_axis_error_select_msg;
+					return false;
+				}
 				return false;
 			}
 			else
 			{
-				if(MyService.compareTwoDate($scope.start_date,$scope.end_date)== 'error')
-				{
-					$scope.error = "Your end date must be greater that start date";
-					return false;
-				}
 				$scope.show_loader 	   = true;
 				$scope.request_details = {
 											"card_type"		: $scope.card_type_selected_details,

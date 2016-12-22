@@ -5,13 +5,18 @@
 			<div class="panel panel-default">
 				<div class="panel-heading">FILTERS</div>
 				<div class="panel-body" style="font-size:12px">
-					<div class="col-sm-12">
-                   		<button class="btn btn-primary" ng-click="getOfferSegmentDetails();" style="padding : 6px 4px">View details</button>
-                    </div>
-                    
+                    <div class="row">
+						<div class="col-sm-12 ">
+		                   	<button class="btn btn-primary" ng-click="getOfferSegmentDetails();" style="padding : 6px 4px">View details</button>
+		                </div>
+		                <div class="col-sm-12 ">
+		                	<span class="err" ng-bind="error" style="padding:5px;font-size:12px"></span>
+		                </div>
+		            </div>
 					<div class="rows padding-row" ng-show="checkboxModel.age_grouped">
-						<div class="col-sm-12">
+						<div class="col-sm-12 padding-row">
 							<strong> AGE GROUP : </strong>
+							<span class="glyphicon glyphicon-list-alt" ng-click="selectAllFilter('age_group');" title="select all"></span>
 						</div>
 						<div class="col-sm-12 padding-2">
 							<select chosen multiple ng-model="age_group_filter" ng-options="s.value for s in age_group_type"  placeholder-expression="City Name">
@@ -25,6 +30,7 @@
 					<div class="rows padding-row" ng-show="checkboxModel.card_type">
 						<div class="col-sm-12 padding-row">
 							<strong> CARD TYPE : </strong>
+							<span class="glyphicon glyphicon-list-alt" ng-click="selectAllFilter('card_type');"  title="select all"></span>
 						</div>
 						<div class="col-sm-12 padding-2">
 							<select chosen multiple ng-model="card_type_filter_details" ng-options="s.card_type for s in card_type"  placeholder-expression="Card Type" title="Enter card details">
@@ -37,6 +43,7 @@
 					<div class="rows padding-row" ng-show="checkboxModel.category">
 						<div class="col-sm-12 padding-row">
 							<strong> CATEGORY : </strong>
+							<span class="glyphicon glyphicon-list-alt" ng-click="selectAllFilter('category');"  title="select all"></span>
 						</div>
 						<div class="col-sm-12 padding-2">
 							<select chosen multiple ng-model="category_filter_details" ng-options="s.category for s in category"  placeholder-expression="Card Type" title="Enter Category details">
@@ -49,6 +56,7 @@
 					<div class="rows padding-row" ng-show="checkboxModel.gender">
 						<div class="col-sm-12 padding-row">
 							<strong> GENDER : </strong>
+							<span class="glyphicon glyphicon-list-alt" ng-click="selectAllFilter('gender');"  title="select all"></span>
 						</div>
 						<div class="col-sm-12 padding-2">
 							<select chosen multiple ng-model="gender_type_filter" ng-options="s.name for s in gender_type"  placeholder-expression="Gender" title="Gender">
@@ -75,6 +83,7 @@
 					<div class="rows padding-row" ng-show="checkboxModel.segment">
 						<div class="col-sm-12 padding-row">
 							<strong> SEGMENT : </strong>
+							<span class="glyphicon glyphicon-list-alt" ng-click="selectAllFilter('segment');" title="select all"></span>
 						</div>
 						<div class="col-sm-12 padding-2">
 							<select chosen multiple ng-model="segment_filter" ng-options="s.cust_segment for s in segment_type"  placeholder-expression="Segment Name" id="segment_details"  ng-init="segment_filter = default_segment_filter">
@@ -88,6 +97,7 @@
 					<div class="rows padding-row" ng-show="checkboxModel.tag_details">
 						<div class="col-sm-12 padding-row">
 							<strong> TAGS : </strong>
+							<span class="glyphicon glyphicon-list-alt" ng-click="selectAllFilter('tags');" title="select all"></span>
 						</div>
 						<div class="col-sm-12 padding-2">
 							<select chosen multiple ng-model="tag_details_filter" ng-options="s.name for s in tag_type"  placeholder-expression="Gender" title="Gender">
@@ -166,7 +176,11 @@
                 </div>
                 <div class="col-sm-12 date-box-one"  ng-show="show_by_offer" style="margin-top:-2px;">
                     
-                     <div class="col-sm-2" style="padding-left:0px; padding-right"><span style="display:block;margin-top:7px;color:#0988ea"><strong> Offer Description : </strong></span></div>
+                     <div class="col-sm-2" style="padding-left:0px; padding-right" ng-if="offer_name.length>0">
+                     	<span style="display:block;margin-top:7px;color:#0988ea">
+                     		<strong> Offer Description : </strong>
+                     	</span>
+                     </div>
                     <div class="col-sm-10" style="margin-top:8px;" ng-bind="offer_name"></div>
                 
                    

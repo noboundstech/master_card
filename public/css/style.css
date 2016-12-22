@@ -676,10 +676,6 @@ background-image: linear-gradient(#ffffff 1%, #ffffff 15%)important;
 .login-help{
   font-size: 12px;
 }
-.err{
-  color:red;
-    margin-top:10px;
-}
 
 
 
@@ -2295,4 +2291,9 @@ textarea {
 {
   padding-left: 2px;
   padding-right: 2px;
+}
+.err{
+  color:red;
+  margin-top: 10px !important;
+  display: block;
 }
