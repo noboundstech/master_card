@@ -14,6 +14,7 @@ angular.module('CustomerReportController', ['applicationService.services'])
 	$scope.checkboxModel.date_range 		= true;
 	$scope.checkboxModel.segment 			= false;
 	$scope.checkboxModel.tag_details 		= false;
+	$scope.show_discription 				= false;
 	$scope.x_axis_selected 					= '';
 	$scope.y_axis_selected 					= '';
 	$scope.offer_name 						= '';
@@ -1052,6 +1053,7 @@ angular.module('CustomerReportController', ['applicationService.services'])
 		$scope.x_axis_error_select_msg 			= '';
 		$scope.y_axis_error_select_msg 			= '';
 		$scope.empty_in_selection 				= '';
+		$scope.show_discription 				= false;
 		if(typeof $scope.offer_id == 'undefined' || $scope.offer_id == '' || $scope.offer_id == null)
 		{
 			$scope.error = 'Please Enter Offer Id.';
@@ -1299,7 +1301,10 @@ angular.module('CustomerReportController', ['applicationService.services'])
 					$scope.show_loader = false;
 					var  category		= response.data.response_data.Graph_data[0].x_axis_name;
 					var chart_details 	= response.data.response_data.Graph_data[0].y_array_header;
+
+					console.log(response.data.response_data);
 					$scope.offer_name 	= response.data.response_data.offer_name;
+					$scope.show_discription = true;
 					if(response.status == 203)
 					{
 						var message = response.data.response_data.message;
