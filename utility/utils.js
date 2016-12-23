@@ -227,178 +227,167 @@ module.exports =
     			
     		});
 	},
-	'insertchatdata' : function(req,res,row,response_data,callback_fun)
+    'CalladdChatHeader' : function(req,res,response_data,callback_function)
     {
-		var  constant    = require("config/constant"),
-		db_query         = require('db_query/query');
-
-		var memberid    = req.body.chat_details[row].member_id,
-			csrid       = req.decoded.userId,
-			offerid     = 0,
-			wechatId    = req.body.chat_details[row].cust_id,
-			converseby  = req.body.chat_details[row].converseby,
-			typeofdata  = req.body.chat_details[row].typeofdata,
-			textdata    = req.body.chat_details[row].message,
-			chatheaderid    = req.body.chat_details[row].chatheaderid,
-			// imagedata    = req.body.imagedata,
-			// sounddata    = req.body.sounddata,
-			imagedata    = null,
-			sounddata    = null,
-			table = constant.CHAT_HISTORY_DETAILS;
-		var len_offer = req.body.chat_details[row].offer_details.length,
-			offer_cnt =0;
-
-		var fieldlist   = [
-								{
-								"name"     : "memberChatHeaderId",
-								"type"    : constant.INT,
-								"varname" : "chatheaderid",
-								"value"    : chatheaderid
-								},
-								{
-								"name"     : "converseBy",
-								"type"    : constant.VARCHAR2,
-								"varname" : "converseby",
-								"value"    : converseby
-								},
-								{
-								"name"     : "typeOfData",
-								"type"    : constant.VARCHAR2,
-								"varname" : "typeofdata",
-								"value"    : typeofdata
-								},
-								{
-								"name"     : "chatText",
-								"type"    : constant.VARCHAR255,
-								"varname" : "csrid",
-								"value"    : textdata
-								},
-								/*       {
-								"name"     : "chatImage",
-								"type"    : constant.VARCHAR255,
-								"varname" : "imagedata",
-								"value"    : imagedata
-								},
-								{
-								"name"     : "chatSound",
-								"type"    : constant.VARCHAR255,
-								"varname" : "sounddata",
-								"value"    : sounddata
-								},*/
-								{
-								"name"     : "offerId",
-								"type"    : constant.INT,
-								"varname"   : "offerid",
-								"value"        : offerid
-								}
-							];
-		var condition   = '';
-		console.log(len_offer);
-		if (len_offer == 0 )
-		{
-			db_query.insertToDb(req,res,condition,fieldlist,table,response_data,function(){
-				if(response_data.details > 0)
+		var async 	= require('async'),
+		constant 	= require("config/constant");
+		var memberid    = req.body.member_id,	     
+		wechatId    = req.body.id,
+		lat         = "",
+		longitude   = "";
+        var table       = constant.CHAT_HISTORY_HEADER;
+		async.series ([
+			function(callback){
+				var utils 	= require('utility/utils');
+				console.log(req.body);
+				utils.GetMemberId(req,res,function(){
+					console.log(req.body);
+					callback();
+				})
+			},
+			function(callback)
+			{
+				console.log(req.body);
+				if(typeof req.body.lat !='undefined' && req.body.lat !='' && req.body.lat !=null)
 				{
+					console.log("true");
+					var lat  = req.body.lat;
+				}
+				else
+				{
+					var lat  = 0;
+				}
+
+				if(typeof req.body.longitude !='undefined'  && req.body.longitude !='' && req.body.longitude !=null)
+				{
+					var longitude = req.body.longitude;
+				}
+				else
+				{
+					var longitude = 0;
+				}
+				var constant 	= require("config/constant"),
+			    db_query 	    = require('db_query/query');
+			    var  csrid      = req.body.csrId;
+			    var  cur_date 	= null;   
+				var statusoftag = 0;
+		        console.log(longitude,"longitude");
+		        console.log(lat,"lat");
+		        var fieldlist = [{
+									"name" 	: "ChatStartTimeStamp",
+								    "type"	: constant.DATE_TIME,
+								    "varname" : "SYSDATETIME()",
+								 	"value"	: cur_date
+								  },
+	                              {
+								    "name" 	: "ChatEndTimeStamp",
+								    "type"	: constant.DATE_TIME,
+								    "varname" : "SYSDATETIME()",
+								 	"value"	: cur_date
+								  },
+								  {
+									"name" 	: "userId",
+								    "type"	: constant.SMINT,
+								    "varname" : "csrid",
+									"value"	: csrid
+								  },
+								  {
+									"name" 	: "memberId",
+								    "type"	: constant.INT,
+								    "varname" : "memberid",
+								 	"value"	: req.body.member_id
+								  },
+								  {
+									"name" 	: "memberLat",
+								    "type"	: constant.DEC_10_6,
+								    "varname" : "lat",
+								  	"value"	: lat
+							 	  },
+							  	  {
+								   "name" 	: "memberLong",
+								    "type"	: constant.DEC_10_6,
+								    "varname" : "longitude",
+								  	"value"	: longitude
+								  },
+								   {
+									"name" 	: "memberTagAdded",
+								    "type"	: constant.BIT,
+								    "varname" : "statusoftag",
+								    "value"	: statusoftag
+								}]; 
+				console.log(fieldlist);
+				  var condition   = '';
+				   if (typeof longitude =='undefined'  || longitude =='')
+		            {
+	                 longitude=0;
+		            }
+		        
+	              if (typeof lat =='undefined'  || lat =='')
+	               {
+	                 lat=0;
+		           }
+		    	db_query.insertToDb(req,res,condition,fieldlist,table,response_data,function(){
+					if(response_data.details > 0)
+					{
+						callback();
+					}
+					else
+					{
+						response_data.success = false;
+						response_data.message = "Insert  to table tmemberChatHeaderId not successful";
+						res.status(203).send({response_data});
+					}
+				})
+	        },
+			function(callback){
+
+				var db_query    = require('db_query/query');
+				sqlstring  	= 'select max(memberChatHeaderId) as max_header_id from '+constant.CHAT_HISTORY_HEADER+' where memberId='+req.body.member_id+' and userId=' + req.body.csrId  ;
+			 	db_query.RunSelSqlFromDb(req,res,sqlstring,response_data,function(){
+					if(response_data.details.length>0)
+					{   
+					callback_function();
+					}
+					else
+					{
+						response_data.success = false;
+						response_data.message = "matching data not present for member in DB table.tmemberChatHeaderId";
+						res.status(203).send({response_data});
+					}
+				})
+
+		}],function(err) {
+				callback_function();
+		});
+    },
+    'GetMemberId' : function(req,res,callback_function)
+    {
+		var async 	= require('async'),
+		    constant 	= require("config/constant"),
+		    db_query 	= require('db_query/query');
+		var wechatId    = req.body.id;
+		var table       = constant.MEMBER_MASTER_TABLE ;
+		var sqlstring  = '';
+		var response_data = {};
+	    async.series ([
+		    function(callback)
+		    {
+	         sqlstring="Select MemberId from " + table + " Where memberWechatId ='" +wechatId+ "'";
+	         db_query.RunSelSqlFromDb(req,res,sqlstring,response_data,function(){
+				if(response_data.details.length > 0 )
+				{
+					req.body.member_id=response_data.details[0].MemberId;
 					callback();
 				}
 				else
 				{
 					response_data.success = false;
-					response_data.message = "Insert  to table tmemberChatDetails not successful";
+					response_data.message = "Select from DB table tMemberMaster is successful";
 					res.status(203).send({response_data});
 				}
 			})
-		}    // end of if
-		else
-		{
-			var total_row = 0;
-			for(offer_cnt=0;offer_cnt<len_offer;offer_cnt++)
-			{
-				var utils     = require('utility/utils');
-				utils.addchatoffers(req,res,response_data,function(){
-					total_row++;
-					if(total_row == len_offer)
-					{
-						callback();
-					}
-				})
-			}  // end of for
-		}  // end of else
-    },
-    'addchatoffers' : function(req,res,response_data,callback_fun)
-    {
-    	var constant    = require("config/constant"),
-			db_query    = require('db_query/query'),
-			memberid    = req.body.member_id,
-			csrid       = req.decoded.userId,
-			offerid     = req.body.offer_id,
-			wechatId    = req.body.cust_id,
-			converseby  = req.body.converseby,
-			typeofdata  = req.body.typeofdata,
-			textdata    = req.body.message,
-			chatheaderid= req.body.chatheaderid,
-			// imagedata    = req.body.imagedata,
-			// sounddata    = req.body.sounddata,
-			imagedata   = null,
-			sounddata   = null,
-			table 		= constant.CHAT_HISTORY_DETAILS;
-		var fieldlist   = [
-							{
-							"name"     : "memberChatHeaderId",
-							"type"    : constant.INT,
-							"varname" : "chatheaderid",
-							"value"    : chatheaderid
-							},
-							{
-							"name"     : "converseBy",
-							"type"    : constant.VARCHAR2,
-							"varname" : "converseby",
-							"value"    : converseby
-							},
-							{
-							"name"     : "typeOfData",
-							"type"    : constant.VARCHAR2,
-							"varname" : "typeofdata",
-							"value"    : typeofdata
-							},
-							{
-							"name"     : "chatText",
-							"type"    : constant.VARCHAR255,
-							"varname" : "csrid",
-							"value"    : textdata
-							},
-							/*       {
-							"name"     : "chatImage",
-							"type"    : constant.VARCHAR255,
-							"varname" : "imagedata",
-							"value"    : imagedata
-							},
-							{
-							"name"     : "chatSound",
-							"type"    : constant.VARCHAR255,
-							"varname" : "sounddata",
-							"value"    : sounddata
-							},*/
-							{
-							"name"       : "offerId",
-							"type"        : constant.INT,
-							"varname"   : "offerid",
-							"value"        : offerid
-							}
-						];
-		var condition   = '';
-
-		db_query.insertToDb(req,res,condition,fieldlist,table,response_data,function(){
-			if(response_data.details > 0)
-			{
-				callback();
-			}
-			else
-			{
-				response_data.success = false;
-				response_data.message = "Insert Offer to table tmemberChatDetails not successful";
-				res.status(203).send({response_data});
-			}
-		})
-    } 
-};
+		}],function(err) {
+				callback_function();
+		});
+    }
+}    

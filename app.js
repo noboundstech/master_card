@@ -75,12 +75,15 @@ var socket_details = '';
 
 function findNewCsrForConnection(data,users,total_user,total_csr,socket,csr_id,callback){
   var _ = require('lodash');
+
+  // checking if any other csr is present or not
   if(total_csr.length ==0)
   {
     callback({status : false, message : "No active csr is present now please try after sometime."});
   }
   else
   {
+    // shuffling all csr so that a random csr get selected each time
     total_csr = _.shuffle(total_csr);
     var found_new_csr = 0;
 
@@ -88,19 +91,26 @@ function findNewCsrForConnection(data,users,total_user,total_csr,socket,csr_id,c
     {
       if(total_user[total_csr[i]] < 4 )
       {
-        socket.unique_id = data.id;
-        socket.csr_id   = total_csr[i];
-        total_user[total_csr[i]]+=1;
-        socket.cust_id   = data.id;
-        users[socket.unique_id] = socket;
-        found_new_csr = 1;
-        var details = {
+        var utils = require("utility/utils");
+        var response_data = {};
+        var res = {};
+        var req = {
+                      body : {
+                                id          : data.id,
+                                member_id   : "",
+                                lat         : "",
+                                longitude   : "",
+                                csrId       : total_csr[i]
+                              }
+                  };
+        utils.CalladdChatHeader(req,res,response_data,function(){
+           var details = {
                         id              : data.id,
                         image           : "img/user.png",
                         notification    : 0,
                         name            : "Kennedy john"+data.id ,
                         last_login      : "0 min",
-                        chat_header     : "",
+                        chat_header     : response_data.details[0].max_header_id,
                         offer_history   : [{
                                   date : "10/3/2016",
                                   time : "9.30 A.M",
@@ -111,20 +121,33 @@ function findNewCsrForConnection(data,users,total_user,total_csr,socket,csr_id,c
                                   longitude : "88.433119",
                                 },
                       };
-        users[total_csr[i]].emit("new customer added",details);
+          socket.unique_id =  data.id;
+          socket.csr_id   = total_csr[i];
+          socket.chat_header_id = '';
+          total_user[total_csr[i]]+=1;
+          socket.cust_id   = data.id;
+          socket.chat_header_id = response_data.details[0].max_header_id;
+          users[socket.unique_id] = socket;
+          found_new_csr = 1;
+          users[total_csr[i]].emit("new customer added",details);
+          users[socket.unique_id].emit("make_connection_with_csr",total_csr[i]);
+        })
+        
         // i.e called an api to we chat
-        users[socket.unique_id].emit("make_connection_with_csr",total_csr[i]);
+       
         break;
       }
     }
   }
 }
+
 app.io = io.sockets.on("connection",function(socket){
+  // socket get open when any new user get login into chat system
   socket.on('new user',function(data,callback){
     // if user already holding any old connection
     if(data.id in users)
     {
-      console.log("connection already in");
+      // if he is already in active session
       if(data.type == 'csr')
       {
         callback({status : false,connect_by : "csr", message : "please close your previous session by closing your previous browser where you signin."});
@@ -140,7 +163,6 @@ app.io = io.sockets.on("connection",function(socket){
       // creating connection for csr
       if(typeof data.type != 'undefined' && data.type != '' && data.type != null && data.type == 'csr')
       {
-        console.log(data);
           socket.unique_id        = data.id;
           socket.csr_id           = data.csr;
           total_user[data.id]     = 0;
@@ -170,7 +192,7 @@ app.io = io.sockets.on("connection",function(socket){
                         notification    : 0,
                         name            : data.id ,
                         last_login      : "0 min",
-                        chat_header     : "",
+                        chat_header     : users[data.chat_header_id],
                         offer_history   : [{
                                   date : "10/3/2016",
                                   time : "9.30 A.M",
@@ -258,6 +280,15 @@ app.io = io.sockets.on("connection",function(socket){
   });
   
 })
+
+
+
+
+
+
+
+
+
 
 // a node scheduler which will look for new message comming from wechat
 var schedule = require('node-schedule');

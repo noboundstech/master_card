@@ -318,38 +318,10 @@ angular.module('userController', ['applicationService.services'])
 						"token" 	 	: localStorage.getItem("token"),
 						"member_id" 	: response.data.message.details[0].memberId
 					};
-					if(typeof $scope.user_details[index].chat_header == 'undefined' || $scope.user_details[index].chat_header == '' || $scope.user_details[index].chat_header == null)
-					{
-						$scope.user_details[index].chat_header = Math.floor((Math.random() * 100000) + 1);
-						
-						API.postDetails($scope.user_detail_selected,"userfetch/AddChatHeader").then(function successCallback(response) {
-							
-							if(response.status == 200 || response.status == 304)
-							{
-								if(typeof response.data.message.details !='undefined' && response.data.message.details.length>0)
-								{
-									$scope.present_customer_details = $scope.user_details[index];
-									$scope.customer_details.chatheaderid = response.data.message.details[0].max_header_id;
-								}
-							}
-							else
-							{
-								// show error message
-							}
-						}, function errorCallback(response) {
-							$scope.showCustomerLoader = false;
-						    // called asynchronously if an error occurs
-						    // or server returns response with an error status.
-						});
-						$scope.current_header_id = $scope.user_details[index].chat_header;
-						$scope.present_customer_details = $scope.user_details[index];
-					}
-					else
-					{
-						$scope.current_header_id = $scope.user_details[index].chat_header;
-						$scope.present_customer_details = $scope.user_details[index];
-					}
-
+					
+					$scope.showCustomerLoader = false;
+					$scope.current_header_id = $scope.user_details[index].chat_header;
+					$scope.present_customer_details = $scope.user_details[index];
 					$scope.getMerchantDetailsByCustomer({id : id},"showCustomerLoader");
 				}
 
@@ -570,14 +542,29 @@ angular.module('userController', ['applicationService.services'])
 	
 		$scope.previous_chat_message = localStorage.getItem('chat_message');
 		//	localStorage.removeItem('chat_message');
+
+
+		for(i=0;i<$scope.chat_details.length;i++)
+		{
+			for(j=0;j<$scope.user_details.length;j++)
+			{
+				if($scope.chat_details[i].cust_id == $scope.user_details[j].id )
+				{
+					$scope.chat_details[i].chatheaderid = $scope.user_details[j].chat_header;
+				}
+			}
+		}
+
+
+
 		var details = {"chat_details" :$scope.chat_details ,
 						"token" : localStorage.getItem("token")};
-
+		console.log(details);
 		if($scope.previous_chat_message!= null)
 		{
 			if($scope.previous_chat_message.length> 0)
 			{
-				/*
+				
 				API.postDetails(details,"userfetch/AddChatDetails").then(function successCallback(response) {
 					if(response.status == 200)
 					{
@@ -597,10 +584,10 @@ angular.module('userController', ['applicationService.services'])
 						localStorage.setItem('chat_message',JSON.stringify($scope.reinsert_chat));
 					}
 				});
-				*/
+				
 			}
 		}
-	}, 30000);
+	}, 3000);
 	if(localStorage.getItem('token') != 'undefined' && localStorage.getItem('token') != null)
 	{
 		//	$scope.csr_id 	=  localStorage.getItem('token');
@@ -713,6 +700,7 @@ angular.module('userController', ['applicationService.services'])
   		}
   		if($scope.message_sending_detail != '')
 		{
+			console.log($scope.customer_details);
   			socket.emit("send message",
   				{
 	  				"sender_id" 		: $scope.csr_id,
@@ -731,6 +719,8 @@ angular.module('userController', ['applicationService.services'])
   		$scope.value_checked = [];
 	}
 	socket.on("new message",function(data){
+
+		console.log(data,"got new message");
 		if(typeof data.converseby =='undefined' || data.converseby =='CU')
 		{
 			for(i=0;i<$scope.user_details.length;i++)

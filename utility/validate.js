@@ -240,11 +240,6 @@ module.exports =
             error_message = "Please Enter user password.";
             validate_success = 0;
         }
-        if( typeof req.body.email_id =='undefined' || req.body.email_id =='' || req.body.email_id ==null)
-        {
-            error_message = "Please Enter user Email Id.";
-            validate_success = 0;
-        }
         if( typeof req.body.add_user_name =='undefined' || req.body.add_user_name =='' || req.body.add_user_name ==null)
         {
             error_message = "Please add user name.";
@@ -308,7 +303,7 @@ module.exports =
             callback();
         }
     },
-     'validate_offersent': function(req,res,callback)        
+    'validate_offersent': function(req,res,callback)        
     {
         var validate_success = 1;
         var error_message ='';
@@ -354,7 +349,7 @@ module.exports =
             callback();
         }
     },
-     'validate_memberId': function(req,res,callback)        
+    'validate_memberId': function(req,res,callback)        
     {
         var validate_success = 1;
         var error_message ='';
@@ -387,22 +382,96 @@ module.exports =
             callback();
         }
     },
-     'validate_usercsrId': function(req,res,callback)
+    'validate_body_id': function(req,res,callback)        
     {
         var validate_success = 1;
         var error_message ='';
-        var   csrid       = req.body.csr_id;
-
-        if( typeof csrid =='undefined'  || csrid ==''  || csrid ==null)
+        var  id      = req.body.id;
+        if( typeof id =='undefined'  || id ==''  || id ==null)
 
         {
-            error_message = "undefined or blank or null incoming csrid ";
+            error_message = "undefined or blank or null incoming wechatid ";
             validate_success = 0;
         }
-
+                     
         if(validate_success ==0) // if validation is unsuccessful
         {
+          
+            res.status(203).send({    "status"         : false,
+                                    "error_type"     : "validate error",
+                                    "message"         : error_message
+                                });
+        }
+        else
+        {
+            // if validation
+            callback();
+        }
+    },
+     'validate_chatdetails': function(req,res,callback)        
+    {
+        var validate_success = 1;
+        var error_message ='';
+        var len_chat= req.body.chat_details.length;
+        
+        if(len_chat>0)
+          {
+           for(row=0;row<len_chat;row++)
+            {
+              var memberid    = req.body.chat_details[row].member_id,
+                  offerid     = 0,
+                  wechatId    = req.body.chat_details[row].cust_id,
+                  converseby  = req.body.chat_details[row].converseby,
+                  typeofdata  = req.body.chat_details[row].typeofdata, 
+                  textdata    = req.body.chat_details[row].message,
+              chatheaderid    = req.body.chat_details[row].chatheaderid;
 
+              if( typeof wechatId =='undefined'  || wechatId ==''  || wechatId ==null)
+              {
+               error_message = "undefined or blank or null incoming wechatid ";
+               validate_success = 0;
+              }
+             if( typeof memberid =='undefined'  || memberid ==''  || memberid ==null)
+              {
+               error_message = "undefined or blank or null incoming member id ";
+               validate_success = 0;
+              }
+              if( typeof converseby =='undefined'  || converseby ==''  || converseby ==null)
+              {
+               error_message = "undefined or blank or null incoming converseby ";
+               validate_success = 0;
+              }
+               if( typeof typeofdata =='undefined'  || typeofdata ==''  || typeofdata ==null)
+              {
+               error_message = "undefined or blank or null incoming typeofdata ";
+               validate_success = 0;
+              }
+               if( typeof textdata =='undefined'  || textdata ==''  || textdata ==null)
+              {
+               error_message = "undefined or blank or null incoming textdata ";
+               validate_success = 0;
+              }
+              if( typeof chatheaderid  =='undefined'  || chatheaderid  ==''  || chatheaderid  ==null)
+              {
+               error_message = "undefined or blank or null incoming chatheaderid ";
+               validate_success = 0;
+              }
+              var len_offer = req.body.chat_details[row].offer_details.length;
+              for (offer_cnt=0; offer_cnt< len_offer;offer_cnt++)
+                        {
+                           offerid= req.body.chat_details[row].offer_details[offer_cnt].offer_id;
+                           if( typeof offerid  =='undefined'  || offerid  ==''  || offerid  ==null)
+                             {
+                               error_message = "undefined or blank or null incoming offerid ";
+                              validate_success = 0;
+                             }
+                        }   
+            } // end of for
+          } // end of if
+             
+        if(validate_success ==0) // if validation is unsuccessful
+        {
+          
             res.status(203).send({    "status"         : false,
                                     "error_type"     : "validate error",
                                     "message"         : error_message

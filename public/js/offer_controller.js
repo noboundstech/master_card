@@ -11,11 +11,13 @@ angular.module('offerController', ['applicationService.services'])
 	$scope.end_date 	= current_date.getMonth()+1+"-"+current_date.getDate()+"-"+current_date.getFullYear();
 	$scope.show_loader = true;
 
-
+	// function to generate excel
 	$scope.exportToExcel=function(tableId){ // ex: '#my-table'
         var exportHref=Excel.tableToExcel(tableId,'WireWorkbenchDataExport');
         $timeout(function(){location.href=exportHref;},100); // trigger download
     }
+
+    // function to generate pdf
     $scope.generatePDF = function() {
     	$timeout(function(){
     		kendo.drawing.drawDOM($("#tableToPdf")).then(function(group) {
@@ -24,6 +26,29 @@ angular.module('offerController', ['applicationService.services'])
 			});
     	},100); 
 	}
+
+	// function to select all
+
+	$scope.selectAllFilter = function(type)
+	{
+		if(type == 'card_type')
+		{
+			$scope.card_type_selected = $scope.card_type;
+		}
+		if(type == 'category')
+		{
+			$scope.category_selected = $scope.category;
+		}
+		if(type == 'sub_category')
+		{
+			$scope.sub_category_selected = $scope.sub_category;
+		}
+		if(type == 'merchant')
+		{
+			$scope.merchant_selected = $scope.merchat_details;
+		}
+	}
+
 	
 	API.getDetails("view_offer_merchant/getViewList",{token : localStorage.getItem('token')}).then(function successCallback(response) {
 		if(response.status == 200)
@@ -124,6 +149,30 @@ angular.module('offerController', ['applicationService.services'])
 				document.getElementById("close_pdf_model").click();
 			});
     	},100); 
+	}
+
+	// function to select all
+
+	$scope.selectAllFilter = function(type)
+	{
+
+		
+		if(type == 'card_type')
+		{
+			$scope.card_type_selected = $scope.card_type;
+		}
+		if(type == 'category')
+		{
+			$scope.category_selected = $scope.category;
+		}
+		if(type == 'sub_category')
+		{
+			$scope.sub_category_selected = $scope.sub_category;
+		}
+		if(type == 'merchant')
+		{
+			$scope.merchant_selected = $scope.merchat_details;
+		}
 	}
 
 	API.getDetails("view_offer_merchant/getViewList",{token : localStorage.getItem('token')}).then(function successCallback(response) {

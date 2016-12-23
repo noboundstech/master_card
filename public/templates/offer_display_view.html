@@ -165,6 +165,7 @@
 								<div class="col-sm-6">
 									<div class="col-sm-12">
 										<strong> Card Type : </strong>
+										<span class="glyphicon glyphicon-list-alt" ng-click="selectAllFilter('card_type');" title="select all"></span>
 									</div>
 									<div class="col-sm-12">
 										<select chosen multiple ng-model="card_type_selected" ng-options="s.name for s in card_type"  placeholder-expression="Card Type" title="Enter card details">
@@ -195,6 +196,7 @@
 									<div class="rows" ng-hide="sub_category_selected.length>0">
 										<div class="col-sm-12">
 											<strong> Category : </strong>
+											<span class="glyphicon glyphicon-list-alt" ng-click="selectAllFilter('category');" title="select all"></span>
 										</div>
 										<div class="col-sm-12">
 											<select chosen multiple ng-model="category_selected" ng-options="s.name for s in category"  placeholder-expression="Card Type" title="Enter Category details">
@@ -209,6 +211,7 @@
 									<div class="row" ng-hide="category_selected.length>0">
 										<div class="col-sm-12">
 											<strong>Sub-Category : </strong>
+											<span class="glyphicon glyphicon-list-alt" ng-click="selectAllFilter('sub_category');" title="select all"></span>
 										</div>
 										<div class="col-sm-12">
 											<select chosen multiple ng-model="sub_category_selected" ng-options="s.name for s in sub_category"  placeholder-expression="Card Type" title="Enter Category details">
@@ -224,6 +227,7 @@
 								<div class="col-sm-6">
 									<div class="col-sm-12">
 										<strong> Merchant : </strong>
+										<span class="glyphicon glyphicon-list-alt" ng-click="selectAllFilter('merchant');" title="select all"></span>
 									</div>
 									<div class="col-sm-12">
 										<select chosen multiple ng-model="merchant_selected" ng-options="s.name for s in merchat_details track by s.id"  placeholder-expression="Segment Name" id="merchant_selected" >

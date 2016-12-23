@@ -403,9 +403,8 @@ router.route('/offerSentbyCSR')
 router.route('/AddChatHeader')
 .post(function (req, res) {
 	var async 	= require('async');
-	var memberid    = req.body.member_id,
-	     
-			wechatId    = req.body.id,
+	
+	    wechatId    = req.body.id,
 			lat         = "",
 			longitude   = "",
 	       constant 	= require("config/constant");
@@ -415,116 +414,32 @@ router.route('/AddChatHeader')
 		
 		function(callback) {
 			var validate = require('utility/validate');
-			validate.validate_memberId(req,res,function(){
+			validate.validate_body_id(req,res,function(){
 				callback();
 			})
 		},function(callback){
 			var utils 	= require('utility/utils');
 			utils.checkAuthentication(req,res,function(){
+				req.body.csrId = req.decoded.userId;
 				callback();
 			})
 		},
 		function(callback){
-
-			lat         	= req.body.lat;
-			longitude       = req.body.longitude;
-			var constant 	    = require("config/constant"),
-		    db_query 	    = require('db_query/query');
-		    var  csrid       = req.decoded.userId;
-		    var  cur_date = null;   
-			var statusoftag =0;	 
-	             if (typeof longitude =='undefined'  || longitude =='')
-	             {
-                   longitude=0;
-	             }
-	             if (typeof lat =='undefined'  || lat =='')
-	             {
-                   lat=0;
-	             }
-			       var fieldlist   = [
-			                 {
-								"name" 	: "ChatStartTimeStamp",
-							    "type"	: constant.DATE_TIME,
-							    "varname" : "SYSDATETIME()",
-							 	"value"	: cur_date
-							  },
-                              {
-							    "name" 	: "ChatEndTimeStamp",
-							    "type"	: constant.DATE_TIME,
-							    "varname" : "SYSDATETIME()",
-							 	"value"	: cur_date
-							  },
-							  {
-								"name" 	: "userId",
-							    "type"	: constant.SMINT,
-							    "varname" : "csrid",
-								"value"	: csrid
-							  },
-
-							 {
-								"name" 	: "memberId",
-							    "type"	: constant.INT,
-							    "varname" : "memberid",
-							 	"value"	: memberid
-							  },
-							 {
-								"name" 	: "memberLat",
-							    "type"	: constant.DEC_10_6,
-							    "varname" : "lat",
-							  	"value"	: lat
-						 	},
-						  	
-							   {
-							   "name" 	: "memberLong",
-							    "type"	: constant.DEC_10_6,
-							    "varname" : "long",
-							  	"value"	: longitude
-							  },
-							   {
-								"name" 	: "memberTagAdded",
-							    "type"	: constant.BIT,
-							    "varname" : "statusoftag",
-							    "value"	: statusoftag
-							  }
-                               ];
-					var condition   = '';
-			
-	    	db_query.insertToDb(req,res,condition,fieldlist,table,response_data,function(){
-				if(response_data.details > 0)
-				{
-					callback();
-				}
-				else
-				{
-					response_data.success = false;
-					response_data.message = "Insert  to table tmemberChatHeaderId not successful";
-					res.status(203).send({response_data});
-				}
+			var utils 	= require('utility/utils');
+			utils.GetMemberId(req,res,function(){
+				callback();
 			})
-        },
-		function(callback){
+		},
+		function(callback)
+		{
+			var utils 	= require('utility/utils');
+			var memberid    = req.body.member_id;
+			utils.CalladdChatHeader(req,res,response_data,function(){
 
-			var db_query    = require('db_query/query');
-			    csrid       = req.decoded.userId;
-			sqlstring  	= 'select max(memberChatHeaderId) as max_header_id from '+constant.CHAT_HISTORY_HEADER+' where memberId='+memberid+' and userId=' + csrid  ;
-		
-			db_query.RunSelSqlFromDb(req,res,sqlstring,response_data,function(){
-				if(response_data.details.length>0)
-				{   
-					//response_data.chatHeader = [{ "HeaderId ": response_data.details.max_header_id,
-					 //                             "MemberId ": memberid}];
-
-					callback();
-				}
-				else
-				{
-					response_data.success = false;
-					response_data.message = "matching data not present for member in DB table.tmemberChatHeaderId";
-					res.status(203).send({response_data});
-				}
+				callback();
 			})
-
-		}],function(err) {
+		}
+		],function(err) {
 			response_data.success = true;
 			response_data.message = "Insert to table tmemberChatHeader ok!";
 			res.status(200).send({message:response_data});
@@ -601,35 +516,92 @@ router.route('/AddChatDetails')
     var async     = require('async');
     var response_data = {};
     async.series([
-        /* function(callback) {
-            var validate = require('utility/validate');
-            validate.validate_memberId(req,res,function(){
-                callback();
-            })
-        },*/
-        function(callback){
+    /*	function(callback) {
+			var validate = require('utility/validate');
+			validate.validate_chatdetails(req,res,function(){
+				callback();
+			})
+		},*/
+         function(callback){
             var utils     = require('utility/utils');
             utils.checkAuthentication(req,res,function(){
                 callback();
             })
         },
         function(callback){
-            var utils     = require('utility/utils');
+            var utils     = require('utility/utils'),
+              constant    = require("config/constant"),
+              db_query    = require('db_query/query');
             var len_chat= req.body.chat_details.length;
+            var table = constant.CHAT_HISTORY_DETAILS;
+		 
+			var fieldlist   = "(memberChatHeaderId,converseBy,typeOfData,chatText,chatImage,chatSound,offerId)"; 							
+			var vallist = '';					
+								
             if(len_chat>0)
             {
-                var total_row = 0;
+            
                 for(row=0;row<len_chat;row++)
                 {
-					utils.insertchatdata(req,res,row,response_data,function(){
-                        total_row++;
-                        if(total_row == len_chat)
-                        {
-                            callback();
-                        }
-                    })
-                }
-            }
+                	 var memberid    = req.body.chat_details[row].member_id,
+			             csrid       = req.decoded.userId,
+			             offerid     = 0,
+			             wechatId    = req.body.chat_details[row].cust_id,
+			             converseby  = req.body.chat_details[row].converseby,
+			             typeofdata  = req.body.chat_details[row].typeofdata, 
+			             textdata    = req.body.chat_details[row].message,
+		             chatheaderid    = req.body.chat_details[row].chatheaderid,
+			         // imagedata    = req.body.imagedata,
+			         // sounddata    = req.body.sounddata,
+			            	imagedata    = null,
+			            	sounddata    = null;
+			         var 	offer_cnt = 0,
+			         		len_offer = 0;  
+                	if (len_offer == 0  || typeof req.body.chat_details[row].offer_details == 'undefined')
+		             {
+
+			             
+		              vallist+="(";
+		              vallist+=chatheaderid+",'"+converseby+"','"+typeofdata+"','"+textdata+"',"+imagedata+","+sounddata+","+offerid ;
+		              vallist+=")";
+					 }
+					else 
+					{
+						len_offer = req.body.chat_details[row].offer_details.length;
+				      for(offer_cnt=0;offer_cnt<len_offer;offer_cnt++)
+			            {
+				           offerid= req.body.chat_details[row].offer_details[offer_cnt].offer_id;
+				           vallist+="(";
+		                   vallist+=chatheaderid+",'"+converseby+"','"+typeofdata+"','"+textdata+"',"+imagedata+","+sounddata+","+offerid ;
+		                   vallist+=")";
+				
+					       if(offer_cnt < (len_offer-1))
+					         {
+			                   vallist+=",";
+			                 }
+			            }       
+					
+					} // end of else
+			         if(row < (len_chat-1))
+					         {
+			                   vallist+=",";
+			                 }
+				  }  // end of for
+        
+				db_query.MultiInsertToDb(req,res,vallist,fieldlist,table,response_data,function(){
+				if(response_data.details > 0)
+				{
+					callback();
+				}
+				else
+				{
+					response_data.success = false;
+					response_data.message = "MultiInsert to table tmemberChatDetails not successful";
+					res.status(203).send({response_data});
+				}
+			   })
+
+			} // end of if (len_chat>0)
             else
             {
                 res.status(203).send({    "status"         : false,
