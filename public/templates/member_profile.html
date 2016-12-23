@@ -1,56 +1,36 @@
-<!-- <div page-Header></div>  -->
+<div page-Header></div>
 
 <div class="header">
     <div class="container-fluid">
+        
         <div class="row">
-            <div class="col-md-12">
-                <div class="col-md-1 col-sm-1 col-xs-1">
-                    <a href="#/dashboard" class="btn btn-default profile-back-button"><span class="fa fa-long-arrow-left"></span></a>
-                </div>
-                 <div class="col-sm-5">
-                   <h4 class="customer-profile-view">  <a href="#/dashboard">Home </a> >&nbsp;&nbsp;&nbsp;Member Profile View</h4>
-                        <h5 class="customer-profile-view hidden-lg hidden-md hidden-sm hidden-xs"> <a href="#/dashboard">Home </a> >&nbsp;&nbsp;&nbsp;Member Profile View</h5>
-                         <div class="loader_angular col-md-1 profile-view-load" ng-show="showCustomerLoader"></div>
-                </div>
-                <div class="col-sm-4">
-                    <img class="img-responsive" style="float:left;" src="img/logo.png" alt="">
-                </div>
-
-                <div class="col-sm-2 pull-right">
-                    <a style="float:left;margin:10px 0 0 40px; cursor:pointer;" class="main-logtout" ng-click="logout_user();" > logout</a>
-                </div>
-            </div>
-        </div>
-        <div class="row">
-            <div class="col-md-12 profile-view">
+            <div class="col-md-12 profile-view-header">
                 <div class="col-md-12">
-                    <div class="col-md-1 col-sm-1 col-xs-1">
-                        
-                       
-                    </div>
+                  
                         <form>
-                            <div class="row form-box-row">
-                                 <div class="col-md-2">
-                                    
-                                </div>
+                            <div class="row">
+                                 <div class="col-md-12">
                                  <div class="col-md-3 col-md-offset-0 user-wechat">
-                                    <label>
+                                    <label class="user-wechat-label">
                                         <input type="radio" name="search_type" value="customer_id" checked="checked" ng-model="search_by" > Wechat Id&nbsp;
                                         <input type="radio" value="card_no" name="search_type" ng-model="search_by"> Card#  
                                     </label>
                                 </div>
                                  <div class="col-md-3 col-md-offset-0 user-wechat" ng-if="search_by == 'customer_id'">
                                     <input type="text" class="form-control" ng-model="wechat_id" id="wechat_id" placeholder="Enter Member WeChat Id.">
-                                    <p class="err" ng-bind="error_message"></p>
+                                    <p class="err wechat-error" ng-bind="error_message">Please out a valid wechat id</p>
+                                     
                                 </div>
                                 <div class="col-md-3 col-md-offset-0 user-wechat" ng-if="search_by == 'card_no'">
                                     <input type="text" class="form-control" ng-model="card_no" id="card_no" placeholder="Enter Card Number.">
                                     <p class="err" ng-bind="error_message"></p>
                                 </div>
                                 <div class="col-md-2">
-                                    <button type="submit" class="btn btn-primary btn-block submit-btn" ng-click="showCustomerDetail()">Search Member</button>
+                                    <button type="submit" class="btn btn-primary btn-block wechat-submit-btn" ng-click="showCustomerDetail()">Search Member</button>
                                 </div>
+                                <div class="loader_angular" ng-show="showCustomerLoader"></div>     
                             </div>  
+                            </div>    
                         </form>
                        
                 </div>
@@ -62,16 +42,16 @@
     <div class="row">
         <div class="col-md-4">
            <div class="row profile-user">
-                <div class="col-md-3"> 
-                    <a href="#">
+                <div class="col-md-12"> 
+                    <a href="#" class="col-md-4">
                         <img class="media-object" src="img/profile.jpg" alt="..." width="60" height="60">
                     </a>
 
-                    <h5 class="media-heading profile">{{customer_details.memberFirstName}} {{customer_details.memberLastName}}</h5>
+                    <h5 class="customer-name-details col-md-8 ">{{customer_details.memberFirstName}} {{customer_details.memberLastName}}</h5>
                     {{customer_details.memberGender}} {{customer_details.memberAge | number:0}}
                 </div>
-                <div class="col-md-9">
-                     <table class="table table-responsive">
+                <div class="col-md-12">
+                     <table class="table table-responsive view-table-data">
                         <tbody>
                             <tr>
                                 <th>Wechat Id :</th>
@@ -110,7 +90,7 @@
                 <div class="col-md-12 cust-tag">
                     <div class="page-header"></div>
                     <h3 class="details-tag">
-                        Tags
+                        Tags :
                     </h3>
                     <div class="col-md-12 col-md-12 tag-box">
                         <div class="tag-holder">
@@ -129,7 +109,7 @@
         <div class="col-md-4">
             <div class="row progress-campaign">
                 <h3 class="action-status">
-                    Offer campaign action status
+                    Offer campaign action status :
                 </h3>
                 <div class="col-md-12 offer-progress">
                     <ul class="list-group">
@@ -157,28 +137,31 @@
             <div class="row progress-campaign">
                  <div class="col-md-12 predicted-offers">
                         <h3 class="offers-heading">
-                            Predicted Offers
+                            Predicted Offers :
                         </h3>
-                        <ul class="nav list-group offers-list custom-bullet">
+                     <div class="predicted-offers-box">
+                        <ul class="nav list-group predicted-offers-list custom-bullet">
                             <li ng-repeat="p_offer in predicted_offer">
                                 {{p_offer.offer_name}}
                             </li>
                             
                         </ul>
+                        </div>
                     </div>
             </div>
             <div class="row offer-section-predict">
                 <div class="col-md-12 predicted-offers">
-                    <h3 class="offers-heading">
-                        Offer history
+                    <h3 class="offers-heading-table">
+                        Offer history :
                     </h3>
+                     
+                      
+                          
+                    <div class="col-md-6" style="padding-left:0px;padding-right:0px; font-size:14px; margin-bottom:5px;"><strong>Merchant Name</strong></div>
+                    <div class="col-md-6" style="padding-left:0px;padding-right:0px;font-size:14px;margin-bottom:5px;"><strong>Offer Description</strong></div>
+                   
+                    <div class="predicted-offers-table">
                     <table class="table table-bordered offer-history">
-                        <thead>
-                            <tr>
-                            <th class="col-md-4">Merchant Name</th>
-                            <th>Offer Description</th>
-                            </tr>
-                        </thead>
                         <tbody ng-repeat="history in offer_history">
                             <tr>
                             <td ng-bind="history.merchantName"></td>
@@ -187,6 +170,7 @@
                             </tr>
                         </tbody>
                     </table>
+                    </div>
                 </div>
             </div>
     </div>
@@ -195,7 +179,7 @@
              <div class="row section-map">   
                     <div class="col-md-12">    
                         <h3 class="map-he">
-                            Places frequently visited
+                            Places frequently visited :
                         </h3>            
                         <div class="row map">
                             <div class="col-md-6" id = "sample" style = "width:95%; height:179px;">
@@ -224,7 +208,7 @@
               <div class="row match-user">
                     <div class="col-md-12"> 
                         <h3 class="header-connection">
-                            Connections or Similarity matching
+                            Connections or Similarity matching :
                         </h3>
                         <div class="media main-user">
                             <div class="media-left">
@@ -350,7 +334,7 @@
   position:absolute; 
   top:260px;
   width: 610px;
-  height:287px;
+  height:341px;
   z-index: 10;
   background-color: rgba(255,255,255,0.7); /*dim the background*/
 }

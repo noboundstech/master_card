@@ -249,5 +249,27 @@ module.exports = {
 		        // ... query error checks 
 		    });
 		});
-	}
+	},
+	'MultiInsertToDb': function(req,res,vallist,fieldlist,table,data,callback)        
+    {
+        var sql = require('mssql');
+        var config = require('config/db_connection')
+        var utils = require('utility/utils');
+        var connection1 = new sql.Connection(config, function(err) {
+            //console.log(err);
+            var request = new sql.Request(connection1); // or: var request = connection1.request();
+                    
+            var query = 'insert into '+table+' '+fieldlist+' values '+vallist ;
+               request.query(query).then(function(err,recordset) {
+                data.details = request.rowsAffected;
+                callback();
+                connection1.close();
+            }).catch(function(err) {
+                console.log(err)
+                //res.send({data : err});
+                connection1.close();
+                // ... query error checks
+            });
+        });
+    }
 };

@@ -15,6 +15,7 @@ angular.module('CustomerReportController', ['applicationService.services'])
 	$scope.checkboxModel.segment 			= false;
 	$scope.checkboxModel.tag_details 		= false;
 	$scope.show_discription 				= false;
+	$scope.merchant_details 				= '';
 	$scope.x_axis_selected 					= '';
 	$scope.y_axis_selected 					= '';
 	$scope.offer_name 						= '';
@@ -1205,7 +1206,7 @@ angular.module('CustomerReportController', ['applicationService.services'])
 			}
 			if($scope.x_axis_selected == 'location' || $scope.y_axis_selected == 'location')
 			{
-				if(typeof $scope.card_type_filter_details != 'undefined')
+				if(typeof $scope.location_filter != 'undefined')
 				{
 					for(i=0;i<$scope.location_filter.length;i++)
 					{
@@ -1477,9 +1478,13 @@ angular.module('CustomerReportController', ['applicationService.services'])
 			}
 		}
 	}
-	$scope.getOfferDetails = function()
+	$scope.getOfferDetails = function(option)
 	{
+		console.log($scope.merchant_details);
+		
 		$scope.show_merchant_loader = true;
+
+		$scope.member_id = '';
 		$scope.get_offer_details = {
 			"token" 		: localStorage.getItem('token'),
 			merchant_id 	: $scope.merchant_details.id

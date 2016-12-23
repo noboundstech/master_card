@@ -127,7 +127,6 @@
 		                    </datepicker>
 						</div>
 						<div class="col-sm-12">
-							 <span class="err" ng-bind="error" style="padding:10px"></span>
 						</div>
 					</div>
 				</div>
@@ -158,7 +157,8 @@
 				<div class="col-sm-4 date-box-one"  ng-hide="show_by_offer">
 						
                         <div class="input-group col-sm-4" style="margin-top:-18px;margin-bottom:10px;">
-							<select chosen name="singleSelect" id="singleSelect" ng-model="merchant_details" ng-change="getOfferDetails();" class="input-small" ng-options="option.name for option in merchat_details"></select>
+                        	
+							<select name="singleSelect" id="merchant_id" ng-model="merchant_details" ng-change="getOfferDetails();" class="input-small" ng-options="option.name for option in merchat_details"></select>
 								
 							<!--
 								<option value="" disabled> Select Merchant</option>
