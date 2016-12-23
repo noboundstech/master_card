@@ -1480,10 +1480,7 @@ angular.module('CustomerReportController', ['applicationService.services'])
 	}
 	$scope.getOfferDetails = function(option)
 	{
-		console.log($scope.merchant_details);
-		
 		$scope.show_merchant_loader = true;
-
 		$scope.member_id = '';
 		$scope.get_offer_details = {
 			"token" 		: localStorage.getItem('token'),
