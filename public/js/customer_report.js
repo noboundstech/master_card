@@ -725,6 +725,19 @@ angular.module('CustomerReportController', ['applicationService.services'])
 					}
 				}
 			}
+			else
+			{
+				if($scope.x_axis_selected == 'card_type')
+				{
+					$scope.x_axis_error_select_msg 	 = "SELECT CARD TYPE";
+					$scope.empty_in_selection = "x_axis";
+				}
+				if($scope.y_axis_selected == 'card_type')
+				{
+					$scope.y_axis_error_select_msg 	 = "SELECT CARD TYPE";
+					$scope.empty_in_selection = "y_axis";
+				}
+			}
 		}
 		if($scope.x_axis_selected == 'gender' || $scope.y_axis_selected == 'gender')
 		{
@@ -748,6 +761,19 @@ angular.module('CustomerReportController', ['applicationService.services'])
 					}
 				}
 			}
+			else
+			{
+				if($scope.x_axis_selected == 'gender')
+				{
+					$scope.x_axis_error_select_msg 	 = "SELECT GENDER";
+					$scope.empty_in_selection = "x_axis";
+				}
+				if($scope.y_axis_selected == 'gender')
+				{
+					$scope.y_axis_error_select_msg 	 = "SELECT GENDER";
+					$scope.empty_in_selection = "y_axis";
+				}
+			}
 		}
 		if($scope.x_axis_selected == 'tags' || $scope.y_axis_selected == 'tags')
 		{
@@ -769,6 +795,19 @@ angular.module('CustomerReportController', ['applicationService.services'])
 						$scope.y_axis_error_select_msg 	 = "SELECT TAGS";
 						$scope.empty_in_selection = "y_axis";
 					}
+				}
+			}
+			else
+			{
+				if($scope.x_axis_selected == 'tags')
+				{
+					$scope.x_axis_error_select_msg 	 = "SELECT TAGS";
+					$scope.empty_in_selection = "x_axis";
+				}
+				if($scope.y_axis_selected == 'tags')
+				{
+					$scope.y_axis_error_select_msg 	 = "SELECT TAGS";
+					$scope.empty_in_selection = "y_axis";
 				}
 			}
 		}
@@ -824,6 +863,19 @@ angular.module('CustomerReportController', ['applicationService.services'])
 						$scope.y_axis_error_select_msg 	 = "SELECT LOCATION";
 						$scope.empty_in_selection = "y_axis";
 					}
+				}
+			}
+			else
+			{
+				if($scope.x_axis_selected == 'location')
+				{
+					$scope.x_axis_error_select_msg 	 = "SELECT LOCATION";
+					$scope.empty_in_selection = "x_axis";
+				}
+				if($scope.y_axis_selected == 'location')
+				{
+					$scope.y_axis_error_select_msg 	 = "SELECT LOCATION";
+					$scope.empty_in_selection = "y_axis";
 				}
 			}
 		}
@@ -1109,6 +1161,19 @@ angular.module('CustomerReportController', ['applicationService.services'])
 						}
 					}
 				}
+				else
+				{
+					if($scope.x_axis_selected == 'gender')
+					{
+						$scope.x_axis_error_select_msg 	 = "SELECT GENDER";
+						$scope.empty_in_selection = "x_axis";
+					}
+					if($scope.y_axis_selected == 'gender')
+					{
+						$scope.y_axis_error_select_msg 	 = "SELECT GENDER";
+						$scope.empty_in_selection = "y_axis";
+					}
+				}
 			}
 			if($scope.x_axis_selected == 'age_grouped' || $scope.y_axis_selected == 'age_grouped')
 			{
@@ -1163,6 +1228,19 @@ angular.module('CustomerReportController', ['applicationService.services'])
 						}
 					}
 				}
+				else
+				{
+					if($scope.x_axis_selected == 'location')
+					{
+						$scope.x_axis_error_select_msg 	 = "SELECT LOCATION";
+						$scope.empty_in_selection = "x_axis";
+					}
+					if($scope.y_axis_selected == 'location')
+					{
+						$scope.y_axis_error_select_msg 	 = "SELECT LOCATION";
+						$scope.empty_in_selection = "y_axis";
+					}
+				}
 			}
 			if($scope.x_axis_selected == 'segment' || $scope.y_axis_selected == 'segment')
 			{
@@ -1211,6 +1289,19 @@ angular.module('CustomerReportController', ['applicationService.services'])
 							$scope.y_axis_error_select_msg 	 = "SELECT TAGS";
 							$scope.empty_in_selection = "y_axis";
 						}
+					}
+				}
+				else
+				{
+					if($scope.x_axis_selected == 'tags')
+					{
+						$scope.x_axis_error_select_msg 	 = "SELECT TAGS";
+						$scope.empty_in_selection = "x_axis";
+					}
+					if($scope.y_axis_selected == 'tags')
+					{
+						$scope.y_axis_error_select_msg 	 = "SELECT TAGS";
+						$scope.empty_in_selection = "y_axis";
 					}
 				}
 			}

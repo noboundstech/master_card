@@ -33,7 +33,7 @@
 							<span class="glyphicon glyphicon-list-alt" ng-click="selectAllFilter('card_type');"  title="select all"></span>
 						</div>
 						<div class="col-sm-12  padding-2">
-							<select chosen multiple ng-model="card_type_filter_details" ng-options="s.card_type for s in card_type"  placeholder-expression="Card Type" title="Enter card details">
+							<select chosen multiple ng-model="card_type_filter_details" ng-options="s.card_type for s in card_type" id="card_type"  >
                             </select>
 						</div>
 						<div class="col-sm-12">
@@ -55,12 +55,13 @@
 						</div>
 					</div>
 					<div class="rows padding-row"  ng-show="checkboxModel.location">
-						<div class="col-sm-12">
+						<div class="col-sm-12 padding-row">
 							<strong> LOCATION : </strong>
 
 						</div>
 						<div class="col-sm-12 padding-2">
-							<select chosen multiple ng-model="location_filter" ng-options="s.cust_location for s in location_name"  placeholder-expression="City Name">
+							<select chosen multiple ng-model="location_filter" ng-options="s.cust_location for s in location_name"  placeholder-expression="City Name" data-placeholder="Filter By..." data-placeholder-text-multi="'Choose a beer'"
+          no-results-text="'Could not find any beers :('" data-placeholder-text-single="'Choose a beer'" placeholder = "check offer">
 							</select>
 						</div>
 
