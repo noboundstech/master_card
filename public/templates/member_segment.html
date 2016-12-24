@@ -19,7 +19,8 @@
 							<span class="glyphicon glyphicon-list-alt" ng-click="selectAllFilter('age_group');" title="select all"></span>
 						</div>
 						<div class="col-sm-12 padding-2">
-							<select chosen multiple ng-model="age_group_filter" ng-options="s.value for s in age_group_type"  placeholder-expression="City Name">
+							<select chosen multiple ng-model="age_group_filter" ng-options="s.value for s in age_group_type"  >
+								<option value="" disabled> SELECT AGE GROUP</option>
 							</select>
 						</div>
 
@@ -34,6 +35,7 @@
 						</div>
 						<div class="col-sm-12  padding-2">
 							<select chosen multiple ng-model="card_type_filter_details" ng-options="s.card_type for s in card_type" id="card_type"  >
+								<option value="" disabled> SELECT CARD TYPE</option>
                             </select>
 						</div>
 						<div class="col-sm-12">
@@ -47,6 +49,7 @@
 						</div>
 						<div class="col-sm-12 padding-2">
 							<select chosen multiple ng-model="gender_type_filter" ng-options="s.name for s in gender_type"  placeholder-expression="Gender" title="Gender">
+								<option value="" disabled> SELECT GENDER</option>
                             </select>
 						</div>
 
@@ -60,8 +63,8 @@
 
 						</div>
 						<div class="col-sm-12 padding-2">
-							<select chosen multiple ng-model="location_filter" ng-options="s.cust_location for s in location_name"  placeholder-expression="City Name" data-placeholder="Filter By..." data-placeholder-text-multi="'Choose a beer'"
-          no-results-text="'Could not find any beers :('" data-placeholder-text-single="'Choose a beer'" placeholder = "check offer">
+							<select chosen multiple ng-model="location_filter" ng-options="s.cust_location for s in location_name" >
+								<option value="" disabled> SELECT LOCATION</option>
 							</select>
 						</div>
 
@@ -76,6 +79,7 @@
 						</div>
 						<div class="col-sm-12 padding-2">
 							<select chosen multiple ng-model="segment_filter" ng-options="s.cust_segment for s in segment_type"  placeholder-expression="Segment Name" id="segment_details">
+								<option value="" disabled> SELECT SEGMENT</option>
 							</select>
 						</div>
 
@@ -90,6 +94,7 @@
 						</div>
 						<div class="col-sm-12 padding-2">
 							<select chosen multiple ng-model="tag_details_filter" ng-options="s.name for s in tag_type"  placeholder-expression="Gender" title="Gender">
+								<option value="" disabled> SELECT TAGS</option>
                             </select>
 						</div>
 

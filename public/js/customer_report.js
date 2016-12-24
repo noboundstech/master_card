@@ -19,6 +19,12 @@ angular.module('CustomerReportController', ['applicationService.services'])
 	$scope.x_axis_selected 					= '';
 	$scope.y_axis_selected 					= '';
 	$scope.offer_name 						= '';
+	$timeout(function(){
+
+		$('#offerSelect_chosen .chosen-default span').text("Select Merchant First");
+
+	},100);
+
 	$scope.default_segment_filter = [];
 	$scope.age_group_filter = [];
 	$scope.show_by_offer = true;
@@ -1048,6 +1054,7 @@ angular.module('CustomerReportController', ['applicationService.services'])
 	}
 	$scope.changeofferSearchStatus = function(val)
 	{
+		console.log(val);
 		if(val == 'change_to_offer_id')
 		{
 			if($scope.offer_id_details != '' && $scope.offer_id_details != null)
@@ -1088,6 +1095,7 @@ angular.module('CustomerReportController', ['applicationService.services'])
 			}
 			else
 			{
+				$scope.offer_id = '';
 				$scope.show_by_offer = false;
 			//	$scope.checkboxModel.offer_segment_search_by = "customer_id";
 			}
@@ -1110,7 +1118,21 @@ angular.module('CustomerReportController', ['applicationService.services'])
 		$scope.show_discription 				= false;
 		if(typeof $scope.offer_id == 'undefined' || $scope.offer_id == '' || $scope.offer_id == null)
 		{
-			$scope.error = 'Please Enter Offer Id.';
+			if($scope.checkboxModel.offer_segment_search_by == 'offer_id')
+			{
+				$scope.error = 'Please Enter Offer Id.';
+			}
+			else
+			{
+				if(typeof $scope.merchant_details == 'undefined' || $scope.merchant_details == '' || $scope.merchant_details == null)
+				{
+					$scope.error = 'Please Select Merchant';
+				}
+				else
+				{
+					$scope.error = 'Please Select Offer Detail';
+				}
+			}
 		}
 		else
 		{
@@ -1481,7 +1503,6 @@ angular.module('CustomerReportController', ['applicationService.services'])
 	
 	$scope.getOfferDetails = function(option,id)
 	{
-		console.log($scope.merchant_details);
 		$scope.show_merchant_loader = true;
 		
 			$scope.get_offer_details = {
