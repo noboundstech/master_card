@@ -542,53 +542,49 @@ router.route('/AddChatDetails')
            
                 for(row=0;row<len_chat;row++)
                 {
-                     var memberid    = req.body.chat_details[row].member_id,
-                         csrid       = req.decoded.userId,
-                         offerid     = 0,
-                         wechatId    = req.body.chat_details[row].cust_id,
-                         converseby  = req.body.chat_details[row].converseby,
-                         typeofdata  = req.body.chat_details[row].typeofdata,
-                         textdata    = req.body.chat_details[row].message,
-                     chatheaderid    = req.body.chat_details[row].chatheaderid,
-                     // imagedata    = req.body.imagedata,
-                     // sounddata    = req.body.sounddata,
-                            imagedata    = null,
-                            sounddata    = null;
-                     var     offer_cnt = 0,
-                             len_offer = 0; 
+                    var memberid    = req.body.chat_details[row].member_id,
+                        csrid       = req.decoded.userId,
+                        offerid     = 0,
+                        wechatId    = req.body.chat_details[row].cust_id,
+                        converseby  = req.body.chat_details[row].converseby,
+                        typeofdata  = req.body.chat_details[row].typeofdata,
+                        textdata    = req.body.chat_details[row].message,
+                    	chatheaderid= req.body.chat_details[row].chatheaderid,
+                        imagedata   = null,
+                        sounddata   = null,
+                    	offer_cnt 	= 0,
+                        len_offer 	= 0;
                     if ( typeof req.body.chat_details[row].offer_details == 'undefined')
                      {
-
-                        
-                      vallist+="(";
-                      vallist+=chatheaderid+",'"+converseby+"','"+typeofdata+"','"+textdata+"',"+imagedata+","+sounddata+","+offerid ;
-                      vallist+=")";
-                      if(row < (len_chat-1))
-                             {
-                               vallist+=",";
-                             }
+                     	//converseby
+	                    vallist+="(" +chatheaderid+",'"+converseby+"','"+typeofdata+"','"+textdata+"',"+imagedata+","+sounddata+","+offerid+")" ;
+	                    if(row < (len_chat-1))
+	                    {
+	                       vallist+=",";
+	                    }
                      }
                     else
                     {
+                    	chatheaderid    = req.body.chat_details[row].chatheaderid;
                         len_offer = req.body.chat_details[row].offer_details.length;
-                      for(offer_cnt=0;offer_cnt<len_offer;offer_cnt++)
+	                    for(offer_cnt=0;offer_cnt<len_offer;offer_cnt++)
                         {
                            offerid= req.body.chat_details[row].offer_details[offer_cnt].offer_id;
                            vallist+="(";
                            vallist+=chatheaderid+",'"+converseby+"','"+typeofdata+"','"+textdata+"',"+imagedata+","+sounddata+","+offerid ;
                            vallist+=")";
                
-                           if(offer_cnt < (len_offer-1))
-                             {
-                               vallist+=",";
-                             }
+                           if((row == (len_chat-1)) && offer_cnt == (len_offer-1))
+                            {
+                              vallist+=" ";
+                            }
+                            else
+                            {
+                            	vallist+=",";
+                            }
                         }      
-                   
                     } // end of else
-                    
-                  }  // end of for
-                console.log('vallist :',vallist)
-                console.log('fieldlist :',fieldlist )
+                }  // end of for
                 db_query.MultiInsertToDb(req,res,vallist,fieldlist,table,response_data,function(){
                 if(response_data.details > 0)
                 {
@@ -601,6 +597,7 @@ router.route('/AddChatDetails')
                     res.status(203).send({response_data});
                 }
                })
+            
 
             } // end of if (len_chat>0)
             else

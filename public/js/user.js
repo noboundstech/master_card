@@ -538,56 +538,58 @@ angular.module('userController', ['applicationService.services'])
 	}
 	$(".messages").scrollTop($(".messages")[0].scrollHeight);
 
-	var stop = $interval(function() {
+	var InsertChatInDb = $interval(function() {
 	
 		$scope.previous_chat_message = localStorage.getItem('chat_message');
 		//	localStorage.removeItem('chat_message');
-
-
-		for(i=0;i<$scope.chat_details.length;i++)
+		localStorage.removeItem('chat_message');
+		if($scope.chat_details.length>0 && $scope.chat_details != null && $scope.chat_details != '')
 		{
-			for(j=0;j<$scope.user_details.length;j++)
+			for(i=0;i<$scope.chat_details.length;i++)
 			{
-				if($scope.chat_details[i].cust_id == $scope.user_details[j].id )
+				$scope.chat_details[i].chatheaderid = 186;
+				for(j=0;j<$scope.user_details.length;j++)
 				{
-					$scope.chat_details[i].chatheaderid = $scope.user_details[j].chat_header;
+					
+					if($scope.chat_details[i].cust_id == $scope.user_details[j].id )
+					{
+						console.log($scope.user_details[j].chat_header);
+						$scope.chat_details[i].chatheaderid = $scope.user_details[j].chat_header;
+					}
+				}
+			}
+			var details = {"chat_details" :$scope.chat_details ,
+							"token" : localStorage.getItem("token")};
+			if($scope.previous_chat_message!= null && chat_details.length>0)
+			{
+				if($scope.previous_chat_message.length> 0)
+				{
+					
+					API.postDetails(details,"userfetch/AddChatDetails").then(function successCallback(response) {
+						if(response.status == 200)
+						{
+							$scope.previous_chat_message = '';
+							$scope.chat_details = [];
+						}
+						else
+						{
+							$scope.reinsert_chat = JSON.parse(localStorage.getItem('chat_message'));
+							if($scope.reinsert_chat == null)
+							{
+								$scope.reinsert_chat = [];
+							}
+							for(i=0;i<$scope.previous_chat_message.length;i++)
+							{
+								$scope.reinsert_chat.push($scope.previous_chat_message[i]);
+							}
+							localStorage.setItem('chat_message',JSON.stringify($scope.reinsert_chat));
+						}
+					});
+					
 				}
 			}
 		}
-
-
-
-		var details = {"chat_details" :$scope.chat_details ,
-						"token" : localStorage.getItem("token")};
-		console.log(details);
-		if($scope.previous_chat_message!= null)
-		{
-			if($scope.previous_chat_message.length> 0)
-			{
-				
-				API.postDetails(details,"userfetch/AddChatDetails").then(function successCallback(response) {
-					if(response.status == 200)
-					{
-						$scope.previous_chat_message = '';
-					}
-					else
-					{
-						$scope.reinsert_chat = JSON.parse(localStorage.getItem('chat_message'));
-						if($scope.reinsert_chat == null)
-						{
-							$scope.reinsert_chat = [];
-						}
-						for(i=0;i<$scope.previous_chat_message.length;i++)
-						{
-							$scope.reinsert_chat.push($scope.previous_chat_message[i]);
-						}
-						localStorage.setItem('chat_message',JSON.stringify($scope.reinsert_chat));
-					}
-				});
-				
-			}
-		}
-	}, 3000);
+	}, 100000);
 	if(localStorage.getItem('token') != 'undefined' && localStorage.getItem('token') != null)
 	{
 		//	$scope.csr_id 	=  localStorage.getItem('token');

@@ -1,5 +1,5 @@
 angular.module('CustomerReportController', ['applicationService.services'])
-.controller('offer_segment', function($scope,MyService,$http,$routeParams,$location,$localStorage,$rootScope,API)
+.controller('offer_segment', function($scope,$timeout,MyService,$http,$routeParams,$location,$localStorage,$rootScope,API)
 {
 	$scope.user_type = localStorage.getItem('user_type');
 	$scope.user_name = localStorage.getItem('csr_name');
@@ -1478,20 +1478,23 @@ angular.module('CustomerReportController', ['applicationService.services'])
 			}
 		}
 	}
-	$scope.getOfferDetails = function(option)
+	
+	$scope.getOfferDetails = function(option,id)
 	{
+		console.log($scope.merchant_details);
 		$scope.show_merchant_loader = true;
-		$scope.member_id = '';
-		$scope.get_offer_details = {
-			"token" 		: localStorage.getItem('token'),
-			merchant_id 	: $scope.merchant_details.id
-		}
-		API.postDetails($scope.get_offer_details,"api/getMerchantOffer").then(function successCallback(response) {
-			$scope.show_merchant_loader = false;
-			$scope.offer_details = response.data.response_data.details;
-		}, function errorCallback(response) {
-			
-		});
+		
+			$scope.get_offer_details = {
+				"token" 		: localStorage.getItem('token'),
+				merchant_id 	: $scope.merchant_details.id
+			}
+			API.postDetails($scope.get_offer_details,"api/getMerchantOffer").then(function successCallback(response) {
+				$scope.show_merchant_loader = false;
+				$scope.offer_details = response.data.response_data.details;
+			}, function errorCallback(response) {
+				
+			});
+		
 	}
 })
 
