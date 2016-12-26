@@ -1,6 +1,35 @@
 angular.module('project', ['ngRoute','homeController','userController','adminController','offerController','CustomerReportController','ngStorage',
                           'angularUtils.directives.dirPagination','localytics.directives','ngMap','gm','720kb.datepicker','angularBingMaps'])
  
+ /*
+ all constant used in angular js front end
+*/
+.constant('APPLICATION_CONSTANT', {
+    default_offer_id          : 22,
+    user_role                 : [{
+                                  "name" : "ADMIN",
+                                  "value" : "Admin"
+                                },
+                                {
+                                  "name" : "CSR",
+                                  "value" : "CSR"
+                                }],
+    user_status               :  [{
+                                  "name" : "Active",
+                                  "value" : "Y"
+                                },
+                                {
+                                  "name" : "IN-ACTIVE",
+                                  "value" : "N"
+                                }],
+    default_user_type         : "CSR",
+    admin_section             : "ADMIN SECTION",
+    offer_segment_view        : "OFFER SEGMENT VIEW",
+    member_segment_view       : "MEMBER SEGMENT VIEW",
+    offer_display_view        : "OFFER DISPLAY VIEW",
+    merchant_display_view     : "MERCHANT DISPLAY VIEW"
+})
+
 .config(function($routeProvider) {
  
   $routeProvider

@@ -13,13 +13,27 @@ angular.module('homeController', ['applicationService.services'])
 		$scope.error = '';
 		if(typeof $scope.login.username =='undefined' || $scope.login.username =='' || $scope.login.username ==null)
 		{
-			$scope.error = "Please enter the username";
+			if($scope.loginForm.user.$touched)
+			{
+
+			}
+			else
+			{
+				$scope.error = "Please enter the username";
+			}
 			return false;
 		}
 		
 		if(typeof $scope.login.password =='undefined' || $scope.login.password =='' || $scope.login.password ==null)
 		{
-			$scope.error = "Please enter your password";
+			if($scope.loginForm.pass.$touched)
+			{
+
+			}
+			else
+			{
+				$scope.error = "Please enter your password";
+			}
 			return false;
 		}
 		$scope.Loader = true;
@@ -65,12 +79,18 @@ angular.module('homeController', ['applicationService.services'])
 		$scope.error = '';
 		if(typeof $scope.email =='undefined' || $scope.email =='' || $scope.email ==null)
 		{
-			$scope.error = "Please enter your Email Id.";
+			if($scope.forgot_password.email.$touched)
+			{
+
+			}
+			else
+			{
+				$scope.error = "Please enter your Email Id.";
+			}
 			return false;
 		}
 		$scope.Loader = true;
 		API.postDetails({email : $scope.email},"userLogin/forget_password").then(function successCallback(response) {
-			console.log(response);
 			$scope.Loader = false;
 			if(response.status == 200)
 			{

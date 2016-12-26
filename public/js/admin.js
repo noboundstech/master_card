@@ -1,5 +1,5 @@
 angular.module('adminController', ['applicationService.services'])
-.controller('admin', function($scope,$http,$routeParams,$location,$localStorage,$rootScope,API)
+.controller('admin', function($scope,$http,$routeParams,$location,$localStorage,$rootScope,API,APPLICATION_CONSTANT)
 {
 	$scope.user_type 			= localStorage.getItem('user_type');
 	$scope.user_name 			= localStorage.getItem('csr_name');
@@ -8,23 +8,10 @@ angular.module('adminController', ['applicationService.services'])
 	$rootScope.authenticateUser();
 	$scope.show_loader 			= true;
 	$scope.add_user.token  		= localStorage.getItem('token');
-	$scope.add_user.user_role   = "CSR";
-	$scope.User_role = [{
-							"name" : "ADMIN",
-							"value" : "Admin"
-						},
-						{
-							"name" : "CSR",
-							"value" : "CSR"
-						}];
-	$scope.user_status = [{
-							"name" : "Active",
-							"value" : "Y"
-						},
-						{
-							"name" : "IN-ACTIVE",
-							"value" : "N"
-						}];
+	$scope.add_user.user_role   = APPLICATION_CONSTANT.default_user_type;
+	$scope.User_role 			= APPLICATION_CONSTANT.user_role;
+	$scope.user_status 			= APPLICATION_CONSTANT.user_status;
+	$scope.page_title 			= APPLICATION_CONSTANT.admin_section;
 
 	$scope.details = { "token" 		: localStorage.getItem('token')};
 	API.postDetails($scope.details,"api/getUserDetails").then(function successCallback(response) {
@@ -34,6 +21,7 @@ angular.module('adminController', ['applicationService.services'])
 	});
 	$scope.EditUserData = function(data)
 	{
+		$scope.error = '';
 		$scope.edit_user_Details = data;
 		$scope.edit_user_Details.token = localStorage.getItem('token');
 	}
@@ -46,17 +34,27 @@ angular.module('adminController', ['applicationService.services'])
 		$scope.error = '';
 		if(typeof $scope.add_user.add_user_name =='undefined' || $scope.add_user.add_user_name =='' || $scope.add_user.add_user_name == null)
 		{
-			$scope.error = "Please enter the username.";
+			if(!$scope.new_user.add_user_name.$touched)
+			{
+				$scope.error = "Please enter the username.";
+			}
 			return false;
 		}
 		if(typeof $scope.add_user.password =='undefined' || $scope.add_user.password =='' || $scope.add_user.password == null)
 		{
-			$scope.error = "Please enter user password.";
+			if(!$scope.new_user.password.$touched)
+			{
+				$scope.error = "Please enter user password.";
+			}
 			return false;
 		}
 		if(typeof $scope.add_user.email_id =='undefined' || $scope.add_user.email_id =='' || $scope.add_user.email_id == null)
 		{
-			$scope.error = "Please enter user emailId.";
+			if(!$scope.new_user.password.$touched)
+			{
+				$scope.error = "Please enter user email Id.";
+			}
+
 			return false;
 		}
 		if(typeof $scope.add_user.user_role =='undefined' || $scope.add_user.user_role =='' || $scope.add_user.user_role == null)
@@ -99,12 +97,21 @@ angular.module('adminController', ['applicationService.services'])
 		*/
 		if(typeof $scope.edit_user_Details.userPwd =='undefined' || $scope.edit_user_Details.userPwd =='' || $scope.edit_user_Details.userPwd == null)
 		{
-			$scope.error = "Please enter user password.";
+			if(!$scope.update_user.user_password.$touched)
+			{
+				$scope.error = "Please enter user password.";
+			}
+			
 			return false;
 		}
 		if(typeof $scope.edit_user_Details.userEMailId =='undefined' || $scope.edit_user_Details.userEMailId =='' || $scope.edit_user_Details.userEMailId == null)
 		{
-			$scope.error = "Please enter user emailId.";
+			if(!$scope.update_user.edit_email.$touched)
+			{
+				$scope.error = "Please enter user email Id.";
+			}
+			
+			
 			return false;
 		}
 		if(typeof $scope.edit_user_Details.userRole =='undefined' || $scope.edit_user_Details.userRole =='' || $scope.edit_user_Details.userRole == null)

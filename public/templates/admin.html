@@ -1,20 +1,4 @@
-<div class="header">
-    <div class="container-fluid">
-        <div class="row">
-            <div class="col-md-12 profile-view">
-                <div class="col-md-12">
-                    <div class="col-md-1 col-sm-1 col-xs-1">
-                    	<a href="#/dashboard" class="btn btn-default profile-back-button"><span class="fa fa-long-arrow-left"></span></a>
-                    </div>
-                    <div class="col-sm-9"> <h3>User List</h3></div>
-                    <div class="col-sm-2 ">
-                    	<a  ng-click="logout_user();" class="pull-right"> logout</a>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-</div>
+<div page-Header></div>
 <section>
     <div class="container-fluid">
         <div class="row">
@@ -108,6 +92,7 @@
         </div>
     </div>
 </section>
+
 <div class="modal fade" id="addUserModel" tabindex="-1" role="dialog" aria-labelledby="offerHistory">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
@@ -119,30 +104,42 @@
                    Add New User
                 </h4>
                  <div class="modal-body">
-                    <form ng-submit="addNewUser();">
-                        <span class="err" ng-bind="error"></span>
+                    <form ng-submit="addNewUser();" name="new_user" novalidate>
+                        <span class="err text-center" ng-bind="error" ></span>
                         <div class="row" style="padding:10px">
                             <div class="col-sm-3"> <strong>User Name</strong> </div>
-                            <div class="col-sm-8"> <input type="text" name="add_user_name" id="add_user_name" ng-model="add_user.add_user_name" class="form-control" ></div>
+                            <div class="col-sm-8"> 
+                                <input type="text" name="add_user_name" id="add_user_name" ng-model="add_user.add_user_name" class="form-control" required>
+                                <span class="err" ng-show="new_user.add_user_name.$dirty && new_user.add_user_name.$invalid">
+                                    <span ng-show="new_user.add_user_name.$error.required">Username is required.</span>
+                                </span>
+
+                            </div>
                         </div>
                         <div class="row" style="padding:10px">
                             <div class="col-sm-3"> <strong>Password</strong> </div>
                             <div class="col-sm-8">
-                                 <input type="password" name="password" id="password" ng-model="add_user.password" class="form-control" style="height: 34px;">
+                                 <input type="password" name="password" id="password" ng-model="add_user.password" class="form-control" ng-minlength="6" required>
+                                 <span class="err" ng-show="new_user.password.$touched && new_user.password.$invalid">please enter password of minimum 6 character.</span>
+                                <span class="err" ng-show="new_user.password.$touched && new_user.password.$error.$minlength">please enter password of minimum six character.</span>
                             </div>
                         </div>
                          <div class="row" style="padding:10px">
                             <div class="col-sm-3"> <strong>Email ID</strong> </div>
                             <div class="col-sm-8">
-                                 <input type="text" name="email_id" id="email_id" ng-model="add_user.email_id" class="form-control" style="height: 34px;">
+                                 <input type="email" name="email_id" id="email_id" ng-model="add_user.email_id" class="form-control" required>
+                                 <span class="err" ng-show="new_user.email_id.$dirty && new_user.email_id.$invalid">
+                                    <span ng-show="new_user.email_id.$error.required">Email is required.</span>
+                                    <span ng-show="new_user.email_id.$error.email">Invalid email address.</span>
+                                </span>
                             </div>
                         </div>
                         <div class="row" style="padding:10px">
                             <div class="col-sm-3"> <strong>User Role</strong> </div>
                             <div class="col-sm-8">
-                                 <select ng-model="add_user.user_role" 
-                                    ng-options="option.value as option.name for option in User_role" style="height: 34px;width: 100%;"
-                                ></select>
+                                <select ng-model="add_user.user_role" 
+                                    ng-options="option.value as option.name for option in User_role">
+                                </select>
                             </div>
                         </div>
                         <div class="loader_angular" ng-show="show_add_user_loader"></div>
@@ -175,8 +172,8 @@
 
                 </h4>
                  <div class="modal-body">
-                    <form ng-submit="updateUserDetail();">
-                        <span class="err" ng-bind="error"></span>
+                    <form ng-submit="updateUserDetail();" name="update_user" novalidate>
+                        <span class="err  text-center" ng-bind="error"></span>
 
                         <div class="row" style="padding:10px">
                             <div class="col-sm-3"> <strong>User Name</strong> </div>
@@ -188,13 +185,19 @@
                         <div class="row" style="padding:10px">
                             <div class="col-sm-3"> <strong>Password</strong> </div>
                             <div class="col-sm-9"> 
-                                <input type="text" name="user_password" id="user_password" ng-model="edit_user_Details.userPwd" style="width:100%;line-height:30px">
+                                <input type="text" name="user_password" id="user_password" ng-model="edit_user_Details.userPwd" style="width:100%;line-height:40px" required>
+                                <span class="err" ng-show="update_user.user_password.$touched && update_user.user_password.$invalid">please enter password of minimum 6 character.</span>
+                                <span class="err" ng-show="update_user.user_password.$touched && update_user.user_password.$error.$minlength">please enter password of minimum six character.</span>
                             </div>
                         </div>
                          <div class="row" style="padding:10px">
                             <div class="col-sm-3"> <strong>Email ID</strong> </div>
                             <div class="col-sm-9">
-                                 <input type="text" name="user_email_id" id="user_email_id" ng-model="edit_user_Details.userEMailId" class="form-control"  style="width:100%;line-height:30px">
+                                 <input type="email" name="edit_email" id="user_email_id" ng-model="edit_user_Details.userEMailId" class="form-control"  style="width:100%;line-height:30px" required>
+                                 <span class="err" ng-show="update_user.edit_email.$dirty && update_user.edit_email.$invalid">
+                                    <span ng-show="update_user.edit_email.$error.required">Email is required.</span>
+                                    <span ng-show="update_user.edit_email.$error.email">Invalid email address.</span>
+                                </span>
                             </div>
                         </div>
                         <div class="row" style="padding:10px">

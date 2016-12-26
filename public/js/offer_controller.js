@@ -1,7 +1,8 @@
 angular.module('offerController', ['applicationService.services'])
-.controller('offer_display_view', function($scope,Excel,MyService,$timeout,$location,$localStorage,$rootScope,API)
+.controller('offer_display_view', function($scope,Excel,MyService,$timeout,$location,$localStorage,
+											$rootScope,API,APPLICATION_CONSTANT)
 {
-	$scope.page_title = "Offer Display View";
+	$scope.page_title = APPLICATION_CONSTANT.offer_display_view;
 	$scope.user_type = localStorage.getItem('user_type');
 	$scope.user_name = localStorage.getItem('csr_name');
 	$rootScope.authenticateUser();
@@ -21,7 +22,7 @@ angular.module('offerController', ['applicationService.services'])
     $scope.generatePDF = function() {
     	$timeout(function(){
     		kendo.drawing.drawDOM($("#tableToPdf")).then(function(group) {
-				kendo.drawing.pdf.saveAs(group, "OFFER DISPLAY VIEW.pdf");
+				kendo.drawing.pdf.saveAs(group, $scope.page_title+".pdf");
 				document.getElementById("close_pdf_model").click();
 			});
     	},100); 
@@ -125,9 +126,10 @@ angular.module('offerController', ['applicationService.services'])
 		}
 	}
 })
-.controller('merchant_display_view', function($scope,Excel,$timeout,$location,$localStorage,$rootScope,API)
+.controller('merchant_display_view', function($scope,Excel,$timeout,$location,$localStorage,
+												$rootScope,API,APPLICATION_CONSTANT)
 {
-	$scope.page_title = "Merchant Display View";
+	$scope.page_title = APPLICATION_CONSTANT.merchant_display_view;
 	$scope.user_type = localStorage.getItem('user_type');
 	$scope.user_name = localStorage.getItem('csr_name');
 	$rootScope.authenticateUser();
@@ -145,7 +147,7 @@ angular.module('offerController', ['applicationService.services'])
     $scope.generatePDF = function() {
     	$timeout(function(){
     		kendo.drawing.drawDOM($("#tableToPdf")).then(function(group) {
-				kendo.drawing.pdf.saveAs(group, "MERCHANT DISPLAY VIEW.pdf");
+				kendo.drawing.pdf.saveAs(group, APPLICATION_CONSTANT.merchant_display_view+".pdf");
 				document.getElementById("close_pdf_model").click();
 			});
     	},100); 

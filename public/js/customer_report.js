@@ -1,5 +1,6 @@
 angular.module('CustomerReportController', ['applicationService.services'])
-.controller('offer_segment', function($scope,$timeout,MyService,$http,$routeParams,$location,$localStorage,$rootScope,API)
+.controller('offer_segment', function($scope,$timeout,MyService,$http,$routeParams,$location,$localStorage,
+										$rootScope,API,APPLICATION_CONSTANT)
 {
 	$scope.user_type = localStorage.getItem('user_type');
 	$scope.user_name = localStorage.getItem('csr_name');
@@ -36,11 +37,11 @@ angular.module('CustomerReportController', ['applicationService.services'])
 
 	if($location.path() == '/offer_segment')
 	{
-		$scope.page_title = "Offer Segment View";
+		$scope.page_title = APPLICATION_CONSTANT.offer_segment_view;
 	}
 	else
 	{
-		$scope.page_title = "Member Segment View";
+		$scope.page_title = APPLICATION_CONSTANT.member_segment_view;
 	}
 
 	$scope.selectAllFilter = function(type)
@@ -110,7 +111,7 @@ angular.module('CustomerReportController', ['applicationService.services'])
 			$scope.checkboxModel.gender 	= true;
 
 
-			$scope.offer_id = 22;
+			$scope.offer_id = APPLICATION_CONSTANT.default_offer_id;
 			if($location.path() == '/offer_segment')
 			{
 				$scope.getOfferSegmentDetails();
