@@ -152,7 +152,7 @@ router.route('/forget_password')
 			var content = require('content/email_content');
 			var email_contains = content.forget_password(response_data.details[0]);
 			var send_email = require('utility/email');
-			send_email.send_mail(req.email,email_contains.subject,email_contains.body);
+			send_email.send_mail(req.body.email,email_contains.subject,email_contains.body);
 			callback();
 		}
 

@@ -17,5 +17,9 @@ module.exports.send_mail = function(to_mail,subject,body)
         if(error){
             return console.log(error);
         }
+        else
+        {
+            //console.log(info);
+        }
     });
 }
