@@ -392,7 +392,7 @@ module.exports =
     },
     'getOfferDetailsList' : function(req,res,constant,where_cond,db_query,response_data,callback)
     {
-    	 var query = 'select TOP 5 doff.offer_name_en as offer_name  ';
+    	 var query = 'select TOP 5 doff.offer_name_en as offer_name,doff.offerId as CMS_offerIds  ';
 	        query+= ' from '+constant.DERIVE_OFFER_FOR_MEMBER+ ' doff';
 	        query+= ' INNER JOIN '+constant.MEMBER_MASTER_TABLE+' mem ON';
 	        query+= ' mem.memberId = doff.memberId where ';
