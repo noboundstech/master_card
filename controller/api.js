@@ -47,12 +47,13 @@ router.route('/getCustomerDetails')
 			})
 		},
 		function(callback) {
-			var query = " select mem.memberWechatId";
+			var query = " select *";
 				query+= " FROM "+constant.MEMBER_MASTER_TABLE+" as mem";
 				query+= " where "+where_cond;
 			db_query.RunSelSqlFromDb(req,res,query,response_data,function(){
 				if(response_data.details.length>0)
 				{
+					response_data.member_details = response_data.details;
 					callback();
 				}
 				else
@@ -104,16 +105,10 @@ router.route('/getCustomerDetails')
 			})
 		},
 		function(callback){
-            var query = 'select TOP 5 doff.offer_name_en as offer_name  ';
-                query+= ' from '+constant.DERIVE_OFFER_FOR_MEMBER+ ' doff';
-                query+= ' INNER JOIN '+constant.MEMBER_MASTER_TABLE+' mem ON';
-                query+= ' mem.memberId = doff.memberId where ';
-                query+=  where_cond;
-                query+= 'order by offerInsertedTimestamp desc';
-				db_query.RunSelSqlFromDb(req,res,query,response_data,function(){
-                response_data.predicted_offer = response_data.details;
-                callback();
-            })
+           		utils.getOfferDetailsList(req,res,constant,where_cond,db_query,response_data,function(){
+					callback();
+
+				})
         }],function(err) {
 			response_data.user_details = req.decoded;
 			response_data.success = true;
@@ -208,6 +203,48 @@ router.route('/getUserDetails')
 		});
 });
 
+router.route('/getOfferDetails')
+.get(function(req,res){
+	var async 			= require('async');
+	var sql 			= require('mssql');
+	var config 			= require('config/db_connection');
+	var constant 		= require("config/constant");
+	var db_query 		= require('db_query/query');
+	var utils 			= require('utility/utils');
+	var response_data 	= {};
+	var where_cond 		= '';
+
+	 async.series([
+        function(callback) {
+        	var validate = require('utility/validate');
+			validate.validateWeChatId(req,res,function(){
+				callback();
+			})
+        },
+        function(callback)
+        {
+        	where_cond =  " mem.memberWechatId='"+req.query.wechatid+"'";
+			utils.getOfferDetailsList(req,res,constant,where_cond,db_query,response_data,function(){
+				delete response_data['predicted_offer'];
+				if(response_data.details.length >0)
+				{
+					callback();
+				}
+				else
+				{
+					response_data.success = true;
+		            response_data.message = "no offer available for the given member";
+		            res.status(203).send({response_data});
+				}
+			});
+		}],function(err) {
+        //    response_data.details = "";
+            response_data.success = true;
+            response_data.message = "get offer details successfully";
+            res.status(200).send({response_data});
+    	});
+
+})
 
 router.route('/BulkInsert')
 .post(function (req, res) {
@@ -220,7 +257,6 @@ router.route('/BulkInsert')
 	var response_data 	= {};
 	var sql = require('mssql');
 	var inserted_value = '';
-	console.log(req.body.details);
 	var inserted_field = "(ChatStartTimestamp,ChatEndTimestamp,userId,memberId,memberLat,memberLong,memberTagAdded)";
 	for(var i=0;i<req.body.details.length;i++)
 	{
@@ -239,7 +275,6 @@ router.route('/BulkInsert')
 		var request = new sql.Request(connection1); // or: var request = connection1.request();
 	
 		var sql_query = 'insert into '+constant.CHAT_HISTORY_HEADER+' '+inserted_field+' values '+inserted_value+'' ;
-	    console.log(sql_query);
 	   	request.query(sql_query).then(function(recordset) {
     		data.details = recordset;
         		callback();

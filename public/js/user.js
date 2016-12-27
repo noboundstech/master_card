@@ -553,7 +553,6 @@ angular.module('userController', ['applicationService.services'])
 					
 					if($scope.chat_details[i].cust_id == $scope.user_details[j].id )
 					{
-						console.log($scope.user_details[j].chat_header);
 						$scope.chat_details[i].chatheaderid = $scope.user_details[j].chat_header;
 					}
 				}

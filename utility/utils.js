@@ -389,5 +389,18 @@ module.exports =
 		}],function(err) {
 				callback_function();
 		});
+    },
+    'getOfferDetailsList' : function(req,res,constant,where_cond,db_query,response_data,callback)
+    {
+    	 var query = 'select TOP 5 doff.offer_name_en as offer_name  ';
+	        query+= ' from '+constant.DERIVE_OFFER_FOR_MEMBER+ ' doff';
+	        query+= ' INNER JOIN '+constant.MEMBER_MASTER_TABLE+' mem ON';
+	        query+= ' mem.memberId = doff.memberId where ';
+	        query+=  where_cond;
+	        query+= 'order by offerInsertedTimestamp desc';
+			db_query.RunSelSqlFromDb(req,res,query,response_data,function(){
+		        response_data.predicted_offer = response_data.details;
+		        callback();
+		    })
     }
 }    

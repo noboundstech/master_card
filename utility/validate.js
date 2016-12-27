@@ -482,5 +482,31 @@ module.exports =
             // if validation
             callback();
         }
-    }
+    },
+     'validateWeChatId': function(req,res,callback)        
+    {
+        var validate_success = 1;
+        var error_message ='';
+        var  id      = req.query.wechatid;
+        if( typeof id =='undefined'  || id ==''  || id ==null)
+
+        {
+            error_message = "Please provide member Wechat Id ";
+            validate_success = 0;
+        }
+                     
+        if(validate_success ==0) // if validation is unsuccessful
+        {
+          
+            res.status(203).send({   "status"         : false,
+                                    "error_type"     : "validate error",
+                                    "message"         : error_message
+                                });
+        }
+        else
+        {
+            // if validation
+            callback();
+        }
+    },
 };
