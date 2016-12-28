@@ -16,10 +16,10 @@
 					<div class="rows padding-row" ng-show="checkboxModel.age_grouped">
 						<div class="col-sm-12 padding-row">
 							<strong> AGE GROUP : </strong>
-							<span class="glyphicon glyphicon-list-alt" ng-click="selectAllFilter('age_group');" title="select all"></span>
+							<span class="glyphicon glyphicon-list-alt" ng-click="selectAllFilter('age_group');" title="select all age group"></span>
 						</div>
 						<div class="col-sm-12 padding-2">
-							<select chosen multiple ng-model="age_group_filter" ng-options="s.value for s in age_group_type"  >
+							<select chosen multiple ng-model="age_group_filter" ng-options="s.value for s in age_group_type" data-placeholder="Loading age group" data-placeholder-text-multiple="'SELECT AGE GROUP'">
 								<option value="" disabled> SELECT AGE GROUP</option>
 							</select>
 						</div>
@@ -31,10 +31,10 @@
 					<div class="rows padding-row" ng-show="checkboxModel.card_type">
 						<div class="col-sm-12 padding-row">
 							<strong> CARD TYPE : </strong>
-							<span class="glyphicon glyphicon-list-alt" ng-click="selectAllFilter('card_type');"  title="select all"></span>
+							<span class="glyphicon glyphicon-list-alt" ng-click="selectAllFilter('card_type');"  title="select all Card type"></span>
 						</div>
 						<div class="col-sm-12  padding-2">
-							<select chosen multiple ng-model="card_type_filter_details" ng-options="s.card_type for s in card_type" id="card_type"  >
+							<select chosen multiple ng-model="card_type_filter_details" ng-options="s.card_type for s in card_type" id="card_type" data-placeholder="Loading card type" data-placeholder-text-multiple="'SELECT CARD TYPE'">
 								<option value="" disabled> SELECT CARD TYPE</option>
                             </select>
 						</div>
@@ -45,10 +45,10 @@
 					<div class="rows padding-row" ng-show="checkboxModel.gender">
 						<div class="col-sm-12 padding-row">
 							<strong> GENDER : </strong>
-							<span class="glyphicon glyphicon-list-alt" ng-click="selectAllFilter('gender');"  title="select all"></span>
+							<span class="glyphicon glyphicon-list-alt" ng-click="selectAllFilter('gender');"  title="select all Gender"></span>
 						</div>
 						<div class="col-sm-12 padding-2">
-							<select chosen multiple ng-model="gender_type_filter" ng-options="s.name for s in gender_type"  placeholder-expression="Gender" title="Gender">
+							<select chosen multiple ng-model="gender_type_filter" ng-options="s.name for s in gender_type" data-placeholder="Loading Gender" data-placeholder-text-multiple="'SELECT GENDER'">
 								<option value="" disabled> SELECT GENDER</option>
                             </select>
 						</div>
@@ -63,7 +63,7 @@
 
 						</div>
 						<div class="col-sm-12 padding-2">
-							<select chosen multiple ng-model="location_filter" ng-options="s.cust_location for s in location_name" >
+							<select chosen multiple ng-model="location_filter" ng-options="s.cust_location for s in location_name" data-placeholder="Loading Location" data-placeholder-text-multiple="'SELECT LOCATION'">
 								<option value="" disabled> SELECT LOCATION</option>
 							</select>
 						</div>
@@ -73,12 +73,12 @@
 						</div>
 					</div>
 					<div class="rows  padding-row" ng-show="checkboxModel.segment">
-						<div class="col-sm-12">
+						<div class="col-sm-12 padding-row">
 							<strong> SEGMENT : </strong>
-							<span class="glyphicon glyphicon-list-alt" ng-click="selectAllFilter('segment');" title="select all"></span>
+							<span class="glyphicon glyphicon-list-alt" ng-click="selectAllFilter('segment');" title="select all segment"></span>
 						</div>
 						<div class="col-sm-12 padding-2">
-							<select chosen multiple ng-model="segment_filter" ng-options="s.cust_segment for s in segment_type"  placeholder-expression="Segment Name" id="segment_details">
+							<select chosen multiple ng-model="segment_filter" ng-options="s.cust_segment for s in segment_type"  placeholder-expression="Segment Name" id="segment_details"  data-placeholder="Loading Segment" data-placeholder-text-multiple="'SELECT SEGMENT'">
 								<option value="" disabled> SELECT SEGMENT</option>
 							</select>
 						</div>
@@ -90,10 +90,10 @@
 					<div class="rows padding-row" ng-show="checkboxModel.tag_details">
 						<div class="col-sm-12 padding-row">
 							<strong> TAGS : </strong>
-							<span class="glyphicon glyphicon-list-alt" ng-click="selectAllFilter('tags');" title="select all"></span>
+							<span class="glyphicon glyphicon-list-alt" ng-click="selectAllFilter('tags');" title="select all tags"></span>
 						</div>
 						<div class="col-sm-12 padding-2">
-							<select chosen multiple ng-model="tag_details_filter" ng-options="s.name for s in tag_type"  placeholder-expression="Gender" title="Gender">
+							<select chosen multiple ng-model="tag_details_filter" ng-options="s.name for s in tag_type" data-placeholder="Loading Tags" data-placeholder-text-multiple="'SELECT TAGS'">
 								<option value="" disabled> SELECT TAGS</option>
                             </select>
 						</div>
@@ -191,17 +191,7 @@
 <input type="radio" id="y_axis_category" style="display:none">
 </div>
 <style>
-.loader_angular {
-    position: relative;
-    display: block;
-    margin: 0 auto;
-    margin-top: 10px;
-    width: 32px;
-    height: 27px;
-    z-index: 99;
-    background: url("img/loader.gif") center no-repeat;
-    background-size: 70%;
-}
+
 .highcharts-credits
 {
   display: none !important

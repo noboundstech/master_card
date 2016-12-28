@@ -19,7 +19,7 @@
 							<span class="glyphicon glyphicon-list-alt" ng-click="selectAllFilter('age_group');" title="select all"></span>
 						</div>
 						<div class="col-sm-12 padding-2">
-							<select chosen multiple ng-model="age_group_filter" ng-options="s.value for s in age_group_type" data-placeholder="LOADING AGE GROUP">
+							<select chosen multiple ng-model="age_group_filter" ng-options="s.value for s in age_group_type" data-placeholder="LOADING AGE GROUP" data-placeholder-text-multiple="'SELECT AGE GROUP'">
 								<option value="" disabled> SELECT AGE GROUP</option>
 							</select>
 						</div>
@@ -34,7 +34,7 @@
 							<span class="glyphicon glyphicon-list-alt" ng-click="selectAllFilter('card_type');"  title="select all"></span>
 						</div>
 						<div class="col-sm-12 padding-2">
-							<select chosen multiple ng-model="card_type_filter_details" ng-options="s.card_type for s in card_type" data-placeholder="LOADING CARD TYPE">
+							<select chosen multiple ng-model="card_type_filter_details" ng-options="s.card_type for s in card_type" data-placeholder="LOADING CARD TYPE" data-placeholder-text-multiple="'SELECT CARD TYPE'">
 								<option value="" disabled> SELECT CARD TYPE</option>
                             </select>
 						</div>
@@ -48,7 +48,7 @@
 							<span class="glyphicon glyphicon-list-alt" ng-click="selectAllFilter('category');"  title="select all"></span>
 						</div>
 						<div class="col-sm-12 padding-2">
-							<select chosen multiple ng-model="category_filter_details" ng-options="s.category for s in category" data-placeholder="LOADING CATEGORY">
+							<select chosen multiple ng-model="category_filter_details" ng-options="s.category for s in category" data-placeholder="LOADING CATEGORY" data-placeholder-text-multiple="'SELECT CATEGORY'">
 								<option value="" disabled> SELECT CATEGORY</option>
                             </select>
 						</div>
@@ -62,7 +62,7 @@
 							<span class="glyphicon glyphicon-list-alt" ng-click="selectAllFilter('gender');"  title="select all"></span>
 						</div>
 						<div class="col-sm-12 padding-2">
-							<select chosen multiple ng-model="gender_type_filter" ng-options="s.name for s in gender_type"  data-placeholder="LOADING GENDER">
+							<select chosen multiple ng-model="gender_type_filter" ng-options="s.name for s in gender_type"  data-placeholder="LOADING GENDER" data-placeholder-text-multiple="'SELECT GENDER'">
 								<option value="" disabled> SELECT GENDER</option>
                             </select>
 						</div>
@@ -76,7 +76,7 @@
 							<strong> LOCATION : </strong>
 						</div>
 						<div class="col-sm-12 padding-2">
-							<select chosen multiple ng-model="location_filter" ng-options="s.cust_location for s in location_name"   data-placeholder="LOADING LOCATION">
+							<select chosen multiple ng-model="location_filter" ng-options="s.cust_location for s in location_name" data-placeholder="LOADING LOCATION" data-placeholder-text-multiple="'SELECT LOCATION'">
 								<option value="" disabled> SELECT LOCATION</option>
 							</select>
 						</div>
@@ -91,7 +91,7 @@
 							<span class="glyphicon glyphicon-list-alt" ng-click="selectAllFilter('segment');" title="select all"></span>
 						</div>
 						<div class="col-sm-12 padding-2">
-							<select chosen multiple ng-model="segment_filter" ng-options="s.cust_segment for s in segment_type"  id="segment_details" data-placeholder="LOADING SEGMENT">
+							<select chosen multiple ng-model="segment_filter" ng-options="s.cust_segment for s in segment_type"  id="segment_details" data-placeholder="LOADING SEGMENT" data-placeholder-text-multiple="'SELECT SEGMENT'">
 								<option value="" disabled> SELECT SEGMENT</option>
 							</select>
 						</div>
@@ -106,7 +106,7 @@
 							<span class="glyphicon glyphicon-list-alt" ng-click="selectAllFilter('tags');" title="select all"></span>
 						</div>
 						<div class="col-sm-12 padding-2">
-							<select chosen multiple ng-model="tag_details_filter" ng-options="s.name for s in tag_type"  data-placeholder="LOADING TAGS">
+							<select chosen multiple ng-model="tag_details_filter" ng-options="s.name for s in tag_type"  data-placeholder="LOADING TAGS" data-placeholder-text-multiple="'SELECT TAGS'">
 								<option value="" disabled> SELECT TAGS</option>
                             </select>
 						</div>
@@ -158,15 +158,15 @@
 				</div>
                 
                <div class="col-sm-4 merchant-select"  style="color:#0988ea;font-size:14px" ng-hide="show_by_offer">
-					<strong>Select Merchant : </strong>
-                    <strong style="color:#0988ea;display:block; margin-top:10px;">Select Offer : </strong>
+					<strong>SELECT MERCHANT : </strong>
+                    <strong style="color:#0988ea;display:block; margin-top:10px;">SELECT OFFER : </strong>
 				</div>
 				<div class="col-sm-4 date-box-one"  ng-hide="show_by_offer">
 						
                         <div class="input-group col-sm-4" style="margin-top:-18px;margin-bottom:10px;" id="offer_segment_div">
                         	
-							<select chosen name="singleSelect" id="merchant_id" ng-model="merchant_details"  class="input-small" ng-options="option.name for option in merchat_details"   ng-change="getOfferDetails(option, '{{option.id}}')"  data-placeholder="Wait Laoding merchant">
-								<option value="" disabled> Select Merchant</option>
+							<select chosen name="singleSelect" id="merchant_id" ng-model="merchant_details"  class="input-small" ng-options="option.name for option in merchat_details"   ng-change="getOfferDetails(option, '{{option.id}}')"  data-placeholder="Wait Loading merchant" data-placeholder-text-single="'SELECT MERCHANT'">
+								<option value="" disabled> SELECT MERCHANT</option>
 							</select>
 								
 							<!--
@@ -179,8 +179,8 @@
                         
                          <div class="input-group col-sm-4" id="offer_segment_offer_div">
                             
-							<select chosen name="singleSelect" id="offerSelect" ng-model="offer_id_details" ng-change="changeofferSearchStatus('change_to_offer_id')" class="input-small"  ng-options="option.offer_rule_en for option in offer_details" style="min-width: 500px;"  data-placeholder="Select Merchant first">
-								<option value="" disabled> Select Offer</option>
+							<select chosen name="singleSelect" id="offerSelect" ng-model="offer_id_details" ng-change="changeofferSearchStatus('change_to_offer_id')" class="input-small"  ng-options="option.offer_rule_en for option in offer_details" style="min-width: 500px;"  data-placeholder="SELECT MERCHANT FIRST" data-placeholder-text-single="'SELECT OFFER'">
+								<option value="" disabled>SELECT OFFER</option>
 							</select>
                         </div>
                 </div>

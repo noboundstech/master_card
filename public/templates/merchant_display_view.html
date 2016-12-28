@@ -161,8 +161,8 @@
 										<span class="glyphicon glyphicon-list-alt" ng-click="selectAllFilter('merchant');" title="select all"></span>
 									</div>
 									<div class="col-sm-12">
-										<select chosen multiple ng-model="merchant_selected" ng-options="s.name for s in merchat_details track by s.id"  data-placeholder="LOADING MERCHANT" id="merchant_selected" >
-											<option value="" disabled> SELECT MERCHANT</option>
+										<select chosen multiple ng-model="merchant_selected" ng-options="s.name for s in merchat_details track by s.id" id="merchant_selected" data-placeholder="loading merchant" data-placeholder-text-multiple="'select merchant'">
+											<option value="" disabled>select merchant</option>
 										</select>
 									</div>
 								</div>
@@ -171,8 +171,8 @@
 										<strong>Merchant Location : </strong>
 									</div>
 									<div class="col-sm-12">
-										<select chosen multiple ng-model="merchant_location_selected" ng-options="s.name for s in merchant_location_name"   data-placeholder="LOADING MERCHANT LOCATION">
-											<option value="" disabled> SELECT MERCHANT LOCATION</option>
+										<select chosen multiple ng-model="merchant_location_selected" ng-options="s.name for s in merchant_location_name" data-placeholder="loading Merchant Location" data-placeholder-text-multiple="'select Merchant Location'">
+											<option value="" disabled>select Merchant Location</option>
 										</select>
 									</div>
 								</div>
@@ -187,8 +187,8 @@
 										<span class="glyphicon glyphicon-list-alt" ng-click="selectAllFilter('card_type');" title="select all"></span>
 									</div>
 									<div class="col-sm-12">
-										<select chosen multiple ng-model="card_type_selected" ng-options="s.name for s in card_type"  placeholder-expression="Card Type" title="Enter card details"  data-placeholder="LOADING CARD TYPE">
-											<option value="" disabled> SELECT CARD TYPE</option>
+										<select chosen multiple ng-model="card_type_selected" ng-options="s.name for s in card_type" data-placeholder="loading card type" data-placeholder-text-multiple="'select card type'">
+											<option value="" disabled>select card type</option>
 			                            </select>
 									</div>
 								</div>
@@ -198,8 +198,8 @@
 									</div>
 
 									<div class="col-sm-12">
-										<select chosen multiple ng-model="location_selected" ng-options="s.name for s in location_name"   data-placeholder="LOADING OFFER LOCATION">
-											<option value="" disabled> SELECT OFFER LOCATION</option>
+										<select chosen multiple ng-model="location_selected" ng-options="s.name for s in location_name" data-placeholder="loading offer location" data-placeholder-text-multiple="'select card type'">
+											<option value="" disabled>select card type</option>
 										</select>
 									</div>
 								</div>
@@ -215,8 +215,8 @@
 											<span class="glyphicon glyphicon-list-alt" ng-click="selectAllFilter('category');" title="select all"></span>
 										</div>
 										<div class="col-sm-12">
-											<select chosen multiple ng-model="category_selected" ng-options="s.name for s in category"   data-placeholder="LOADING CATEGORY">
-												<option value="" disabled> SELECT CATEGORY</option>
+											<select chosen multiple ng-model="category_selected" ng-options="s.name for s in category" data-placeholder="loading category"  data-placeholder-text-multiple="'select category'">
+												<option value="" disabled>select category</option>
 				                            </select>
 										</div>
 									</div>
@@ -228,8 +228,8 @@
 											<span class="glyphicon glyphicon-list-alt" ng-click="selectAllFilter('sub_category');" title="select all"></span>
 										</div>
 										<div class="col-sm-12">
-											<select chosen multiple ng-model="sub_category_selected" ng-options="s.name for s in sub_category"  data-placeholder="LOADING SUB-CATEGORY">
-												<option value="" disabled> SELECT SUB-CATEGORY</option>
+											<select chosen multiple ng-model="sub_category_selected" ng-options="s.name for s in sub_category" data-placeholder="loading sub-category" data-placeholder-text-multiple="'select sub-category'">
+												<option value="" disabled>select sub-category</option>
 				                            </select>
 										</div>
 									</div>

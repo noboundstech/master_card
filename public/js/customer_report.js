@@ -16,6 +16,7 @@ angular.module('CustomerReportController', ['applicationService.services'])
 	$scope.checkboxModel.segment 			= false;
 	$scope.checkboxModel.tag_details 		= false;
 	$scope.show_discription 				= false;
+	$scope.show_by_offer 					= true;
 	$scope.merchant_details 				= '';
 	$scope.x_axis_selected 					= '';
 	$scope.y_axis_selected 					= '';
@@ -28,7 +29,7 @@ angular.module('CustomerReportController', ['applicationService.services'])
 
 	$scope.default_segment_filter = [];
 	$scope.age_group_filter = [];
-	$scope.show_by_offer = true;
+	
 	$scope.checkboxModel.offer_segment_search_by = "offer_id";
 	var current_date 	= new Date();
 	$scope.start_date 	= 1+"-"+ 1+"-"+current_date.getFullYear();
@@ -121,6 +122,11 @@ angular.module('CustomerReportController', ['applicationService.services'])
 				$scope.getCustomerSegmentDetails();
 			}
 
+			$scope.checkboxModel.location_details 	= false;
+			$scope.checkboxModel.age_grouped 		= false;
+			$scope.checkboxModel.segment 			= false;
+			$scope.checkboxModel.tag_details 		= false;
+			$scope.show_discription 				= false;
 			//$scope.show_loader = false;
 		}
 		else
