@@ -2,15 +2,11 @@
 <div class="content container-fluid">
 	<div class="row">
 		<div class="col-sm-12">
-			<div class="row" style="margin:5px">
-				<button type="button" class="btn btn-primary pull-right" data-toggle="modal" data-target="#myModal">Add More Filter</button>
-			</div>
-			<div class="row">
-				<div class="col-md-2 col-sm-2" style="margin-top:5px;padding-top:5px;font-size:16px">
+			<div class="row margin-top-20">
+				<div class="col-sm-2">
 					<strong><span>Total : {{details_response.length}}</span></strong>
 				</div>
-				<div class="loader_angular col-md-1 profile-view-load" ng-show="show_loader"></div>
-            	<div class="col-md-10 col-sm-10" style="padding-top:5px;">
+            	<div class="col-sm-6">
             		<form class="form-inline pull-right">
                         <div class="form-group">
                             <label >Search</label>
@@ -18,6 +14,9 @@
                         </div>
                     </form>
                 </div>
+                <div class="col-sm-4">
+				<button type="button" class="btn btn-primary pull-right more-filter-button" data-toggle="modal" data-target="#myModal">Add More Filter</button>
+			</div>
             </div>
             <button class="btn btn-link" ng-click="exportToExcel('#tableToExport')">
 				<span class="glyphicon glyphicon-share"></span>
@@ -28,7 +27,7 @@
 			</button>
             <div class="table-responsive" >
 				
-				<table class="table table-bordered" id="tableToExport" style="display:none">
+				<table class="table table-bordered offer-display-detail" id="tableToExport" style="display:none">
 	    			<thead class="btn-primary">
 						<tr>
 							<th ng-click="sort('merchantName')">Merchant  
@@ -48,6 +47,7 @@
 							<th>Post Code</th>
 						</tr>
 					</thead>
+                     <div class="loader_angular col-md-1 offer-view-load" ng-show="show_loader"></div>  
 					<tbody >
     					<tr  ng-repeat="history in details_response | orderBy:sortBy:reverse | filter:search">
     						<td ng-bind="history.merchantName"></td>
@@ -62,7 +62,7 @@
     					</tr>
     				</tbody>
 				</table>
-	            <table class="table table-bordered" id="tableToExportPdf">
+	            <table class="table table-bordered offer-display-detail" id="tableToExportPdf">
 	    			<thead class="btn-primary">
 						<tr>
 							<th ng-click="sort('merchantName')">Merchant  
@@ -136,7 +136,7 @@
 						<div class="panel-body">
 							<div class="rows">
 								<div class="col-sm-12">
-					           		<div class="loader_angular col-md-1 profile-view-load" ng-show="show_loader_details"></div>
+					           		<div class="loader_angular col-md-1 offer-view-load" ng-show="show_loader_details"></div>
 					            </div>
 					        </div>
 				            <div class="rows">
@@ -165,10 +165,10 @@
 								<div class="col-sm-6">
 									<div class="col-sm-12">
 										<strong> Card Type : </strong>
-										<span class="glyphicon glyphicon-list-alt" ng-click="selectAllFilter('card_type');" title="select all Card type"></span>
+										<span class="glyphicon glyphicon-list-alt" ng-click="selectAllFilter('card_type');" title="select all"></span>
 									</div>
 									<div class="col-sm-12">
-										<select chosen multiple ng-model="card_type_selected" ng-options="s.name for s in card_type" data-placeholder="loading card type" data-placeholder-text-multiple="'select card type'">
+										<select chosen multiple ng-model="card_type_selected" ng-options="s.name for s in card_type" data-placeholder="LOADING CARD TYPE">
 											<option value="" disabled> SELECT CARD TYPE</option>
 					                    </select>
 									</div>
@@ -182,8 +182,8 @@
 											<strong>Offer Location : </strong>
 										</div>
 										<div class="col-sm-12">
-											<select chosen multiple ng-model="location_selected" ng-options="s.name for s in location_name" data-placeholder="loading offer location" data-placeholder-text-multiple="'select offer location'">
-												<option value="" disabled>select offer location</option>
+											<select chosen multiple ng-model="location_selected" ng-options="s.name for s in location_name" data-placeholder="LOADING LOCATION">
+												<option value="" disabled> SELECT OFFER LOCATION</option>
 											</select>
 										</div>
 
@@ -198,11 +198,11 @@
 									<div class="rows" ng-hide="sub_category_selected.length>0">
 										<div class="col-sm-12">
 											<strong> Category : </strong>
-											<span class="glyphicon glyphicon-list-alt" ng-click="selectAllFilter('category');" title="select all category"></span>
+											<span class="glyphicon glyphicon-list-alt" ng-click="selectAllFilter('category');" title="select all"></span>
 										</div>
 										<div class="col-sm-12">
-											<select chosen multiple ng-model="category_selected" ng-options="s.name for s in category" data-placeholder="loading category"  data-placeholder-text-multiple="'select category'">
-												<option value="" disabled>select category</option>
+											<select chosen multiple ng-model="category_selected" ng-options="s.name for s in category" data-placeholder="LOADING CATEGORY">
+												<option value="" disabled> SELECT CATEGORY</option>
 						                    </select>
 										</div>
 										<div class="col-sm-12">
@@ -214,11 +214,11 @@
 									<div class="row" ng-hide="category_selected.length>0">
 										<div class="col-sm-12">
 											<strong>Sub-Category : </strong>
-											<span class="glyphicon glyphicon-list-alt" ng-click="selectAllFilter('sub_category');" title="select all Sub-category"></span>
+											<span class="glyphicon glyphicon-list-alt" ng-click="selectAllFilter('sub_category');" title="select all"></span>
 										</div>
 										<div class="col-sm-12">
-											<select chosen multiple ng-model="sub_category_selected" ng-options="s.name for s in sub_category" data-placeholder="loading sub-category"  data-placeholder-text-multiple="'select sub-category'">
-												<option value="" disabled> select sub-category</option>
+											<select chosen multiple ng-model="sub_category_selected" ng-options="s.name for s in sub_category" data-placeholder="LOADING SUB-CATEGORY">
+												<option value="" disabled> SELECT SUB-CATEGORY</option>
 						                    </select>
 										</div>
 										<div class="col-sm-12">
@@ -231,11 +231,11 @@
 								<div class="col-sm-6">
 									<div class="col-sm-12">
 										<strong> Merchant : </strong>
-										<span class="glyphicon glyphicon-list-alt" ng-click="selectAllFilter('merchant');" title="select all Merchant"></span>
+										<span class="glyphicon glyphicon-list-alt" ng-click="selectAllFilter('merchant');" title="select all"></span>
 									</div>
 									<div class="col-sm-12">
-										<select chosen multiple ng-model="merchant_selected" ng-options="s.name for s in merchat_details track by s.id" id="merchant_selected"  data-placeholder="loading merchant"  data-placeholder-text-multiple="'select merchant'">
-											<option value="" disabled> select merchant</option>
+										<select chosen multiple ng-model="merchant_selected" ng-options="s.name for s in merchat_details track by s.id" data-placeholder="LOADING MERCHANT" id="merchant_selected" >
+											<option value="" disabled> SELECT MERCHANT</option>
 										</select>
 									</div>
 
@@ -290,7 +290,7 @@
 						<span class="glyphicon glyphicon-download-alt"></span>
 						Download PDF
 					</button>
-                   <table class="table table-bordered" id="tableToPdf">
+                   <table class="table table-bordered offer-display-detail" id="tableToPdf">
 	    			<thead class="btn-primary">
 						<tr>
 							<th ng-click="sort('merchantName')">Merchant  
@@ -335,9 +335,20 @@
     </div>
 </div>
 <style>
-body{
-    overflow-x: hidden;
-}  
+    body{
+        overflow-x: hidden;
+    }
+.loader_angular {
+    position: relative;
+    display: block;
+    margin: 0 auto;
+    width: 32px;
+    height: 27px;
+    z-index: 99;
+    background: url("img/loader.gif") center no-repeat;
+    background-size: 70%;
+}
+    
  .overlay{
   position:absolute; 
   top:260px;

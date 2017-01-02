@@ -122,7 +122,7 @@
                         <div class="col-sm-12 date-box-one padding-2">
 							 <datepicker date-format="MM-dd-yyyy" selector="form-control">
 		                        <div class="input-group">
-		                            <input class="form-control" placeholder="Start Date" ng-model="start_date">
+		                            <input class="form-control date-spacing" placeholder="Start Date" ng-model="start_date">
 		                        </div>
 		                    </datepicker>
                         </div>
@@ -157,9 +157,9 @@
                     </div>
 				</div>
                 
-               <div class="col-sm-4 merchant-select"  style="color:#0988ea;font-size:14px" ng-hide="show_by_offer">
+               <div class="col-sm-3 merchant-select"  style="color:#0988ea;font-size:14px" ng-hide="show_by_offer">
 					<strong>SELECT MERCHANT : </strong>
-                    <strong style="color:#0988ea;display:block; margin-top:10px;">SELECT OFFER : </strong>
+                    <strong style="color:#0988ea;display:block; margin-top:19px;">SELECT OFFER : </strong>
 				</div>
 				<div class="col-sm-4 date-box-one"  ng-hide="show_by_offer">
 						
@@ -175,7 +175,7 @@
 							
 							-->
                         </div>
-                        <div class="loader_angular col-sm-4 select-merchant-loader" ng-show="show_merchant_loader"></div>
+                      
                         
                          <div class="input-group col-sm-4" id="offer_segment_offer_div">
                             
@@ -183,15 +183,16 @@
 								<option value="" disabled>SELECT OFFER</option>
 							</select>
                         </div>
+                      <div class="loader_angular select-merchant-loader" ng-show="show_merchant_loader"></div>
                 </div>
                 <div class="col-sm-12 date-box-one"  ng-show="show_by_offer" style="margin-top:-2px;">
                     
-                     <div class="col-sm-2" style="padding-left:0px; padding-right" ng-show="show_discription">
+                     <div class="col-sm-3" style="padding-left:0px; padding-right" ng-show="show_discription">
                      	<span style="display:block;margin-top:7px;color:#0988ea">
                      		<strong> Offer Description : </strong>
                      	</span>
                      </div>
-                    <div class="col-sm-10" style="margin-top:8px;" ng-bind="offer_name"></div>
+                    <div class="col-sm-9" style="margin-top:8px;" ng-bind="offer_name"></div>
                 
                    
                 </div>
@@ -293,7 +294,6 @@
 }
     
     .merchant-select{
-        width:12%; 
         padding-left:0px !important;
         padding-right:0px !important;
     }

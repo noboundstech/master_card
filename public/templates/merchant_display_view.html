@@ -1,23 +1,25 @@
 <div page-Header></div>
 <div class="content container-fluid">
-	<div class="row">
+	<div class="row margin-top-20">
 		<div class="col-sm-12">
-			<div class="row" style="margin:5px">
-				<button type="button" class="btn btn-primary pull-right" data-toggle="modal" data-target="#myModal">Add More Filter</button>
+			<div class="row">
+             
+                <div class="col-sm-2 col-xs-2">
+					<strong><span class="">Total : {{details_response.length}}</span></strong>
 			</div>
 
-			<div class="row">
-				<div class="col-md-2 col-sm-2" style="margin-top:5px;padding-top:5px;font-size:16px">
-					<strong><span>Total : {{details_response.length}}</span></strong>
-				</div>
-				<div class="loader_angular col-md-1 profile-view-load" ng-show="show_loader"></div>
-            	<div class="col-md-10 col-sm-10" style="padding-top:5px;">
+		
+				
+            	<div class="col-sm-6 col-xs-6">
             		<form class="form-inline pull-right">
                         <div class="form-group">
                             <label >Search</label>
                             <input type="text" ng-model="search" class="form-control" placeholder="Search">
                         </div>
                     </form>
+                </div>
+                 <div class="col-sm-4 col-xs-4">  
+				<button type="button" class="btn btn-primary pull-right more-filter-button" data-toggle="modal" data-target="#myModal">Add More Filter</button>
                 </div>
             </div>
             <div class="table-responsive">
@@ -28,7 +30,7 @@
 				 <button class="btn btn-link" class="btn btn-primary" data-toggle="modal" data-target="#ShowPdfModel">
 					Generate PDF View
 				</button>
-				<table class="table table-bordered" id="tableToExport" style="display:none">
+				<table class="table table-bordered merchant-display-view" id="tableToExport" style="display:none">
 	    			<thead class="btn-primary">
 						<tr>
 							<th>Merchant Id 
@@ -59,6 +61,7 @@
 							</th>
 						</tr>
 					</thead>
+                   
 					<tbody>
 						<tr  ng-repeat="history in details_response | orderBy:sortBy:reverse | filter:search">
 							<td ng-bind="history.MerchantId"></td>
@@ -71,7 +74,7 @@
 						</tr>
 					</tbody>
 				</table>
-	            <table class="table table-bordered" >
+	            <table class="table table-bordered merchant-display-view" >
 	    			<thead class="btn-primary">
 						<tr>
 							<th>Merchant Id 
@@ -113,6 +116,7 @@
 							<td ng-bind="details.offer_address_en"></td>
 						</tr>
 					</tbody>
+                     <div class="loader_angular col-md-1 merchant-view-load" ng-show="show_loader"></div>
 				</table>
 				 <div class="table-striped" style="margin-top:10px;">
                     <div class="row">
@@ -161,8 +165,8 @@
 										<span class="glyphicon glyphicon-list-alt" ng-click="selectAllFilter('merchant');" title="select all"></span>
 									</div>
 									<div class="col-sm-12">
-										<select chosen multiple ng-model="merchant_selected" ng-options="s.name for s in merchat_details track by s.id" id="merchant_selected" data-placeholder="loading merchant" data-placeholder-text-multiple="'select merchant'">
-											<option value="" disabled>select merchant</option>
+										<select chosen multiple ng-model="merchant_selected" ng-options="s.name for s in merchat_details track by s.id"  data-placeholder="LOADING MERCHANT" id="merchant_selected" >
+											<option value="" disabled> SELECT MERCHANT</option>
 										</select>
 									</div>
 								</div>
@@ -171,8 +175,8 @@
 										<strong>Merchant Location : </strong>
 									</div>
 									<div class="col-sm-12">
-										<select chosen multiple ng-model="merchant_location_selected" ng-options="s.name for s in merchant_location_name" data-placeholder="loading Merchant Location" data-placeholder-text-multiple="'select Merchant Location'">
-											<option value="" disabled>select Merchant Location</option>
+										<select chosen multiple ng-model="merchant_location_selected" ng-options="s.name for s in merchant_location_name"   data-placeholder="LOADING MERCHANT LOCATION">
+											<option value="" disabled> SELECT MERCHANT LOCATION</option>
 										</select>
 									</div>
 								</div>
@@ -187,8 +191,8 @@
 										<span class="glyphicon glyphicon-list-alt" ng-click="selectAllFilter('card_type');" title="select all"></span>
 									</div>
 									<div class="col-sm-12">
-										<select chosen multiple ng-model="card_type_selected" ng-options="s.name for s in card_type" data-placeholder="loading card type" data-placeholder-text-multiple="'select card type'">
-											<option value="" disabled>select card type</option>
+										<select chosen multiple ng-model="card_type_selected" ng-options="s.name for s in card_type"  placeholder-expression="Card Type" title="Enter card details"  data-placeholder="LOADING CARD TYPE">
+											<option value="" disabled> SELECT CARD TYPE</option>
 			                            </select>
 									</div>
 								</div>
@@ -198,8 +202,8 @@
 									</div>
 
 									<div class="col-sm-12">
-										<select chosen multiple ng-model="location_selected" ng-options="s.name for s in location_name" data-placeholder="loading offer location" data-placeholder-text-multiple="'select card type'">
-											<option value="" disabled>select card type</option>
+										<select chosen multiple ng-model="location_selected" ng-options="s.name for s in location_name"   data-placeholder="LOADING OFFER LOCATION">
+											<option value="" disabled> SELECT OFFER LOCATION</option>
 										</select>
 									</div>
 								</div>
@@ -215,8 +219,8 @@
 											<span class="glyphicon glyphicon-list-alt" ng-click="selectAllFilter('category');" title="select all"></span>
 										</div>
 										<div class="col-sm-12">
-											<select chosen multiple ng-model="category_selected" ng-options="s.name for s in category" data-placeholder="loading category"  data-placeholder-text-multiple="'select category'">
-												<option value="" disabled>select category</option>
+											<select chosen multiple ng-model="category_selected" ng-options="s.name for s in category"   data-placeholder="LOADING CATEGORY">
+												<option value="" disabled> SELECT CATEGORY</option>
 				                            </select>
 										</div>
 									</div>
@@ -228,8 +232,8 @@
 											<span class="glyphicon glyphicon-list-alt" ng-click="selectAllFilter('sub_category');" title="select all"></span>
 										</div>
 										<div class="col-sm-12">
-											<select chosen multiple ng-model="sub_category_selected" ng-options="s.name for s in sub_category" data-placeholder="loading sub-category" data-placeholder-text-multiple="'select sub-category'">
-												<option value="" disabled>select sub-category</option>
+											<select chosen multiple ng-model="sub_category_selected" ng-options="s.name for s in sub_category"  data-placeholder="LOADING SUB-CATEGORY">
+												<option value="" disabled> SELECT SUB-CATEGORY</option>
 				                            </select>
 										</div>
 									</div>

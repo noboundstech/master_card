@@ -1773,7 +1773,16 @@ body {
 
 /* Responsive Section Started */
 @media screen and (max-width:1024px) and (max-height:768px) {
-    
+    #offer_segment_div .chosen-single span {
+    min-width: 260px  !important;
+    height: 35px;
+}
+    #offer_segment_offer_div .chosen-container {
+    width: 310px !important;
+    border: 0 !important;
+    box-shadow: none !important;
+    padding: 0px !important;
+}
   .chat-window,
 .customer-report,
 .customer-service
@@ -1852,7 +1861,7 @@ body {
     position: absolute;
     right: 10px;
   }
-    
+  
 }
 
 @media(max-width:767px){
@@ -2411,7 +2420,7 @@ textarea {
 }
 
 .header-profile-view{
- font-size: 16px;
+ font-size: 14px;
  font-weight: bold;
  margin:22px 0;
     
@@ -2713,5 +2722,10 @@ padding-right:10px;
 
 .margin-top-20{
   padding-top: 20px;
+}
+
+.mobile-icon{
+   position: relative;
+   top:3px;
 }
 
