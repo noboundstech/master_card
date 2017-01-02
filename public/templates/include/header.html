@@ -1,24 +1,44 @@
 <div class="all-header">
     <div class="container-fluid">
         <div class="row">
-            <div class="col-md-12 profile-view">
+            <div class="col-sm-12 profile-view hidden-xs ">
                 
-                    <div class="col-md-1 col-md-1 col-xs-1">
-                        <a href="#/dashboard" class="btn btn-default header-profile-back-button"><span class="fa fa-long-arrow-left"></span></a>
+                    <div class="col-sm-1">
+                        <a href="#/dashboard" class="btn btn-default header-profile-back-button hidden-xs"><span class="fa fa-long-arrow-left"></span></a>
                     </div>
-                     <div class="col-md-4">
-                        <h4 class="header-profile-view">
+                     <div class="col-sm-5">
+                        <h4 class="header-profile-view ">
                             <a href="#/dashboard">Home </a> >&nbsp;&nbsp;{{page_title}}
                         </h4>
                         
                     </div>
-                    <div class="col-md-4">
+                    <div class="col-sm-4">
                         <img class="img-responsive header-logo"src="img/logo.png" alt="">
+                        
                     </div>
 
-                    <div class="col-md-2 pull-right">
+                    <div class="col-sm-2 pull-right">
                         <a class="main-logtout" ng-click="logout_user();" > logout</a>
                     </div>
+               
+            </div>
+             <div class="col-sm-12 profile-view mobile-header hidden-lg hidden-md hidden-sm">
+                <div class="dropdown col-xs-4">
+                    <button class="btn btn-default dropdown-toggle mobile-menu-two" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+                    MENU
+                    <span class="fa fa-bars"></span>
+                    </button>
+                <div class="dropdown-menu" aria-labelledby="dropdownMenu1">
+                <a href="#/dashboard">Home </a> >&nbsp;&nbsp;{{page_title}}
+                    <div class="hidden-menu-header"></div>
+               <a class="main-logtout" ng-click="logout_user();" > logout</a>
+    
+                </div>
+                </div>
+              <div class="col-xs-8">
+                  <img class="img-responsive header-logo"src="img/logo.png" alt="">
+              </div>
+             </div>
                
             </div>
         </div>

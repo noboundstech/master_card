@@ -4,28 +4,28 @@
     <div class="container-fluid">
         
         <div class="row">
-            <div class="col-md-12 profile-view-header">
-                <div class="col-md-12">
+            <div class="col-sm-12 profile-view-header">
+                <div class="col-sm-12">
                   
                         <form name="member_profile">
                             <div class="row">
-                                 <div class="col-md-12">
-                                 <div class="col-md-3 col-md-offset-0 user-wechat">
+                                 <div class="col-sm-12">
+                                 <div class="col-sm-3 col-sm-offset-0 user-wechat">
                                     <label class="user-wechat-label">
                                         <input type="radio" name="search_type" value="customer_id" checked="checked" ng-model="search_by" > Wechat Id&nbsp;
                                         <input type="radio" value="card_no" name="search_type" ng-model="search_by"> Card#  
                                     </label>
                                 </div>
-                                 <div class="col-md-3 col-md-offset-0 user-wechat" ng-if="search_by == 'customer_id'">
+                                 <div class="col-sm-3 col-sm-offset-0 user-wechat" ng-if="search_by == 'customer_id'">
                                     <input type="text" class="form-control" ng-model="wechat_id" id="wechat_id" placeholder="Enter Member WeChat Id.">
                                     <p class="err wechat-error" ng-bind="error_message">Please out a valid wechat id</p>
                                      
                                 </div>
-                                <div class="col-md-3 col-md-offset-0 user-wechat" ng-if="search_by == 'card_no'">
+                                <div class="col-sm-3 col-sm-offset-0 user-wechat" ng-if="search_by == 'card_no'">
                                     <input type="text" class="form-control" ng-model="card_no" id="card_no" placeholder="Enter Card Number.">
                                     <p class="err" ng-bind="error_message"></p>
                                 </div>
-                                <div class="col-md-2">
+                                <div class="col-sm-3">
                                     <button type="submit" class="btn btn-primary btn-block wechat-submit-btn" ng-click="showCustomerDetail()">Search Member</button>
                                 </div>
                                 <div class="loader_angular" ng-show="showCustomerLoader"></div>     
@@ -40,18 +40,18 @@
 </div>
 <div class="container-fluid">
     <div class="row">
-        <div class="col-md-4">
+        <div class="col-sm-4">
            <div class="row profile-user">
-                <div class="col-md-12"> 
-                    <a href="#" class="col-md-4">
-                        <img class="media-object" src="img/profile.jpg" alt="..." width="60" height="60">
+                <div class="col-sm-12" style="padding-left:0px;"> 
+                    <a href="#" class="col-sm-4 col-xs-4">
+                        <img class="media-object user-photo" src="img/profile.jpg" alt="..." width="60" height="60">
                     </a>
 
-                    <h5 class="customer-name-details col-md-8 ">{{customer_details.memberFirstName}} {{customer_details.memberLastName}}</h5>
+                    <h5 class="customer-name-details col-sm-8 col-xs-6">{{customer_details.memberFirstName}} {{customer_details.memberLastName}}</h5>
                     {{customer_details.memberGender}} {{customer_details.memberAge | number:0}}
                 </div>
-                <div class="col-md-12">
-                     <table class="table table-responsive view-table-data">
+                <div class="col-sm-12 view-table-data">
+                     <table class="table table-responsive ">
                         <tbody>
                             <tr>
                                 <th>Wechat Id :</th>
@@ -87,12 +87,12 @@
                         </tbody>
                     </table>
                 </div>
-                <div class="col-md-12 cust-tag">
-                    <div class="page-header"></div>
+                <div class="col-sm-12 cust-tag">
+                    <div class="tag-header"></div>
                     <h3 class="details-tag">
                         Tags :
                     </h3>
-                    <div class="col-md-12 col-md-12 tag-box">
+                    <div class="col-sm-12 col-sm-12 tag-box">
                         <div class="tag-holder">
                             <span ng-repeat="tag in customer_tag">
                                 <span class="tag-style">
@@ -106,12 +106,12 @@
             <!-- user detail ends -->
         </div>
         <!-- left panel ends -->
-        <div class="col-md-4">
+        <div class="col-sm-4">
             <div class="row progress-campaign">
                 <h3 class="action-status">
                     Offer campaign action status :
                 </h3>
-                <div class="col-md-12 offer-progress">
+                <div class="col-sm-12 offer-progress">
                     <ul class="list-group">
                         <li class="list-group-item">
                             Offer campaign Sent:   {{customer_details.sent}}
@@ -135,7 +135,7 @@
                 </div>
             </div>
             <div class="row progress-campaign">
-                 <div class="col-md-12 predicted-offers">
+                 <div class="col-sm-12 predicted-offers">
                         <h3 class="offers-heading">
                             Predicted Offers :
                         </h3>
@@ -150,15 +150,15 @@
                     </div>
             </div>
             <div class="row offer-section-predict">
-                <div class="col-md-12 predicted-offers">
+                <div class="col-sm-12 predicted-offers">
                     <h3 class="offers-heading-table">
                         Offer history :
                     </h3>
                      
                       
                           
-                    <div class="col-md-6" style="padding-left:0px;padding-right:0px; font-size:14px; margin-bottom:5px;"><strong>Merchant Name</strong></div>
-                    <div class="col-md-6" style="padding-left:0px;padding-right:0px;font-size:14px;margin-bottom:5px;"><strong>Offer Description</strong></div>
+                    <div class="col-sm-6 col-xs-6" style="padding-left:0px;padding-right:0px; font-size:14px; margin-bottom:5px;"><strong>Merchant Name</strong></div>
+                    <div class="col-sm-6 col-xs-6" style="padding-left:0px;padding-right:0px;font-size:14px;margin-bottom:5px;"><strong>Offer Description</strong></div>
                    
                     <div class="predicted-offers-table">
                     <table class="table table-bordered offer-history">
@@ -175,14 +175,14 @@
             </div>
     </div>
         <!-- extreme right panel -->
-         <div class="col-md-4">
+         <div class="col-sm-4">
              <div class="row section-map">   
-                    <div class="col-md-12">    
+                    <div class="col-sm-12">    
                         <h3 class="map-he">
                             Places frequently visited :
                         </h3>            
                         <div class="row map">
-                            <div class="col-md-6" id = "sample" style = "width:95%; height:179px;">
+                            <div class="col-sm-6" id = "sample" style = "width:95%; height:179px;">
                                 <bing-map
                                     credentials="'AjZ0wB-x_wfUhjERvFMimAGIUbgHM7uRTKubZcmsbnE_-DSE49gBI53Ts9ClaeT5'"
                                     center="mapOptions.center"
@@ -206,7 +206,7 @@
              
              <div class="overlay"></div>
               <div class="row match-user">
-                    <div class="col-md-12"> 
+                    <div class="col-sm-12"> 
                         <h3 class="header-connection">
                             Connections or Similarity matching :
                         </h3>
@@ -221,7 +221,7 @@
                             </div>
                         </div>
                         <div class="row">
-                            <div class="col-md-12"> 
+                            <div class="col-sm-12"> 
                                 <ul class="list-inline connection-list">
                                     <li>
                                         <figure class="connection-img">

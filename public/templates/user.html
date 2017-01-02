@@ -273,8 +273,14 @@
                                 Submit Your Location
                             </button>
                         </form>
+                      
                         <div class="input-group"  ng-if="show_user_location =='choosen'">
-                            <input type="text" gm-places-autocomplete="autocompleteOptions" ng-model="autocompleteModel" id="address_autocomplete" class="form-control pick-location" size="400"/>
+                            <input type="text"  places-auto-complete gm-places-autocomplete="autocompleteOptions " 
+                                ng-model="autocompleteModel" 
+                                id="address_autocomplete"
+                                 class="form-control pick-location" 
+                                 size="400"
+                                 component-restrictions="{country:'in'}"/>
                         </div>
                     </div>
                 </div>

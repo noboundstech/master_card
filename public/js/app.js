@@ -117,17 +117,21 @@ angular.module('project', ['ngRoute','homeController','userController','adminCon
               ];
 })
 .directive('googleplace', function() {
+  console.log(" am here");
     return {
         require: 'ngModel',
         link: function(scope, element, attrs, model) {
             var options = {
                 types: [],
+                rankBy: google.maps.places.RankBy.DISTANCE,
+                radius : 250,
                 componentRestrictions: {country: 'in'}
             };
             scope.gPlace = new google.maps.places.Autocomplete(element[0], options);
 
             google.maps.event.addListener(scope.gPlace, 'place_changed', function() {
                 scope.$apply(function() {
+                  console.log(element.val());
                     model.$setViewValue(element.val());                
                 });
             });

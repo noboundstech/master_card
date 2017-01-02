@@ -796,6 +796,13 @@ angular.module('userController', ['applicationService.services'])
 	$scope.user_type = localStorage.getItem('user_type');
 	$scope.user_name = localStorage.getItem('csr_name');
 	$scope.user_role = localStorage.getItem('user_role');
+	$.fn.bootstrapDropdownHover({
+  	// see next for specifications
+	});
+	    $('[data-toggle="dropdown"]').bootstrapDropdownHover({
+	  // see next for specifications
+	});
+
 })
 .controller('member_profile', function($scope,$localStorage,API,$rootScope)
 {
