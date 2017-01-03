@@ -2,7 +2,7 @@ module.exports = {
 	'selectFromDb': function(req,res,condition,selection,table,data,callback)          
 	{
 		var sql = require('mssql');
-		var config = require('config/db_connection')
+		var config = require('config/db_connection');
 		var utils = require('utility/utils');
 		var connection1 = new sql.Connection(config, function(err) {
 			//console.log(err);
