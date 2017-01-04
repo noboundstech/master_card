@@ -16,7 +16,10 @@ router.route('/')
     res.json({ message: 'Welcome to the coolest API on earth!' });
 });
 router.route('/addNewUser')
-.post(function (req, res) {
+.get(function (req, res) {
+   // was post method
+    req.body        = req.query;
+
     var async         = require('async');
     var utils       = require('utility/utils'),
          db_query     = require('db_query/query'),
@@ -43,7 +46,7 @@ router.route('/addNewUser')
                                 "type"    : constant.VARCHAR50,
                                 "value"    : req.body.add_user_name
                             }];
-db_query.selectFromDb(req,res,condition,selection,table,response_data,function(){
+            db_query.selectFromDb(req,res,condition,selection,table,response_data,function(){
                 if(response_data.details.length>0)
                 {
                     response_data.success = false;
@@ -65,7 +68,7 @@ db_query.selectFromDb(req,res,condition,selection,table,response_data,function()
                                 "type"    : constant.VARCHAR100,
                                 "value"    : req.body.email_id
                             }];
-db_query.selectFromDb(req,res,condition,selection,table,response_data,function(){
+            db_query.selectFromDb(req,res,condition,selection,table,response_data,function(){
                 if(response_data.details.length>0)
                 {
                     response_data.success = false;
@@ -109,7 +112,7 @@ db_query.selectFromDb(req,res,condition,selection,table,response_data,function()
                         }];
             condition   = '';
 
-db_query.insertToDb(req,res,condition,fieldlist,table,response_data,function(){
+            db_query.insertToDb(req,res,condition,fieldlist,table,response_data,function(){
                 callback();
             });
     }],function(err) {
@@ -119,7 +122,10 @@ db_query.insertToDb(req,res,condition,fieldlist,table,response_data,function(){
     });
 });
 router.route('/updateUserDetails')
-.post(function (req, res) {
+.get(function (req, res) {
+    // was post method
+    req.body        = req.query;
+
     var async         = require('async');
     var utils       = require('utility/utils'),
          db_query     = require('db_query/query'),
@@ -146,7 +152,7 @@ router.route('/updateUserDetails')
                                 "type"    : constant.VARCHAR50,
                                 "value"    : req.body.userName
                             }];
-db_query.selectFromDb(req,res,condition,selection,table,response_data,function(){
+            db_query.selectFromDb(req,res,condition,selection,table,response_data,function(){
                 if(response_data.details.length>0)
                 {
                     callback();
@@ -168,7 +174,7 @@ db_query.selectFromDb(req,res,condition,selection,table,response_data,function()
               user_name = req.body.userName ;
             sqlstring= "select  "+    selection + " from    "+ table +" where userEMailId='" +emailid +"' and userName<>'"+ user_name+ "'";
             console.log('sqlstring :',sqlstring)
-db_query.RunSelSqlFromDb(req,res,sqlstring,response_data,function(){
+            db_query.RunSelSqlFromDb(req,res,sqlstring,response_data,function(){
                 if(response_data.details.length > 0)
                 {
                     response_data.success = false;
@@ -212,7 +218,7 @@ db_query.RunSelSqlFromDb(req,res,sqlstring,response_data,function(){
                                 "type"    : constant.SMINT,
                                 "value"    : req.body.userId
                             }];
-db_query.updateToDb(req,res,condition,fieldlist,table,response_data,function(){
+            db_query.updateToDb(req,res,condition,fieldlist,table,response_data,function(){
                 callback();
             });
     }],function(err) {

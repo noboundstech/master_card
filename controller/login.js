@@ -17,7 +17,9 @@ router.route('/')
 });
 router.route('/login')
 .get(function (req, res) {
+	// was post method
 	req.body 		= req.query;
+
 	var async 		= require('async');
 	var utils   	= require('utility/utils'),
 	 	db_query 	= require('db_query/query'),
@@ -105,6 +107,7 @@ router.route('/login')
 	});
 router.route('/forget_password')
 .get(function (req, res) {
+	// was post method
 	req.body 		= req.query;
 	var async 		= require('async');
 	var utils   	= require('utility/utils'),

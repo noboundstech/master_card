@@ -97,8 +97,10 @@ router.route('/fetchtag')
 	});
 });
 router.route('/addtag')
-.post(function (req, res) 
+.get(function (req, res) 
 {
+	// was post method
+	req.body 		= req.query;
 	var constant 	= require("config/constant"),
 		db_query 	= require('db_query/query'),
 		utils	 	= require('utility/utils'),
@@ -199,7 +201,9 @@ router.route('/addtag')
 });
 
 router.route('/removetag')
-.post(function (req, res) {
+.get(function (req, res) {
+	// was post method
+	req.body 		= req.query;
 	var async 	= require('async');
 	var response_data = {};
 	async.series([
@@ -316,7 +320,10 @@ router.route('/fetchalltag')
 });
 //********************************************************
 router.route('/offerSentbyCSR')
-.post(function (req, res) {
+.get(function (req, res) {
+	// was post method
+	req.body 		= req.query;
+
 	var async 	= require('async');
 	var response_data = {};
 	async.series([
@@ -401,7 +408,10 @@ router.route('/offerSentbyCSR')
 });
 //*********************************************
 router.route('/AddChatHeader')
-.post(function (req, res) {
+.get(function (req, res) {
+	// was post method
+	req.body 		= req.query;
+
 	var async 	= require('async');
 	
 	    wechatId    = req.body.id,
@@ -447,7 +457,11 @@ router.route('/AddChatHeader')
 });
 //****************************************************************
 router.route('/UpdateChatHeader')
-.post(function (req, res) {
+.get(function (req, res) {
+
+	// was post method
+	req.body 		= req.query;
+
 	var async 	= require('async');
 	var		chatheaderid   = req.body.chatheaderid,		
 	        constant 	= require("config/constant");
@@ -511,7 +525,10 @@ router.route('/UpdateChatHeader')
 });
 //****************************************************************
 router.route('/AddChatDetails')
-.post(function (req, res) {
+.get(function (req, res) {
+	// was post method
+	req.body 		= req.query;
+
     var async     = require('async');
     var response_data = {};
     async.series([
