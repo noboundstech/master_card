@@ -197,7 +197,11 @@ router.route('/getCustReportList')
 });
 //******************************************************************
 router.route('/getCustSegReportData')
-.post(function (req, res) {
+.get(function (req, res) {
+
+    // was post method
+    req.body        = req.query;
+
     var async           = require('async'),
         constant        = require("config/constant");
         response_data   = {},
@@ -712,7 +716,10 @@ router.route('/getCustSegReportData')
 });
 //*****************************************************************
 router.route('/getOfferSegReportData')
-.post(function (req, res) {
+.get(function (req, res) {
+    // was post method
+    req.body        = req.query;
+
     var async             = require('async');
     var constant     = require("config/constant");
     var response_data     = {};
