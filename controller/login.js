@@ -16,12 +16,14 @@ router.route('/')
     res.json({ message: 'Welcome to the coolest API on earth!' });
 });
 router.route('/login')
-.post(function (req, res) {
+.get(function (req, res) {
+	req.body 		= req.query;
 	var async 		= require('async');
 	var utils   	= require('utility/utils'),
 	 	db_query 	= require('db_query/query'),
 		constant 	= require("config/constant");
 	var response_data = {};
+	
 	async.series([
 		function(callback) {
 			var validate = require('utility/validate');
@@ -102,7 +104,8 @@ router.route('/login')
 		});
 	});
 router.route('/forget_password')
-.post(function (req, res) {
+.get(function (req, res) {
+	req.body 		= req.query;
 	var async 		= require('async');
 	var utils   	= require('utility/utils'),
 	 	db_query 	= require('db_query/query'),
