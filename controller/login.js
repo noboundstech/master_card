@@ -16,9 +16,10 @@ router.route('/')
     res.json({ message: 'Welcome to the coolest API on earth!' });
 });
 router.route('/login')
-.get(function (req, res) {
+.post(function (req, res) {
+	console.log(req);
 	// was post method
-	req.body 		= req.query;
+	//req.body 		= req.query;
 
 	var async 		= require('async');
 	var utils   	= require('utility/utils'),
