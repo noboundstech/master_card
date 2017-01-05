@@ -44,7 +44,7 @@ app.use(helmet.hsts({
   force: true
 }))
 app.use(function (req, res, next) {
-   res.header('Access-Control-Allow-Headers', '*');
+   res.header('Access-Control-Allow-Headers', 'application/json');
    // add details of what is allowed in HTTP request headers to the response headers
    res.header('Access-Control-Allow-Origin', req.headers.origin);
    // res.header("Access-Control-Allow-Origin", "*");
@@ -53,6 +53,11 @@ app.use(function (req, res, next) {
     res.header('Access-Control-Max-Age', '586400');
    
     // the next() function continues execution and will move onto the requested URL/URI
+
+    if(req.body._body)
+    {
+   //   req.body =  JSON.parse(Object.keys(req.body)[0]);
+    }
     next();
 });
 // adding middleware for nodejs crawl

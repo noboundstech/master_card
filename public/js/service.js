@@ -23,7 +23,7 @@ angular.module('applicationService.services', [])
                                 method : 'POST',
                                 crossDomain: true,
                                 json: true, 
-                                headers:{'Content-Type': 'application/x-www-form-urlencoded'}
+                                headers:{'Content-Type': 'application/json'}
 
 
                         });
