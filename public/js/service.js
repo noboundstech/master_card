@@ -14,22 +14,7 @@ angular.module('applicationService.services', [])
                             params: params
                         });
     				},
-                    
-
-
-
-                    postDetails : function (params,url) {
-                        return $http.get(base+url,
-                        {
-
-                            method : 'GET',
-                            crossDomain: true,
-                            headers:{'Content-Type': 'application/json'},
-                            params: params
-                        });
-                    },
-
-                    /* 
+                         
                     postDetails : function (form,url) {
         				return $http.post(base+url,
                             form,
@@ -38,13 +23,13 @@ angular.module('applicationService.services', [])
                                 method : 'POST',
                                 crossDomain: true,
                                 json: true, 
-                                headers:{'Content-Type': 'application/x-www-form-urlencoded'}
+                                headers:{'Content-Type': 'application/json'}
 
 
                         });
         			 
                     },
-                    */
+                
                 }
     })    
 

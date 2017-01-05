@@ -17,9 +17,9 @@ router.route('/')
 });
 router.route('/login')
 .post(function (req, res) {
-	console.log(req);
+	
 	// was post method
-	//req.body 		= req.query;
+	req.body 		= req.query;
 
 	var async 		= require('async');
 	var utils   	= require('utility/utils'),
@@ -106,6 +106,9 @@ router.route('/login')
 			res.status(200).send({response_data});
 		});
 	});
+
+
+
 router.route('/forget_password')
 .get(function (req, res) {
 	// was post method
