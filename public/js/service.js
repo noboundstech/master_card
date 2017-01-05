@@ -1,7 +1,7 @@
 angular.module('applicationService.services', [])
     .factory('API', function ($http) 
     {
-	  	//var base = "http://localhost:3500/";
+	 // 	var base = "http://localhost:3500/";
         var base = "http://ec2-35-161-211-221.us-west-2.compute.amazonaws.com:3500/";
         return  {
     				getDetails : function (url,params) {
@@ -32,7 +32,3 @@ angular.module('applicationService.services', [])
                 
                 }
     })    
-
-
-
-    

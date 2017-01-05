@@ -172,6 +172,12 @@ angular.module('project', ['ngRoute','homeController','userController','adminCon
       {
         return "success"
       }
+    },
+    factory.getStartDate = function(){
+      return  moment().subtract(6, 'months').calendar();
+    },
+    factory.getEndDate  = function(){
+      return moment().format("MM/DD/YYYY");
     }
   return factory;
 });

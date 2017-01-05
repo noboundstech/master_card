@@ -86,6 +86,7 @@ router.route('/getCustomerDetails')
 				query+= " LEFT JOIN  "+constant.MEMBER_TAG_TABLE+"  as tag ON mem.memberId = tag.memberId";
 				query+= " WHERE "+where_cond;
 				query+= " GROUP BY mem.memberWechatId,mem.memberFirstName,mem.memberLastName,mem.memberGender,mem.preferredLanguage,mem.MTRPoints,mem.MTRCardType,mem.memberPhone,mem.memberAge,mem.memberOccupation,mem.memberHobby,mem.memberInfo1,mem.memberInfo2,mem.memberInfo3,mem.AddressLatitude,mem.Addresslongitude,mem.AddressLine1,mem.AddressLine2,mem.City,mem.District,mem.Province,mem.Country,mem.memberSegment ";
+			//response_data.query = query;
 			db_query.RunSelSqlFromDb(req,res,query,response_data,function(){
 				if(response_data.details.length>0)
 				{

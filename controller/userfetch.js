@@ -864,7 +864,7 @@ router.route('/fetchofferhistory')
                 sqlstring += ' where deroff.offerId =offmer.offerId and ';
                 sqlstring += ' deroff.memberId = mem.memberId and mem.memberWechatId = '+"'"+ id + "' ";
                 sqlstring += ' order by deroff.offerInsertedTimestamp desc';
-
+           // response_data.query = sqlstring;
             db_query.RunSelSqlFromDb(req,res,sqlstring,response_data,function(){
                 if(response_data.details.length>0)
                 {

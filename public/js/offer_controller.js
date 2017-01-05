@@ -7,9 +7,8 @@ angular.module('offerController', ['applicationService.services'])
 	$scope.user_name = localStorage.getItem('csr_name');
 	$rootScope.authenticateUser();
 	$scope.merchat_detail_selected 	= '';
-	var current_date 	= new Date();
-	$scope.start_date 	= 1+"-"+ 1+"-"+current_date.getFullYear();
-	$scope.end_date 	= current_date.getMonth()+1+"-"+current_date.getDate()+"-"+current_date.getFullYear();
+	$scope.start_date 	= MyService.getStartDate();
+	$scope.end_date 	= MyService.getEndDate();
 	$scope.show_loader = true;
 
 	// function to generate excel
@@ -127,16 +126,15 @@ angular.module('offerController', ['applicationService.services'])
 	}
 })
 .controller('merchant_display_view', function($scope,Excel,$timeout,$location,$localStorage,
-												$rootScope,API,APPLICATION_CONSTANT)
+												$rootScope,API,APPLICATION_CONSTANT,MyService)
 {
 	$scope.page_title = APPLICATION_CONSTANT.merchant_display_view;
 	$scope.user_type = localStorage.getItem('user_type');
 	$scope.user_name = localStorage.getItem('csr_name');
 	$rootScope.authenticateUser();
 	$scope.merchat_detail_selected 	= '';
-	var current_date 	= new Date();
-	$scope.start_date 	= current_date.getMonth()+1+"-"+ 1+"-"+current_date.getFullYear();
-	$scope.end_date 	= current_date.getMonth()+1+"-"+current_date.getDate()+"-"+current_date.getFullYear();
+	$scope.start_date 	= MyService.getStartDate();
+	$scope.end_date 	= MyService.getEndDate();
 	$scope.show_loader = true;
 
 	$scope.exportToExcel=function(tableId){ // ex: '#my-table'

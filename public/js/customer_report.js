@@ -32,8 +32,8 @@ angular.module('CustomerReportController', ['applicationService.services'])
 	
 	$scope.checkboxModel.offer_segment_search_by = "offer_id";
 	var current_date 	= new Date();
-	$scope.start_date 	= 1+"-"+ 1+"-"+current_date.getFullYear();
-	$scope.end_date 	= current_date.getMonth()+1+"-"+current_date.getDate()+"-"+current_date.getFullYear();
+	$scope.start_date 	= MyService.getStartDate();
+	$scope.end_date 	= MyService.getEndDate();
 	$scope.show_loader = true;
 
 	if($location.path() == '/offer_segment')
