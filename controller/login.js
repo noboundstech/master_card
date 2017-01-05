@@ -18,7 +18,7 @@ router.route('/')
 router.route('/login')
 .post(function (req, res) 
 {
-	
+	console.log(req);
 	// was post method
 	//req.body 		= req.query;
 
