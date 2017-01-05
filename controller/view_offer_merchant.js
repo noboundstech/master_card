@@ -96,9 +96,9 @@ router.route('/getViewList')
 });
 
 router.route('/getOfferView')
-.get(function (req, res) {
+.post(function (req, res) {
     // was post method
-    req.body        = req.query;
+   // req.body        = req.query;
 
     var async           = require('async'),
         constant        = require("config/constant");
@@ -270,9 +270,9 @@ router.route('/getOfferView')
 });
 
 router.route('/getMerchantView')
-.get(function (req, res) {
+.post(function (req, res) {
     // was post method
-    req.body        = req.query;
+   // req.body        = req.query;
     var async       = require('async'),
     constant        = require("config/constant"),
     response_data   = {},

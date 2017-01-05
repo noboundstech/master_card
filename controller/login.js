@@ -16,10 +16,11 @@ router.route('/')
     res.json({ message: 'Welcome to the coolest API on earth!' });
 });
 router.route('/login')
-.post(function (req, res) {
+.post(function (req, res) 
+{
 	
 	// was post method
-	req.body 		= req.query;
+	//req.body 		= req.query;
 
 	var async 		= require('async');
 	var utils   	= require('utility/utils'),
@@ -105,14 +106,13 @@ router.route('/login')
 			response_data.message = "successfully login!";
 			res.status(200).send({response_data});
 		});
-	});
-
+});
 
 
 router.route('/forget_password')
-.get(function (req, res) {
+.post(function (req, res) {
 	// was post method
-	req.body 		= req.query;
+	//req.body 		= req.query;
 	var async 		= require('async');
 	var utils   	= require('utility/utils'),
 	 	db_query 	= require('db_query/query'),

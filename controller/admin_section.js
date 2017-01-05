@@ -16,9 +16,9 @@ router.route('/')
     res.json({ message: 'Welcome to the coolest API on earth!' });
 });
 router.route('/addNewUser')
-.get(function (req, res) {
+.post(function (req, res) {
    // was post method
-    req.body        = req.query;
+  //  req.body        = req.query;
 
     var async         = require('async');
     var utils       = require('utility/utils'),
@@ -122,9 +122,9 @@ router.route('/addNewUser')
     });
 });
 router.route('/updateUserDetails')
-.get(function (req, res) {
+.post(function (req, res) {
     // was post method
-    req.body        = req.query;
+    //req.body        = req.query;
 
     var async         = require('async');
     var utils       = require('utility/utils'),

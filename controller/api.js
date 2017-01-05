@@ -13,10 +13,10 @@ router.route('/')
 });
 // api to send details of customer
 router.route('/getCustomerDetails')
-.get(function (req, res) {
+.post(function (req, res) {
  
 	// was post method
-	req.body 			= req.query;
+	//req.body 			= req.query;
 
 	var async 			= require('async');
 	var sql 			= require('mssql');
@@ -121,9 +121,9 @@ router.route('/getCustomerDetails')
 });
 // api to read all previous winner ticket from text file 
 router.route('/getMerchantOffer')
-.get(function (req, res) {
+.post(function (req, res) {
 	// was post method
-	req.body 		= req.query;
+	//req.body 		= req.query;
 
 	var async 			= require('async');
 	var sql 			= require('mssql');
@@ -170,9 +170,9 @@ router.route('/getMerchantOffer')
 });
 // api to read all previous winner ticket from text file 
 router.route('/getUserDetails')
-.get(function (req, res) {
+.post(function (req, res) {
  	// was post method
-	req.body 		= req.query;
+	//req.body 		= req.query;
 
 	var async 			= require('async');
 	var sql 			= require('mssql');
@@ -254,9 +254,9 @@ router.route('/getOfferDetails')
 })
 
 router.route('/BulkInsert')
-.get(function (req, res) {
+.post(function (req, res) {
  	// was post method
-	req.body 		= req.query;
+	//req.body 		= req.query;
 	var async 			= require('async');
 	var sql 			= require('mssql');
 	var config 			= require('config/db_connection');
