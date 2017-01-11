@@ -26,6 +26,43 @@
 				Generate PDF View
 			</button>
             <div class="table-responsive" >
+            	
+				<!-- table which are showing in our display -->
+	            <table class="table table-bordered offer-display-detail" id="tableToExportPdf">
+	    			<thead class="btn-primary">
+						<tr>
+							<th ng-click="sort('merchantName')">Merchant  
+								<span class="glyphicon glyphicon-menu-down" ng-if="sortBy == 'merchantName'"></span>
+								<span class="glyphicon glyphicon-menu-up" ng-if="sortBy == '-merchantName'"></span>
+							</th>
+							<th ng-click="sort('Offer_rule_en')">Offer 
+								<span class="glyphicon glyphicon-menu-down" ng-if="sortBy == 'Offer_rule_en'"></span>
+								<span class="glyphicon glyphicon-menu-up" ng-if="sortBy == '-Offer_rule_en'"></span>
+							</th>
+							<th>Offer Id</th>
+							<th>Category</th>
+							<th>Sub Category</th>
+							
+							<th>Benefit</th>
+							<th>Offer Location</th>
+							<th>Post Code</th>
+						</tr>
+					</thead>
+					<tbody dir-paginate="details in details_response | orderBy:sortBy:reverse | itemsPerPage: selected_search_type_per_page | filter:search">
+    					<tr >
+    						<td ng-bind="details.merchantName"></td>
+    						<td ng-bind="details.Offer_rule_en"></td>
+    						<td ng-bind="details.OfferId"></td>
+    						<td ng-bind="details.CategoryDesc"></td>
+    						<td ng-bind="details.subCategoryDesc"></td>
+    						
+    						<td ng-bind="details.benefit_name_en"></td>
+    						<td ng-bind="details.offer_address_en"></td>
+    						<td ng-bind="details.postal_code"></td>
+    					</tr>
+    				</tbody>
+				</table>
+				<!-- table for excel generation -->
 				<table class="table table-bordered offer-display-detail" id="tableToExport" style="display:none">
 	    			<thead class="btn-primary">
 						<tr>
@@ -58,40 +95,6 @@
     						<td ng-bind="history.benefit_name_en"></td>
     						<td ng-bind="history.offer_address_en"></td>
     						<td ng-bind="history.postal_code"></td>
-    					</tr>
-    				</tbody>
-				</table>
-	            <table class="table table-bordered offer-display-detail" id="tableToExportPdf">
-	    			<thead class="btn-primary">
-						<tr>
-							<th ng-click="sort('merchantName')">Merchant  
-								<span class="glyphicon glyphicon-menu-down" ng-if="sortBy == 'merchantName'"></span>
-								<span class="glyphicon glyphicon-menu-up" ng-if="sortBy == '-merchantName'"></span>
-							</th>
-							<th ng-click="sort('Offer_rule_en')">Offer 
-								<span class="glyphicon glyphicon-menu-down" ng-if="sortBy == 'Offer_rule_en'"></span>
-								<span class="glyphicon glyphicon-menu-up" ng-if="sortBy == '-Offer_rule_en'"></span>
-							</th>
-							<th>Offer Id</th>
-							<th>Category</th>
-							<th>Sub Category</th>
-							
-							<th>Benefit</th>
-							<th>Offer Location</th>
-							<th>Post Code</th>
-						</tr>
-					</thead>
-					<tbody dir-paginate="details in details_response | orderBy:sortBy:reverse | itemsPerPage: selected_search_type_per_page | filter:search">
-    					<tr >
-    						<td ng-bind="details.merchantName"></td>
-    						<td ng-bind="details.Offer_rule_en"></td>
-    						<td ng-bind="details.OfferId"></td>
-    						<td ng-bind="details.CategoryDesc"></td>
-    						<td ng-bind="details.subCategoryDesc"></td>
-    						
-    						<td ng-bind="details.benefit_name_en"></td>
-    						<td ng-bind="details.offer_address_en"></td>
-    						<td ng-bind="details.postal_code"></td>
     					</tr>
     				</tbody>
 				</table>

@@ -71,6 +71,10 @@ angular.module('CustomerReportController', ['applicationService.services'])
 		{
 			$scope.category_filter_details = $scope.category;
 		}
+		if(type == 'location')
+		{
+			$scope.location_filter = $scope.location_name;
+		}
 	}
 
 	API.getDetails("customer_segment/getCustReportList",{token : localStorage.getItem('token')}).then(function successCallback(response) {
@@ -115,18 +119,25 @@ angular.module('CustomerReportController', ['applicationService.services'])
 			$scope.offer_id = APPLICATION_CONSTANT.default_offer_id;
 			if($location.path() == '/offer_segment')
 			{
-				$scope.getOfferSegmentDetails();
+				$scope.show_loader = false;
+				// $scope.getOfferSegmentDetails();
+				$scope.checkboxModel.location_details 	= false;
+				$scope.checkboxModel.age_grouped 		= false;
+				$scope.checkboxModel.segment 			= false;
+				$scope.checkboxModel.tag_details 		= false;
+				$scope.show_discription 				= false;
 			}
 			else
 			{
 				$scope.getCustomerSegmentDetails();
+				$scope.checkboxModel.location_details 	= false;
+				$scope.checkboxModel.age_grouped 		= false;
+				$scope.checkboxModel.segment 			= false;
+				$scope.checkboxModel.tag_details 		= false;
+				$scope.show_discription 				= false;
 			}
 
-			$scope.checkboxModel.location_details 	= false;
-			$scope.checkboxModel.age_grouped 		= false;
-			$scope.checkboxModel.segment 			= false;
-			$scope.checkboxModel.tag_details 		= false;
-			$scope.show_discription 				= false;
+			
 			//$scope.show_loader = false;
 		}
 		else
@@ -218,6 +229,7 @@ angular.module('CustomerReportController', ['applicationService.services'])
 			}
 		}
 	}
+
 	$scope.changeChecboxStatus = function(type,axis)
 	{
 		if(axis == 'x_axis')
@@ -701,6 +713,7 @@ angular.module('CustomerReportController', ['applicationService.services'])
 		}
 		$scope.change_axis_display(type,axis);
 	}
+	
 	$scope.getCustomerSegmentDetails = function()
 	{
 		

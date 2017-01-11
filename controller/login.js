@@ -39,7 +39,6 @@ router.route('/login')
 		function(callback){
 			var crypto 	 	= require('crypto'),
 				userName 	= req.body.username,
-				
 				password 	= req.body.password;
 			var	selection 	= '*',
 				table    	= constant.USER_MASTER_TABLE;

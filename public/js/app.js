@@ -5,7 +5,7 @@ angular.module('project', ['ngRoute','homeController','userController','adminCon
  all constant used in angular js front end
 */
 .constant('APPLICATION_CONSTANT', {
-    default_offer_id          : 22,
+    default_offer_id          : "",
     user_role                 : [{
                                   "name" : "ADMIN",
                                   "value" : "Admin"
@@ -27,7 +27,9 @@ angular.module('project', ['ngRoute','homeController','userController','adminCon
     offer_segment_view        : "OFFER SEGMENT VIEW",
     member_segment_view       : "MEMBER SEGMENT VIEW",
     offer_display_view        : "OFFER DISPLAY VIEW",
-    merchant_display_view     : "MERCHANT DISPLAY VIEW"
+    merchant_display_view     : "MERCHANT DISPLAY VIEW",
+    space_regex               : /^\S*$/,
+    password_regex            : /^(?=^.{8,30}$)((?=.*\d)|(?=.*\W+))(?![.\n])(?=.*[A-Z])(?=.*[a-z]).*$/
 })
 
 .config(function($routeProvider) {

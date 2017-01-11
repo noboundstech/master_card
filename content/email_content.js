@@ -5,7 +5,7 @@ module.exports.forget_password = function(data)
                             "Password : "+data.userPwd+"<br><br><br><br><br "+
 							'Thanks <br><br>Team Master Card ';
     var body	= email_content;      
-    var subject = "Forget Password. ";             
-    var data    = {body: body,subject:subject};                 
-    return data;                                       
+    var subject = "Forgot Password. ";             
+    var email_data    = {body: body,subject:subject};                 
+    return email_data;                                       
 }

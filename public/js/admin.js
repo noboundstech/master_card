@@ -5,6 +5,7 @@ angular.module('adminController', ['applicationService.services'])
 	$scope.user_name 			= localStorage.getItem('csr_name');
 	$scope.edit_user_Details 	= {};
 	$scope.add_user 		 	= {};
+	$scope.add_user.password 	= '';
 	$rootScope.authenticateUser();
 	$scope.show_loader 			= true;
 	$scope.add_user.token  		= localStorage.getItem('token');
@@ -12,7 +13,7 @@ angular.module('adminController', ['applicationService.services'])
 	$scope.User_role 			= APPLICATION_CONSTANT.user_role;
 	$scope.user_status 			= APPLICATION_CONSTANT.user_status;
 	$scope.page_title 			= APPLICATION_CONSTANT.admin_section;
-
+	$scope.passwordPattern		= new RegExp("/^[a-z]+[a-z0-9._]+@[a-z]+\.[a-z.]{2,5}$/");
 	$scope.details = { "token" 		: localStorage.getItem('token')};
 	API.postDetails($scope.details,"api/getUserDetails").then(function successCallback(response) {
 		$scope.show_loader = false;
@@ -48,9 +49,20 @@ angular.module('adminController', ['applicationService.services'])
 			}
 			return false;
 		}
+		if(!(APPLICATION_CONSTANT.space_regex).test($scope.add_user.password))
+		{
+			$scope.error = "Please enter password without using any space.";
+			return false;
+		}
+		
+		if(!(APPLICATION_CONSTANT.password_regex).test($scope.add_user.password))
+		{
+			$scope.error = "Password must be atleast 8 character and contain at least one digit,one uppercase ,one special character .";
+			return false;
+		}
 		if(typeof $scope.add_user.email_id =='undefined' || $scope.add_user.email_id =='' || $scope.add_user.email_id == null)
 		{
-			if(!$scope.new_user.password.$touched)
+			if(!$scope.new_user.email_id.$touched)
 			{
 				$scope.error = "Please enter user email Id.";
 			}
@@ -102,6 +114,17 @@ angular.module('adminController', ['applicationService.services'])
 				$scope.error = "Please enter user password.";
 			}
 			
+			return false;
+		}
+		if(!(APPLICATION_CONSTANT.space_regex).test($scope.edit_user_Details.userPwd))
+		{
+			$scope.error = "Please enter password without using any space.";
+			return false;
+		}
+		
+		if(!(APPLICATION_CONSTANT.password_regex).test($scope.edit_user_Details.userPwd))
+		{
+			$scope.error = "Password must be atleast 8 character and contain at least one digit,one uppercase ,one special character .";
 			return false;
 		}
 		if(typeof $scope.edit_user_Details.userEMailId =='undefined' || $scope.edit_user_Details.userEMailId =='' || $scope.edit_user_Details.userEMailId == null)

@@ -589,6 +589,7 @@ angular.module('userController', ['applicationService.services'])
 			}
 		}
 	}, 100000);
+
 	if(localStorage.getItem('token') != 'undefined' && localStorage.getItem('token') != null)
 	{
 		//	$scope.csr_id 	=  localStorage.getItem('token');

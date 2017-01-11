@@ -25,16 +25,16 @@
     "socket.io": "^1.5.1",
     "underscore": "^1.8.3"
   },
-  "description": "this is test project",
+  "description": "this is a master card project from where they can send offer to there customer and see offer details",
   "main": "app.js",
   "devDependencies": {},
   "repository": {
     "type": "git",
-    "url": "none"
+    "url": "https://github.com/noboundstech/master_card"
   },
   "keywords": [
-    "test",
-    "project"
+    "machina crm",
+    "master card"
   ],
   "author": "firdous alam",
   "license": "ISC"

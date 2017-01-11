@@ -60,7 +60,7 @@
 					<div class="rows padding-row"  ng-show="checkboxModel.location">
 						<div class="col-sm-12 padding-row">
 							<strong> LOCATION : </strong>
-
+							<span class="glyphicon glyphicon-list-alt" ng-click="selectAllFilter('location');"  title="select all Gender"></span>
 						</div>
 						<div class="col-sm-12 padding-2">
 							<select chosen multiple ng-model="location_filter" ng-options="s.cust_location for s in location_name" data-placeholder="Loading Location" data-placeholder-text-multiple="'SELECT LOCATION'">

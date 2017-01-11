@@ -572,14 +572,14 @@ router.route('/AddChatDetails')
                     	offer_cnt 	= 0,
                         len_offer 	= 0;
                     if ( typeof req.body.chat_details[row].offer_details == 'undefined')
-                     {
+                    {
                      	//converseby
 	                    vallist+="(" +chatheaderid+",'"+converseby+"','"+typeofdata+"','"+textdata+"',"+imagedata+","+sounddata+","+offerid+")" ;
 	                    if(row < (len_chat-1))
 	                    {
 	                       vallist+=",";
 	                    }
-                     }
+                    }
                     else
                     {
                     	chatheaderid    = req.body.chat_details[row].chatheaderid;

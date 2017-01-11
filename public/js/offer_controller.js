@@ -111,7 +111,7 @@ angular.module('offerController', ['applicationService.services'])
 			document.getElementById("close_filter").click();
 		});
 	}
-	$scope.sortBy = 'merchantName'
+	$scope.sortBy = 'merchantName';
 	$scope.sort = function(val)
 	{
 		if($scope.sortBy == val)

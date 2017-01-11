@@ -53,11 +53,6 @@ app.use(function (req, res, next) {
     res.header('Access-Control-Max-Age', '586400');
    
     // the next() function continues execution and will move onto the requested URL/URI
-
-    if(req.body._body)
-    {
-   //   req.body =  JSON.parse(Object.keys(req.body)[0]);
-    }
     next();
 });
 // adding middleware for nodejs crawl
@@ -95,7 +90,7 @@ function findNewCsrForConnection(data,users,total_user,total_csr,socket,csr_id,c
 
     for(var i=0;i<total_csr.length;i++)
     {
-      if(total_user[total_csr[i]] < 4 )
+      if(total_user[total_csr[i]] < 10 )
       {
         var utils = require("utility/utils");
         var response_data = {};
@@ -216,6 +211,7 @@ app.io = io.sockets.on("connection",function(socket){
     }
     socket_details = socket;
   });
+
   socket.on("send message",function(data){
     data.date = new Date();
     data.typeofdata = "TX";
@@ -249,6 +245,7 @@ app.io = io.sockets.on("connection",function(socket){
       }
     }
   });
+
   socket.on('disconnect',function(data){
     if(!socket.unique_id)
     {
