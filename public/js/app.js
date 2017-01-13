@@ -98,6 +98,7 @@ angular.module('project', ['ngRoute','homeController','userController','adminCon
     localStorage.removeItem("customer_csr_name");
     localStorage.removeItem("token");
     localStorage.removeItem("user_role");
+    localStorage.removeItem("customer_csr_name");
     $location.url("");
   }
 

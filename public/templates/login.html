@@ -5,7 +5,7 @@
             <span class="err" ng-bind="error"></span>
             <input type="text" name="user" placeholder="Username" ng-model="login.username" required>
             <span class="err" ng-show="loginForm.user.$touched && loginForm.user.$invalid">Please enter user name.</span>
-            <input type="password" name="pass" placeholder="Password" ng-model="login.password" ng-min="6" required>
+            <input type="password" name="pass" placeholder="Password" ng-model="login.password" ng-min="8" required>
             <span class="err" ng-show="loginForm.pass.$touched && loginForm.pass.$invalid">please enter password.</span>
              <span class="err" ng-show="loginForm.pass.$untouched && loginForm.$error.$minlength">please enter password.</span>
             <div class="loader_angular" ng-show="Loader"></div>

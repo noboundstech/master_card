@@ -132,6 +132,7 @@ function findNewCsrForConnection(data,users,total_user,total_csr,socket,csr_id,c
           found_new_csr = 1;
           users[total_csr[i]].emit("new customer added",details);
           users[socket.unique_id].emit("make_connection_with_csr",total_csr[i]);
+
         })
         
         // i.e called an api to we chat
@@ -212,24 +213,52 @@ app.io = io.sockets.on("connection",function(socket){
     socket_details = socket;
   });
 
+
+
+/*
+{type : "customer" , "id" : $scope.cust_id,"csr" : $scope.csr_id}
+
+{
+  "sender_id"     : $scope.cust_id,
+  "customer_id"     : $scope.cust_id,
+  "typeofdata"    : "TX",
+  "converseby"    : "CU",
+  "message"       : $scope.customer_message,
+  "chatheaderid"    : "",
+  "member_id"     : "",
+  "cust_id"       : $scope.cust_id,
+  "csr_id"      : $scope.csr_id
+}
+
+socket.unique_id =  data.id;
+socket.csr_id   = total_csr[i];
+socket.chat_header_id = '';
+total_user[total_csr[i]]+=1;
+socket.cust_id   = data.id;
+socket.chat_header_id = response_data.details[0].max_header_id;
+users[socket.unique_id] = socket;
+found_new_csr = 1;
+
+*/
   socket.on("send message",function(data){
     data.date = new Date();
     data.typeofdata = "TX";
+    console.log(data,"line 246");
+    console.log(users, "total users");
     if(typeof data.converseby == 'undefined')
     {
       data.converseby = "CU";
     }
     if(data.cust_id in users)
     {
+      console.log("find customer")
       if(typeof users[data.cust_id] !="undefined")
       {
-        console.log(data.csr_id,"csr id");
-      //  console.log(users[data.cust_id],"customer details");
-    //    console.log( users[data.csr_id],"csr details")
-        if(data.converseby !='CS')
-        {
+      //  if(data.converseby !='CS')
+      //  {
           users[data.cust_id].emit("new message",data);
-        }
+         // users[data.id].emit("new message",data);
+      //  }
       }
       if(typeof users[data.csr_id] !="undefined")
       {
@@ -242,6 +271,12 @@ app.io = io.sockets.on("connection",function(socket){
       if(typeof users[data.csr_id] != 'undefined')
       {
         users[data.csr_id].emit("new message",data);
+       //  users[data.id].emit("new message",data);
+
+      }
+      if(typeof users[data.cust_id] !="undefined")
+      {
+        users[data.cust_id].emit("new message",data);
       }
     }
   });

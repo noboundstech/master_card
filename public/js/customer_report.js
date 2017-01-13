@@ -1570,7 +1570,7 @@ angular.module('CustomerReportController', ['applicationService.services'])
 	if(localStorage.getItem('customer_csr_name') != 'undefined' && localStorage.getItem('customer_csr_name') != null)
 	{
 		$scope.csr_id = JSON.parse(localStorage.getItem('customer_csr_name'));
-		$scope.makeNewConnection();
+		//$scope.makeNewConnection();
 	}
 	else
 	{
