@@ -239,15 +239,12 @@ found_new_csr = 1;
   socket.on("send message",function(data){
     data.date = new Date();
     data.typeofdata = "TX";
-    console.log(data,"line 246");
-    console.log(users, "total users");
     if(typeof data.converseby == 'undefined')
     {
       data.converseby = "CU";
     }
     if(data.cust_id in users)
     {
-      console.log("find customer")
       if(typeof users[data.cust_id] !="undefined")
       {
       //  if(data.converseby !='CS')

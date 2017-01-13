@@ -11,7 +11,7 @@ angular.module('userController', ['applicationService.services'])
 	$scope.customer_tag 				= [];
 	$scope.address 						= {};
 	$scope.chat_details 				= [];
-	$scope.search_type  				= "distance";
+
 	$scope.search_by_merchant_tag 		= '';
 	$scope.search_by_distance_filter 	= 10000;
 	var socket 							= io.connect();
@@ -608,6 +608,8 @@ angular.module('userController', ['applicationService.services'])
 	$scope.value_checked = [];
   	$scope.sendChatMessageFromCsr = function (){
   		var checkedValue = '';
+
+  		console.log(document.getElementsByClassName('merchant_offer_checkbox'));
   		if(document.getElementById("dragable_id").value !='')
   		{
   			var details = document.getElementById("dragable_id").value.split("#");

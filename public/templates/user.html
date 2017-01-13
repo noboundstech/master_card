@@ -309,9 +309,9 @@
                             <input type="radio" name="radio_search" value="merchant"  ng-model="search_type" ng-click="searchType('merchant');"> Search by Merchant:
                              <input type="radio" name="radio_search" value="offer"  ng-model="search_type" ng-click="searchType('offer');"> Search by Offer:
                         </p>
-                        <form>
-                            <div class="tab-content">
-                                <div class="tab-pane active" id="features"  ng-show="search_type == 'merchant'">
+                       
+                            <div >
+                                <div ng-show="search_type == 'merchant'">
                                     <ul class="list-group offer-list" id="style-3">
 
                                         <li class="list-group-item" ng-repeat="search_merchant in merchant_details | orderBy : '-merch_total'  | filter : search_by_merchant_filter">
@@ -335,7 +335,7 @@
                                     </ul>
                                 </div>
 
-                                <div class="tab-pane active" id="prices"  ng-show="search_type == 'distance'">
+                                <div  id="prices">
                                     <ul class="list-group offer-list" id="style-3">
 
                                         <li class="list-group-item" ng-repeat="dist in merchant_by_location_details | orderBy : '-merch_dist_total'"    ng-show="dist.distance  <= search_by_distance_filter">
@@ -350,7 +350,7 @@
                                     </ul>
                                 </div>
                                 
-                                <div class="tab-pane active" id="features"  ng-show="search_type == 'offer'">
+                                <div ng-show="search_type == 'offer'">
                                     <ul class="list-group offer-list" id="style-3">
 
                                         <li class="list-group-item" ng-repeat="search_merchant in merchant_details | orderBy : '-merch_total' ">
@@ -362,7 +362,7 @@
                                     </ul>
                                 </div>
                             </div>
-                        </form>
+                        
                     </div>
                 </div>
             </div>
