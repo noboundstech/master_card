@@ -1,5 +1,5 @@
 angular.module('userController', ['applicationService.services'])
-.controller('user', function($scope,$rootScope,$http,$routeParams,$location,$localStorage,$interval,API)
+.controller('user', function($scope,$rootScope,$http,$routeParams,$location,$localStorage,$interval,API,APPLICATION_CONSTANT)
 {
 	$rootScope.authenticateUser();
 	$scope.show_id   					= 0;
@@ -437,7 +437,7 @@ angular.module('userController', ['applicationService.services'])
 			address_details+=address_detail_array[i];
 		}
 
-		var url = 'http://dev.virtualearth.net/REST/v1/Locations/'+address_details+'/?key=Xq0T8wPqxneoxxanRmu1~9FSrjfIQxfwsRSGPHo9Vdw~AhmEyooC-UQxG53RYdz4XzIeiA0IY8fmU3MMRnton0HjXvSQ6ishyDWYRyO7-tm_';
+		var url = 'http://dev.virtualearth.net/REST/v1/Locations/'+address_details+'/?key='+APPLICATION_CONSTANT.bingMapKey;
 		//var geocodeRequest = "http://dev.virtualearth.net/REST/v1/Locations/US/WA/Redmond/1%20Microsoft%20Way?key=AjZ0wB-x_wfUhjERvFMimAGIUbgHM7uRTKubZcmsbnE_-DSE49gBI53Ts9ClaeT5";
 
 		$scope.CallRestService(url);
@@ -585,7 +585,7 @@ angular.module('userController', ['applicationService.services'])
 				}
 			}
 		}
-	}, 200000);
+	}, APPLICATION_CONSTANT.messageInsertTiming);
 
 	if(localStorage.getItem('token') != 'undefined' && localStorage.getItem('token') != null)
 	{
@@ -608,8 +608,6 @@ angular.module('userController', ['applicationService.services'])
 	$scope.value_checked = [];
   	$scope.sendChatMessageFromCsr = function (){
   		var checkedValue = '';
-
-  		console.log(document.getElementsByClassName('merchant_offer_checkbox'));
   		if(document.getElementById("dragable_id").value !='')
   		{
   			var details = document.getElementById("dragable_id").value.split("#");

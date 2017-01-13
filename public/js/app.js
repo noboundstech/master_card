@@ -28,6 +28,8 @@ angular.module('project', ['ngRoute','homeController','userController','adminCon
     member_segment_view       : "MEMBER SEGMENT VIEW",
     offer_display_view        : "OFFER DISPLAY VIEW",
     merchant_display_view     : "MERCHANT DISPLAY VIEW",
+    messageInsertTiming       : 20000,
+    bingMapKey                : "Xq0T8wPqxneoxxanRmu1~9FSrjfIQxfwsRSGPHo9Vdw~AhmEyooC-UQxG53RYdz4XzIeiA0IY8fmU3MMRnton0HjXvSQ6ishyDWYRyO7-tm_",
     space_regex               : /^\S*$/,
     password_regex            : /^(?=^.{8,30}$)((?=.*\d)|(?=.*\W+))(?![.\n])(?=.*[A-Z])(?=.*[a-z]).*$/
 })
