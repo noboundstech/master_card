@@ -1626,4 +1626,10 @@ angular.module('CustomerReportController', ['applicationService.services'])
 	    localStorage.removeItem("chat_message");
 	    $location.url("");
 	}
+
+	$scope.refresh = function()
+	{
+		localStorage.removeItem("customer_csr_name");
+		location.reload();
+	}
 })

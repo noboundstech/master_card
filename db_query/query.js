@@ -260,7 +260,7 @@ module.exports = {
             var request = new sql.Request(connection1); // or: var request = connection1.request();
                     
             var query = 'insert into '+table+' '+fieldlist+' values '+vallist ;
-
+            
             console.log(query);
             request.query(query).then(function(err,recordset) {
                 data.details = request.rowsAffected;

@@ -109,14 +109,10 @@ function findNewCsrForConnection(data,users,total_user,total_csr,socket,csr_id,c
                         id              : data.id,
                         image           : "img/user.png",
                         notification    : 0,
-                        name            : "Kennedy john"+data.id ,
+                        name            : data.id ,
                         last_login      : "0 min",
                         chat_header     : response_data.details[0].max_header_id,
-                        offer_history   : [{
-                                  date : "10/3/2016",
-                                  time : "9.30 A.M",
-                                  offer_name : "Lorem Ipsum"
-                                }],
+                        offer_history   : [],
                         location      :{
                                   latitude : "22.573531",
                                   longitude : "88.433119",

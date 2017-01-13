@@ -187,7 +187,7 @@
                                     <span class="tag-style">
                                            {{$index+1}}. {{tag.tagDesc}}
                                             <a href="" ng-click="removeCustomerTag(tag.tagDesc,tag.tagId)">
-                                            <span class="fa fa-close " style="color:#FF6347"  ></span>
+                                            <span class="glyphicon glyphicon-remove" style="color:#FF6347"  ></span>
                                             </a>
                                     </span>
                                       
@@ -201,10 +201,10 @@
                             <div class="loader_angular" ng-show="show_add_tag_loader"></div>
                         </div>
                         <div class="all-tag col-md-9 col-sm-9">
-                            <select chosen multiple ng-model="add_customer_tag" ng-options="s.tagDesc for s in tags" style="width:200px;"  placeholder-expression="Please select tag">
+                            <select chosen multiple ng-model="add_customer_tag" ng-options="s.tagDesc for s in tags" style="width:200px;" data-placeholder="Loading tags" data-placeholder-text-multiple="'SELECT TAGS'">
                             </select>
                         </div>
-                        <span class="col-md-3 col-sm-3 add-tag">
+                        <span class="col-md-3 col-sm-3 add-tag" style = "margin-top: 20px;">
                             <button class="btn btn-default tag-button-add" ng-click="addNewTag();"> Add a tag </button>
                         </span>
                     </div>
@@ -311,6 +311,30 @@
                         </p>
                         <form>
                             <div class="tab-content">
+                                <div class="tab-pane active" id="features"  ng-show="search_type == 'merchant'">
+                                    <ul class="list-group offer-list" id="style-3">
+
+                                        <li class="list-group-item" ng-repeat="search_merchant in merchant_details | orderBy : '-merch_total'  | filter : search_by_merchant_filter">
+                                            <div>
+                                                <strong> 
+                                                    {{search_merchant.merchantName}} ({{search_merchant.merch_total}})
+                                                </strong>
+                                            </div>
+                                            <div ng-repeat = "merchant_offer in search_merchant.merch_detail">
+                                                 <input 
+                                                    type="checkbox" name="merchant_offer_checkbox[]" 
+                                                    value="{{merchant_offer.offer_rule_en}}#{{merchant_offer.offerId}}" 
+                                                    ng-false-value="''" class="distance_offer_checkbox"
+                                                    draggable="true" ondragstart="drag(event)"
+                                                >
+                                                <span  draggable="true" ondragstart="drag(event)" id="{{merchant_offer.offer_rule_en}}#{{offer.offerId}}">
+                                                    {{merchant_offer.offer_rule_en}} 
+                                                </span>
+                                            </div>
+                                        </li>
+                                    </ul>
+                                </div>
+
                                 <div class="tab-pane active" id="prices"  ng-show="search_type == 'distance'">
                                     <ul class="list-group offer-list" id="style-3">
 
@@ -325,31 +349,11 @@
                                         </li>
                                     </ul>
                                 </div>
-                                <div class="tab-pane active" id="features"  ng-show="search_type == 'merchant'">
-                                    <ul class="list-group offer-list" id="style-3">
-                                        <li class="list-group-item" ng-repeat="search_merchant in merchant_details | orderBy : '-merch_total'  | filter : search_by_merchant_filter">
-                                            <div>
-                                                <strong> 
-                                                    {{search_merchant.merchantName}} ({{search_merchant.merch_total}})
-                                                </strong>
-                                            </div>
-                                            <div ng-repeat = "merchant_offer in search_merchant.merch_detail">
-                                                 <input type="checkbox" name="merchant_offer_checkbox[]" value="{{merchant_offer.offer_rule_en}}#{{merchant_offer.offerId}}" ng-false-value="''" class="distance_offer_checkbox" draggable="true" ondragstart="drag(event)">
-                                                <span  draggable="true" ondragstart="drag(event)" id="{{merchant_offer.offer_rule_en}}#{{offer.offerId}}">{{merchant_offer.offer_rule_en}} </span>
-                                            </div>
-                                        </li>
-                                    </ul>
-                                </div>
+                                
                                 <div class="tab-pane active" id="features"  ng-show="search_type == 'offer'">
                                     <ul class="list-group offer-list" id="style-3">
 
                                         <li class="list-group-item" ng-repeat="search_merchant in merchant_details | orderBy : '-merch_total' ">
-                                            <!--
-                                            <div>
-                                                <strong> 
-                                                    {{search_merchant.merchantName}} ({{search_merchant.merch_total}})
-                                                </strong>
-                                            </div>-->
                                             <div ng-repeat = "merchant_offer in search_merchant.merch_detail | filter : search_by_offer_filter">
                                                  <input type="checkbox" name="offer_search_checkbox[]" value="'{{merchant_offer.offer_rule_en}}'" ng-false-value="''" class="distance_offer_checkbox" draggable="true" ondragstart="drag(event)">
                                                 <span  draggable="true" ondragstart="drag(event)"  id="{{merchant_offer.offer_rule_en}}#{{offer.offerId}}">{{merchant_offer.offer_rule_en}} </span>

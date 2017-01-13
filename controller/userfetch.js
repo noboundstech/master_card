@@ -548,7 +548,7 @@ router.route('/AddChatDetails')
             var utils     = require('utility/utils'),
               constant    = require("config/constant"),
               db_query    = require('db_query/query');
-            var len_chat= req.body.chat_details.length;
+            var len_chat  = req.body.chat_details.length;
             var table = constant.CHAT_HISTORY_DETAILS;
          
             var fieldlist   = "(memberChatHeaderId,converseBy,typeOfData,chatText,chatImage,chatSound,offerId)";                            
@@ -556,7 +556,6 @@ router.route('/AddChatDetails')
                                
             if(len_chat>0)
             {
-           
                 for(row=0;row<len_chat;row++)
                 {
                     var memberid    = req.body.chat_details[row].member_id,
@@ -571,7 +570,7 @@ router.route('/AddChatDetails')
                         sounddata   = null,
                     	offer_cnt 	= 0,
                         len_offer 	= 0;
-                    if ( typeof req.body.chat_details[row].offer_details == 'undefined')
+                    if ( typeof req.body.chat_details[row].offer_details == 'undefined' || req.body.chat_details[row].offer_details.length == 0)
                     {
                      	//converseby
 	                    vallist+="(" +chatheaderid+",'"+converseby+"','"+typeofdata+"','"+textdata+"',"+imagedata+","+sounddata+","+offerid+")" ;
@@ -602,6 +601,7 @@ router.route('/AddChatDetails')
                         }      
                     } // end of else
                 }  // end of for
+              
                 db_query.MultiInsertToDb(req,res,vallist,fieldlist,table,response_data,function(){
                 if(response_data.details > 0)
                 {
@@ -609,12 +609,14 @@ router.route('/AddChatDetails')
                 }
                 else
                 {
+                   
                     response_data.success = false;
                     response_data.message = "MultiInsert to table tmemberChatDetails not successful";
                     res.status(203).send({response_data});
                 }
+
                })
-            
+           
 
             } // end of if (len_chat>0)
             else

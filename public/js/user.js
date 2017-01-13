@@ -2,41 +2,38 @@ angular.module('userController', ['applicationService.services'])
 .controller('user', function($scope,$rootScope,$http,$routeParams,$location,$localStorage,$interval,API)
 {
 	$rootScope.authenticateUser();
-	$scope.show_id   = 0;
-	$scope.show_cust = false;;
-	$scope.offer_history =[];
-	$scope.state =[];
-	$scope.states = [];
-	$scope.user_details = [];
-	$scope.customer_tag = [];
-	$scope.address = {};
-	$scope.chat_details =[];
-	$scope.search_type  = "distance";
-	$scope.search_by_merchant_tag = '';
-	$scope.search_by_distance_filter = 10000;
-	var socket = io.connect();
-	$scope.csr_name = JSON.parse(localStorage.getItem('csr_name'));
-
-	$scope.csr_id    = localStorage.getItem('csr_id');
+	$scope.show_id   					= 0;
+	$scope.show_cust 					= false;;
+	$scope.offer_history 				= [];
+	$scope.state 						= [];
+	$scope.states 						= [];
+	$scope.user_details 				= [];
+	$scope.customer_tag 				= [];
+	$scope.address 						= {};
+	$scope.chat_details 				= [];
+	$scope.search_type  				= "distance";
+	$scope.search_by_merchant_tag 		= '';
+	$scope.search_by_distance_filter 	= 10000;
+	var socket 							= io.connect();
+	$scope.csr_name 					= JSON.parse(localStorage.getItem('csr_name'));
+	$scope.csr_id    					= localStorage.getItem('csr_id');
 	// the default center if we can give
-	$scope.points = '';
-
-
-	$scope.mapOptions = {};
-    $scope.mapOptions.center = "";
-    $scope.mapOptions.zoom = 15;
-    $scope.mapOptions.mapType = 'a';
-     $scope.mapOptions.options = {
-        scrollwheel: false,
-        disableZooming: true
-    }
+	$scope.points 						= '';
+	$scope.mapOptions 					= {};
+    $scope.mapOptions.center 			= "";
+    $scope.mapOptions.zoom 				= 15;
+    $scope.mapOptions.mapType 			= 'a';
+	$scope.mapOptions.options 			= {
+			        						scrollwheel: false,
+			        						disableZooming: true
+			    							};
     /*<pushpin> directive options*/
-    $scope.pushpin = {};
-    $scope.pushpin.options = {
-        draggable: false
-    }
-
+    $scope.pushpin 						= {};
+    $scope.pushpin.options 				= {
+        									draggable: false
+    									 };
 	$scope.CallRestService = function(request) {
+		console.log(request);
 	    $.ajax({
 	        url: request,
 	        dataType: "jsonp",
@@ -44,9 +41,10 @@ angular.module('userController', ['applicationService.services'])
 	        success: function (r) {
 	        	if(r.statusCode == 200 )
 	        	{
-		        	$scope.mapOptions.center = {"latitude": r.resourceSets[0].resources[0].point.coordinates[0], "longitude":  r.resourceSets[0].resources[0].point.coordinates[1]};
-		            $scope.pushpin.latitude =  r.resourceSets[0].resources[0].point.coordinates[0];
-		            $scope.pushpin.longitude =  r.resourceSets[0].resources[0].point.coordinates[1];
+	        		console.log(r);
+		        	$scope.mapOptions.center = {"latitude": r.resourceSets[0].resources[0].geocodePoints[0].coordinates[0], "longitude":  r.resourceSets[0].resources[0].geocodePoints[0].coordinates[1]};
+		            $scope.pushpin.latitude =  r.resourceSets[0].resources[0].geocodePoints[0].coordinates[0];
+		            $scope.pushpin.longitude = r.resourceSets[0].resources[0].geocodePoints[0].coordinates[1];
 		            $scope.getDetailsByLocation();
 		        }
 		        else
@@ -74,7 +72,6 @@ angular.module('userController', ['applicationService.services'])
 	{
 		$scope.user_details = JSON.parse(localStorage.getItem('user_details'));
 	}
-
 	// function to get merchant by location
 	$scope.getMerchantDetailsByLocation = function(lotlng,type)
 	{
@@ -442,7 +439,7 @@ angular.module('userController', ['applicationService.services'])
 			address_details+=address_detail_array[i];
 		}
 
-		var url = 'http://dev.virtualearth.net/REST/v1/Locations/'+address_details+'/?key=AjZ0wB-x_wfUhjERvFMimAGIUbgHM7uRTKubZcmsbnE_-DSE49gBI53Ts9ClaeT5';
+		var url = 'http://dev.virtualearth.net/REST/v1/Locations/'+address_details+'/?key=Xq0T8wPqxneoxxanRmu1~9FSrjfIQxfwsRSGPHo9Vdw~AhmEyooC-UQxG53RYdz4XzIeiA0IY8fmU3MMRnton0HjXvSQ6ishyDWYRyO7-tm_';
 		//var geocodeRequest = "http://dev.virtualearth.net/REST/v1/Locations/US/WA/Redmond/1%20Microsoft%20Way?key=AjZ0wB-x_wfUhjERvFMimAGIUbgHM7uRTKubZcmsbnE_-DSE49gBI53Ts9ClaeT5";
 
 		$scope.CallRestService(url);
@@ -539,56 +536,60 @@ angular.module('userController', ['applicationService.services'])
 	$(".messages").scrollTop($(".messages")[0].scrollHeight);
 
 	var InsertChatInDb = $interval(function() {
-	
-		$scope.previous_chat_message = localStorage.getItem('chat_message');
-		//	localStorage.removeItem('chat_message');
-		localStorage.removeItem('chat_message');
-		if($scope.chat_details.length>0 && $scope.chat_details != null && $scope.chat_details != '')
+		console.log(localStorage.getItem('chat_message'));
+		$scope.chat_details = JSON.parse(localStorage.getItem('chat_message'));
+		if(typeof $scope.chat_details != 'undefined' && $scope.chat_details != null)
 		{
-			for(i=0;i<$scope.chat_details.length;i++)
+			$scope.previous_chat_message = JSON.parse(localStorage.getItem('chat_message'));
+			//	localStorage.removeItem('chat_message');
+			localStorage.removeItem('chat_message');
+			if($scope.chat_details.length>0 && $scope.chat_details != null && $scope.chat_details != '')
 			{
-				$scope.chat_details[i].chatheaderid = 186;
-				for(j=0;j<$scope.user_details.length;j++)
+				for(i=0;i<$scope.chat_details.length;i++)
 				{
-					
-					if($scope.chat_details[i].cust_id == $scope.user_details[j].id )
+					$scope.chat_details[i].chatheaderid = 186;
+					for(j=0;j<$scope.user_details.length;j++)
 					{
-						$scope.chat_details[i].chatheaderid = $scope.user_details[j].chat_header;
+						
+						if($scope.chat_details[i].cust_id == $scope.user_details[j].id )
+						{
+							$scope.chat_details[i].chatheaderid = $scope.user_details[j].chat_header;
+						}
+					}
+				}
+				var details = {"chat_details" :$scope.chat_details ,
+								"token" : localStorage.getItem("token")};
+				if($scope.previous_chat_message!= null && $scope.chat_details.length>0)
+				{
+					if($scope.previous_chat_message.length> 0)
+					{
+						console.log(details);
+						API.postDetails(details,"userfetch/AddChatDetails").then(function successCallback(response) {
+							if(response.status == 200)
+							{
+								$scope.previous_chat_message = '';
+								$scope.chat_details = [];
+							}
+							else
+							{
+								$scope.reinsert_chat = JSON.parse(localStorage.getItem('chat_message'));
+								if($scope.reinsert_chat == null)
+								{
+									$scope.reinsert_chat = [];
+								}
+								for(i=0;i<$scope.previous_chat_message.length;i++)
+								{
+									$scope.reinsert_chat.push($scope.previous_chat_message[i]);
+								}
+								localStorage.setItem('chat_message',JSON.stringify($scope.reinsert_chat));
+							}
+						});
+						
 					}
 				}
 			}
-			var details = {"chat_details" :$scope.chat_details ,
-							"token" : localStorage.getItem("token")};
-			if($scope.previous_chat_message!= null && chat_details.length>0)
-			{
-				if($scope.previous_chat_message.length> 0)
-				{
-					
-					API.postDetails(details,"userfetch/AddChatDetails").then(function successCallback(response) {
-						if(response.status == 200)
-						{
-							$scope.previous_chat_message = '';
-							$scope.chat_details = [];
-						}
-						else
-						{
-							$scope.reinsert_chat = JSON.parse(localStorage.getItem('chat_message'));
-							if($scope.reinsert_chat == null)
-							{
-								$scope.reinsert_chat = [];
-							}
-							for(i=0;i<$scope.previous_chat_message.length;i++)
-							{
-								$scope.reinsert_chat.push($scope.previous_chat_message[i]);
-							}
-							localStorage.setItem('chat_message',JSON.stringify($scope.reinsert_chat));
-						}
-					});
-					
-				}
-			}
 		}
-	}, 100000);
+	}, 10000);
 
 	if(localStorage.getItem('token') != 'undefined' && localStorage.getItem('token') != null)
 	{
@@ -646,7 +647,9 @@ angular.module('userController', ['applicationService.services'])
   		if($scope.search_type == 'merchant')
   		{
 			var inputElements = document.getElementsByClassName('merchant_offer_checkbox');
+			console.log(inputElements);
 			for(var i=0; inputElements[i]; ++i){
+				console.log(inputElements[i]);
 			    if(inputElements[i].checked){
 		      		if(checkedValue != '' && checkedValue != 'undefined ' && checkedValue != null)
 		      		{
@@ -685,6 +688,8 @@ angular.module('userController', ['applicationService.services'])
 			    }
 			}
   		}
+
+  		console.log(checkedValue);
   		if(checkedValue!='')
   		{
   			if(typeof $scope.csr_message !='undefined' && $scope.csr_message != null)
@@ -702,7 +707,6 @@ angular.module('userController', ['applicationService.services'])
   		}
   		if($scope.message_sending_detail != '')
 		{
-			console.log($scope.customer_details);
   			socket.emit("send message",
   				{
 	  				"sender_id" 		: $scope.csr_id,
@@ -733,7 +737,16 @@ angular.module('userController', ['applicationService.services'])
 				}
 			}
 		}
-		$scope.chat_details.push(data);
+		console.log($scope.chat_details);
+		if($scope.chat_details == null)
+		{
+			$scope.chat_details = [];
+			$scope.chat_details.push(data);
+		}
+		else
+		{
+			$scope.chat_details.push(data);
+		}
 		//$scope.$apply();
 		$(".messages").scrollTop($(".messages")[0].scrollHeight);
 		$scope.addChatIntoLocalstorage($scope.chat_details);

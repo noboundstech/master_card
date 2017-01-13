@@ -14,7 +14,6 @@ angular.module('applicationService.services', [])
                             params: params
                         });
     				},
-                         
                     postDetails : function (form,url) {
         				return $http.post(base+url,
                             form,
