@@ -585,7 +585,7 @@ angular.module('userController', ['applicationService.services'])
 				}
 			}
 		}
-	}, 10000);
+	}, 200000);
 
 	if(localStorage.getItem('token') != 'undefined' && localStorage.getItem('token') != null)
 	{
