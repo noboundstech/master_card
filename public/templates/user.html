@@ -312,7 +312,7 @@
                        
                             <div >
                                 <div ng-show="search_type == 'merchant'">
-                                    <ul class="list-group offer-list" id="style-3">
+                                    <ul class="list-group offer-list">
 
                                         <li class="list-group-item" ng-repeat="search_merchant in merchant_details | orderBy : '-merch_total'  | filter : search_by_merchant_filter">
                                             <div>
@@ -335,8 +335,8 @@
                                     </ul>
                                 </div>
 
-                                <div  id="prices">
-                                    <ul class="list-group offer-list" id="style-3">
+                                <div ng-show="search_type == 'distance'">
+                                    <ul class="list-group offer-list">
 
                                         <li class="list-group-item" ng-repeat="dist in merchant_by_location_details | orderBy : '-merch_dist_total'"    ng-show="dist.distance  <= search_by_distance_filter">
                                             <div>
@@ -351,7 +351,7 @@
                                 </div>
                                 
                                 <div ng-show="search_type == 'offer'">
-                                    <ul class="list-group offer-list" id="style-3">
+                                    <ul class="list-group offer-list">
 
                                         <li class="list-group-item" ng-repeat="search_merchant in merchant_details | orderBy : '-merch_total' ">
                                             <div ng-repeat = "merchant_offer in search_merchant.merch_detail | filter : search_by_offer_filter">
