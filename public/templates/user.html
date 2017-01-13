@@ -355,7 +355,7 @@
 
                                         <li class="list-group-item" ng-repeat="search_merchant in merchant_details | orderBy : '-merch_total' ">
                                             <div ng-repeat = "merchant_offer in search_merchant.merch_detail | filter : search_by_offer_filter">
-                                                 <input type="checkbox" name="offer_search_checkbox[]" value="'{{merchant_offer.offer_rule_en}}'" ng-false-value="''" class="offer_search_checkbox" draggable="true" ondragstart="drag(event)">
+                                                 <input type="checkbox" name="offer_search_checkbox[]" value="{{merchant_offer.offer_rule_en}}#{{merchant_offer.offerId}}" ng-false-value="''" class="offer_search_checkbox" draggable="true" ondragstart="drag(event)">
                                                 <span  draggable="true" ondragstart="drag(event)"  id="{{merchant_offer.offer_rule_en}}#{{offer.offerId}}">{{merchant_offer.offer_rule_en}} </span>
                                             </div>
                                         </li>
