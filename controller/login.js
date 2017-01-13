@@ -19,7 +19,6 @@ router.route('/login')
 .post(function (req, res) 
 {
 	//req.body = json.Parse(Object.keys(req.body)[0]);
-	console.log(req);
 	// was post method
 	//req.body 		= req.query;
 

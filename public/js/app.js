@@ -120,7 +120,6 @@ angular.module('project', ['ngRoute','homeController','userController','adminCon
               ];
 })
 .directive('googleplace', function() {
-  console.log(" am here");
     return {
         require: 'ngModel',
         link: function(scope, element, attrs, model) {
@@ -134,7 +133,6 @@ angular.module('project', ['ngRoute','homeController','userController','adminCon
 
             google.maps.event.addListener(scope.gPlace, 'place_changed', function() {
                 scope.$apply(function() {
-                  console.log(element.val());
                     model.$setViewValue(element.val());                
                 });
             });

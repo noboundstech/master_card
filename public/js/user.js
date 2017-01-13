@@ -33,7 +33,6 @@ angular.module('userController', ['applicationService.services'])
         									draggable: false
     									 };
 	$scope.CallRestService = function(request) {
-		console.log(request);
 	    $.ajax({
 	        url: request,
 	        dataType: "jsonp",
@@ -41,7 +40,6 @@ angular.module('userController', ['applicationService.services'])
 	        success: function (r) {
 	        	if(r.statusCode == 200 )
 	        	{
-	        		console.log(r);
 		        	$scope.mapOptions.center = {"latitude": r.resourceSets[0].resources[0].geocodePoints[0].coordinates[0], "longitude":  r.resourceSets[0].resources[0].geocodePoints[0].coordinates[1]};
 		            $scope.pushpin.latitude =  r.resourceSets[0].resources[0].geocodePoints[0].coordinates[0];
 		            $scope.pushpin.longitude = r.resourceSets[0].resources[0].geocodePoints[0].coordinates[1];
@@ -536,7 +534,6 @@ angular.module('userController', ['applicationService.services'])
 	$(".messages").scrollTop($(".messages")[0].scrollHeight);
 
 	var InsertChatInDb = $interval(function() {
-		console.log(localStorage.getItem('chat_message'));
 		$scope.chat_details = JSON.parse(localStorage.getItem('chat_message'));
 		if(typeof $scope.chat_details != 'undefined' && $scope.chat_details != null)
 		{
@@ -563,7 +560,6 @@ angular.module('userController', ['applicationService.services'])
 				{
 					if($scope.previous_chat_message.length> 0)
 					{
-						console.log(details);
 						API.postDetails(details,"userfetch/AddChatDetails").then(function successCallback(response) {
 							if(response.status == 200)
 							{
@@ -647,9 +643,7 @@ angular.module('userController', ['applicationService.services'])
   		if($scope.search_type == 'merchant')
   		{
 			var inputElements = document.getElementsByClassName('merchant_offer_checkbox');
-			console.log(inputElements);
 			for(var i=0; inputElements[i]; ++i){
-				console.log(inputElements[i]);
 			    if(inputElements[i].checked){
 		      		if(checkedValue != '' && checkedValue != 'undefined ' && checkedValue != null)
 		      		{
@@ -688,8 +682,6 @@ angular.module('userController', ['applicationService.services'])
 			    }
 			}
   		}
-
-  		console.log(checkedValue);
   		if(checkedValue!='')
   		{
   			if(typeof $scope.csr_message !='undefined' && $scope.csr_message != null)
@@ -725,8 +717,6 @@ angular.module('userController', ['applicationService.services'])
   		$scope.value_checked = [];
 	}
 	socket.on("new message",function(data){
-
-		console.log(data,"got new message");
 		if(typeof data.converseby =='undefined' || data.converseby =='CU')
 		{
 			for(i=0;i<$scope.user_details.length;i++)
@@ -737,7 +727,6 @@ angular.module('userController', ['applicationService.services'])
 				}
 			}
 		}
-		console.log($scope.chat_details);
 		if($scope.chat_details == null)
 		{
 			$scope.chat_details = [];

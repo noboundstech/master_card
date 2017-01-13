@@ -46,7 +46,7 @@ app.use(helmet.hsts({
 app.use(function (req, res, next) {
    res.header('Access-Control-Allow-Headers', 'application/json');
    // add details of what is allowed in HTTP request headers to the response headers
-   res.header('Access-Control-Allow-Origin', req.headers.origin);
+   res.header('Access-Control-Allow-Origin', '*');
    // res.header("Access-Control-Allow-Origin", "*");
     res.header('Access-Control-Allow-Methods', '*');
    // res.header('Access-Control-Allow-Credentials', false);

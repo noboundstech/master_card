@@ -306,7 +306,6 @@ angular.module('CustomerReportController', ['applicationService.services'])
 			{
 				if($scope.x_axis_selected != 'tags')
 				{
-					console.log($scope.x_axis_selected );
 					if($scope.x_axis_selected == 'card_type')
 					{
 						$scope.checkboxModel.card_type 	= false;
@@ -579,7 +578,6 @@ angular.module('CustomerReportController', ['applicationService.services'])
 			{
 				if($scope.y_axis_selected != 'location')
 				{
-					console.log($scope.y_axis_selected );
 					if($scope.y_axis_selected == 'card_type')
 					{
 						$scope.checkboxModel.card_type 	= false;
@@ -840,7 +838,6 @@ angular.module('CustomerReportController', ['applicationService.services'])
 		}
 		if($scope.x_axis_selected == 'age_grouped' || $scope.y_axis_selected == 'age_grouped')
 		{
-			console.log($scope.age_group_filter);
 			if(typeof $scope.age_group_filter !='undefined')
 			{
 				for(i=0;i<$scope.age_group_filter.length;i++)
@@ -1074,7 +1071,6 @@ angular.module('CustomerReportController', ['applicationService.services'])
 	}
 	$scope.changeofferSearchStatus = function(val)
 	{
-		console.log(val);
 		if(val == 'change_to_offer_id')
 		{
 			if($scope.offer_id_details != '' && $scope.offer_id_details != null)
@@ -1601,7 +1597,6 @@ angular.module('CustomerReportController', ['applicationService.services'])
   		$scope.customer_message ='';
 	}
 	socket.on("new message",function(data){
-		console.log(data);
 		$scope.chat_details.push(data);
 		$scope.$apply();
 		$(".messages").scrollTop($(".messages")[0].scrollHeight);
