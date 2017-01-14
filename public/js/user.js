@@ -11,7 +11,7 @@ angular.module('userController', ['applicationService.services'])
 	$scope.customer_tag 				= [];
 	$scope.address 						= {};
 	$scope.chat_details 				= [];
-
+	$scope.page_title 					= "Chat window";
 	$scope.search_by_merchant_tag 		= '';
 	$scope.search_by_distance_filter 	= 10000;
 	var socket 							= io.connect();
