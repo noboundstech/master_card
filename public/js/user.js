@@ -791,6 +791,34 @@ angular.module('userController', ['applicationService.services'])
 		}
 		$scope.$apply();
 	})
+	console.log(screen.width);
+	$scope.changeToggle = 0;
+	if(screen.width<991)
+	{
+		$scope.show_menu_nav = false;
+		//document.getElementById("side-bar").style.left = '-250px';
+	}
+	else
+	{
+		$scope.show_menu_nav = true;
+	}
+	$scope.toggleMenu = function()
+	{
+		//console.log(document.getElementById("side-bar").style)
+		if($scope.changeToggle == 0)
+		{
+			$scope.changeToggle = 1;
+			$scope.show_menu_nav = true;
+			//document.getElementById("side-bar").style.left = '0px';
+		}
+		else
+		{
+			$scope.show_menu_nav = false;
+			//document.getElementById("side-bar").style.left = '-250px';
+			$scope.changeToggle = 0;
+		}
+	}
+	
 })
 
 .controller('dashboard', function($scope,$localStorage,$rootScope)

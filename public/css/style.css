@@ -950,12 +950,14 @@ body {
 /* Sidebar Style started */
 
 
+
 #side-bar {
   z-index: 3;
   background: #000;
   position: absolute;
   left: 0;
   width: 230px;
+  opacity: 1;
   background: #22282d;
   height: 708px;
   overflow-y: scroll;
@@ -1720,6 +1722,7 @@ body {
 .map-details .user-box{
   border-top: 1px solid #dbdde2;
 }
+/*
 #side-bar {
   background: #000;
   position: absolute;
@@ -1730,6 +1733,7 @@ body {
   -o-transition: all 0.5s ease;
   transition: all 0.5s ease;
 }
+*/
 #side-bar.toggled {
   position: absolute;
   left: 0px;
@@ -1808,6 +1812,7 @@ body {
   position: absolute;
   left: 0;
   width: 230px;
+  opacity: 1;
   background: #22282d;
   height: 708px;
   overflow-y: scroll;
@@ -1827,9 +1832,11 @@ body {
 }    
     
 }
-   
+
+
 @media(max-width:991px) {
-   
+ /*
+     
   #side-bar {
   background: #000;
   position: absolute;
@@ -1840,6 +1847,7 @@ body {
   -o-transition: all 0.5s ease;
   transition: all 0.5s ease;
 }
+*/
 #side-bar.toggled {
   position: absolute;
   left: 0px;
@@ -2729,3 +2737,12 @@ padding-right:10px;
    top:3px;
 }
 
+
+.animate-show-hide.ng-hide {
+  opacity: 0;
+}
+
+.animate-show-hide.ng-hide-add,
+.animate-show-hide.ng-hide-remove {
+  transition: all linear 0.5s;
+}

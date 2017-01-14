@@ -2,7 +2,7 @@
 <!-- Main header started -->
 <div class="main-header">
     <div class="container-fluid">
-        <a href="#/dashboard" class="btn btn-default back-button"><span class="fa fa-long-arrow-left"></span></a>
+        <a href="#/dashboard" class="btn btn-default back-button"><span class="glyphicon glyphicon-arrow-left"></span></a>
         <div class="navbar-header"> 
 
             <a class="navbar-brand" href="#">
@@ -20,8 +20,8 @@
                 <span class="cs-name">Customer List({{csr_name}})</span>
                 <span class="alert"><span class="number">{{user_details.length}}</span></span>
             </button>
-            <a data-target="#menu-toggle" class="btn btn-default hidden-lg hidden-md" id="menu-toggle">
-                <i class="fa fa-bars"></i>
+            <a ng-click="toggleMenu();" class="btn btn-default hidden-lg hidden-md" id="menu-toggle">
+                <i class="glyphicon glyphicon-menu-hamburger"></i>
             </a>
 
         </div>
@@ -32,7 +32,7 @@
 <!-- Main content box started -->
 <div id="wrapper" class="container-fluid"> 
     <!-- Sidebar  started -->
-    <div id="side-bar" class=" ">
+    <div id="side-bar" class=" animate-show-hide" ng-show="show_menu_nav">
         <h4 class="customer-list">Customer Online : </h4>
         <!-- userlist  started -->
         <ul class="sidebar-nav">

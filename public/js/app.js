@@ -1,5 +1,6 @@
 angular.module('project', ['ngRoute','homeController','userController','adminController','offerController','CustomerReportController','ngStorage',
-                          'angularUtils.directives.dirPagination','localytics.directives','ngMap','gm','720kb.datepicker','angularBingMaps'])
+                          'angularUtils.directives.dirPagination','localytics.directives','ngMap','gm',
+                          '720kb.datepicker','angularBingMaps'])
  
  /*
  all constant used in angular js front end
