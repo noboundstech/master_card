@@ -1,6 +1,7 @@
 
 var express = require('express'),
-    router  = express.Router();
+    router  = express.Router(),
+    utils = require('utility/utils');
 //********************************************************
 router.route('/getCustReportList')
 .get(function (req, res) {
@@ -225,7 +226,7 @@ router.route('/getCustSegReportData')
             })
         },
         function(callback){
-            var utils = require('utility/utils');
+          
             utils.checkAuthentication(req,res,function(){
                 callback();
             })
@@ -273,9 +274,9 @@ router.route('/getCustSegReportData')
                         for (t_seg=0;t_seg<len_seg;t_seg++)
                         {
                             if (t_seg==0)
-                                cond_sql+="'"+req.body.segment[t_seg].name+"'";
+                                cond_sql+="'"+utils.mssql_real_escape_string(req.body.segment[t_seg].name)+"'";
                             else
-                                cond_sql+=",'"+req.body.segment[t_seg].name+"'";
+                                cond_sql+=",'"+utils.mssql_real_escape_string(req.body.segment[t_seg].name)+"'";
                         }  // end of for
                         cond_sql+=')';
                         break;
@@ -288,9 +289,9 @@ router.route('/getCustSegReportData')
                     for (t_card=0;t_card<len_card;t_card++)
                     {
                         if(t_card==0)
-                            cond_sql+="'"+req.body.card_type[t_card].name+"'";
+                            cond_sql+="'"+utils.mssql_real_escape_string(req.body.card_type[t_card].name)+"'";
                         else
-                            cond_sql+=",'"+req.body.card_type[t_card].name+"'";
+                            cond_sql+=",'"+utils.mssql_real_escape_string(req.body.card_type[t_card].name)+"'";
                     }  // end of for
                     cond_sql+=')';
 
@@ -318,9 +319,9 @@ router.route('/getCustSegReportData')
                     for (t_city=0;t_city<len_city;t_city++)
                     {
                         if (t_city==0)
-                            cond_sql+="'"+req.body.location[t_city].name+"'";
+                            cond_sql+="'"+utils.mssql_real_escape_string(req.body.location[t_city].name)+"'";
                         else
-                            cond_sql+=",'"+req.body.location[t_city].name+"'";
+                            cond_sql+=",'"+utils.mssql_real_escape_string(req.body.location[t_city].name)+"'";
                     }  // end of for
                     cond_sql+=')';
                     break;
@@ -336,11 +337,11 @@ router.route('/getCustSegReportData')
                         {
                             if (t_tag==0)
                             {
-                                cond_sql+="'"+req.body.tags[t_tag].name+"'";
+                                cond_sql+="'"+utils.mssql_real_escape_string(req.body.tags[t_tag].name)+"'";
                             }
                             else
                             {
-                                cond_sql+=",'"+req.body.tags[t_tag].name+"'";
+                                cond_sql+=",'"+utils.mssql_real_escape_string(req.body.tags[t_tag].name)+"'";
                             }
                         }  // end of for
                         cond_sql+=' )';
@@ -382,9 +383,9 @@ router.route('/getCustSegReportData')
                         for (t_seg=0;t_seg<len_seg;t_seg++)
                         {
                             if (t_seg==0)
-                                cond_sql+="'"+req.body.segment[t_seg].name+"'";
+                                cond_sql+="'"+utils.mssql_real_escape_string(req.body.segment[t_seg].name)+"'";
                             else
-                                cond_sql+=",'"+req.body.segment[t_seg].name+"'";
+                                cond_sql+=",'"+utils.mssql_real_escape_string(req.body.segment[t_seg].name)+"'";
                         }  // end of for
                         cond_sql+=')';
                         break;
@@ -398,9 +399,9 @@ router.route('/getCustSegReportData')
                         for (t_card=0;t_card<len_card;t_card++)
                         {
                             if (t_card==0)
-                                cond_sql+="'"+req.body.card_type[t_card].name+"'";
+                                cond_sql+="'"+utils.mssql_real_escape_string(req.body.card_type[t_card].name)+"'";
                             else
-                                cond_sql+=",'"+req.body.card_type[t_card].name+"'";
+                                cond_sql+=",'"+utils.mssql_real_escape_string(req.body.card_type[t_card].name)+"'";
                         }  // end of for
                         cond_sql+=')';
                         break;
@@ -431,9 +432,9 @@ router.route('/getCustSegReportData')
                         for (t_city=0;t_city<len_city;t_city++)
                         {
                             if (t_city==0)
-                                cond_sql+="'"+req.body.location[t_city].name+"'";
+                                cond_sql+="'"+utils.mssql_real_escape_string(req.body.location[t_city].name)+"'";
                             else
-                                cond_sql+=",'"+req.body.location[t_city].name+"'";
+                                cond_sql+=",'"+utils.mssql_real_escape_string(req.body.location[t_city].name)+"'";
                         }  // end of for
                         cond_sql+=')';
                         break;
@@ -448,9 +449,9 @@ router.route('/getCustSegReportData')
                         for (t_tag=0;t_tag<len_tag;t_tag++)
                         {
                             if (t_tag==0)
-                                cond_sql+="'"+req.body.tags[t_tag].name+"'";
+                                cond_sql+="'"+utils.mssql_real_escape_string(req.body.tags[t_tag].name)+"'";
                             else
-                                cond_sql+=",'"+req.body.tags[t_tag].name+"'";
+                                cond_sql+=",'"+utils.mssql_real_escape_string(req.body.tags[t_tag].name)+"'";
                         }  // end of for
                         cond_sql+=')';
                         break;
@@ -485,9 +486,9 @@ router.route('/getCustSegReportData')
                         for (t_seg=0;t_seg<len_seg;t_seg++)
                         {
                             if (t_seg==0)
-                                cond_sql+="'"+req.body.segment[t_seg].name+"'";
+                                cond_sql+="'"+utils.mssql_real_escape_string(req.body.segment[t_seg].name)+"'";
                             else
-                                cond_sql+=",'"+req.body.segment[t_seg].name+"'";
+                                cond_sql+=",'"+utils.mssql_real_escape_string(req.body.segment[t_seg].name)+"'";
                         }  // end of for
                         cond_sql+=')';
                         break;
@@ -509,7 +510,6 @@ router.route('/getCustSegReportData')
             sqlstring += cond_sql +" ";
             sqlstring += "group by "+x_field_list +", "+ y_field_list + " ";
             sqlstring += "order by "+x_field_list +", "+ y_field_list;
-          
                 //********************************************************************
                            //** create and initialize  Array matrix  with all selected X and Y Values
                 //*******************************************************************
@@ -787,9 +787,9 @@ router.route('/getOfferSegReportData')
                         for (t_seg=0;t_seg<len_seg;t_seg++)
                         {
                             if (t_seg==0)
-                                cond_sql+="'"+req.body.segment[t_seg].name+"'";
+                                cond_sql+="'"+utils.mssql_real_escape_string(req.body.segment[t_seg].name)+"'";
                             else
-                                cond_sql+=",'"+req.body.segment[t_seg].name+"'";
+                                cond_sql+=",'"+utils.mssql_real_escape_string(req.body.segment[t_seg].name)+"'";
                         }  // end of for
                         cond_sql+=')';
                         break;
@@ -803,9 +803,9 @@ router.route('/getOfferSegReportData')
                         for (t_card=0;t_card<len_card;t_card++)
                         {
                             if (t_card==0)
-                                cond_sql+="'"+req.body.card_type[t_card].name+"'";
+                                cond_sql+="'"+utils.mssql_real_escape_string(req.body.card_type[t_card].name)+"'";
                             else
-                                cond_sql+=",'"+req.body.card_type[t_card].name+"'";
+                                cond_sql+=",'"+utils.mssql_real_escape_string(req.body.card_type[t_card].name)+"'";
                         }  // end of for
                         cond_sql+=')';
                         break;
@@ -836,9 +836,9 @@ router.route('/getOfferSegReportData')
                         for (t_city=0;t_city<len_city;t_city++)
                         {
                             if (t_city==0)
-                                cond_sql+="'"+req.body.location[t_city].name+"'";
+                                cond_sql+="'"+utils.mssql_real_escape_string(req.body.location[t_city].name)+"'";
                             else
-                                cond_sql+=",'"+req.body.location[t_city].name+"'";
+                                cond_sql+=",'"+utils.mssql_real_escape_string(req.body.location[t_city].name)+"'";
                         }  // end of for
                         cond_sql+=')';
                         break;
@@ -853,9 +853,9 @@ router.route('/getOfferSegReportData')
                         for (t_tag=0;t_tag<len_tag;t_tag++)
                         {
                             if (t_tag==0)
-                                cond_sql+="'"+req.body.tags[t_tag].name+"'";
+                                cond_sql+="'"+utils.mssql_real_escape_string(req.body.tags[t_tag].name)+"'";
                             else
-                                cond_sql+=",'"+req.body.tags[t_tag].name+"'";
+                                cond_sql+=",'"+utils.mssql_real_escape_string(req.body.tags[t_tag].name)+"'";
                         }  // end of for
                         cond_sql+=')';
                         break;
@@ -869,9 +869,9 @@ router.route('/getOfferSegReportData')
                         for (t_category=0;t_category<len_category;t_category++)
                         {
                             if (t_category==0)
-                                cond_sql+="'"+req.body.category[t_category].name+"'";
+                                cond_sql+="'"+utils.mssql_real_escape_string(req.body.category[t_category].name)+"'";
                             else
-                                cond_sql+=",'"+req.body.category[t_category].name+"'";
+                                cond_sql+=",'"+utils.mssql_real_escape_string(req.body.category[t_category].name)+"'";
                         }  // end of for
                         cond_sql+=')';
                         break;
@@ -906,9 +906,9 @@ router.route('/getOfferSegReportData')
                         for (t_seg=0;t_seg<len_seg;t_seg++)
                         {
                             if (t_seg==0)
-                                cond_sql+="'"+req.body.segment[t_seg].name+"'";
+                                cond_sql+="'"+utils.mssql_real_escape_string(req.body.segment[t_seg].name)+"'";
                             else
-                                cond_sql+=",'"+req.body.segment[t_seg].name+"'";
+                                cond_sql+=",'"+utils.mssql_real_escape_string(req.body.segment[t_seg].name)+"'";
                         }  // end of for
                         cond_sql+=')';
                         break;
@@ -928,9 +928,9 @@ router.route('/getOfferSegReportData')
                     for (t_seg=0;t_seg<len_seg;t_seg++)
                     {
                         if (t_seg==0)
-                            cond_sql+="'"+req.body.segment[t_seg].name+"'";
+                            cond_sql+="'"+utils.mssql_real_escape_string(req.body.segment[t_seg].name)+"'";
                         else
-                            cond_sql+=",'"+req.body.segment[t_seg].name+"'";
+                            cond_sql+=",'"+utils.mssql_real_escape_string(req.body.segment[t_seg].name)+"'";
                     }  // end of for
                     cond_sql+=')';
                     break;
@@ -944,9 +944,9 @@ router.route('/getOfferSegReportData')
                     for (t_card=0;t_card<len_card;t_card++)
                     {
                         if (t_card==0)
-                            cond_sql+="'"+req.body.card_type[t_card].name+"'";
+                            cond_sql+="'"+utils.mssql_real_escape_string(req.body.card_type[t_card].name)+"'";
                         else
-                            cond_sql+=",'"+req.body.card_type[t_card].name+"'";
+                            cond_sql+=",'"+utils.mssql_real_escape_string(req.body.card_type[t_card].name)+"'";
                     }  // end of for
                     cond_sql+=')';
                     break;
@@ -977,9 +977,9 @@ router.route('/getOfferSegReportData')
                     for (t_city=0;t_city<len_city;t_city++)
                     {
                         if (t_city==0)
-                            cond_sql+="'"+req.body.location[t_city].name+"'";
+                            cond_sql+="'"+utils.mssql_real_escape_string(req.body.location[t_city].name)+"'";
                         else
-                            cond_sql+=",'"+req.body.location[t_city].name+"'";
+                            cond_sql+=",'"+utils.mssql_real_escape_string(req.body.location[t_city].name)+"'";
                     }  // end of for
                     cond_sql+=')';
                     break;
@@ -994,9 +994,9 @@ router.route('/getOfferSegReportData')
                     for (t_tag=0;t_tag<len_tag;t_tag++)
                     {
                         if (t_tag==0)
-                            cond_sql+="'"+req.body.tags[t_tag].name+"'";
+                            cond_sql+="'"+utils.mssql_real_escape_string(req.body.tags[t_tag].name)+"'";
                         else
-                            cond_sql+=",'"+req.body.tags[t_tag].name+"'";
+                            cond_sql+=",'"+utils.mssql_real_escape_string(req.body.tags[t_tag].name)+"'";
                     }  // end of for
                     cond_sql+=')';
                     break;
@@ -1031,9 +1031,9 @@ router.route('/getOfferSegReportData')
                     for (t_category=0;t_category<len_category;t_category++)
                     {
                         if (t_category==0)
-                            cond_sql+="'"+req.body.category[t_category].name+"'";
+                            cond_sql+="'"+utils.mssql_real_escape_string(req.body.category[t_category].name)+"'";
                         else
-                            cond_sql+=",'"+req.body.category[t_category].name+"'";
+                            cond_sql+=",'"+utils.mssql_real_escape_string(req.body.category[t_category].name)+"'";
                     }  // end of for
                     cond_sql+=')';
                     break;
@@ -1047,9 +1047,9 @@ router.route('/getOfferSegReportData')
                     for (t_seg=0;t_seg<len_seg;t_seg++)
                     {
                         if (t_seg==0)
-                            cond_sql+="'"+req.body.segment[t_seg].name+"'";
+                            cond_sql+="'"+utils.mssql_real_escape_string(req.body.segment[t_seg].name)+"'";
                         else
-                            cond_sql+=",'"+req.body.segment[t_seg].name+"'";
+                            cond_sql+=",'"+utils.mssql_real_escape_string(req.body.segment[t_seg].name)+"'";
                     }  // end of for
                     cond_sql+=')';
                     break;

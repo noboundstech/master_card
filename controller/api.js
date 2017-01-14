@@ -34,11 +34,11 @@ router.route('/getCustomerDetails')
 			validate.validateCustomer(req,res,function(){
 				if(req.body.search_by =='customer_id')
 				{
-					where_cond =  " mem.memberWechatId='"+req.body.wechat_id+"'";
+					where_cond =  " mem.memberWechatId='"+utils.mssql_real_escape_string(req.body.wechat_id)+"'";
 				}
 				else
 				{
-					where_cond =  " mem.MTRCardNumber='"+req.body.card_no+"'";
+					where_cond =  " mem.MTRCardNumber='"+utils.mssql_real_escape_string(req.body.card_no)+"'";
 				}
 				callback();
 			})
@@ -131,6 +131,7 @@ router.route('/getMerchantOffer')
 	var config 			= require('config/db_connection');
 	var constant 		= require("config/constant");
 	var db_query 		= require('db_query/query');
+	var utils 			= require('utility/utils');
 	var response_data 	= {};
 	async.series([
 		function(callback) {
@@ -140,14 +141,14 @@ router.route('/getMerchantOffer')
 			})
 		},
 		function(callback){
-			var utils = require('utility/utils');
+			
 			utils.checkAuthentication(req,res,function(){
 				callback();
 			})
 		},
 		function(callback) {
-			var merchant_id 	= req.body.merchant_id;
-			var query = " select mem.offerId, mem.offer_rule_en";
+			var merchant_id 	= utils.mssql_real_escape_string(req.body.merchant_id);
+			var query 			= " select mem.offerId, mem.offer_rule_en";
 				query+= " FROM "+constant.OFFER_BY_MERCHANTS+" as mem";
 				query+= " where mem.merchantId='"+merchant_id+"'";
 
@@ -231,7 +232,7 @@ router.route('/getOfferDetails')
         },
         function(callback)
         {
-        	where_cond =  " mem.memberWechatId='"+req.query.wechatid+"'";
+        	where_cond =  " mem.memberWechatId='"+utils.mssql_real_escape_string(req.query.wechatid)+"'";
 			utils.getOfferDetailsList(req,res,constant,where_cond,db_query,response_data,function(){
 				delete response_data['predicted_offer'];
 				if(response_data.details.length >0)

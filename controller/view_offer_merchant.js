@@ -1,5 +1,6 @@
 
 var express = require('express'),
+    utils   = require('utility/utils'),
     router  = express.Router();
 //********************************************************
 router.route('/getViewList')
@@ -8,7 +9,6 @@ router.route('/getViewList')
     var response_data     = {};
     async.parallel([
     function(callback){
-        var utils = require('utility/utils');
         utils.checkAuthentication(req,res,function(){
             callback();
         })
@@ -168,9 +168,9 @@ router.route('/getOfferView')
                     for (t_loc=0;t_loc<len_loc;t_loc++)
                     {
                         if (t_loc==0)
-                        cond_sql+="'"+req.body.location[t_loc].name+"'";
+                        cond_sql+="'"+utils.mssql_real_escape_string(req.body.location[t_loc].name)+"'";
                         else
-                        cond_sql+=",'"+req.body.location[t_loc].name+"'";
+                        cond_sql+=",'"+utils.mssql_real_escape_string(req.body.location[t_loc].name)+"'";
                     }  // end of for
                     cond_sql+=')';
                 }
@@ -187,9 +187,9 @@ router.route('/getOfferView')
                     for (t_cate=0;t_cate<len_cate;t_cate++)
                     {
                         if (t_cate==0)
-                            cond_sql+="'"+req.body.category[t_cate].name+"'";
+                            cond_sql+="'"+utils.mssql_real_escape_string(req.body.category[t_cate].name)+"'";
                         else
-                            cond_sql+=",'"+req.body.category[t_cate].name+"'";
+                            cond_sql+=",'"+utils.mssql_real_escape_string(req.body.category[t_cate].name)+"'";
                     }  // end of for
                     cond_sql+=')';
                 }
@@ -206,9 +206,9 @@ router.route('/getOfferView')
                     for (t_subcate=0;t_subcate<len_subcate;t_subcate++)
                     {
                         if (t_subcate==0)
-                            cond_sql+="'"+req.body.subcategory[t_subcate].name+"'";
+                            cond_sql+="'"+utils.mssql_real_escape_string(req.body.subcategory[t_subcate].name)+"'";
                         else
-                            cond_sql+=",'"+req.body.subcategory[t_subcate].name+"'";
+                            cond_sql+=",'"+utils.mssql_real_escape_string(req.body.subcategory[t_subcate].name)+"'";
                     }  // end of for
                     cond_sql+=')';
                 }
@@ -225,9 +225,9 @@ router.route('/getOfferView')
                     for (t_merch=0;t_merch < len_merch;t_merch++)
                     {
                         if (t_merch==0)
-                            cond_sql+="'"+req.body.merchant_details[t_merch].id+"'";
+                            cond_sql+="'"+utils.mssql_real_escape_string(req.body.merchant_details[t_merch].id)+"'";
                         else
-                            cond_sql+=",'"+req.body.merchant_details[t_merch].id+"'";
+                            cond_sql+=",'"+utils.mssql_real_escape_string(req.body.merchant_details[t_merch].id)+"'";
                     }  // end of for
                     cond_sql+=')';
                 }
@@ -310,9 +310,9 @@ router.route('/getMerchantView')
                 for (t_card=0;t_card<len_card;t_card++)
                 {
                     if (t_card==0)  
-                        cond_sql+='  offmer.'+req.body.card_type[t_card].name+"=1";
+                        cond_sql+='  offmer.'+utils.mssql_real_escape_string(req.body.card_type[t_card].name)+"=1";
                     else
-                        cond_sql+=' or offmer.'+req.body.card_type[t_card].name+"=1";  
+                        cond_sql+=' or offmer.'+utils.mssql_real_escape_string(req.body.card_type[t_card].name)+"=1";  
                 }  // end of for
                 cond_sql+=')';
             }
@@ -329,9 +329,9 @@ router.route('/getMerchantView')
                 for (t_loc=0;t_loc<len_loc;t_loc++)
                 {
                 if (t_loc==0)
-                cond_sql+="'"+req.body.location[t_loc].name+"'";
+                cond_sql+="'"+utils.mssql_real_escape_string(req.body.location[t_loc].name)+"'";
                 else
-                cond_sql+=",'"+req.body.location[t_loc].name+"'";
+                cond_sql+=",'"+utils.mssql_real_escape_string(req.body.location[t_loc].name)+"'";
                 }  // end of for
                 cond_sql+=')';
             }
@@ -348,9 +348,9 @@ router.route('/getMerchantView')
                 for (t_cate=0;t_cate<len_cate;t_cate++)
                 {
                     if (t_cate==0)
-                    cond_sql+="'"+req.body.category[t_cate].name+"'";
+                    cond_sql+="'"+utils.mssql_real_escape_string(req.body.category[t_cate].name)+"'";
                     else
-                    cond_sql+=",'"+req.body.category[t_cate].name+"'";
+                    cond_sql+=",'"+utils.mssql_real_escape_string(req.body.category[t_cate].name)+"'";
                 }  // end of for
                 cond_sql+=')';
             }
@@ -367,9 +367,9 @@ router.route('/getMerchantView')
             for (t_subcate=0;t_subcate<len_subcate;t_subcate++)
             {
             if (t_subcate==0)
-            cond_sql+="'"+req.body.subcategory[t_subcate].name+"'";
+            cond_sql+="'"+utils.mssql_real_escape_string(req.body.subcategory[t_subcate].name)+"'";
             else
-            cond_sql+=",'"+req.body.subcategory[t_subcate].name+"'";
+            cond_sql+=",'"+utils.mssql_real_escape_string(req.body.subcategory[t_subcate].name)+"'";
             }  // end of for
             cond_sql+=')';
             }
@@ -389,9 +389,9 @@ router.route('/getMerchantView')
                     for (t_merch=0;t_merch < len_merch;t_merch++)
                     {
                         if (t_merch==0)
-                            cond_sql+="'"+req.body.merchant_details[t_merch].id+"'";
+                            cond_sql+="'"+utils.mssql_real_escape_string(req.body.merchant_details[t_merch].id)+"'";
                         else
-                            cond_sql+=",'"+req.body.merchant_details[t_merch].id+"'";
+                            cond_sql+=",'"+utils.mssql_real_escape_string(req.body.merchant_details[t_merch].id)+"'";
                     }  // end of for
                     cond_sql+=')';
                 }
@@ -405,9 +405,9 @@ router.route('/getMerchantView')
                 for (t_merch=0;t_merch < len_merch;t_merch++)
                 {
                     if (t_merch==0)
-                    cond_sql+="'"+req.body.merchant_location[t_merch].name+"'";
+                    cond_sql+="'"+utils.mssql_real_escape_string(req.body.merchant_location[t_merch].name)+"'";
                     else
-                    cond_sql+=",'"+req.body.merchant_location[t_merch].name+"'";
+                    cond_sql+=",'"+utils.mssql_real_escape_string(req.body.merchant_location[t_merch].name)+"'";
                 }  // end of for
                 cond_sql+=')';
             }

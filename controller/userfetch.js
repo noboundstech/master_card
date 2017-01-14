@@ -1,6 +1,7 @@
 
 var express = require('express'),
 	app 	= express(),
+	utils 	= require('utility/utils'),
     router  = express.Router();
 require('rootpath')();
 
@@ -74,7 +75,7 @@ router.route('/fetchtag')
 		},function(callback){
 			var crypto 	 	= require('crypto'),
 			constant 	    = require("config/constant"),
-			wechatId 		= req.query.id;
+			wechatId 		= utils.mssql_real_escape_string(req.query.id);
 			var db_query 	=  require('db_query/query'),
 			sqlstring  	= 'select tm.tagDesc,tm.tagId from '+constant.TAG_MASTER_TABLE+' tm,'+constant.MEMBER_TAG_TABLE+' mt,'+constant.MEMBER_MASTER_TABLE+' mm where tm.tagId=mt.tagId and mt.memberId=mm.memberId and mt.statusOfTag = 1 and mm.memberWechatId='+"'"+ wechatId +"'";
 		//	sqlstring  	= 'select tm.tagDesc from tTagMaster tm,tMemberTags mt,tMemberMaster mm where tm.tagId=mt.tagId and mt.memberId=mm.memberId and mm.memberWechatId='+"'"+ wechatId +"'";	
@@ -106,7 +107,7 @@ router.route('/addtag')
 		utils	 	= require('utility/utils'),
 		len         = req.body.tags.length;
 		action 		= [],
-		memberid    = req.body.member_id,
+		memberid    = utils.mssql_real_escape_string(req.body.member_id),
 	//	csrid    	= req.body.csr_id,
         tagstatus   = 1,		      
 	    wechatId    = req.body.id,
@@ -342,10 +343,10 @@ router.route('/offerSentbyCSR')
 			constant 	    = require("config/constant"),
 		    db_query 	    = require('db_query/query');
 	
-		    var memberid      = req.body.member_id,
+		    var memberid      = utils.mssql_real_escape_string(req.body.member_id),
 			      csrid       = req.decoded.userId,
-			      offerid     = req.body.offer_id,			      
-			       wechatId   = req.body.id;
+			      offerid     = utils.mssql_real_escape_string(req.body.offer_id),			      
+			       wechatId   = utils.mssql_real_escape_string(req.body.id);
 			      
 			       table     = constant.OFFER_SENT_TO_MEMBER_BY_CSR;
 			    var  cur_date = null;   
@@ -414,7 +415,7 @@ router.route('/AddChatHeader')
 
 	var async 	= require('async');
 	
-	    wechatId    = req.body.id,
+	    wechatId    = utils.mssql_real_escape_string(req.body.id),
 			lat         = "",
 			longitude   = "",
 	       constant 	= require("config/constant");
@@ -463,7 +464,7 @@ router.route('/UpdateChatHeader')
 	//req.body 		= req.query;
 
 	var async 	= require('async');
-	var		chatheaderid   = req.body.chatheaderid,		
+	var		chatheaderid   = utils.mssql_real_escape_string(req.body.chatheaderid),		
 	        constant 	= require("config/constant");
 	var table       = constant.CHAT_HISTORY_HEADER;
 	var response_data = {};
@@ -856,7 +857,7 @@ router.route('/fetchofferhistory')
 			})
 		},
 		function(callback){
-            var id        = req.query.id;
+            var id        = utils.mssql_real_escape_string(req.query.id);
             var db_query     = require('db_query/query');
           
             var sqlstring = '';

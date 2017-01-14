@@ -791,7 +791,6 @@ angular.module('userController', ['applicationService.services'])
 		}
 		$scope.$apply();
 	})
-	console.log(screen.width);
 	$scope.changeToggle = 0;
 	if(screen.width<991)
 	{

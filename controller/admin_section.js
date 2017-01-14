@@ -1,5 +1,6 @@
 var express = require('express'),
     app     = express(),
+    utils = require('utility/utils');
     router  = express.Router();
 require('rootpath')();
 /*
@@ -172,7 +173,7 @@ router.route('/updateUserDetails')
                 table        = constant.USER_MASTER_TABLE;
             var emailid = req.body.userEMailId,
               user_name = req.body.userName ;
-            sqlstring= "select  "+    selection + " from    "+ table +" where userEMailId='" +emailid +"' and userName<>'"+ user_name+ "'";
+            sqlstring= "select  "+    selection + " from    "+ table +" where userEMailId='" +emailid +"' and userName<>'"+ utils.mssql_real_escape_string(user_name)+ "'";
             db_query.RunSelSqlFromDb(req,res,sqlstring,response_data,function(){
                 if(response_data.details.length > 0)
                 {

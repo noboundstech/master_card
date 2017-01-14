@@ -1,5 +1,5 @@
+/* storing all configuration for ending emails to change email sender please */
 module.exports = {
-
     'secret'			: 'maChinaCrmSecretToken',
     'email_sender_name'	: 'Master Card',
 	'email_from'		: 'Master Card',

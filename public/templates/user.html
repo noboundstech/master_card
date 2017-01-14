@@ -102,17 +102,17 @@
             <!-- user profile started -->
             <div class="row">
                 <div class="col-md-12 user-box profile-section">
-                    <div class="col-md-7 customer-pro">
+                    <div class="col-md-5 customer-pro">
                        <h4 class="profile-details">
                             <span class="profile-section">
                                  <img src="img/user-profile-2.png" width="70" height="78" class=" user-image img-circle">
                             </span>
-                            Customer Details  :
+                            Customer Details  : 
                         </h4>
                     </div>
-                    <div class="col-md-5 name-details">        
+                    <div class="col-md-7 name-details">        
                         <h3 class="customer-name">
-                            Name :
+                            Name : 
                         </h3>
                             {{customer_details.memberFirstName +' '+ customer_details.memberLastName}}
                         <p ng-if="customer_details != ''" style="font-size:14px" class="profile-info-details chatid">
@@ -123,13 +123,13 @@
                     <div class="col-md-12 customer-info">
                                   
                         <p ng-if="customer_details != ''" style="font-size:14px" class="profile-info-details">
-                            OCCUPATION :{{customer_details.memberOccupation}}
+                            OCCUPATION : {{customer_details.memberOccupation}}
                         </p>
                         <p ng-if="customer_details != ''" style="font-size:14px" class="profile-info-details">
-                            HOBBY :{{customer_details.memberHobby}}
+                            HOBBY : {{customer_details.memberHobby}}
                         </p>
                          <p ng-if="customer_details != ''" style="font-size:14px" class="profile-info-details">
-                            INFO :{{customer_details.memberInfo1}} {{customer_details.memberInfo2}} {{customer_details.memberInfo3}}
+                            INFO : {{customer_details.memberInfo1}} {{customer_details.memberInfo2}} {{customer_details.memberInfo3}}
                         </p>  
                     </div>     
                 </div>
