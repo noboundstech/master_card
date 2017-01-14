@@ -147,7 +147,7 @@ router.route('/getMerchantOffer')
 			})
 		},
 		function(callback) {
-			var merchant_id 	= utils.mssql_real_escape_string(req.body.merchant_id);
+			var merchant_id 	= req.body.merchant_id;
 			var query 			= " select mem.offerId, mem.offer_rule_en";
 				query+= " FROM "+constant.OFFER_BY_MERCHANTS+" as mem";
 				query+= " where mem.merchantId='"+merchant_id+"'";
