@@ -140,7 +140,7 @@
                             Predicted Offers :
                         </h3>
                      <div class="predicted-offers-box">
-                        <ul class="nav list-group predicted-offers-list custom-bullet">
+                        <ul class="nav list-group predicted-offers-list ">
                             <li ng-repeat="p_offer in predicted_offer">
                                 {{p_offer.offer_name}}
                             </li>
@@ -149,7 +149,7 @@
                         </div>
                     </div>
             </div>
-            <div class="row offer-section-predict">
+            <div class="row offer-section-predict" style="margin-bottom:10px">
                 <div class="col-sm-12 predicted-offers">
                     <h3 class="offers-heading-table">
                         Offer history :
@@ -157,55 +157,104 @@
                      
                       
                           
-                    <div class="col-sm-6 col-xs-6" style="padding-left:0px;padding-right:0px; font-size:14px; margin-bottom:5px;"><strong>Merchant Name</strong></div>
-                    <div class="col-sm-6 col-xs-6" style="padding-left:0px;padding-right:0px;font-size:14px;margin-bottom:5px;"><strong>Offer Description</strong></div>
-                   
-                    <div class="predicted-offers-table">
-                    <table class="table table-bordered offer-history">
-                        <tbody ng-repeat="history in offer_history">
-                            <tr>
-                            <td ng-bind="history.merchantName"></td>
-                            <td ng-bind="history.offer_name_en"></td>
-                            
-                            </tr>
-                        </tbody>
-                    </table>
+                    <div class="col-sm-5 col-xs-5" style="padding-left:0px;padding-right:0px; font-size:14px; margin-bottom:5px;"><strong>Merchant Name</strong></div>
+                    <div class="col-sm-7 col-xs-7" style="padding-left:0px;padding-right:0px;font-size:14px;margin-bottom:5px;"><strong>Offer Description</strong></div>
+                    <div class="row" ng-repeat="history in offer_history">
+                        <div class="col-sm-5" ng-bind="history.merchantName">
+                        </div>
+                         <div class="col-sm-7" ng-bind="history.offer_name_en">
+                        </div>
                     </div>
+
+                    <div ng-if="offer_history.length<1" style="margin-top:10px;text-align:center">
+                        No offer history found.
+                    </div>
+                    <!--
+                    <div class="predicted-offers-table">
+
+
+                       
+                        <table class="table offer-history">
+                            <tbody ng-repeat="history in offer_history">
+                                <tr>
+                                <td ng-bind="history.merchantName"></td>
+                                <td ng-bind="history.offer_name_en"></td>
+                                
+                                </tr>
+                            </tbody>
+                        </table>
+                        
+                    </div>
+                    -->
                 </div>
             </div>
-    </div>
+        </div>
         <!-- extreme right panel -->
-         <div class="col-sm-4">
-             <div class="row section-map">   
-                    <div class="col-sm-12">    
-                        <h3 class="map-he">
-                            Places frequently visited :
-                        </h3>            
-                        <div class="row map">
-                            <div class="col-sm-6" id = "sample" style = "width:95%; height:179px;">
-                                <bing-map
-                                    credentials="'AjZ0wB-x_wfUhjERvFMimAGIUbgHM7uRTKubZcmsbnE_-DSE49gBI53Ts9ClaeT5'"
-                                    center="mapOptions.center"
-                                    zoom="mapOptions.zoom"
-                                    mapType="mapOptions.mapType"
-                                    scrollwheel= false 
-                                    disableZooming= true>
-                                    
-                                    <pushpin
-                                        lat="pushpin.latitude"
-                                        lng="pushpin.longitude"
-                                        options="pushpin.options"
-                                        events="pushpin.events">
-                                    </pushpin>
-                              
-                                </bing-map>
-                            </div>
+        <div class="col-sm-4">
+
+
+        <!--    
+            <div class="row section-map">   
+                <div class="col-sm-12">    
+                    <h3 class="map-he">
+                        Places frequently visited :
+                    </h3>            
+                    <div class="row map">
+                        <div class="col-sm-6" id = "sample" style = "width:95%; height:179px;">
+                            <bing-map
+                                credentials="'AjZ0wB-x_wfUhjERvFMimAGIUbgHM7uRTKubZcmsbnE_-DSE49gBI53Ts9ClaeT5'"
+                                center="mapOptions.center"
+                                zoom="mapOptions.zoom"
+                                mapType="mapOptions.mapType"
+                                scrollwheel= false 
+                                disableZooming= true>
+                                
+                                <pushpin
+                                    lat="pushpin.latitude"
+                                    lng="pushpin.longitude"
+                                    options="pushpin.options"
+                                    events="pushpin.events">
+                                </pushpin>
+                          
+                            </bing-map>
                         </div>
                     </div>
                 </div>
+            </div>
+
+
+        -->
+
+            <div class="row  match-user" style="margin-bottom:5px">   
+                <div class="col-sm-12">    
+                    <h3 class="header-connection">
+                        Places visited details:
+                    </h3>            
+                    <div class="row ">
+                        <div class="col-sm-8" style="padding-right:0px; font-size:14px; margin-bottom:5px;">
+                            <strong>City Name</strong>
+                        </div>
+                        <div class="col-sm-4" style="padding-right:0px; font-size:14px; margin-bottom:5px;">
+                            <strong>No. of Visit</strong>
+                        </div>
+                    </div>
+                    <div class="row" ng-repeat="loc in locationHistory" style="margin-bottom:5px;">
+                        
+                        <div class="col-sm-8" ng-bind="loc.city">
+                            
+                        </div>
+                        <div class="col-sm-4 pull-right"  ng-bind="loc.visit">
+                           
+                        </div>
+                    </div>
+                    <div ng-if="locationHistory.length<1" style="margin-top:10px;text-align:center">
+                        No place found.
+                    </div>
+                </div>
+            </div>
              
-             <div class="overlay"></div>
-              <div class="row match-user">
+            
+                <div class="row match-user divDisabled">
                     <div class="col-sm-12"> 
                         <h3 class="header-connection">
                             Connections or Similarity matching :
@@ -307,9 +356,9 @@
                             </div>
                         </div>
                   </div>
-             </div>
-          
-        </div>
+                </div>
+                
+            </div>
         
         </div>
 </div>

@@ -94,7 +94,7 @@ router.route('/addNewUser')
                             "name"         : "userPwd",
                             "type"        : constant.VARCHAR50,
                             "varname"     : "user_password",
-                            "value"        : req.body.add_user_name
+                            "value"        : req.body.password
                         },{
                             "name"         : "userRole",
                             "type"        : constant.VARCHAR5,

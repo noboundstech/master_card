@@ -917,6 +917,8 @@ angular.module('userController', ['applicationService.services'])
 				$scope.show_search_details = false;
 				$scope.wechat_id = response.data.response_data.customer_details[0].memberWechatId
 
+				$scope.locationHistory = response.data.response_data.locationHistory;
+
 				// calling api to fetch all tag details
 				API.getDetails("userfetch/fetchtag",{id : $scope.wechat_id,token : localStorage.getItem("token")}).then(function successCallback(response) {
 					if(response.status == 200)

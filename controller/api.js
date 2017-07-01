@@ -17,7 +17,7 @@ router.route('/getCustomerDetails')
  
 	// was post method
 	//req.body 			= req.query;
-
+	
 	var async 			= require('async');
 	var sql 			= require('mssql');
 	var config 			= require('config/db_connection');
@@ -26,12 +26,13 @@ router.route('/getCustomerDetails')
 	var utils 			= require('utility/utils');
 	var response_data 	= {};
 	var where_cond 		= '';
-
-	async.parallel([
+	//where_cond =  " mem.memberWechatId='KFY4269TT'";
+	async.series([
 		function(callback) {
 			// validating the customer details
 			var validate = require('utility/validate');
 			validate.validateCustomer(req,res,function(){
+				
 				if(req.body.search_by =='customer_id')
 				{
 					where_cond =  " mem.memberWechatId='"+utils.mssql_real_escape_string(req.body.wechat_id)+"'";
@@ -40,12 +41,15 @@ router.route('/getCustomerDetails')
 				{
 					where_cond =  " mem.MTRCardNumber='"+utils.mssql_real_escape_string(req.body.card_no)+"'";
 				}
+			
+			
 				callback();
 			})
 		},
 		function(callback){
 			//authenticating that request is comming with valid token
 			utils.checkAuthentication(req,res,function(){
+			//	console.log("authenticate");
 				callback();
 			})
 		},
@@ -54,6 +58,7 @@ router.route('/getCustomerDetails')
 				query+= " FROM "+constant.MEMBER_MASTER_TABLE+" as mem";
 				query+= " where "+where_cond;
 			db_query.RunSelSqlFromDb(req,res,query,response_data,function(){
+				console.log(response_data);
 				if(response_data.details.length>0)
 				{
 					response_data.member_details = response_data.details;
@@ -61,6 +66,7 @@ router.route('/getCustomerDetails')
 				}
 				else
 				{
+					
 					if(req.body.search_by == 'customer_id')
 					{
 						response_data.message = "Please Enter valid customer Wechat Id";
@@ -69,6 +75,7 @@ router.route('/getCustomerDetails')
 					{
 						response_data.message = "Please Enter valid customer Card no.";
 					}
+				
 					response_data.success = false;
 					
 					res.status(203).send({response_data});
@@ -87,7 +94,9 @@ router.route('/getCustomerDetails')
 				query+= " WHERE "+where_cond;
 				query+= " GROUP BY mem.memberWechatId,mem.memberFirstName,mem.memberLastName,mem.memberGender,mem.preferredLanguage,mem.MTRPoints,mem.MTRCardType,mem.memberPhone,mem.memberAge,mem.memberOccupation,mem.memberHobby,mem.memberInfo1,mem.memberInfo2,mem.memberInfo3,mem.AddressLatitude,mem.Addresslongitude,mem.AddressLine1,mem.AddressLine2,mem.City,mem.District,mem.Province,mem.Country,mem.memberSegment ";
 			//response_data.query = query;
+			//console.log(query);
 			db_query.RunSelSqlFromDb(req,res,query,response_data,function(){
+				console.log(response_data);
 				if(response_data.details.length>0)
 				{
 					response_data.customer_details = response_data.details;
@@ -109,10 +118,26 @@ router.route('/getCustomerDetails')
 			})
 		},
 		function(callback){
+			//	console.log("get offer details");
            		utils.getOfferDetailsList(req,res,constant,where_cond,db_query,response_data,function(){
+			//	console.log(response_data);
 					callback();
 
 				})
+        },
+        function(callback)
+        {
+
+        	var sqlQuery = 'SELECT l.city, COUNT(*) visit';
+        	 	sqlQuery += ' FROM tLocationMaster l JOIN tMemberLocationHistory h';
+ 				sqlQuery += ' ON l.LocationId = h.LocationId'
+ 				sqlQuery += ' WHERE h.memberId = '+response_data.member_details[0].memberId;
+ 				sqlQuery += ' GROUP BY l.city';
+ 			var loactionHistory = {};
+ 			db_query.RunSelSqlFromDb(req,res,sqlQuery,loactionHistory,function(){
+ 				response_data.locationHistory =  loactionHistory.details;
+				callback();
+			});
         }],function(err) {
 			response_data.user_details = req.decoded;
 			response_data.success = true;

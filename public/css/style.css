@@ -328,12 +328,6 @@ box-shadow:         0px 1px 4px 0px rgba(50, 50, 50, 0.18);
 
 
 
-.offer-history > tbody > tr:first-child > td, .offer-history > tbody > tr:first-child > th, .offer-history > tfoot > tr:first-child > td, .offer-history> tfoot > tr:first-child > th, .offer-history > thead > tr:first-child > td, .offer-history > thead > tr:first-child > th {
-    padding: 8px;
-    line-height: 1.42857143;
-    vertical-align: top;
-    border: 1px solid #ddd;
-}
 .offer-progress .list-group-item{
     background: none;
     border:0;
@@ -2550,7 +2544,7 @@ padding-right:10px;
     padding:8px 18px;
     line-height: 1.42857143;
     vertical-align: top;
-    border: 1px solid #ddd;
+   
     font-size:14px;
 }
 
@@ -2741,4 +2735,9 @@ padding-right:10px;
 .animate-show-hide.ng-hide-add,
 .animate-show-hide.ng-hide-remove {
   transition: all linear 0.5s;
+}
+
+.divDisabled
+{
+  opacity: 0.4;
 }

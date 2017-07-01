@@ -135,6 +135,9 @@ router.route('/getOfferView')
                 t_subcate       = 0,
                 t_loc           = 0,
                 t_merch         = 0;
+            var cardTypeQuery   = '';
+            var cardMasterTable = '';
+            var cardTypeCondition = '';
                 //******************************************************************************
                 //*********  check Card Type filter condition  and Add to SQL Variable
                 //******************************************************************************
@@ -143,16 +146,23 @@ router.route('/getOfferView')
                     len_card=req.body.card_type.length;
                     if (len_card  > 0)
                     {
-                        cond_sql+='and (';
+                        cardMasterTable = ',tofferCardTypes cardtype,tcardtypemaster cardm  ';
+
+                        cardTypeCondition= ' and offmer.offerid = cardtype.offerid and cardtype.cardtypeid = cardm.cardtypeid';
+
+                        cardTypeQuery = 'AND  cardm.cardtypedesc in (';
+                       
                         for (t_card=0;t_card<len_card;t_card++)
                         {
-                            if (t_card==0)
-                            cond_sql+=' offmer.'+req.body.card_type[t_card].name.replace(" ","")+"=1";
-                            else
-                            cond_sql+=' or offmer.'+req.body.card_type[t_card].name+"=1";
-
+                           
+                            cardTypeQuery+="'"+req.body.card_type[t_card].name.replace(" ","")+"'";
+                            
+                            if(t_card!=len_card-1)
+                            {
+                                 cardTypeQuery+=",";
+                            }
                         }  // end of for
-                        cond_sql+=')';
+                        cardTypeQuery+=') ';
                     }
                 }
 
@@ -237,15 +247,18 @@ router.route('/getOfferView')
             //***    SET SQL STRING
             //************************************************
             var sqlstring  = "select "  ;
-                sqlstring += "offmer.OfferId,offmer.MerchantId,offmer.merchantName,offmer.CategoryDesc,offmer.subCategoryDesc,";
-                sqlstring += "offmer.Offer_rule_en,offmer.benefit_name_en,offmer.offer_address_en,offmer.postal_code ";
-                sqlstring += "from "+ constant.OFFER_BY_MERCHANTS + " offmer " ;
-                sqlstring += "where ";
-                sqlstring += "((convert(datetime,offmer.up_time,120)) >= '"+from_date+ "'  and "
-                sqlstring += "(convert(datetime,offmer.expired_date,120)) <= '" + to_date + "' ) ";
-                sqlstring += "and offmer.up_time is not null " ;
-                sqlstring += cond_sql +" ";
-                sqlstring += "order by MerchantId,merchantName " ;
+                sqlstring += " offmer.OfferId,offmer.MerchantId,offmer.merchantName,offmer.CategoryDesc,offmer.subCategoryDesc,";
+                sqlstring += " offmer.Offer_rule_en,offmer.benefit_name_en,offmer.offer_address_en,offmer.postal_code ";
+                sqlstring += " from "+ constant.OFFER_BY_MERCHANTS + " offmer "+cardMasterTable ;
+                sqlstring += " where ";
+                sqlstring += " ((convert(datetime,offmer.up_time,120)) >= '"+from_date+ "'  and "
+                sqlstring += " (convert(datetime,offmer.expired_date,120)) <= '" + to_date + "' ) ";
+                sqlstring += " and offmer.up_time is not null "+cardTypeQuery ;
+                sqlstring += cond_sql +" "+cardTypeCondition+" ";
+                sqlstring += " order by MerchantId,merchantName " ;
+
+
+                console.log(sqlstring);
             //************************************
             //*****   Call DB API to RUN SQL
             //************************************
@@ -278,7 +291,8 @@ router.route('/getMerchantView')
     response_data   = {},
     from_date       = "",
     to_date         = "";
-    async.series([
+    try{
+        async.series([
     function(callback){
         var utils = require('utility/utils');
         utils.checkAuthentication(req,res,function(){
@@ -297,7 +311,12 @@ router.route('/getMerchantView')
             t_cate          = 0,
             t_subcate       = 0,
             t_loc           = 0,
-            t_merch         = 0;
+            t_merch         = 0,
+            cardTypeQuery   = '',
+            cardTypeWhere   = '';
+        var cardTypeQuery   = '';
+        var cardMasterTable = '';
+        var cardTypeCondition = '';
         //******************************************************************************
         //*********  check Card Type filter condition  and Add to SQL Variable
         //******************************************************************************
@@ -306,15 +325,27 @@ router.route('/getMerchantView')
             len_card=req.body.card_type.length;
             if (len_card  > 0) 
             { 
-                cond_sql+='and (';
+
+
+
+                cardMasterTable = ',tofferCardTypes cardtype,tcardtypemaster cardm  ';
+
+                cardTypeCondition= ' and offmer.offerid = cardtype.offerid and cardtype.cardtypeid = cardm.cardtypeid';
+
+                cardTypeQuery = 'AND  cardm.cardtypedesc in (';
+               
                 for (t_card=0;t_card<len_card;t_card++)
                 {
-                    if (t_card==0)  
-                        cond_sql+='  offmer.'+utils.mssql_real_escape_string(req.body.card_type[t_card].name)+"=1";
-                    else
-                        cond_sql+=' or offmer.'+utils.mssql_real_escape_string(req.body.card_type[t_card].name)+"=1";  
+                   
+                    cardTypeQuery+="'"+req.body.card_type[t_card].name.replace(" ","")+"'";
+                    
+                    if(t_card!=len_card-1)
+                    {
+                         cardTypeQuery+=",";
+                    }
                 }  // end of for
-                cond_sql+=')';
+                cardTypeQuery+=') ';
+                
             }
         }   
         //******************************************************************************
@@ -415,15 +446,18 @@ router.route('/getMerchantView')
 
         //************************************************
         //***    SET SQL STRING
+
+
         //************************************************
         var sqlstring  = "select "  ;
-            sqlstring += "offmer.MerchantId,offmer.merchantName,mloc.LocationName,mloc.LocationAddress1,mloc.City,";
-            sqlstring += "offmer.CategoryDesc,offmer.subCategoryDesc , offmer.offer_address_en " 
-            sqlstring += "from "+ constant.OFFER_BY_MERCHANTS + " offmer " ;
-            sqlstring += "INNER JOIN " +constant. MERCHANT_LOCATION + " mloc on offmer.merchantId= mloc.merchantId "
-            sqlstring += "where offmer.merchantName is NOT NULL ";
-            sqlstring += cond_sql +" ";
-            sqlstring += "order by merchantName " ;
+            sqlstring += " offmer.MerchantId, offmer.merchantName, mloc.LocationName, mloc.LocationAddress1, mloc.City, offmer.CategoryDesc,";
+            sqlstring += " offmer.subCategoryDesc, offmer.offer_address_en " 
+            sqlstring += " from "+ constant.OFFER_BY_MERCHANTS + " offmer " ;
+            sqlstring += ", " +constant.MERCHANT_LOCATION + " mloc  "+cardMasterTable+" ";
+            sqlstring += " where offmer.merchantName is NOT NULL "+cardTypeQuery+" ";
+            sqlstring += cond_sql +" "+cardTypeCondition+" ";
+            sqlstring += " order by merchantName " ;
+
         //************************************
         //*****   Call DB API to RUN SQL
         //************************************
@@ -431,7 +465,7 @@ router.route('/getMerchantView')
 
             if (response_data.details.length > 0)
             {
-            callback();
+             callback();
             } 
             else
             {
@@ -445,5 +479,12 @@ router.route('/getMerchantView')
         response_data.message = "select Merchant view done OK!";
         res.status(200).send({response_data});
     });
+
+    
+    
+    }catch(e)
+    {
+        res.status(504).send({"message" : "internal server error.","error" : e });
+    }
 });
 module.exports = router;

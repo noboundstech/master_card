@@ -510,6 +510,7 @@ router.route('/getCustSegReportData')
             sqlstring += cond_sql +" ";
             sqlstring += "group by "+x_field_list +", "+ y_field_list + " ";
             sqlstring += "order by "+x_field_list +", "+ y_field_list;
+
                 //********************************************************************
                            //** create and initialize  Array matrix  with all selected X and Y Values
                 //*******************************************************************

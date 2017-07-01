@@ -8,6 +8,7 @@ angular.module('offerController', ['applicationService.services'])
 	$rootScope.authenticateUser();
 	$scope.merchat_detail_selected 	= '';
 	$scope.start_date 	= MyService.getStartDate();
+	$scope.startDateToShow = $scope.start_date;
 	$scope.end_date 	= MyService.getEndDate();
 	$scope.show_loader = true;
 
@@ -72,7 +73,7 @@ angular.module('offerController', ['applicationService.services'])
 				merchant_details: "",
 				location 		: "",
 				token 			: localStorage.getItem('token'),
-				date_range 		: {"from":$scope.start_date ,"to":$scope.end_date}
+				date_range 		: {"from":$scope.startDateToShow ,"to":$scope.end_date}
 			};
 
 			API.postDetails($scope.details,"view_offer_merchant/getOfferView").then(function successCallback(response) {
@@ -97,7 +98,7 @@ angular.module('offerController', ['applicationService.services'])
 			subcategory 	: $scope.sub_category_selected,
 			merchant_details: $scope.merchant_selected,
 			location 		: $scope.location_selected,
-			date_range 		: {"from":$scope.start_date ,"to":$scope.end_date}
+			date_range 		: {"from":$scope.startDateToShow ,"to":$scope.end_date}
 		};
 		if(MyService.compareTwoDate($scope.start_date,$scope.end_date)== 'error')
 		{

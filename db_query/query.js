@@ -5,7 +5,7 @@ module.exports = {
 		var config = require('config/db_connection');
 		var utils = require('utility/utils');
 		var connection1 = new sql.Connection(config, function(err) {
-			//console.log(err);
+			console.log(err);
 			var request = new sql.Request(connection1); // or: var request = connection1.request();
 			if(condition.length>0)
 			{

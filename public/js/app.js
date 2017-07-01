@@ -1,5 +1,5 @@
 angular.module('project', ['ngRoute','homeController','userController','adminController','offerController','CustomerReportController','ngStorage',
-                          'angularUtils.directives.dirPagination','localytics.directives','ngMap','gm',
+                          'angularUtils.directives.dirPagination','localytics.directives',
                           '720kb.datepicker','angularBingMaps'])
  
  /*

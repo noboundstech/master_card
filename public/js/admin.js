@@ -26,9 +26,13 @@ angular.module('adminController', ['applicationService.services'])
 		$scope.edit_user_Details = data;
 		$scope.edit_user_Details.token = localStorage.getItem('token');
 	}
-	$scope.AddNewUser = function()
+	$scope.AddNewUserUpdateData = function()
 	{
 		$scope.error = '';
+		document.getElementById("add_user_name").value = '';
+		document.getElementById("password").value = '';
+		document.getElementById("email_id").value = '';
+		
 	}
 	$scope.addNewUser = function()
 	{
@@ -82,6 +86,7 @@ angular.module('adminController', ['applicationService.services'])
 				API.postDetails($scope.details,"api/getUserDetails").then(function successCallback(response) {
 					$scope.show_loader = false;
 					$scope.user_list = response.data.response_data.details;
+					
 				}, function errorCallback(response) {
 				});
 				document.getElementById("close_add_user").click();
