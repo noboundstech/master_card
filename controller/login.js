@@ -27,8 +27,8 @@ router.route('/login')
 	 	db_query 	= require('db_query/query'),
 		constant 	= require("config/constant");
 	var response_data = {};
-	
-	async.series([
+	try{
+		async.series([
 		function(callback) {
 			var validate = require('utility/validate');
 			validate.validateSignin(req,res,function(){
@@ -105,6 +105,10 @@ router.route('/login')
 			response_data.message = "successfully login!";
 			res.status(200).send({response_data});
 		});
+	}catch(err)
+    {
+        res.status(502).send({err});
+    }
 });
 
 
@@ -117,7 +121,8 @@ router.route('/forget_password')
 	 	db_query 	= require('db_query/query'),
 		constant 	= require("config/constant");
 	var response_data = {};
-	async.series([
+	try{
+		async.series([
 		function(callback) {
 			var validate = require('utility/validate');
 			validate.validateForgetPassword(req,res,function(){
@@ -170,5 +175,9 @@ router.route('/forget_password')
 			response_data.message = "Your email and password had being send to you register email account.!";
 			res.status(200).send({response_data});
 		});
-	});
+	}catch(err)
+    {
+        res.status(502).send({err});
+    }
+});
 module.exports = router;

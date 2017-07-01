@@ -83,11 +83,20 @@ angular.module('offerController', ['applicationService.services'])
 		}
 		else
 		{
-			// show error message
+			
+			if(response.status == 502)
+			{
+				console.log(response);
+				alert("internal server error.");
+			}
 		}
 	}, function errorCallback(response) {
-		$scope.show_loader = false;
-	});
+			console.log(response);
+			$scope.show_loader = false;
+			alert("internal server error");
+		    // called asynchronously if an error occurs
+		    // or server returns response with an error status.
+		});
 
 	$scope.getOfferDisplayView = function()
 	{
@@ -110,6 +119,18 @@ angular.module('offerController', ['applicationService.services'])
 			$scope.show_loader_details = false;
 			$scope.details_response = response.data.response_data.details;
 			document.getElementById("close_filter").click();
+
+			if(response.status == 502)
+			{
+				console.log(response);
+				alert("internal server error.");
+			}
+		}, function errorCallback(response) {
+			console.log(response);
+			$scope.show_loader_details = false;
+			alert("internal server error");
+		    // called asynchronously if an error occurs
+		    // or server returns response with an error status.
 		});
 	}
 	$scope.sortBy = 'merchantName';
@@ -209,11 +230,20 @@ angular.module('offerController', ['applicationService.services'])
 		}
 		else
 		{
-			// show error message
+			
+			if(response.status == 502)
+			{
+				console.log(response);
+				alert("internal server error.");
+			}
 		}
 	}, function errorCallback(response) {
-		$scope.show_loader = false;
-	});
+			console.log(response);
+			$scope.show_loader = false;
+			alert("internal server error");
+		    // called asynchronously if an error occurs
+		    // or server returns response with an error status.
+		});
 
 	$scope.getMerchantDisplayView = function()
 	{
@@ -231,6 +261,18 @@ angular.module('offerController', ['applicationService.services'])
 			$scope.show_loader_filter = false;
 			$scope.details_response = response.data.response_data.details;
 			document.getElementById("close_filter").click();
+			
+			if(response.status == 502)
+			{
+				console.log(response);
+				alert("internal server error.");
+			}
+		}, function errorCallback(response) {
+			console.log(response);
+			$scope.show_loader_filter = false;
+			alert("internal server error");
+		    // called asynchronously if an error occurs
+		    // or server returns response with an error status.
 		});
 	}
 	$scope.sortBy = 'merchantName'

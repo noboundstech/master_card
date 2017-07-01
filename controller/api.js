@@ -27,7 +27,8 @@ router.route('/getCustomerDetails')
 	var response_data 	= {};
 	var where_cond 		= '';
 	//where_cond =  " mem.memberWechatId='KFY4269TT'";
-	async.series([
+	try{
+		async.series([
 		function(callback) {
 			// validating the customer details
 			var validate = require('utility/validate');
@@ -58,7 +59,6 @@ router.route('/getCustomerDetails')
 				query+= " FROM "+constant.MEMBER_MASTER_TABLE+" as mem";
 				query+= " where "+where_cond;
 			db_query.RunSelSqlFromDb(req,res,query,response_data,function(){
-				console.log(response_data);
 				if(response_data.details.length>0)
 				{
 					response_data.member_details = response_data.details;
@@ -82,7 +82,6 @@ router.route('/getCustomerDetails')
 				}
 			})
 		},function(callback){
-			var wechat_id = req.body.wechat_id;
 			var query = " SELECT mem.memberWechatId,mem.memberFirstName,";
 				query += "mem.memberLastName,mem.memberGender,mem.preferredLanguage,";
 				query += " mem.MTRPoints,mem.MTRCardType,mem.memberPhone,mem.memberAge,mem.memberOccupation,";
@@ -94,9 +93,8 @@ router.route('/getCustomerDetails')
 				query+= " WHERE "+where_cond;
 				query+= " GROUP BY mem.memberWechatId,mem.memberFirstName,mem.memberLastName,mem.memberGender,mem.preferredLanguage,mem.MTRPoints,mem.MTRCardType,mem.memberPhone,mem.memberAge,mem.memberOccupation,mem.memberHobby,mem.memberInfo1,mem.memberInfo2,mem.memberInfo3,mem.AddressLatitude,mem.Addresslongitude,mem.AddressLine1,mem.AddressLine2,mem.City,mem.District,mem.Province,mem.Country,mem.memberSegment ";
 			//response_data.query = query;
-			//console.log(query);
 			db_query.RunSelSqlFromDb(req,res,query,response_data,function(){
-				console.log(response_data);
+				
 				if(response_data.details.length>0)
 				{
 					response_data.customer_details = response_data.details;
@@ -118,12 +116,11 @@ router.route('/getCustomerDetails')
 			})
 		},
 		function(callback){
-			//	console.log("get offer details");
-           		utils.getOfferDetailsList(req,res,constant,where_cond,db_query,response_data,function(){
+       		utils.getOfferDetailsList(req,res,constant,where_cond,db_query,response_data,function(){
 			//	console.log(response_data);
-					callback();
+				callback();
 
-				})
+			})
         },
         function(callback)
         {
@@ -144,6 +141,10 @@ router.route('/getCustomerDetails')
 			response_data.message = "success!";
 			res.status(200).send({response_data});
 		});
+	}catch(err)
+    {
+        res.status(502).send({err});
+    }
 });
 // api to read all previous winner ticket from text file 
 router.route('/getMerchantOffer')
@@ -158,7 +159,8 @@ router.route('/getMerchantOffer')
 	var db_query 		= require('db_query/query');
 	var utils 			= require('utility/utils');
 	var response_data 	= {};
-	async.series([
+	try{
+		async.series([
 		function(callback) {
 			var validate = require('utility/validate');
 			validate.MerchantOffer(req,res,function(){
@@ -194,6 +196,10 @@ router.route('/getMerchantOffer')
 			response_data.message = "success!";
 			res.status(200).send({response_data});
 		});
+	}catch(err)
+    {
+        res.status(502).send({err});
+    }
 });
 // api to read all previous winner ticket from text file 
 router.route('/getUserDetails')
@@ -207,7 +213,8 @@ router.route('/getUserDetails')
 	var constant 		= require("config/constant");
 	var db_query 		= require('db_query/query');
 	var response_data 	= {};
-	async.series([
+	try{
+		async.series([
 		function(callback){
 			var utils = require('utility/utils');
 			utils.checkAuthentication(req,res,function(){
@@ -235,6 +242,10 @@ router.route('/getUserDetails')
 			response_data.message = "success!";
 			res.status(200).send({response_data});
 		});
+	}catch(err)
+    {
+        res.status(502).send({err});
+    }
 });
 
 router.route('/getOfferDetails')
@@ -247,36 +258,40 @@ router.route('/getOfferDetails')
 	var utils 			= require('utility/utils');
 	var response_data 	= {};
 	var where_cond 		= '';
-
-	 async.series([
-        function(callback) {
-        	var validate = require('utility/validate');
-			validate.validateWeChatId(req,res,function(){
-				callback();
-			})
-        },
-        function(callback)
-        {
-        	where_cond =  " mem.memberWechatId='"+utils.mssql_real_escape_string(req.query.wechatid)+"'";
-			utils.getOfferDetailsList(req,res,constant,where_cond,db_query,response_data,function(){
-				delete response_data['predicted_offer'];
-				if(response_data.details.length >0)
-				{
+	try{
+		async.series([
+	        function(callback) {
+	        	var validate = require('utility/validate');
+				validate.validateWeChatId(req,res,function(){
 					callback();
-				}
-				else
-				{
-					response_data.success = true;
-		            response_data.message = "no offer available for the given member";
-		            res.status(203).send({response_data});
-				}
-			});
-		}],function(err) {
-        //    response_data.details = "";
-            response_data.success = true;
-            response_data.message = "get offer details successfully";
-            res.status(200).send({response_data});
-    	});
+				})
+	        },
+	        function(callback)
+	        {
+	        	where_cond =  " mem.memberWechatId='"+utils.mssql_real_escape_string(req.query.wechatid)+"'";
+				utils.getOfferDetailsList(req,res,constant,where_cond,db_query,response_data,function(){
+					delete response_data['predicted_offer'];
+					if(response_data.details.length >0)
+					{
+						callback();
+					}
+					else
+					{
+						response_data.success = true;
+			            response_data.message = "no offer available for the given member";
+			            res.status(203).send({response_data});
+					}
+				});
+			}],function(err) {
+	        //    response_data.details = "";
+	            response_data.success = true;
+	            response_data.message = "get offer details successfully";
+	            res.status(200).send({response_data});
+	    	});
+	}catch(err)
+    {
+        res.status(502).send({err});
+    }
 
 })
 
@@ -315,7 +330,8 @@ router.route('/BulkInsert')
         		callback();
     		connection1.close();
 	    }).catch(function(err) {
-	    	console.log(err)
+	    	console.log(err);
+	    	 res.status(502).send({err});
 	    	//res.send({data : err});
 	    	connection1.close();
 	        // ... query error checks 

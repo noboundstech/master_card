@@ -87,7 +87,12 @@ angular.module('userController', ['applicationService.services'])
 			}
 			else
 			{
-				// show error message
+				
+				if(response.status == 502)
+				{
+					console.log(response);
+					alert("internal server error.");
+				}
 			}
 			
 			if(type == 'showSerachByDistance')
@@ -104,6 +109,7 @@ angular.module('userController', ['applicationService.services'])
 			}
 			$scope.show_user_location ='current';
 		}, function errorCallback(response) {
+			console.log(response);
 			if(type == 'showSerachByDistance')
 			{
 				$scope.showSearchByDistanceLoader = false;
@@ -116,6 +122,7 @@ angular.module('userController', ['applicationService.services'])
 			{
 				$scope.showSearchByDistanceLoader = false;
 			}
+			alert("internal server error");
 		    // called asynchronously if an error occurs
 		    // or server returns response with an error status.
 		});
@@ -141,7 +148,11 @@ angular.module('userController', ['applicationService.services'])
 			}
 			else
 			{
-				// show error message
+				if(response.status == 502)
+				{
+					console.log(response);
+					alert("internal server error.");
+				}
 			}
 			if(type == 'showCustomerLoader')
 			{
@@ -156,6 +167,7 @@ angular.module('userController', ['applicationService.services'])
 				$scope.show_add_tag_loader = false;
 			}
 		}, function errorCallback(response) {
+			console.log(response);
 			if(type == 'showCustomerLoader')
 			{
 				$scope.showCustomerLoader = false;
@@ -168,6 +180,7 @@ angular.module('userController', ['applicationService.services'])
 			{
 				$scope.show_add_tag_loader = false;
 			}
+			alert("internal server error");
 		    // called asynchronously if an error occurs
 		    // or server returns response with an error status.
 		});
@@ -187,7 +200,11 @@ angular.module('userController', ['applicationService.services'])
 			}
 			else
 			{
-				// show error message
+				if(response.status == 502)
+				{
+					console.log(response);
+					alert("internal server error.");
+				}				// show error message
 			}
 			if(type=='showCustomerLoader')
 			{
@@ -198,6 +215,8 @@ angular.module('userController', ['applicationService.services'])
 			{
 				$scope.showCustomerLoader = false;
 			}
+			console.log(response);
+			alert("internal server error");
 		    // called asynchronously if an error occurs
 		    // or server returns response with an error status.
 		});
@@ -230,11 +249,18 @@ angular.module('userController', ['applicationService.services'])
 			}
 			else
 			{
-				// show error message
+
+				if(response.status == 502)
+				{
+					console.log(response);
+					alert("internal server error.");
+				}				// show error message
 			}
 			$scope.showCustomerOffer = false;
 		}, function errorCallback(response) {
+			console.log(response);
 			$scope.showCustomerOffer = false;
+			alert("internal server error");
 		    // called asynchronously if an error occurs
 		    // or server returns response with an error status.
 		});
@@ -291,11 +317,18 @@ angular.module('userController', ['applicationService.services'])
 			}
 			else
 			{
-				// show error message
+				if(response.status == 502)
+				{
+					console.log(response);
+					alert("internal server error.");
+				}				// show error message
 			}
 			$scope.showCustomerLoader = false;
 		}, function errorCallback(response) {
-			$scope.showCustomerLoader = false;
+			
+			console.log(response);
+			$scope.showCustomerOffer = false;
+			alert("internal server error");
 		    // called asynchronously if an error occurs
 		    // or server returns response with an error status.
 		});
@@ -328,11 +361,17 @@ angular.module('userController', ['applicationService.services'])
 			}
 			else
 			{
-				// show error message
+				if(response.status == 502)
+				{
+					console.log(response);
+					alert("internal server error.");
+				}				// show error message
 			}
 			$scope.showCustomerLoader = false;
 		}, function errorCallback(response) {
-			$scope.showCustomerLoader = false;
+			console.log(response);
+			$scope.showCustomerOffer = false;
+			alert("internal server error");
 		    // called asynchronously if an error occurs
 		    // or server returns response with an error status.
 		});
@@ -378,11 +417,18 @@ angular.module('userController', ['applicationService.services'])
 			}
 			else
 			{
-				// show error message
+				if(response.status == 502)
+				{
+					console.log(response);
+					alert("internal server error.");
+				}				// show error message
 			}
 			$scope.showSearchMerchantTagLoader = false;
 		}, function errorCallback(response) {
 			$scope.showSearchMerchantTagLoader = false;
+			console.log(response);
+			
+			alert("internal server error");
 		    // called asynchronously if an error occurs
 		    // or server returns response with an error status.
 		});
@@ -491,10 +537,17 @@ angular.module('userController', ['applicationService.services'])
 			}
 			else
 			{
-				// show error message
+				if(response.status == 502)
+				{
+					console.log(response);
+					alert("internal server error.");
+				}				// show error message
 			}
 		}, function errorCallback(response) {
+			
+			console.log(response);
 			$scope.showCustomerOffer = false;
+			alert("internal server error");
 		    // called asynchronously if an error occurs
 		    // or server returns response with an error status.
 		});
@@ -520,8 +573,17 @@ angular.module('userController', ['applicationService.services'])
     		// calling function to update the merchant details of the customer
     		$scope.getMerchantDetailsByCustomer({id : $scope.customer_id},"show_remove_tag_loader");
     	//	$scope.show_remove_tag_loader = false;
+			if(response.status == 502)
+			{
+				console.log(response);
+				alert("internal server error.");
+			}
     	}, function errorCallback(response) {
 			$scope.show_remove_tag_loader = false;
+
+			console.log(response);
+			
+			alert("internal server error");
 		    // called asynchronously if an error occurs
 		    // or server returns response with an error status.
 		});
@@ -937,6 +999,10 @@ angular.module('userController', ['applicationService.services'])
 						$scope.customer_tag = [];
 						// show error message
 					}
+				}, function errorCallback(response) {
+					$scope.showCustomerLoader = false;
+					console.log(response);
+					alert("internal server error");
 				});
 
 				// calling api to fetch all tag details
@@ -962,8 +1028,15 @@ angular.module('userController', ['applicationService.services'])
 						// show error message
 					}
 					$scope.showCustomerLoader = false;
+					if(response.status == 502)
+					{
+						console.log(response);
+						alert("internal server error.");
+					}
 				}, function errorCallback(response) {
 					$scope.showCustomerLoader = false;
+					console.log(response);
+					alert("internal server error");
 				});
 				
 				var address_details = '';
@@ -1039,6 +1112,11 @@ angular.module('userController', ['applicationService.services'])
 				$scope.pushpin.latitude 	= 39.9042;
 				$scope.pushpin.longitude 	= 116.4074;
 				// show error message
+			}
+			if(response.status == 502)
+			{
+				console.log(response);
+				alert("internal server error.");
 			}
 		}, function errorCallback(response) {
 			$scope.showCustomerLoader = false;

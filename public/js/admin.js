@@ -18,7 +18,16 @@ angular.module('adminController', ['applicationService.services'])
 	API.postDetails($scope.details,"api/getUserDetails").then(function successCallback(response) {
 		$scope.show_loader = false;
 		$scope.user_list = response.data.response_data.details;
+
+		if(response.status == 502)
+		{
+			console.log(response);
+			alert("internal server error.");
+		}
 	}, function errorCallback(response) {
+		console.log(response);
+		$scope.show_loader = false;
+		alert("internal server error.")
 	});
 	$scope.EditUserData = function(data)
 	{
@@ -88,6 +97,8 @@ angular.module('adminController', ['applicationService.services'])
 					$scope.user_list = response.data.response_data.details;
 					
 				}, function errorCallback(response) {
+					$scope.show_loader = false;
+					alert("internal server error.");
 				});
 				document.getElementById("close_add_user").click();
 				alert("added successfully");
@@ -97,7 +108,15 @@ angular.module('adminController', ['applicationService.services'])
 			{
 				$scope.error = response.data.response_data.message;
 			}
+			if(response.status == 502)
+			{
+				console.log(response);
+				alert("internal server error.");
+			}
 		}, function errorCallback(response) {
+			console.log(response);
+			$scope.show_loader = false;
+			alert("internal server error.");
 		});
 	}
 
@@ -160,6 +179,9 @@ angular.module('adminController', ['applicationService.services'])
 				API.postDetails($scope.details,"api/getUserDetails").then(function successCallback(response) {
 					$scope.user_list = response.data.response_data.details;
 				}, function errorCallback(response) {
+					console.log(response);
+					$scope.show_edit_user_loader = false;
+					alert("internal server error.");
 				});
 				document.getElementById("close_edit_model").click();
 				alert("user details updated successfully");
@@ -167,8 +189,16 @@ angular.module('adminController', ['applicationService.services'])
 			else
 			{
 				$scope.error = response.data.response_data.message;
+				if(response.status == 502)
+				{
+					console.log(response);
+					alert("internal server error.");
+				}
 			}
 		}, function errorCallback(response) {
+			console.log(response);
+			$scope.show_edit_user_loader = false;
+			alert("internal server error.")
 		});
 	}
 })

@@ -398,6 +398,7 @@ module.exports =
 	        query+= ' mem.memberId = doff.memberId where ';
 	        query+=  where_cond;
 	        query+= 'order by offerInsertedTimestamp desc';
+
 			db_query.RunSelSqlFromDb(req,res,query,response_data,function(){
 		        response_data.predicted_offer = response_data.details;
 		        callback();

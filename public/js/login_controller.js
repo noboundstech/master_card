@@ -61,10 +61,18 @@ angular.module('homeController', ['applicationService.services'])
 			{
 				$scope.error = response.data.response_data.message;
 			}
+			
+			if(response.status == 502)
+			{
+				console.log(response);
+				alert("internal server error.");
+			}
 		    // this callback will be called asynchronously
 		    // when the response is available
 		}, function errorCallback(response) {
 			console.log(response);
+			$scope.Loader = false;
+			alert("internal server error");
 		    // called asynchronously if an error occurs
 		    // or server returns response with an error status.
 		});
@@ -101,6 +109,18 @@ angular.module('homeController', ['applicationService.services'])
 			{
 				$scope.error = response.data.response_data.message;
 			}
+
+			if(response.status == 502)
+			{
+				console.log(response);
+				alert("internal server error.");
+			}
+		}, function errorCallback(response) {
+			console.log(response);
+			$scope.Loader = false;
+			alert("internal server error");
+		    // called asynchronously if an error occurs
+		    // or server returns response with an error status.
 		});
 		
 	}

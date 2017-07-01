@@ -143,10 +143,17 @@ angular.module('CustomerReportController', ['applicationService.services'])
 		else
 		{
 			$scope.show_loader = false;
+			if(response.status == 502)
+			{
+				console.log(response);
+				alert("internal server error.");
+			}
 			// show error message
 		}
 	}, function errorCallback(response) {
+		console.log(response);
 		$scope.show_loader = false;
+		alert("internal server error.");
 	});
 
 	$scope.change_axis_display = function(type,axis)
@@ -1013,6 +1020,12 @@ angular.module('CustomerReportController', ['applicationService.services'])
 				else
 				{
 					var message = response.data.response_data.message;
+
+					if(response.status == 502)
+					{
+						console.log(response);
+						alert("internal server error.");
+					}
 				}
                 
 				var  category		= response.data.response_data.Graph_data[0].x_axis_name;
@@ -1065,7 +1078,9 @@ angular.module('CustomerReportController', ['applicationService.services'])
 			    });
 				
 			}, function errorCallback(response) {
+				console.log(response);
 				$scope.show_loader = false;
+				alert("internal server error.");
 			});
 		}
 	}
@@ -1463,6 +1478,11 @@ angular.module('CustomerReportController', ['applicationService.services'])
 					    var message =  x_head.toUpperCase() +' vs. ' + y_head.toUpperCase() ;
 					}
 					
+					if(response.status == 502)
+					{
+						console.log(response);
+						alert("internal server error.");
+					}
 					if($scope.y_axis_selected == 'age_grouped')
 					{
 						var y_axis_legend_name = "Age Group"
@@ -1511,7 +1531,9 @@ angular.module('CustomerReportController', ['applicationService.services'])
 				    });
 					
 				}, function errorCallback(response) {
+					console.log(response);
 					$scope.show_loader = false;
+					alert("internal server error.");
 				});
 			}
 		}
@@ -1528,8 +1550,16 @@ angular.module('CustomerReportController', ['applicationService.services'])
 			API.postDetails($scope.get_offer_details,"api/getMerchantOffer").then(function successCallback(response) {
 				$scope.show_merchant_loader = false;
 				$scope.offer_details = response.data.response_data.details;
-			}, function errorCallback(response) {
 				
+				if(response.status == 502)
+				{
+					console.log(response);
+					alert("internal server error.");
+				}
+			}, function errorCallback(response) {
+				console.log(response);
+				$scope.show_merchant_loader = false;
+				alert("internal server error.");
 			});
 		
 	}
