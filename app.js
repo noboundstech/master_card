@@ -65,8 +65,8 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 var server = require('http').createServer(app);
 var io = require('socket.io').listen(server);
-server.listen(3500, function () {
-  console.log('Example app listening on port 3500!');
+server.listen(4500, function () {
+  console.log('Example app listening on port 4500!');
 });
 
 var users = {};

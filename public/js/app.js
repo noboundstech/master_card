@@ -33,7 +33,7 @@ angular.module('project', ['ngRoute','homeController','userController','adminCon
     bingMapKey                : "Xq0T8wPqxneoxxanRmu1~9FSrjfIQxfwsRSGPHo9Vdw~AhmEyooC-UQxG53RYdz4XzIeiA0IY8fmU3MMRnton0HjXvSQ6ishyDWYRyO7-tm_",
     space_regex               : /^\S*$/,
     password_regex            : /^(?=^.{8,30}$)((?=.*\d)|(?=.*\W+))(?![.\n])(?=.*[A-Z])(?=.*[a-z]).*$/,
-    baseUrl                   : 'http://ec2-35-161-211-221.us-west-2.compute.amazonaws.com:3500/'
+    baseUrl                   : 'http://ec2-35-161-211-221.us-west-2.compute.amazonaws.com:4500/'
 })
 // baseUrl                   : 'http://ec2-35-161-211-221.us-west-2.compute.amazonaws.com:3500/'
 .config(function($routeProvider) {
