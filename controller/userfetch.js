@@ -917,8 +917,8 @@ router.route('/fetchofferhistory')
 	            var db_query     = require('db_query/query');
 	          
 	            var sqlstring = '';
-	                sqlstring = 'select TOP ' + constant.TOP_OFFER_HISTORY_COUNT+' deroff.offerId,deroff.offer_name_en,offmer.merchantId, ';
-	                sqlstring += 'offmer.merchantName from '+constant.DERIVE_OFFER_FOR_MEMBER + ' deroff, ';
+	                sqlstring = 'select TOP ' + constant.TOP_OFFER_HISTORY_COUNT+' deroff.offerId,offmer.offer_rule_en as offer_name_en,offmer.merchantId, ';
+	                sqlstring += 'offmer.merchantName,deroff.OfferPredictionReason as reason from '+constant.DERIVE_OFFER_FOR_MEMBER + ' deroff, ';
 	                sqlstring += constant.OFFER_BY_MERCHANTS +' offmer, '+ constant.MEMBER_MASTER_TABLE + ' mem ';
 	                sqlstring += ' where deroff.offerId =offmer.offerId and ';
 	                sqlstring += ' deroff.memberId = mem.memberId and mem.memberWechatId = '+"'"+ id + "' ";

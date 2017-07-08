@@ -10,9 +10,9 @@ var express     = require("express"), // the framework which we are using for no
     router      = express.Router(); //Parse incoming request bodies in a middleware before your handlers, availabe under the req.body property
 // my middleware start here
 app.set('superSecret', config.secret); // secret variable
-app.use(bodyParser.urlencoded({ extended: true,limit: '200mb' })); 
-
-
+//app.use(bodyParser.urlencoded({ extended: true,limit: '200mb' })); 
+app.use(bodyParser.json({limit: "50mb"}));
+app.use(bodyParser.urlencoded({limit: "50mb", extended: true, parameterLimit:50000}));
 
 //app.use(bodyParser.json({limit: '5mb'})); // parse application/vnd.api+json as json 
 app.use(bodyParser.json());
@@ -338,6 +338,7 @@ var schedule = require('node-schedule');
     */
   });
 require('./routes/routes.js')(app);
+app.use('/download',express.static(__dirname+'/controller/'));
 /*
 app.get('/*', function(req, res) {
 res.sendFile(path.join(__dirname + '/public/index.html'));

@@ -134,6 +134,11 @@
                     </ul>
                 </div>
             </div>
+
+
+
+
+            
             <div class="row progress-campaign">
                  <div class="col-sm-12 predicted-offers">
                         <h3 class="offers-heading">
@@ -142,7 +147,7 @@
                      <div class="predicted-offers-box">
                         <ul class="nav list-group predicted-offers-list ">
                             <li ng-repeat="p_offer in predicted_offer">
-                                {{p_offer.offer_name}}
+                                <span class="glyphicon glyphicon-info-sign" title="{{p_offer.reason}}"></span>&nbsp;{{p_offer.offer_name}}
                             </li>
                             
                         </ul>
@@ -157,16 +162,20 @@
                      
                       
                           
-                    <div class="col-sm-5 col-xs-5" style="padding-left:0px;padding-right:0px; font-size:14px; margin-bottom:5px;"><strong>Merchant Name</strong></div>
-                    <div class="col-sm-7 col-xs-7" style="padding-left:0px;padding-right:0px;font-size:14px;margin-bottom:5px;"><strong>Offer Description</strong></div>
-                    <div class="row" ng-repeat="history in offer_history">
-                        <div class="col-sm-5" ng-bind="history.merchantName">
+                    <div class="col-sm-3 col-xs-4" style="padding-left:0px;padding-right:0px; font-size:14px; margin-bottom:5px;"><strong>Merchant</strong></div>
+                    <div class="col-sm-6 col-xs-8" style="padding-left:0px;padding-right:0px;font-size:14px;margin-bottom:5px;"><strong>Description</strong></div>
+                   
+
+                    <div class="row" ng-repeat="history in offer_history" style="margin-bottom:5px;">
+
+                        <div class="col-sm-4" ng-bind="history.merchantName" >
                         </div>
-                         <div class="col-sm-7" ng-bind="history.offer_name_en">
+                         <div class="col-sm-8" ng-bind="history.offer_name_en"  style="padding-left:2px;padding-right:2px; font-size:12px;">
                         </div>
+                       
                     </div>
 
-                    <div ng-if="offer_history.length<1" style="margin-top:10px;text-align:center">
+                    <div class="row col-sm-12" ng-if="offer_history.length<1" style="margin-top:10px;">
                         No offer history found.
                     </div>
                     <!--

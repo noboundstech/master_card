@@ -1,9 +1,9 @@
 angular.module('applicationService.services', [])
-    .factory('API', function ($http) 
+    .factory('API', function ($http,APPLICATION_CONSTANT) 
     {
     //base location of the server     
-	// var base = "http://localhost:3500/";
-        var base = "http://ec2-35-161-211-221.us-west-2.compute.amazonaws.com:3500/";
+	 var base = APPLICATION_CONSTANT.baseUrl;
+    //    var base = "http://ec2-35-161-211-221.us-west-2.compute.amazonaws.com:3500/";
         return  {
     				getDetails : function (url,params) {
     					return $http.get(base+url,

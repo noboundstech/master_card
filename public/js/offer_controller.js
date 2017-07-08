@@ -1,6 +1,6 @@
 angular.module('offerController', ['applicationService.services'])
 .controller('offer_display_view', function($scope,Excel,MyService,$timeout,$location,$localStorage,
-											$rootScope,API,APPLICATION_CONSTANT)
+											$rootScope,API,APPLICATION_CONSTANT,$window)
 {
 	$scope.page_title = APPLICATION_CONSTANT.offer_display_view;
 	$scope.user_type = localStorage.getItem('user_type');
@@ -12,20 +12,91 @@ angular.module('offerController', ['applicationService.services'])
 	$scope.end_date 	= MyService.getEndDate();
 	$scope.show_loader = true;
 
-	// function to generate excel
-	$scope.exportToExcel=function(tableId){ // ex: '#my-table'
-        var exportHref=Excel.tableToExcel(tableId,'WireWorkbenchDataExport');
-        $timeout(function(){location.href=exportHref;},100); // trigger download
+
+
+
+    $scope.exportToExcel = function(tableId)
+    {
+    	$scope.header 	= ["Merchant","Offer","Offer Id","Category","Sub Category","Benefit","Offer Location","Post Code"];
+
+    	$scope.excelData= [];
+    	if(typeof $scope.details_response != 'undefined')
+    	{
+	    	for(var i=0;i<$scope.details_response.length;i++)
+	    	{
+	    		var rowData = [];
+	    		rowData.push($scope.details_response[i].merchantName);
+	    		rowData.push($scope.details_response[i].Offer_rule_en);
+	    		rowData.push($scope.details_response[i].OfferId);
+	    		rowData.push($scope.details_response[i].CategoryDesc);
+	    		rowData.push($scope.details_response[i].subCategoryDesc);
+	    		rowData.push($scope.details_response[i].benefit_name_en);
+	    		rowData.push($scope.details_response[i].offer_address_en);
+	    		rowData.push($scope.details_response[i].postal_code);
+	    		$scope.excelData.push(rowData);
+
+	    	}
+	    	var data = {
+	    		"excelHeader" : $scope.header,
+	    		"excelData"   : $scope.excelData,
+	    		"filename"    : "OfferDisplayView" 
+	    	}
+
+	    	
+	    	API.postDetails(data,"details/convertDataToExcel").then(function successCallback(data) {
+				$window.open(APPLICATION_CONSTANT.baseUrl+'download/OfferDisplayView.xlsx','_blank');
+
+			});
+			
+		}
+		else
+		{	
+			alert("No data available please try again or add more filter.")
+		}
     }
+
+
 
     // function to generate pdf
     $scope.generatePDF = function() {
-    	$timeout(function(){
-    		kendo.drawing.drawDOM($("#tableToPdf")).then(function(group) {
-				kendo.drawing.pdf.saveAs(group, $scope.page_title+".pdf");
-				document.getElementById("close_pdf_model").click();
+    	$scope.header 	= ["Merchant","Offer","Offer Id","Category","Sub Category","Benefit","Offer Location","Post Code"];
+
+    	$scope.pdfData= [];
+    	if(typeof $scope.details_response != 'undefined')
+    	{
+    		$scope.show_loader_filter = true;
+	    	for(var i=0;i<$scope.details_response.length;i++)
+	    	{
+	    		var rowData = [];
+	    		rowData.push($scope.details_response[i].merchantName);
+	    		rowData.push($scope.details_response[i].Offer_rule_en);
+	    		rowData.push($scope.details_response[i].OfferId);
+	    		rowData.push($scope.details_response[i].CategoryDesc);
+	    		rowData.push($scope.details_response[i].subCategoryDesc);
+	    		rowData.push($scope.details_response[i].benefit_name_en);
+	    		rowData.push($scope.details_response[i].offer_address_en);
+	    		rowData.push($scope.details_response[i].postal_code);
+	    		$scope.pdfData.push(rowData);
+
+	    	}
+	    	var data = {
+	    		"excelHeader" : $scope.header,
+	    		"pdfData"     : $scope.pdfData,
+	    		"filename"    : "OfferDisplayViewPdf" 
+	    	}
+
+	    	
+	    	API.postDetails(data,"details/convertDataToPDF").then(function successCallback(data) {
+				$scope.show_loader_filter = false;
+				$window.open(APPLICATION_CONSTANT.baseUrl+'download/OfferDisplayViewPdf.pdf','_blank');
+
 			});
-    	},100); 
+			
+		}
+		else
+		{	
+			alert("No data available please try again or add more filter.")
+		} 
 	}
 
 	// function to select all
@@ -148,7 +219,7 @@ angular.module('offerController', ['applicationService.services'])
 	}
 })
 .controller('merchant_display_view', function($scope,Excel,$timeout,$location,$localStorage,
-												$rootScope,API,APPLICATION_CONSTANT,MyService)
+												$rootScope,API,APPLICATION_CONSTANT,MyService,$window)
 {
 	$scope.page_title = APPLICATION_CONSTANT.merchant_display_view;
 	$scope.user_type = localStorage.getItem('user_type');
@@ -158,19 +229,100 @@ angular.module('offerController', ['applicationService.services'])
 	$scope.start_date 	= MyService.getStartDate();
 	$scope.end_date 	= MyService.getEndDate();
 	$scope.show_loader = true;
-
+/*
 	$scope.exportToExcel=function(tableId){ // ex: '#my-table'
         var exportHref=Excel.tableToExcel(tableId,'WireWorkbenchDataExport');
         $timeout(function(){location.href=exportHref;},100); // trigger download
     }
 
-    $scope.generatePDF = function() {
-    	$timeout(function(){
-    		kendo.drawing.drawDOM($("#tableToPdf")).then(function(group) {
-				kendo.drawing.pdf.saveAs(group, APPLICATION_CONSTANT.merchant_display_view+".pdf");
-				document.getElementById("close_pdf_model").click();
+*/
+
+
+
+
+
+    $scope.exportToExcel = function(tableId)
+    {
+    	$scope.header 	= ["Merchant Id","Merchant","Address","Merchant Location","Category","Sub Category","Offer Location"];
+
+    	$scope.excelData= [];
+    	if(typeof $scope.details_response != 'undefined')
+    	{
+	    	for(var i=0;i<$scope.details_response.length;i++)
+	    	{
+	    		var rowData = [];
+	    		rowData.push($scope.details_response[i].MerchantId);
+	    		rowData.push($scope.details_response[i].merchantName);
+	    		rowData.push($scope.details_response[i].LocationName +" "+$scope.details_response[i].LocationAddress1);
+	    		rowData.push($scope.details_response[i].City);
+	    		rowData.push($scope.details_response[i].CategoryDesc);
+	    		rowData.push($scope.details_response[i].subCategoryDesc);
+	    		rowData.push($scope.details_response[i].offer_address_en);
+	    		$scope.excelData.push(rowData);
+
+	    	}
+	    	var data = {
+	    		"excelHeader" : $scope.header,
+	    		"excelData"   : $scope.excelData,
+	    		"filename"    : "MerchantDisplayView" 
+	    	}
+
+	    	
+	    	API.postDetails(data,"details/convertDataToExcel").then(function successCallback(data) {
+				$window.open(APPLICATION_CONSTANT.baseUrl+'download/MerchantDisplayView.xlsx','_blank');
+
 			});
-    	},100); 
+			
+		}
+		else
+		{	
+			alert("No data available please try again or add more filter.")
+		}
+    }
+
+
+
+
+
+
+ $scope.generatePDF = function() {
+    	$scope.header 	= ["Merchant Id","Merchant","Address","Merchant Location","Category","Sub Category","Offer Location"];
+
+    	$scope.pdfData= [];
+    	if(typeof $scope.details_response != 'undefined')
+    	{
+    		$scope.show_loader_filter = true;
+	    	for(var i=0;i<$scope.details_response.length;i++)
+	    	{
+	    		var rowData = [];
+	    		rowData.push($scope.details_response[i].MerchantId);
+	    		rowData.push($scope.details_response[i].merchantName);
+	    		rowData.push($scope.details_response[i].LocationName +" "+$scope.details_response[i].LocationAddress1);
+	    		rowData.push($scope.details_response[i].City);
+	    		rowData.push($scope.details_response[i].CategoryDesc);
+	    		rowData.push($scope.details_response[i].subCategoryDesc);
+	    		rowData.push($scope.details_response[i].offer_address_en);
+	    		$scope.pdfData.push(rowData);
+
+	    	}
+	    	var data = {
+	    		"excelHeader" : $scope.header,
+	    		"pdfData"     : $scope.pdfData,
+	    		"filename"    : "merchantDisplayViewPdf" 
+	    	}
+
+	    	
+	    	API.postDetails(data,"details/convertDataToPDF").then(function successCallback(data) {
+				$scope.show_loader_filter = false;
+				$window.open(APPLICATION_CONSTANT.baseUrl+'download/merchantDisplayViewPdf.pdf','_blank');
+
+			});
+			
+		}
+		else
+		{	
+			alert("No data available please try again or add more filter.")
+		} 
 	}
 
 	// function to select all

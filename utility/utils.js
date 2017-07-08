@@ -392,10 +392,12 @@ module.exports =
     },
     'getOfferDetailsList' : function(req,res,constant,where_cond,db_query,response_data,callback)
     {
-    	 var query = 'select TOP 5 doff.offer_name_en as offer_name,doff.offerId as CMS_offerIds  ';
+    	 var query = 'select TOP 5 memoff.offer_rule_en as offer_name,doff.offerId as CMS_offerIds,doff.OfferPredictionReason as reason  ';
 	        query+= ' from '+constant.DERIVE_OFFER_FOR_MEMBER+ ' doff';
 	        query+= ' INNER JOIN '+constant.MEMBER_MASTER_TABLE+' mem ON';
-	        query+= ' mem.memberId = doff.memberId where ';
+	        query+= ' mem.memberId = doff.memberId ';
+	        query+= ' INNER JOIN '+constant.OFFER_BY_MERCHANTS+' memoff ON';
+	         query+= ' doff.offerId = memoff.offerId where ';
 	        query+=  where_cond;
 	        query+= 'order by offerInsertedTimestamp desc';
 

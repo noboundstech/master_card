@@ -17,7 +17,10 @@ router.route('/getCustomerDetails')
  
 	// was post method
 	//req.body 			= req.query;
-	
+	var queryList		= {};
+
+
+
 	var async 			= require('async');
 	var sql 			= require('mssql');
 	var config 			= require('config/db_connection');
@@ -58,6 +61,8 @@ router.route('/getCustomerDetails')
 			var query = " select *";
 				query+= " FROM "+constant.MEMBER_MASTER_TABLE+" as mem";
 				query+= " where "+where_cond;
+
+			queryList.findUserMemberWchatId = query;
 			db_query.RunSelSqlFromDb(req,res,query,response_data,function(){
 				if(response_data.details.length>0)
 				{
@@ -93,6 +98,8 @@ router.route('/getCustomerDetails')
 				query+= " WHERE "+where_cond;
 				query+= " GROUP BY mem.memberWechatId,mem.memberFirstName,mem.memberLastName,mem.memberGender,mem.preferredLanguage,mem.MTRPoints,mem.MTRCardType,mem.memberPhone,mem.memberAge,mem.memberOccupation,mem.memberHobby,mem.memberInfo1,mem.memberInfo2,mem.memberInfo3,mem.AddressLatitude,mem.Addresslongitude,mem.AddressLine1,mem.AddressLine2,mem.City,mem.District,mem.Province,mem.Country,mem.memberSegment ";
 			//response_data.query = query;
+
+			queryList.customerDetails = query;
 			db_query.RunSelSqlFromDb(req,res,query,response_data,function(){
 				
 				if(response_data.details.length>0)
@@ -131,6 +138,7 @@ router.route('/getCustomerDetails')
  				sqlQuery += ' WHERE h.memberId = '+response_data.member_details[0].memberId;
  				sqlQuery += ' GROUP BY l.city';
  			var loactionHistory = {};
+ 			queryList.locationHistory = sqlQuery;
  			db_query.RunSelSqlFromDb(req,res,sqlQuery,loactionHistory,function(){
  				response_data.locationHistory =  loactionHistory.details;
 				callback();
@@ -139,6 +147,7 @@ router.route('/getCustomerDetails')
 			response_data.user_details = req.decoded;
 			response_data.success = true;
 			response_data.message = "success!";
+			response_data.queryList    = queryList;
 			res.status(200).send({response_data});
 		});
 	}catch(err)
@@ -151,7 +160,7 @@ router.route('/getMerchantOffer')
 .post(function (req, res) {
 	// was post method
 	//req.body 		= req.query;
-
+	var queryList  		= {};
 	var async 			= require('async');
 	var sql 			= require('mssql');
 	var config 			= require('config/db_connection');
@@ -178,7 +187,7 @@ router.route('/getMerchantOffer')
 			var query 			= " select mem.offerId, mem.offer_rule_en";
 				query+= " FROM "+constant.OFFER_BY_MERCHANTS+" as mem";
 				query+= " where mem.merchantId='"+merchant_id+"'";
-
+				queryList.merchatOffer = query;
 			db_query.RunSelSqlFromDb(req,res,query,response_data,function(){
 				if(response_data.details.length>0)
 				{
@@ -194,6 +203,7 @@ router.route('/getMerchantOffer')
 		}],function(err) {
 			response_data.success = true;
 			response_data.message = "success!";
+			response_data.queryList = queryList;
 			res.status(200).send({response_data});
 		});
 	}catch(err)
@@ -206,7 +216,7 @@ router.route('/getUserDetails')
 .post(function (req, res) {
  	// was post method
 	//req.body 		= req.query;
-
+	var queryList       = {};
 	var async 			= require('async');
 	var sql 			= require('mssql');
 	var config 			= require('config/db_connection');
@@ -224,7 +234,7 @@ router.route('/getUserDetails')
 		function(callback) {
 			var query = " select * ";
 				query+= " FROM "+constant.USER_MASTER_TABLE;
-
+				queryList.merchantDetails = query;
 			db_query.RunSelSqlFromDb(req,res,query,response_data,function(){
 				if(response_data.details.length>0)
 				{
@@ -250,6 +260,7 @@ router.route('/getUserDetails')
 
 router.route('/getOfferDetails')
 .get(function(req,res){
+	var queryList       = {};
 	var async 			= require('async');
 	var sql 			= require('mssql');
 	var config 			= require('config/db_connection');

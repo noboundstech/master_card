@@ -5,6 +5,7 @@ var express = require('express'),
 //********************************************************
 router.route('/getCustReportList')
 .get(function (req, res) {
+    var queryList       = {};
     var async             = require('async');
     var response_data     = {};
     try{
@@ -32,6 +33,8 @@ router.route('/getCustReportList')
                 //**** Distinct Customer segment list from DB table for Response  ************
                 //****************************************************************************
                 var    sqlstring  = "select distinct memberSegment from "+ constant.MEMBER_MASTER_TABLE + ' where memberSegment IS NOT NULL ORDER BY memberSegment';
+
+                queryList.getmembersegment = sqlstring;
                 db_query.RunSelSqlFromDb(req,res,sqlstring,response_data,function(){
                     var len_seg=response_data.details.length;
                     if(len_seg>0)
@@ -60,6 +63,7 @@ router.route('/getCustReportList')
                 //**** Distinct City list from DB table for Response ************
                 //****************************************************************************
                 var    sqlstring  = "select distinct City from "+ constant.MEMBER_MASTER_TABLE + ' where City IS NOT NULL ORDER BY City';
+                queryList.cityname = sqlstring;
                 db_query.RunSelSqlFromDb(req,res,sqlstring,response_data,function(){
                     var len_loc=response_data.details.length;
                     if(len_loc>0)
@@ -87,6 +91,7 @@ router.route('/getCustReportList')
                 //**** Distinct Card Type list from DB table for Response  ************
                 //****************************************************************************
                 var    sqlstring  = "select distinct MTRCardType from "+ constant.MEMBER_MASTER_TABLE + ' where MTRCardType IS NOT NULL ORDER BY MTRCardType';
+                queryList.cardType = sqlstring;
                 db_query.RunSelSqlFromDb(req,res,sqlstring,response_data,function(){
                     var len_card=response_data.details.length;
                     if(len_card>0)
@@ -114,6 +119,7 @@ router.route('/getCustReportList')
                 //**** Distinct CategoryDesc list from DB table for Response  ************
                 //****************************************************************************
                 var    sqlstring  = "select distinct categoryDesc from "+ constant.CATEGORY + ' where categoryDesc IS NOT NULL ORDER BY categoryDesc';
+                queryList.catagoryName = sqlstring;
                 db_query.RunSelSqlFromDb(req,res,sqlstring,response_data,function(){
                     var len_cate=response_data.details.length;
                     if(len_cate>0)
@@ -142,6 +148,7 @@ router.route('/getCustReportList')
                 //**** Distinct Merchant id /name list from DB table for Response  ************
                 //****************************************************************************
                 var    sqlstring  = "select distinct merchantName ,merchantId from "+ constant.OFFER_BY_MERCHANTS + ' where merchantName IS NOT NULL ORDER BY merchantName';
+                queryList.merchantName = sqlstring;
                 db_query.RunSelSqlFromDb(req,res,sqlstring,response_data,function(){
                     var len_merch=response_data.details.length;
                     if(len_merch>0)
@@ -172,6 +179,7 @@ router.route('/getCustReportList')
                 //**** Distinct tag desc list from DB table for Response ************
                 //****************************************************************************
                 var    sqlstring  = "select distinct tagDesc ,tagId from " + constant.TAG_MASTER_TABLE+ ' where tagDesc IS NOT NULL  ORDER BY tagDesc';
+                queryList.tagname = sqlstring;
                 db_query.RunSelSqlFromDb(req,res,sqlstring,response_data,function(){
                     var len_tag=response_data.details.length;
                     if(len_tag>0)
@@ -193,6 +201,7 @@ router.route('/getCustReportList')
             }],function(err) {
                 response_data.details = "";
                 response_data.success = true;
+                response_data.queryList = queryList;
                 response_data.message = "select Cust Segment , Loction ,MTRCardType,categoryDesc done OK!";
                 res.status(200).send({response_data});
         });
@@ -219,6 +228,7 @@ router.route('/getCustSegReportData')
         to_date         = "";
         graph1          = [],
         ydata           = [];
+    var queryList       = {};
     try{
         async.series([
             function(callback) {
@@ -517,6 +527,7 @@ router.route('/getCustSegReportData')
                 sqlstring += "group by "+x_field_list +", "+ y_field_list + " ";
                 sqlstring += "order by "+x_field_list +", "+ y_field_list;
 
+                queryList.customersegment = sqlstring;
                     //********************************************************************
                                //** create and initialize  Array matrix  with all selected X and Y Values
                     //*******************************************************************
@@ -717,6 +728,7 @@ router.route('/getCustSegReportData')
             }],function(err) {
             //    response_data.details = "";
                 response_data.success = true;
+                response_data.queryList = queryList;
                 response_data.message = "select Customer Segment done OK!";
                 res.status(200).send({response_data});
         });
@@ -730,7 +742,7 @@ router.route('/getOfferSegReportData')
 .post(function (req, res) {
     // was post method
    // req.body        = req.query;
-
+   var queryList        = {};
     var async             = require('async');
     var constant     = require("config/constant");
     var response_data     = {};
@@ -1085,6 +1097,7 @@ router.route('/getOfferSegReportData')
                     sqlstring += "group by "+x_field_list +", "+ y_field_list + ", offmer.offer_rule_en ";
                     sqlstring += "order by "+x_field_list +", "+ y_field_list;+" ";
 
+                queryList.offerSegmentQuery = sqlstring;
                 //********************************************************************
                 //** create and initialize  Array matrix  with all selected X and Y Values
                 //*******************************************************************
@@ -1276,6 +1289,7 @@ router.route('/getOfferSegReportData')
                 }) // end of  DB call function
             }],function(err) {
             //    response_data.details = "";
+                response_data.queryList = queryList;
                 response_data.success = true;
                 response_data.message = "select Offer Segment done OK!";
                 res.status(200).send({response_data});
