@@ -83,7 +83,12 @@ angular.module('project', ['ngRoute','homeController','userController','adminCon
       controller:'merchant_display_view',
       templateUrl:'templates/merchant_display_view.html',
     })
-     
+        .when('/get_offer_details', {
+      controller:'get_offer_details',
+      templateUrl:'templates/get_offer_details.html',
+    })
+
+
     .otherwise({
       redirectTo:'/'
     });

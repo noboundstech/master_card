@@ -218,14 +218,14 @@ router.route('/getCustSegReportData')
     //req.body        = req.query;
 
     var async           = require('async'),
-        constant        = require("config/constant");
+        constant        = require("config/constant"),
         response_data   = {},
         x_field         = "",
         y_field         = "",
         x_axis_array    = [],
         y_axis_array    = [],
         from_date       = "",
-        to_date         = "";
+        to_date         = "",
         graph1          = [],
         ydata           = [];
     var queryList       = {};

@@ -3,6 +3,20 @@ angular.module('homeController', ['applicationService.services'])
 {
   $scope.details ="i am in home";
 })
+.controller('get_offer_details', function(API,$scope)
+{
+  $scope.details ="Get Offer Details";
+  $scope.getOfferDetails = function()
+  {
+  	API.getDetails("api/getOfferDetails",{"wechatid" : $scope.wechatId}).then(function successCallback(response) {
+  	$scope.response = response.data;
+
+  	});
+  }
+
+
+})
+
 .controller('login', function($scope,API,$location,$rootScope)
 {
 	$scope.details ="Login to Your Account";

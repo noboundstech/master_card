@@ -9,6 +9,7 @@ router.route('/fetchprofile')
 .get(function (req, res) {
 	var async 	= require('async');
 	var response_data = {};
+	var queryList     = {};
 	try{
 		async.series([
 			function(callback) {
@@ -65,6 +66,7 @@ router.route('/fetchtag')
 .get(function (req, res) {
 	var async 	= require('async');
 	var response_data = {};
+	var queryList     = {};
 	try{
 		async.series([
 			function(callback) {
@@ -85,6 +87,8 @@ router.route('/fetchtag')
 				var db_query 	=  require('db_query/query'),
 				sqlstring  	= 'select tm.tagDesc,tm.tagId from '+constant.TAG_MASTER_TABLE+' tm,'+constant.MEMBER_TAG_TABLE+' mt,'+constant.MEMBER_MASTER_TABLE+' mm where tm.tagId=mt.tagId and mt.memberId=mm.memberId and mt.statusOfTag = 1 and mm.memberWechatId='+"'"+ wechatId +"'";
 			//	sqlstring  	= 'select tm.tagDesc from tTagMaster tm,tMemberTags mt,tMemberMaster mm where tm.tagId=mt.tagId and mt.memberId=mm.memberId and mm.memberWechatId='+"'"+ wechatId +"'";	
+
+				queryList.fetchTag = sqlstring;
 				db_query.RunSelSqlFromDb(req,res,sqlstring,response_data,function(){
 					if(response_data.details.length>0)
 					{
@@ -99,6 +103,7 @@ router.route('/fetchtag')
 				})
 			}],function(err) {
 				response_data.success = true;
+				response.queryList = queryList
 				response_data.message = "select Member tag error!";
 				res.status(200).send({message:response_data});
 		});
@@ -124,6 +129,7 @@ router.route('/addtag')
          table     	= constant.MEMBER_TAG_TABLE;
     var fieldlist  ={};
     var condition  ={};
+    var queryList = {};
 	var async 		= require('async');
 	var response_data = {};
 	response_data.updation_detail = [];

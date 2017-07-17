@@ -7,6 +7,8 @@ router.route('/getViewList')
 .get(function (req, res) {
     var async             = require('async');
     var response_data     = {};
+
+	varqueryList = {};
     try{
         async.parallel([
         function(callback){
@@ -21,6 +23,7 @@ router.route('/getViewList')
             //**** Distinct Offer Location from DB table for Response ************
             //****************************************************************************
             var    sqlstring  = "select distinct offer_address_en as name from "+ constant.OFFER_BY_MERCHANTS + ' where offer_address_en IS NOT NULL ORDER BY offer_address_en';
+            queryList.districtCity = sqlstring;
             db_query.RunSelSqlFromDb(req,res,sqlstring,response_data,function(){
                 response_data.offerloc = response_data.details;
                 callback();
@@ -33,6 +36,7 @@ router.route('/getViewList')
             //**** Distinct Merchant City from DB table for Response ************
             //****************************************************************************
             var    sqlstring  = "select distinct City as name from "+ constant.MERCHANT_LOCATION + ' where City IS NOT NULL ORDER BY City';
+            queryList.distinctMerchantCity = sqlstring;
             db_query.RunSelSqlFromDb(req,res,sqlstring,response_data,function(){
                 response_data.merchloc = response_data.details;
                 callback();
@@ -45,6 +49,7 @@ router.route('/getViewList')
             //**** Distinct Card Type list from DB table for Response  ************
             //****************************************************************************
             var    sqlstring  = "select distinct MTRCardType as name from "+ constant.MEMBER_MASTER_TABLE + ' where MTRCardType IS NOT NULL ORDER BY MTRCardType';
+           queryList.distinctCity = sqlstring;
             db_query.RunSelSqlFromDb(req,res,sqlstring,response_data,function(){
                response_data.cardtype =  response_data.details;
                callback();
@@ -57,6 +62,7 @@ router.route('/getViewList')
             //**** Distinct CategoryDesc list from DB table for Response  ************
             //****************************************************************************
             var    sqlstring  = "select distinct categoryDesc as name from "+ constant.CATEGORY + ' where categoryDesc IS NOT NULL ORDER BY categoryDesc';
+            queryList.distinctCategoly = sqlstring;
             db_query.RunSelSqlFromDb(req,res,sqlstring,response_data,function(){
                
                 response_data.category = response_data.details;
@@ -70,6 +76,7 @@ router.route('/getViewList')
             //**** Distinct Merchant id /name list from DB table for Response  ************
             //****************************************************************************
             var    sqlstring  = "select distinct merchantName as name ,merchantId as id from "+ constant.OFFER_BY_MERCHANTS + ' where merchantName IS NOT NULL ORDER BY merchantName';
+            queryList.distinctMerchatNameAndId = sqlstring;
             db_query.RunSelSqlFromDb(req,res,sqlstring,response_data,function(){
                 response_data.merchant_details = response_data.details;
                 callback();
@@ -82,6 +89,7 @@ router.route('/getViewList')
             //**** Distinct Subcategory list from DB table for Response ************
             //****************************************************************************
             var    sqlstring  = "select distinct subCategoryDesc as name from "+ constant.SUBCATEGORY + ' where subCategoryDesc IS NOT NULL ORDER BY subCategoryDesc';
+            queryList.distinctSubcategory = sqlstring;
             db_query.RunSelSqlFromDb(req,res,sqlstring,response_data,function(){
                 var len_subcate=response_data.details.length;
                 response_data.subcategory = response_data.details;
@@ -91,6 +99,7 @@ router.route('/getViewList')
         }],function(err) {
             response_data.details = "";
             response_data.success = true;
+            response_data.queryList = queryList;
             response_data.message = "select offer Loction ,MTRCardType,categoryDesc,subcategoryDesc done OK!";
             res.status(200).send({response_data});
         });
@@ -110,6 +119,7 @@ router.route('/getOfferView')
         response_data   = {},
         from_date       = "",
         to_date         = "";
+        var queryList   = {};
     try{
         async.series([
             function(callback) {
@@ -265,6 +275,8 @@ router.route('/getOfferView')
                 //************************************
                 //*****   Call DB API to RUN SQL
                 //************************************
+                queryList.getOfferView = sqlstring;
+                response_data.queryList = queryList;
                 db_query.RunSelSqlFromDb(req,res,sqlstring,response_data,function(){
 
                     if (response_data.details.length > 0)
@@ -280,6 +292,7 @@ router.route('/getOfferView')
                 }) // end of  DB call function
             }],function(err) {
                 response_data.success = true;
+
                 response_data.message = "select Offer view done OK!";
                 res.status(200).send({response_data});
         });
@@ -298,6 +311,7 @@ router.route('/getMerchantView')
     response_data   = {},
     from_date       = "",
     to_date         = "";
+    var queryList   = {};
     try{
         async.series([
         function(callback){
@@ -465,7 +479,8 @@ router.route('/getMerchantView')
                 sqlstring += cond_sql +" "+cardTypeCondition+" ";
                 sqlstring += " order by merchantName " ;
 
-            console.log(sqlstring);
+            queryList.merchantView = sqlstring;
+            response_data.queryList = queryList
             //************************************
             //*****   Call DB API to RUN SQL
             //************************************
