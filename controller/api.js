@@ -136,7 +136,7 @@ router.route('/getCustomerDetails')
         	 	sqlQuery += ' FROM tLocationMaster l JOIN tMemberLocationHistory h';
  				sqlQuery += ' ON l.LocationId = h.LocationId'
  				sqlQuery += ' WHERE h.memberId = '+response_data.member_details[0].memberId;
- 				sqlQuery += ' GROUP BY l.city';
+ 				sqlQuery += ' GROUP BY l.city order by visit desc';
  			var loactionHistory = {};
  			queryList.locationHistory = sqlQuery;
  			db_query.RunSelSqlFromDb(req,res,sqlQuery,loactionHistory,function(){

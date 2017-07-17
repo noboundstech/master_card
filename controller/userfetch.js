@@ -103,7 +103,7 @@ router.route('/fetchtag')
 				})
 			}],function(err) {
 				response_data.success = true;
-				response.queryList = queryList
+				response_data.queryList = queryList
 				response_data.message = "select Member tag error!";
 				res.status(200).send({message:response_data});
 		});
@@ -924,12 +924,13 @@ router.route('/fetchofferhistory')
 	          
 	            var sqlstring = '';
 	                sqlstring = 'select TOP ' + constant.TOP_OFFER_HISTORY_COUNT+' deroff.offerId,offmer.offer_rule_en as offer_name_en,offmer.merchantId, ';
-	                sqlstring += 'offmer.merchantName,deroff.OfferPredictionReason as reason from '+constant.DERIVE_OFFER_FOR_MEMBER + ' deroff, ';
+	                sqlstring += 'offmer.merchantName from '+constant.OFFER_RESPONSE_TABLE + ' deroff, ';
 	                sqlstring += constant.OFFER_BY_MERCHANTS +' offmer, '+ constant.MEMBER_MASTER_TABLE + ' mem ';
 	                sqlstring += ' where deroff.offerId =offmer.offerId and ';
 	                sqlstring += ' deroff.memberId = mem.memberId and mem.memberWechatId = '+"'"+ id + "' ";
-	                sqlstring += ' order by deroff.offerInsertedTimestamp desc';
+	                sqlstring += ' order by deroff.offerSentTimestamp desc';
 	           // response_data.query = sqlstring;
+	           response_data.queryList = sqlstring;
 	            db_query.RunSelSqlFromDb(req,res,sqlstring,response_data,function(){
 	                if(response_data.details.length>0)
 	                {

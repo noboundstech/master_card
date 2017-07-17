@@ -4,7 +4,7 @@
         <form ng-submit="getOfferDetails();" name="loginForm" novalidate>
             <span class="err" ng-bind="error"></span>
             <input type="text" name="user" placeholder="WechatId" ng-model="wechatId" required>
-            <span class="err" ng-show="loginForm.user.$touched && loginForm.user.$invalid">Please enter user name.</span>
+            <span class="err" ng-show="loginForm.user.$touched && loginForm.user.$invalid">Please enter WechatId.</span>
 	    <input type="submit" name="login" class="login loginmodal-submit" value="Get Offer Details">
 
         </form>

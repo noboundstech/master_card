@@ -2,6 +2,7 @@
 var express = require('express'),
     utils   = require('utility/utils'),
     router  = express.Router();
+var queryList = {};
 //********************************************************
 router.route('/getViewList')
 .get(function (req, res) {
@@ -12,6 +13,7 @@ router.route('/getViewList')
     try{
         async.parallel([
         function(callback){
+            
             utils.checkAuthentication(req,res,function(){
                 callback();
             })
@@ -19,6 +21,7 @@ router.route('/getViewList')
         function(callback){
             var constant     = require("config/constant"),
                 db_query     = require('db_query/query');
+                 console.log("2");
             //****************************************************************************
             //**** Distinct Offer Location from DB table for Response ************
             //****************************************************************************
@@ -32,6 +35,7 @@ router.route('/getViewList')
         function(callback){
             var constant     = require("config/constant"),
             db_query     = require('db_query/query');
+             console.log("3");
             //****************************************************************************
             //**** Distinct Merchant City from DB table for Response ************
             //****************************************************************************
@@ -45,6 +49,7 @@ router.route('/getViewList')
         function(callback){
             var constant     = require("config/constant"),
             db_query     = require('db_query/query');
+             console.log("4");
             //****************************************************************************
             //**** Distinct Card Type list from DB table for Response  ************
             //****************************************************************************
@@ -58,6 +63,7 @@ router.route('/getViewList')
         function(callback){
             var constant     = require("config/constant"),
                 db_query     = require('db_query/query');
+                 console.log("5");
             //****************************************************************************
             //**** Distinct CategoryDesc list from DB table for Response  ************
             //****************************************************************************
@@ -72,6 +78,7 @@ router.route('/getViewList')
         function(callback){
             var constant     = require("config/constant"),
                 db_query     = require('db_query/query');
+                 console.log("6");
             //****************************************************************************
             //**** Distinct Merchant id /name list from DB table for Response  ************
             //****************************************************************************
@@ -103,10 +110,12 @@ router.route('/getViewList')
             response_data.message = "select offer Loction ,MTRCardType,categoryDesc,subcategoryDesc done OK!";
             res.status(200).send({response_data});
         });
+ 
     }catch(err)
     {
         res.status(502).send({err});
     }
+   
 });
 
 router.route('/getOfferView')

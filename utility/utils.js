@@ -399,10 +399,11 @@ module.exports =
 	        query+= ' INNER JOIN '+constant.OFFER_BY_MERCHANTS+' memoff ON';
 	         query+= ' doff.offerId = memoff.offerId where ';
 	        query+=  where_cond;
-	        query+= 'order by offerInsertedTimestamp desc';
+	        query+= 'order by offerSRNo desc';
 
 			db_query.RunSelSqlFromDb(req,res,query,response_data,function(){
 		        response_data.predicted_offer = response_data.details;
+		        response_data.queryList = query;
 		        callback();
 		    })
     },
