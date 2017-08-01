@@ -132,11 +132,11 @@ router.route('/getCustomerDetails')
         function(callback)
         {
 
-        	var sqlQuery = 'SELECT l.city, COUNT(*) visit';
+        	var sqlQuery = 'SELECT l.city, COUNT(*) visit,l.lat,l.long';
         	 	sqlQuery += ' FROM tLocationMaster l JOIN tMemberLocationHistory h';
- 				sqlQuery += ' ON l.LocationId = h.LocationId'
+ 				sqlQuery += ' ON l.LocationId = h.LocationId';
  				sqlQuery += ' WHERE h.memberId = '+response_data.member_details[0].memberId;
- 				sqlQuery += ' GROUP BY l.city order by visit desc';
+ 				sqlQuery += ' GROUP BY l.city,l.lat,l.long order by visit desc';
  			var loactionHistory = {};
  			queryList.locationHistory = sqlQuery;
  			db_query.RunSelSqlFromDb(req,res,sqlQuery,loactionHistory,function(){

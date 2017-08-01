@@ -202,7 +202,7 @@
         <div class="col-sm-4">
 
 
-        <!--    
+        
             <div class="row section-map">   
                 <div class="col-sm-12">    
                     <h3 class="map-he">
@@ -219,12 +219,13 @@
                                 disableZooming= true>
                                 
                                 <pushpin
-                                    lat="pushpin.latitude"
-                                    lng="pushpin.longitude"
+                                    lat="pin.latitude"
+                                    lng="pin.longitude"
                                     options="pushpin.options"
-                                    events="pushpin.events">
+                                    events="pushpin.events" ng-repeat="pin in MapPushpin">
                                 </pushpin>
-                          
+
+                                
                             </bing-map>
                         </div>
                     </div>
@@ -232,7 +233,7 @@
             </div>
 
 
-        -->
+       
 
             <div class="row  match-user" style="margin-bottom:5px">   
                 <div class="col-sm-12">    

@@ -403,7 +403,7 @@ module.exports =
 
 			db_query.RunSelSqlFromDb(req,res,query,response_data,function(){
 		        response_data.predicted_offer = response_data.details;
-		        response_data.queryList = query;
+		        response_data.queryListForPredicted = query;
 		        callback();
 		    })
     },

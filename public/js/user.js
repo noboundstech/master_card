@@ -909,7 +909,7 @@ angular.module('userController', ['applicationService.services'])
 	$scope.search_by 	="customer_id";
 	$scope.mapOptions = {};
     $scope.mapOptions.center = {"latitude": 39.9042, "longitude":  116.4074};
-    $scope.mapOptions.zoom = 12;
+    $scope.mapOptions.zoom = 5;
     $scope.mapOptions.mapType = 'a';
      $scope.mapOptions.options = {
         scrollwheel: false,
@@ -920,9 +920,15 @@ angular.module('userController', ['applicationService.services'])
     $scope.pushpin.options = {
         draggable: false
     }
-    $scope.pushpin.latitude 	= 39.9042;
-	$scope.pushpin.longitude 	= 116.4074;
 
+    $scope.MapPushpin           = [];
+
+    $scope.MapPushpin 			= [{
+    	"latitude" : 39.9042,
+    	"longitude" : 116.4074
+    }]
+
+   
 	var current_date 	= new Date();
 	$scope.start_date 	= current_date.getMonth()+1+"-"+ 1+"-"+current_date.getFullYear();
 	$scope.end_date 	= current_date.getMonth()+1+"-"+current_date.getDate()+"-"+current_date.getFullYear();
@@ -940,8 +946,12 @@ angular.module('userController', ['applicationService.services'])
 				$scope.customer_details = '';
 				$scope.offer_history = '';
 				$scope.mapOptions.center = {"latitude": 39.9042, "longitude":  116.4074};
-				$scope.pushpin.latitude 	= 39.9042;
-				$scope.pushpin.longitude 	= 116.4074;
+				$scope.MapPushpin           = [];
+
+			    $scope.MapPushpin 			= [{
+			    	"latitude" : 39.9042,
+			    	"longitude" : 116.4074
+			    }];
 				return false;
 			}
 		}
@@ -955,8 +965,12 @@ angular.module('userController', ['applicationService.services'])
 				$scope.customer_tag = [];
 				$scope.offer_history = '';
 				$scope.mapOptions.center = {"latitude": 39.9042, "longitude":  116.4074};
-				$scope.pushpin.latitude 	= 39.9042;
-				$scope.pushpin.longitude 	= 116.4074;
+				$scope.MapPushpin           = [];
+
+			    $scope.MapPushpin 			= [{
+			    	"latitude" : 39.9042,
+			    	"longitude" : 116.4074
+			    }]
 				return false;
 			}
 		}
@@ -1039,6 +1053,40 @@ angular.module('userController', ['applicationService.services'])
 					alert("internal server error");
 				});
 				
+
+
+				
+				$scope.MapPushpin           = [];
+
+			   	for(var loc=0;loc<$scope.locationHistory.length;loc++)
+			   	{
+			   		if(loc == 0)
+			   		{
+			   			$scope.mapOptions.center = {"latitude": $scope.locationHistory[loc].lat, "longitude": $scope.locationHistory[loc].long};
+			   		}
+			   		
+			   		$scope.MapPushpin.push({
+			   			"latitude" : $scope.locationHistory[loc].lat,
+			    		"longitude" : $scope.locationHistory[loc].long
+			   		})
+			   
+			   	}
+				/*
+				if(r.resourceSets[0].resources.length>0)
+        		{
+		        	$scope.mapOptions.center = {"latitude": r.resourceSets[0].resources[0].point.coordinates[0], "longitude":  r.resourceSets[0].resources[0].point.coordinates[1]};
+		            $scope.pushpin.latitude =  r.resourceSets[0].resources[0].point.coordinates[0];
+		            $scope.pushpin.longitude =  r.resourceSets[0].resources[0].point.coordinates[1];
+		        }
+		        else
+		        {
+		        	$scope.mapOptions.center = {"latitude": 39.9042, "longitude":  116.4074};
+					$scope.pushpin.latitude 	= 39.9042;
+					$scope.pushpin.longitude 	= 116.4074;
+		        }
+
+		        */
+			/*	
 				var address_details = '';
 				if($scope.customer_details.AddressLine1 != '' && $scope.customer_details.AddressLine1 != null)
 				{
@@ -1066,6 +1114,10 @@ angular.module('userController', ['applicationService.services'])
 				}
 				if(address_details != '')
 				{	
+
+
+
+
 					var url = 'http://dev.virtualearth.net/REST/v1/Locations/'+address_details+'/?key=AjZ0wB-x_wfUhjERvFMimAGIUbgHM7uRTKubZcmsbnE_-DSE49gBI53Ts9ClaeT5';
 					$.ajax({
 				        url: url,
@@ -1099,7 +1151,7 @@ angular.module('userController', ['applicationService.services'])
 				        }
 				    });
 				}
-
+			*/
 			}
 			else
 			{
@@ -1109,8 +1161,12 @@ angular.module('userController', ['applicationService.services'])
 				$scope.customer_tag = [];
 				$scope.offer_history = '';
 				$scope.mapOptions.center = {"latitude": 39.9042, "longitude":  116.4074};
-				$scope.pushpin.latitude 	= 39.9042;
-				$scope.pushpin.longitude 	= 116.4074;
+				$scope.MapPushpin           = [];
+
+			    $scope.MapPushpin 			= [{
+			    	"latitude" : 39.9042,
+			    	"longitude" : 116.4074
+			    }]
 				// show error message
 			}
 			if(response.status == 502)
