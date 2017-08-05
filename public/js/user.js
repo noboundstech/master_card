@@ -913,7 +913,9 @@ angular.module('userController', ['applicationService.services'])
     $scope.mapOptions.mapType = 'a';
      $scope.mapOptions.options = {
         scrollwheel: false,
-        disableZooming: true
+        disableZooming: true,
+        title : "beiging"
+ 
     }
     /*<pushpin> directive options*/
     $scope.pushpin = {};
@@ -925,13 +927,29 @@ angular.module('userController', ['applicationService.services'])
 
     $scope.MapPushpin 			= [{
     	"latitude" : 39.9042,
-    	"longitude" : 116.4074
+    	"longitude" : 116.4074,
+    	"Details"	: "Default Location Beijing."
     }]
 
-   
+     $scope.infobox = {};
+                $scope.infobox.options = {
+                    offset: new Microsoft.Maps.Point(0,15),
+                    width: 200,
+                    height: 30
+                };
+                $scope.infobox.title = 'Beijing' ;
+                $scope.infobox.visible = true;
+   	
 	var current_date 	= new Date();
 	$scope.start_date 	= current_date.getMonth()+1+"-"+ 1+"-"+current_date.getFullYear();
 	$scope.end_date 	= current_date.getMonth()+1+"-"+current_date.getDate()+"-"+current_date.getFullYear();
+
+	$scope.pushpin.events = {
+        click: function(eventData) {
+            var data = eventData.target.pushpinData;
+            alert($scope.MapPushpin[data].Details );
+        }
+    };
 
 	
 	$scope.showCustomerDetail = function()
@@ -950,7 +968,8 @@ angular.module('userController', ['applicationService.services'])
 
 			    $scope.MapPushpin 			= [{
 			    	"latitude" : 39.9042,
-			    	"longitude" : 116.4074
+			    	"longitude" : 116.4074,
+			    	"Details"	: "Default Location Beijing."
 			    }];
 				return false;
 			}
@@ -969,7 +988,8 @@ angular.module('userController', ['applicationService.services'])
 
 			    $scope.MapPushpin 			= [{
 			    	"latitude" : 39.9042,
-			    	"longitude" : 116.4074
+			    	"longitude" : 116.4074,
+			    	"Details"	: "Default Location Beijing."
 			    }]
 				return false;
 			}
@@ -978,6 +998,15 @@ angular.module('userController', ['applicationService.services'])
 		$scope.showCustomerLoader 	= true;
 		$scope.customer_tag 		= [];
 		$scope.offer_history 		= [];
+
+		$scope.MapPushpin 			= [];
+
+		$scope.locationHistory 		= [];
+
+		$scope.customer_details 	= '';
+		$scope.predicted_offer		= [];
+
+
 		$scope.request_detail 		= { wechat_id	: $scope.wechat_id,
 										search_by 	: $scope.search_by,
 										card_no 	: $scope.card_no,
@@ -1058,100 +1087,37 @@ angular.module('userController', ['applicationService.services'])
 				
 				$scope.MapPushpin           = [];
 
+				var centerSet = 0
 			   	for(var loc=0;loc<$scope.locationHistory.length;loc++)
 			   	{
-			   		if(loc == 0)
+			   		if(centerSet == 0)
 			   		{
-			   			$scope.mapOptions.center = {"latitude": $scope.locationHistory[loc].lat, "longitude": $scope.locationHistory[loc].long};
+			   			if($scope.locationHistory[loc].lat != null && $scope.locationHistory[loc].long != null)
+			   			{
+			   				$scope.mapOptions.center = {"latitude": $scope.locationHistory[loc].lat, "longitude": $scope.locationHistory[loc].long};
+			   				centerSet = 1;
+			   			}
 			   		}
 			   		
-			   		$scope.MapPushpin.push({
-			   			"latitude" : $scope.locationHistory[loc].lat,
-			    		"longitude" : $scope.locationHistory[loc].long
-			   		})
+			   		if($scope.locationHistory[loc].visit>1)
+			   		{
+			   			var details = "The user visited "+$scope.locationHistory[loc].city+ " for "+$scope.locationHistory[loc].visit+" times.";
+			   		}
+			   		else
+			   		{
+			   			var details = "The user visited "+$scope.locationHistory[loc].city+ " for "+$scope.locationHistory[loc].visit+" time.";
+			   		}
+			   		if($scope.locationHistory[loc].lat != null && $scope.locationHistory[loc].long != null)
+			   		{
+			   			$scope.MapPushpin.push({
+				   			"latitude" : $scope.locationHistory[loc].lat,
+				    		"longitude" : $scope.locationHistory[loc].long,
+				    		"Details" : details
+ 
+			   			})
+			   		}
 			   
 			   	}
-				/*
-				if(r.resourceSets[0].resources.length>0)
-        		{
-		        	$scope.mapOptions.center = {"latitude": r.resourceSets[0].resources[0].point.coordinates[0], "longitude":  r.resourceSets[0].resources[0].point.coordinates[1]};
-		            $scope.pushpin.latitude =  r.resourceSets[0].resources[0].point.coordinates[0];
-		            $scope.pushpin.longitude =  r.resourceSets[0].resources[0].point.coordinates[1];
-		        }
-		        else
-		        {
-		        	$scope.mapOptions.center = {"latitude": 39.9042, "longitude":  116.4074};
-					$scope.pushpin.latitude 	= 39.9042;
-					$scope.pushpin.longitude 	= 116.4074;
-		        }
-
-		        */
-			/*	
-				var address_details = '';
-				if($scope.customer_details.AddressLine1 != '' && $scope.customer_details.AddressLine1 != null)
-				{
-					address_details = " "+$scope.customer_details.AddressLine1;
-				}
-				if($scope.customer_details.AddressLine2 != '' && $scope.customer_details.AddressLine2 != null)
-				{
-					address_details+= " "+$scope.customer_details.AddressLine2;
-				}
-				if($scope.customer_details.City != '' && $scope.customer_details.City != null)
-				{
-					address_details+= " "+$scope.customer_details.City;
-				}
-				if($scope.customer_details.District != '' && $scope.customer_details.District != null)
-				{
-					address_details+= " "+$scope.customer_details.District;
-				}
-				if($scope.customer_details.Province != '' && $scope.customer_details.Province != null)
-				{
-					address_details+= " "+$scope.customer_details.Province;
-				}
-				if($scope.customer_details.Country != '' && $scope.customer_details.Country != null)
-				{
-					address_details+= " "+$scope.customer_details.Country;
-				}
-				if(address_details != '')
-				{	
-
-
-
-
-					var url = 'http://dev.virtualearth.net/REST/v1/Locations/'+address_details+'/?key=AjZ0wB-x_wfUhjERvFMimAGIUbgHM7uRTKubZcmsbnE_-DSE49gBI53Ts9ClaeT5';
-					$.ajax({
-				        url: url,
-				        dataType: "jsonp",
-				        jsonp: "jsonp",
-				        success: function (r) {
-				        	if(r.statusCode == 200 )
-				        	{
-				        		if(r.resourceSets[0].resources.length>0)
-				        		{
-						        	$scope.mapOptions.center = {"latitude": r.resourceSets[0].resources[0].point.coordinates[0], "longitude":  r.resourceSets[0].resources[0].point.coordinates[1]};
-						            $scope.pushpin.latitude =  r.resourceSets[0].resources[0].point.coordinates[0];
-						            $scope.pushpin.longitude =  r.resourceSets[0].resources[0].point.coordinates[1];
-						        }
-						        else
-						        {
-						        	$scope.mapOptions.center = {"latitude": 39.9042, "longitude":  116.4074};
-									$scope.pushpin.latitude 	= 39.9042;
-									$scope.pushpin.longitude 	= 116.4074;
-						        }
-					        }
-					        else
-					        {
-								$scope.mapOptions.center = {"latitude": 39.9042, "longitude":  116.4074};
-								$scope.pushpin.latitude 	= 39.9042;
-								$scope.pushpin.longitude 	= 116.4074;
-					        }
-				        },
-				        error: function (e) {
-				            alert(e.statusText);
-				        }
-				    });
-				}
-			*/
 			}
 			else
 			{
@@ -1165,7 +1131,8 @@ angular.module('userController', ['applicationService.services'])
 
 			    $scope.MapPushpin 			= [{
 			    	"latitude" : 39.9042,
-			    	"longitude" : 116.4074
+			    	"longitude" : 116.4074,
+			    	"Details"	: "Default Location Beijing."
 			    }]
 				// show error message
 			}

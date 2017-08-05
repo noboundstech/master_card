@@ -229,13 +229,6 @@ angular.module('offerController', ['applicationService.services'])
 	$scope.start_date 	= MyService.getStartDate();
 	$scope.end_date 	= MyService.getEndDate();
 	$scope.show_loader = true;
-/*
-	$scope.exportToExcel=function(tableId){ // ex: '#my-table'
-        var exportHref=Excel.tableToExcel(tableId,'WireWorkbenchDataExport');
-        $timeout(function(){location.href=exportHref;},100); // trigger download
-    }
-
-*/
 
 
 
@@ -359,7 +352,7 @@ angular.module('offerController', ['applicationService.services'])
 			$scope.category 					= response.data.response_data.category;
 			$scope.sub_category 				= response.data.response_data.subcategory;
 
-			$scope.card_type_selected			= response.data.response_data.cardtype;
+			$scope.card_type_selected			= '';
 			$scope.category_selected 			= '';
 			$scope.sub_category_selected 		= '';
 			$scope.location_selected 			= '';

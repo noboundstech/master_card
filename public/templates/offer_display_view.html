@@ -10,7 +10,7 @@
             		<form class="form-inline pull-right">
                         <div class="form-group">
                             <label >Search</label>
-                            <input type="text" ng-model="search" class="form-control" placeholder="Search">
+                            <input type="text" ng-model="search" class="form-control" placeholder="Search" style="width : 350px">
                         </div>
                     </form>
                 </div>
@@ -129,7 +129,7 @@
 
 
 <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="offerHistory">
-    <div class="modal-dialog" role="document">
+    <div class="modal-dialog" role="document" style="width:95%">
         <div class="modal-content">
             <div class="modal-header">
                 <div class="modal-body">
@@ -171,9 +171,10 @@
 										<span class="glyphicon glyphicon-list-alt" ng-click="selectAllFilter('card_type');" title="select all"></span>
 									</div>
 									<div class="col-sm-12">
-										<select chosen multiple ng-model="card_type_selected" ng-options="s.name for s in card_type" data-placeholder="Loading card type" data-placeholder-text-multiple="'SELECT CARD TYPE'">
+										<select chosen multiple ng-model="card_type_selected" ng-options="s.name for s in card_type" placeholder-expression="Card Type" title="Enter card details" data-placeholder="Loading card type" data-placeholder-text-multiple="'SELECT CARD TYPE'" style="width: 200px;">
 											<option value="" disabled> SELECT CARD TYPE</option>
 					                    </select>
+
 									</div>
 									<div class="col-sm-12">
 										 <a class=" pull-right pointer-class"> &nbsp;</a>

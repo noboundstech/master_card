@@ -54,6 +54,13 @@ angular.module('adminController', ['applicationService.services'])
 			}
 			return false;
 		}
+		if($scope.add_user.add_user_name.length>20)
+		{
+			
+			$scope.error = "Please enter User Name of maximum 20 character.";
+			
+			return false;
+		}
 		if(typeof $scope.add_user.password =='undefined' || $scope.add_user.password =='' || $scope.add_user.password == null)
 		{
 			if(!$scope.new_user.password.$touched)
@@ -62,6 +69,7 @@ angular.module('adminController', ['applicationService.services'])
 			}
 			return false;
 		}
+
 		if(!(APPLICATION_CONSTANT.space_regex).test($scope.add_user.password))
 		{
 			$scope.error = "Please enter password without using any space.";
@@ -77,7 +85,7 @@ angular.module('adminController', ['applicationService.services'])
 		{
 			if(!$scope.new_user.email_id.$touched)
 			{
-				$scope.error = "Please enter user email Id.";
+				$scope.error = "Please enter the Email ID.";
 			}
 
 			return false;
@@ -131,6 +139,13 @@ angular.module('adminController', ['applicationService.services'])
 			return false;
 		}
 		*/
+		if($scope.edit_user_Details.userName.length>20)
+		{
+			
+			$scope.error = "Please enter User Name of maximum 20 character.";
+			
+			return false;
+		}
 		if(typeof $scope.edit_user_Details.userPwd =='undefined' || $scope.edit_user_Details.userPwd =='' || $scope.edit_user_Details.userPwd == null)
 		{
 			if(!$scope.update_user.user_password.$touched)

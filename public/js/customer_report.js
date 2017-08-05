@@ -1074,7 +1074,20 @@ angular.module('CustomerReportController', ['applicationService.services'])
 			         	}
 			        },
 
-			        series: chart_details
+			        series: chart_details,
+			        menuItems: [{
+					    textKey: 'downloadPNG',
+					    onclick: function () {
+					        this.exportChart();
+					    }
+					}, {
+					    textKey: 'downloadJPEG',
+					    onclick: function () {
+					        this.exportChart({
+					            type: 'image/jpeg'
+					        });
+					    }
+					}]
 			    });
 				
 			}, function errorCallback(response) {

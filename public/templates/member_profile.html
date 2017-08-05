@@ -149,7 +149,11 @@
                             <li ng-repeat="p_offer in predicted_offer">
                                 <span class="glyphicon glyphicon-info-sign" title="{{p_offer.reason}}"></span>&nbsp;{{p_offer.offer_name}}
                             </li>
-                            
+                            <li ng-if="predicted_offer.length<1">
+                                No Predicted Offer Found.
+                            </li>
+
+
                         </ul>
                         </div>
                     </div>
@@ -215,6 +219,7 @@
                                 center="mapOptions.center"
                                 zoom="mapOptions.zoom"
                                 mapType="mapOptions.mapType"
+
                                 scrollwheel= false 
                                 disableZooming= true>
                                 
@@ -222,7 +227,9 @@
                                     lat="pin.latitude"
                                     lng="pin.longitude"
                                     options="pushpin.options"
-                                    events="pushpin.events" ng-repeat="pin in MapPushpin">
+                                    events="pushpin.events",
+                                    pushpin-data="$index"
+                                    ng-repeat="pin in MapPushpin">
                                 </pushpin>
 
                                 

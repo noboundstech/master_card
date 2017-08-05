@@ -2741,3 +2741,8 @@ padding-right:10px;
 {
   opacity: 0.4;
 }
+
+
+.highcharts-menu-item:nth-child(5){
+   display:none !important;
+}
