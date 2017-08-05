@@ -485,7 +485,7 @@ router.route('/getMerchantView')
                 sqlstring += " from "+ constant.OFFER_BY_MERCHANTS + " offmer " ;
                 sqlstring += ", " +constant.MERCHANT_LOCATION + " mloc  "+cardMasterTable+" ";
                 sqlstring += " where offmer.merchantName is NOT NULL "+cardTypeQuery+" ";
-                sqlstring += cond_sql +" "+cardTypeCondition+" ";
+                sqlstring += cond_sql +" "+cardTypeCondition+" AND offmer.merchantid = mloc.merchantid";
                 sqlstring += " order by merchantName " ;
 
             queryList.merchantView = sqlstring;
