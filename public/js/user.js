@@ -947,7 +947,7 @@ angular.module('userController', ['applicationService.services'])
 	$scope.pushpin.events = {
         click: function(eventData) {
             var data = eventData.target.pushpinData;
-            alert($scope.MapPushpin[data].Details );
+          //  alert($scope.MapPushpin[data].Details );
         }
     };
 
