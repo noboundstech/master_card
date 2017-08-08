@@ -105,8 +105,8 @@ angular.module('adminController', ['applicationService.services'])
 					$scope.user_list = response.data.response_data.details;
 					
 				}, function errorCallback(response) {
+					console.log(response);
 					$scope.show_loader = false;
-					alert("internal server error.");
 				});
 				document.getElementById("close_add_user").click();
 				alert("added successfully");
@@ -118,13 +118,15 @@ angular.module('adminController', ['applicationService.services'])
 			}
 			if(response.status == 502)
 			{
-				console.log(response);
-				alert("internal server error.");
+				
+				$scope.show_add_user_loader = false;
+				alert("User creation failed please try again");
 			}
 		}, function errorCallback(response) {
-			console.log(response);
-			$scope.show_loader = false;
-			alert("internal server error.");
+			
+			
+			$scope.show_add_user_loader = false;
+			alert("User creation failed please try again");
 		});
 	}
 
@@ -207,13 +209,15 @@ angular.module('adminController', ['applicationService.services'])
 				if(response.status == 502)
 				{
 					console.log(response);
-					alert("internal server error.");
+					$scope.show_edit_user_loader = false;
+					alert("User profile updation failed please try again.");
+
 				}
 			}
 		}, function errorCallback(response) {
 			console.log(response);
 			$scope.show_edit_user_loader = false;
-			alert("internal server error.")
+			alert("User profile updation failed please try again.");
 		});
 	}
 })

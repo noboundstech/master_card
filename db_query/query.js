@@ -35,6 +35,7 @@ module.exports = {
 		    	console.log(err)
 		    	//res.send({data : err});
 		    	connection1.close();
+		    	res.status(502).send({err});
 		        // ... query error checks 
 		    });
 		});
@@ -59,6 +60,7 @@ module.exports = {
 		    	console.log(err)
 		    	//res.send({data : err});
 		    	connection1.close();
+		    	res.status(502).send({err});
 		        // ... query error checks 
 		    });
 		    
@@ -127,12 +129,24 @@ module.exports = {
    
             var query = 'insert into '+table+' '+flist+') values'+vallist +') '+where;
                request.query(query).then(function(err,recordset) {
-                data.details = request.rowsAffected;
-                callback();
-                connection1.close();
+               	if(err)
+               	{
+               		console.log(err)
+               		console.log("sending error message")
+	               res.status(502).send({err});
+	                connection1.close();
+               	}
+               	else
+               	{
+               		data.details = request.rowsAffected;
+                	callback();
+                	connection1.close();
+               	}
+               
+
             }).catch(function(err) {
                 console.log(err)
-                //res.send({data : err});
+                res.status(502).send(err);
                 connection1.close();
                 // ... query error checks
             });
@@ -201,6 +215,7 @@ module.exports = {
 		    }).catch(function(err) {
 		    	console.log(err)
 		    	//res.send({data : err});
+		    	 res.status(502).send({err});
 		    	connection1.close();
 		        // ... query error checks 
 		    });
@@ -245,6 +260,7 @@ module.exports = {
 		    }).catch(function(err) {
 		    	console.log(err)
 		    	//res.send({data : err});
+		    	 res.status(502).send({err});
 		    	connection1.close();
 		        // ... query error checks 
 		    });
@@ -268,6 +284,7 @@ module.exports = {
             }).catch(function(err) {
                 console.log(err)
                 //res.send({data : err});
+                 res.status(502).send({err});
                 connection1.close();
                 // ... query error checks
             });
